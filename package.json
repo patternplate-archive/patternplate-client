@@ -1,0 +1,46 @@
+{
+  "name": "patternplate-client",
+  "version": "0.1.0",
+  "description": "Client for patternplate-server",
+  "main": "application",
+  "scripts": {
+    "start": "boilerplate-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.sinnerschrader.com:team-ux/patternplate-client.git"
+  },
+  "keywords": [
+    "patternplate"
+  ],
+  "author": {
+    "name": "Team UX",
+    "email": "team-ux@sinnerschrader.com"
+  },
+  "contributors": [
+    {
+      "name": "Mario Nebl",
+      "email": "mario.nebl@sinnerschrader.com"
+    }
+  ],
+  "license": "MIT",
+  "engines": {
+    "iojs": ">= 1.4.3",
+    "node": ">= 0.12.0",
+    "npm": ">= 2.5.1"
+  },
+  "dependencies": {
+    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:team-ux/boilerplate-server.git",
+    "eslint-plugin-react": "^2.2.0",
+    "q-io": "^1.12.0",
+    "react": "^0.13.2",
+    "react-jsx": "^0.13.0",
+    "react-router": "^0.13.3",
+    "request-promise": "^0.4.2",
+    "string-humanize": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^3.0.1",
+    "eslint": "^0.20.0"
+  }
+}
