@@ -1,6 +1,6 @@
 import React from 'react';
 
-import NavigationItem from './navigation-item';
+import NavigationItem from './navigation-item.jsx';
 
 class NavigationTree extends React.Component {
 	displayName = 'NavigationTree';

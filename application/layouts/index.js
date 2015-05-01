@@ -5,9 +5,9 @@ function layout (props) {
 			<title>${props.title}</title>
 		</head>
 		<body>
-			${props.content}
+			<div application="application">${props.content}</div>
 			<script application-state="application-state" type="application/json">${props.data}</script>
-			<!--<script src="${props.script}"></script>-->
+			<script src="${props.script}"></script>
 		</body>
 	</html>
 	`;

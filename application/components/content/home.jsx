@@ -5,9 +5,11 @@ class Home extends React.Component {
 	displayName = 'Home';
 
 	render () {
+		let readme = this.props.schema.readme || '';
+
 		return (
 			<main className="content home">
-				Main Home
+				<div className="markdown" dangerouslySetInnerHTML={{'__html': readme}} />
 			</main>
 		);
 	}

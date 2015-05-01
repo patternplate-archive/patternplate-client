@@ -30,14 +30,20 @@
     "npm": ">= 2.5.1"
   },
   "dependencies": {
+    "babel-runtime": "^5.2.6",
+    "babelify": "^6.0.2",
     "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:team-ux/boilerplate-server.git",
+    "browserify": "^10.0.0",
+    "es6-promise": "^2.1.1",
     "eslint-plugin-react": "^2.2.0",
+    "isomorphic-fetch": "^2.0.2",
     "q-io": "^1.12.0",
     "react": "^0.13.2",
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
-    "string-humanize": "^1.0.0"
+    "string-humanize": "^1.0.0",
+    "whatwg-fetch": "^0.7.0"
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",

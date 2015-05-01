@@ -11,6 +11,13 @@ const routes = {
 		'api': {
 			'enabled': true,
 			'path': '/api/*'
+		},
+		'script': {
+			'enabled': true,
+			'path': '/script/*',
+			'opts': {
+
+			}
 		}
 	}
 };

@@ -1,8 +1,8 @@
 import React from 'react';
 import {RouteHandler} from 'react-router';
 
-import Toolbar from './navigation/toolbar';
-import Navigation from './navigation';
+import Toolbar from './navigation/toolbar.jsx';
+import Navigation from './navigation/index.jsx';
 
 class Application extends React.Component {
 	displayName = 'Application';

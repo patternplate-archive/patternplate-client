@@ -4,7 +4,7 @@ import humanizeTree from '../utils/humanize-tree';
 import router from '../react-routes';
 import layout from '../layouts';
 
-function indexRouteFactory (application, configuration) {
+function indexRouteFactory (application) {
 	const config = application.configuration.client;
 	let base = `http://${config.server}:${config.port}`;
 
@@ -33,7 +33,8 @@ function indexRouteFactory (application, configuration) {
 		this.body = layout({
 			'title': data.schema.name,
 			'data': JSON.stringify(data),
-			'content': content
+			'content': content,
+			'script': '/script/index.js'
 		});
 	};
 }

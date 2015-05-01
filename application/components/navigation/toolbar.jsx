@@ -8,7 +8,7 @@ class Toolbar extends React.Component {
 		return (
 			<header className="header">
 				<div className="logo">
-					<Link to="/">{ this.props.schema.name }</Link>
+					<Link to="root">{ this.props.schema.name }</Link>
 				</div>
 			</header>
 		);
