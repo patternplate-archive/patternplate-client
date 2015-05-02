@@ -1,6 +1,9 @@
 import {resolve} from 'path';
 
 import less from 'less';
+import Autoprefix from 'less-plugin-autoprefix';
+import Cleancss from 'less-plugin-clean-css';
+
 import {exists, read, directory} from 'q-io/fs';
 
 function styleRouteFactory (application) {
@@ -13,10 +16,14 @@ function styleRouteFactory (application) {
 			return;
 		}
 
+		let autoprefix = new Autoprefix({'browser': ['IE 8', 'last 2 versions']});
+		let cleancss = new Cleancss({'advanced': true});
+
 		try {
 			let source = await read(path);
 			let results = await less.render(source, {
-				'paths': [directory(path), resolve(application.runtime.cwd, 'node_modules')]
+				'paths': [directory(path), resolve(application.runtime.cwd, 'node_modules')],
+				'plugins': [autoprefix, cleancss]
 			});
 
 			this.type = 'css';

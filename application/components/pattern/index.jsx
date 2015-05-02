@@ -14,7 +14,9 @@ const resultMap = {
 
 const formatMap = {
 	'source': 'in',
-	'buffer': 'out'
+	'buffer': 'out',
+	'demoSource': 'in',
+	'demoBuffer': 'out'
 };
 
 class Pattern extends React.Component {

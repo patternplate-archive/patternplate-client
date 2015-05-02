@@ -1,5 +1,7 @@
 import React from 'react';
-import {PropTypes} from 'react';
+import {PropTypes, findDOMNode} from 'react';
+import highlight from 'highlight.js';
+
 import Headline from '../common/headline.jsx';
 
 class PatternDocumentation extends React.Component {
@@ -8,6 +10,20 @@ class PatternDocumentation extends React.Component {
 	static propTypes = {
 		'children': PropTypes.string.isRequired
 	};
+
+	static highlight(component, selector = 'pre > code') {
+		for (let node of findDOMNode(component).querySelectorAll(selector)) {
+			highlight.highlightBlock(node);
+		}
+	}
+
+	componentDidMount() {
+		PatternDocumentation.highlight(this);
+	}
+
+	componentDidUpdate() {
+		PatternDocumentation.highlight(this);
+	}
 
 	render () {
 		return (

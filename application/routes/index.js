@@ -19,6 +19,7 @@ function indexRouteFactory (application) {
 			data.schema = await response.json();
 		} catch(err) {
 			application.log.error(`Could not fetch server schema from ${base}.`);
+			this.throw(err, 500);
 		}
 
 		let navigationRoute = data.schema.routes.filter((route) => route.name === 'meta')[0];
@@ -28,6 +29,7 @@ function indexRouteFactory (application) {
 			data.navigation = humanizeTree(await response.json());
 		} catch(err) {
 			application.log.error(`Could not fetch navigation from ${navigationRoute.uri}.`);
+			this.throw(err, 500);
 		}
 
 		let content = await router(this.path, data);

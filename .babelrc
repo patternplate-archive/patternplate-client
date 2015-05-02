@@ -14,6 +14,9 @@
 		"node_modules/isomorphic-fetch",
 		"node_modules/moment",
 		"node_modules/highlight.js",
-		"node_modules/less"
+		"node_modules/less",
+		"node_modules/less-plugin-autoprefix",
+		"node_modules/less-plugin-clean-css",
+		"node_modules/pretty-data"
 	]
 }
