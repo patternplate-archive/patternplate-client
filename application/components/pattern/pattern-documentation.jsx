@@ -28,7 +28,6 @@ class PatternDocumentation extends React.Component {
 	render () {
 		return (
 			<div className="pattern-documentation">
-				<Headline order={3}>{this.props.name}</Headline>
 				<div className="markdown" dangerouslySetInnerHTML={{'__html': this.props.children}}></div>
 			</div>
 		);

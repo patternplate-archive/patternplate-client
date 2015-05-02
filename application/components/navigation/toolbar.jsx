@@ -10,6 +10,8 @@ class Toolbar extends React.Component {
 				<div className="logo">
 					<Link to="root">{ this.props.schema.name }</Link>
 				</div>
+				<div className="toolbar">
+				</div>
 			</header>
 		);
 	}

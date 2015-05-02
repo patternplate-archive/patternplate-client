@@ -43,7 +43,7 @@ class PatternSection extends React.Component {
 
 		return (
 			<section className="pattern-section">
-				<Headline order={1}>{name}</Headline>
+				<Headline className="pattern-section-header" order={1}>{name}</Headline>
 				{content}
 			</section>
 		);

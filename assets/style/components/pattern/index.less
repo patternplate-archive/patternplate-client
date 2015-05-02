@@ -1,0 +1,53 @@
+.pattern {
+	width: 100%;
+	overflow: hidden;
+
+	.pattern-toolbar {
+		display: inline-block;
+		border: 1px solid @border-color;
+		-webkit-user-select: none;
+	}
+
+	.pattern-control {
+		display: inline-block;
+		padding: 10px 15px;
+		border: 5px solid transparent;
+		background: transparent;
+		cursor: pointer;
+		&:last-child{
+			border-left: 1px solid @border-color;
+		}
+	}
+
+	.pattern-content {
+		display: flex;
+	}
+
+	.pattern-code,
+	.pattern-documentation {
+		flex: 1 1;
+		&:not(:last-child) {
+			padding-right: 15px;
+		}
+	}
+
+	.pattern-state{
+		position: fixed;
+		left: -10000px;
+		left: -100vw;
+		bottom: 0;
+		+ * {
+			display: none;
+		}
+		&.checked,
+		&:checked {
+			+ * {
+				display: inline-block;
+			}
+		}
+	}
+
+	+ .pattern {
+		margin-top: 60px;
+	}
+}

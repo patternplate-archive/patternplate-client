@@ -1,0 +1,43 @@
+.navigation {
+	border-right: 1px solid @border-color;
+	> .navigation-tree > .navigation-item > a {
+		font-weight: bold;
+	}
+}
+
+.navigation-tree {
+	margin: 0;
+	padding: 15px;
+	list-style: none;
+}
+
+.navigation-item {
+	margin: 0 -15px;
+	a {
+		display: block;
+		width: 100%;
+		padding: 10px 15px 7px 15px;
+		border-bottom: 3px solid @root-background;
+		color: inherit;
+		text-decoration: none;
+		transition: all .3s ease-in-out;
+		&.active {
+			border-color: green;
+		}
+		&.active,
+		&.child-active {
+			color: green;
+			+ .navigation-tree {
+				height: auto;
+			}
+		}
+		+ .navigation-tree {
+			padding: 0 15px;
+			overflow: hidden;
+			height: 0;
+		}
+	}
+	.navigation-tree:last-child{
+		padding: 0 15px 15px 15px;
+	}
+}

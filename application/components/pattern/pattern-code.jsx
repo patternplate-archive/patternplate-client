@@ -3,8 +3,6 @@ import {PropTypes, findDOMNode} from 'react';
 import highlight from 'highlight.js';
 import {pd as pretty} from 'pretty-data';
 
-import Headline from '../common/headline.jsx';
-
 class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
@@ -42,8 +40,7 @@ class PatternCode extends React.Component {
 	render () {
 		return (
 			<div className="pattern-code">
-				<Headline order={3}>{this.props.name}</Headline>
-				<pre className="pattern-code">
+				<pre>
 					<code className={this.props.format}>
 						{PatternCode.pretty(this)}
 					</code>

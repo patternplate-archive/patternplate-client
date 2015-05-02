@@ -1,0 +1,25 @@
+.application {
+	display: table;
+	width: 100%;
+}
+
+.header {
+	display: table-row;
+	table-layout: fixed;
+}
+
+.navigation,
+.content {
+	display: table-cell;
+	vertical-align: top;
+	height: ~'calc(100vh - 40px)';
+}
+
+.navigation {
+	width: 17.5%;
+}
+
+.content {
+	width: 82.5%;
+	padding: 10px 15px 10px 30px;
+}
