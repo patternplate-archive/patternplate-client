@@ -11,9 +11,9 @@ class Headline extends React.Component {
 	};
 
 	static propTypes = {
-		'children': PropTypes.string.isRequired,
-		'order': PropTypes.oneOf[1, 2, 3, 4, 5, 6],
-		'display': PropTypes.oneOf[1, 2, 3, 4, 5, 6]
+		'children': PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.array]).isRequired,
+		'order': PropTypes.oneOf([1, 2, 3, 4, 5, 6]).isRequired,
+		'display': PropTypes.oneOf([1, 2, 3, 4, 5, 6])
 	};
 
 	render () {
