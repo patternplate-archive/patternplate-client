@@ -14,10 +14,11 @@ const routes = {
 		},
 		'script': {
 			'enabled': true,
-			'path': '/script/*',
-			'opts': {
-
-			}
+			'path': '/script/*'
+		},
+		'style': {
+			'enabled': true,
+			'path': '/style/*'
 		}
 	}
 };

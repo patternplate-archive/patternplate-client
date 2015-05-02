@@ -3,6 +3,7 @@ function layout (props) {
 	<html>
 		<head>
 			<title>${props.title}</title>
+			<link rel="stylesheet" href="${props.stylesheet}" application-theme="application-theme">
 		</head>
 		<body>
 			<div application="application">${props.content}</div>

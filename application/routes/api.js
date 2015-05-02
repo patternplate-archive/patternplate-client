@@ -1,22 +1,26 @@
-import request from 'request-promise';
+import 'isomorphic-fetch';
+import patternApiFilterFactory from '../filters/pattern-api';
 
-function apiRouteFactory (application, configuration) {
+function apiRouteFactory (application) {
 	const config = application.configuration.client;
 	let base = `http://${config.server}:${config.port}`;
+	const filter = patternApiFilterFactory(application);
 
 	return async function apiRoute () {
-		let path = this.params[0].value;
 		let data = {};
+		let path = this.params[0].value;
 
 		try {
-			data = JSON.parse(await request(`${base}/${path}`));
+			let response = await fetch(`${base}/${path}`);
+			data = await response.json();
+			data = await filter(data, path);
 		} catch (err) {
 			application.log.error(err);
-			return;
+			this.throw(err, 500);
+		} finally {
+			this.type = 'json';
+			this.body = data;
 		}
-
-		this.type = 'json';
-		this.body = data;
 	};
 }
 
