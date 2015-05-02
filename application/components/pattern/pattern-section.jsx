@@ -2,10 +2,12 @@ import {polyfill} from 'es6-promise';
 polyfill();
 
 import React from 'react';
+import humanize from 'string-humanize';
 import 'isomorphic-fetch';
 
 import Pattern from './index.jsx';
 import PatternLoader from './pattern-loader.jsx';
+import Headline from '../common/headline.jsx';
 
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
@@ -27,6 +29,10 @@ class PatternSection extends React.Component {
 
 	render () {
 		let content = <PatternLoader />;
+		let frags = this.props.id.split('/');
+		frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
+
+		let name = frags.map((fragment) => humanize(fragment)).join(' ');
 
 		if (this.state.data) {
 			let data = Array.isArray(this.state.data) ? this.state.data : [this.state.data];
@@ -37,6 +43,7 @@ class PatternSection extends React.Component {
 
 		return (
 			<section className="pattern-section">
+				<Headline order={1}>{name}</Headline>
 				{content}
 			</section>
 		);

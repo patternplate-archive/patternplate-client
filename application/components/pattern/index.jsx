@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import PatternCode from './pattern-code.jsx';
 import PatternDocumentation from './pattern-documentation.jsx';
+import Headline from '../common/headline.jsx';
 
 const resultMap = {
 	'Documentation': 'buffer',
@@ -47,11 +48,11 @@ class Pattern extends React.Component {
 
 		return (
 			<div className="pattern">
-				<h3 className="h h3">
+				<Headline order={2}>
 					{this.props.manifest.name}
 					<small className="small">v{this.props.manifest.version}</small>
 					<small className="small">Last modified: {moment(new Date(this.props.mtime)).fromNow()}</small>
-				</h3>
+				</Headline>
 				{results}
 			</div>
 		);
