@@ -11,7 +11,8 @@ function indexRouteFactory (application) {
 	return async function indexRoute () {
 		let data = {
 			'schema': {},
-			'navigation': {}
+			'navigation': {},
+			'config': application.configuration.ui
 		};
 
 		try {

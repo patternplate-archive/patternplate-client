@@ -35,6 +35,12 @@ class NavigationTree extends React.Component {
 			}
 		}
 
+		if (this.props.config) {
+			children.sort((a, b) => {
+				return this.props.config.menuOrder.indexOf(a._store.props.name) - this.props.config.menuOrder.indexOf(b._store.props.name);
+			});
+		}
+
 		return (
 			<ul className="navigation-tree">
 				{children}

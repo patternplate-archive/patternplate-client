@@ -9,7 +9,7 @@ class Navigation extends React.Component {
 	render () {
 		return (
 			<nav className="navigation">
-				<NavigationTree data={this.props.navigation} path={this.props.path}>
+				<NavigationTree data={this.props.navigation} path={this.props.path} config={this.props.config}>
 					<li className="navigation-item" key="root">
 						<Link to="/">Home</Link>
 					</li>
