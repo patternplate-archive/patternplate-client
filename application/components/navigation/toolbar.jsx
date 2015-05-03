@@ -45,6 +45,7 @@ class Toolbar extends React.Component {
 					<Link to="root">{ this.props.schema.name }</Link>
 				</div>
 				<div className="toolbar">
+					<label className="button menu" htmlFor="menu-state">Menu</label>
 					<button className={themeClassName} type="button" onClick={(e) => this.onThemeButtonClick(e)}>
 						Switch to {this.state.target}
 					</button>

@@ -1,37 +1,76 @@
 .header {
+	height: 55px;
+	border-bottom: 1px solid @border-color;
+	background: fadeout(@root-background, 15%);
 	.logo,
 	.toolbar {
-		display: table-cell;
+		display: inline-block;
 		height: 50px;
-		padding: 0 15px;
-		border-bottom: 1px solid @border-color;
+		padding: 10px 15px;
 	}
-
 	.logo {
 		width: 17.5%;
-		vertical-align: middle;
+		vertical-align: top;
+		@media screen and (max-width: 900px) {
+			width: 30%;
+		}
+		@media screen and (max-width: 500px) {
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			text-align: center;
+		}
 		a {
 			color: inherit;
 			text-decoration: none;
 		}
 	}
 
+	.menu {
+		display: none;
+	}
+
 	.toolbar {
 		width: 82.5%;
+		@media screen and (max-width: 900px) {
+			width: 70%;
+		}
+		@media screen and (max-width: 500px) {
+			position: absolute;
+			z-index: 2;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: auto;
+			width: auto;
+		}
 	}
 }
 
 .toolbar {
 	text-align: right;
-	vertical-align: middle;
-
 	.button {
 		margin: 0 7.5px;
 		padding: 5px;
 		background: transparent;
+		border: none;
+		vertical-align: middle;
 		border: 1px solid @border-color;
 		&:focus{
 			outline: none;
+		}
+	}
+	@media screen and (max-width: 500px) {
+		.menu {
+			position: fixed;
+			display: inline-block;
+			left: 15px;
+			cursor: pointer;
+			user-select: none;
 		}
 	}
 }

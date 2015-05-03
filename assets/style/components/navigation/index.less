@@ -3,6 +3,21 @@
 	> .navigation-tree > .navigation-item > a {
 		font-weight: bold;
 	}
+	> .navigation-tree {
+		position: fixed;
+		width: ~'calc(17.5% - 2px)';
+		top: 55px;
+		bottom: 0;
+		overflow: auto;
+		-webkit-overflow-scrolling: touch;
+		@media screen and (max-width: 900px) {
+			width: ~'calc(30% - 2px)';
+		}
+		@media screen and (max-width: 500px) {
+			width: 100%;
+			border-right: 1px solid @border-color;
+		}
+	}
 }
 
 .navigation-tree {

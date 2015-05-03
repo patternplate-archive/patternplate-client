@@ -10,6 +10,7 @@ class Application extends React.Component {
 	render () {
 		return (
 			<div className="application">
+				<input type="checkbox" id="menu-state" className="menu-state" />
 				<Toolbar {...this.props} />
 				<Navigation {...this.props} />
 				<RouteHandler {...this.props} />

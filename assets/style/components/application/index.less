@@ -1,25 +1,73 @@
 .application {
 	display: table;
+	table-layout: fixed;
 	width: 100%;
 }
 
 .header {
 	display: table-row;
-	table-layout: fixed;
+	position: fixed;
+	z-index: 2;
+	top: 0;
+	right: 0;
+	left: 0;
 }
 
 .navigation,
 .content {
 	display: table-cell;
 	vertical-align: top;
-	height: ~'calc(100vh - 40px)';
+	padding-top: 50px;
+	height: 100vh;
+	transition: transform .3s ease-in-out;
+	@media screen and (max-width: 500px) {
+		display: block;
+		position: absolute;
+		z-index: 1;
+		top: 0;
+	}
 }
 
 .navigation {
 	width: 17.5%;
+	@media screen and (max-width: 900px) {
+		width: 30%;
+	}
+	@media screen and (max-width: 500px) {
+		width: 50%;
+		border: 0;
+		transform: translateX(-100%);
+	}
 }
 
 .content {
 	width: 82.5%;
-	padding: 10px 15px 10px 30px;
+	padding: 65px 15px 10px 30px;
+	overflow: auto;
+	-webkit-overflow-scrolling: touch;
+	@media screen and (max-width: 900px) {
+		width: 70%;
+	}
+	@media screen and (max-width: 500px) {
+		width: 100%;
+		left: 50%;
+		transform: translateX(-50%);
+		padding: 60px 15px 15px 15px;
+	}
+}
+
+.home > .markdown {
+	background: transparent;
+	border: none;
+}
+
+.menu-state:checked {
+	position: fixed;
+	left: -10000px;
+	left: -100vh;
+	bottom: 0;
+	~ .navigation,
+	~ .content {
+		transform: translateX(0);
+	}
 }

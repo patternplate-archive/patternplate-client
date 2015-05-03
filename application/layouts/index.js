@@ -3,6 +3,7 @@ function layout (props) {
 	<html>
 		<head>
 			<title>${props.title}</title>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0, use-scalable=no">
 			<link rel="stylesheet" href="${props.stylesheet}" application-theme="application-theme">
 		</head>
 		<body>
