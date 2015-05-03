@@ -20,13 +20,18 @@
 		border-bottom: 3px solid @root-background;
 		color: inherit;
 		text-decoration: none;
-		transition: all .3s ease-in-out;
+		transition: color .3s ease-in-out;
+		&:hover {
+			color: @hover-color;
+		}
 		&.active {
-			border-color: green;
+			border-color: currentcolor;
+			text-shadow: 0 0 4px fadeout(@active-color, 90%);
+			box-shadow: 0 3px 3px fadeout(@active-color, 90%), inset 0 -3px 3px fadeout(@active-color, 90%);
 		}
 		&.active,
 		&.child-active {
-			color: green;
+			color: @active-color;
 			+ .navigation-tree {
 				height: auto;
 				&:last-child{

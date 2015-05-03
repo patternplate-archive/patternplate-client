@@ -5,13 +5,20 @@
 	.pattern-toolbar {
 		display: inline-block;
 		border: 1px solid @border-color;
-		-webkit-user-select: none;
+		user-select: none;
+		a{
+			transition: color .3s ease-in-out;
+			&:hover{
+				color: @hover-color;
+			}
+		}
 	}
 
 	.pattern-control {
 		display: inline-block;
 		padding: 10px 15px;
 		border: 5px solid transparent;
+		border-width: 5px 0;
 		background: transparent;
 		cursor: pointer;
 		&:last-child{
@@ -19,6 +26,21 @@
 		}
 		&:focus{
 			outline: none;
+		}
+		&:hover {
+			color: @hover-color;
+		}
+		&:disabled {
+			color: fadeout(@hover-color, 50%);
+			cursor: not-allowed;
+		}
+		&.active {
+			color: @active-color;
+			border-bottom-color: currentcolor;
+			text-shadow: 0 0 4px fadeout(@active-color, 90%);
+			box-shadow: inset 0 -3px 3px fadeout(@active-color, 90%),
+				inset -6px 0 0 @root-background,
+				inset 6px 0 0 @root-background;
 		}
 	}
 
@@ -34,7 +56,11 @@
 		}
 	}
 
-	.pattern-state{
+	.pattern-documentation {
+		margin: 15px 0;
+	}
+
+	.pattern-state {
 		position: fixed;
 		left: -10000px;
 		left: -100vw;
@@ -53,4 +79,19 @@
 	+ .pattern {
 		margin-top: 60px;
 	}
+}
+
+.pattern-name{
+	display: inline-block;
+	margin: 0 30px 0 0;
+}
+
+.pattern-lastmodified,
+.pattern-version{
+	display: inline-block;
+	vertical-align: baseline;
+	margin: 0 5px;
+	padding: 3px 5px;
+	font-size: .6em;
+	border: 1px solid @border-color;
 }

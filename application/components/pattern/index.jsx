@@ -23,13 +23,15 @@ const formatMap = {
 class Pattern extends React.Component {
 	displayName = 'Pattern';
 
-	render () {
-		let results = [];
-		let controls = [];
-		let content;
+	state = {
+		'active': []
+	};
 
-		for (let resultName of Object.keys(this.props.results)) {
-			let result = this.props.results[resultName];
+	static comprehend(results, id) {
+		let items = [];
+
+		for (let resultName of Object.keys(results)) {
+			let result = results[resultName];
 			let contentKey = resultMap[resultName];
 			let formatKey = formatMap[contentKey];
 			let name = resultName.toLowerCase();
@@ -38,22 +40,70 @@ class Pattern extends React.Component {
 				continue;
 			}
 
-			let data = {
+			items.push({
 				'name': resultName,
-				'key': [this.props.id, name].join('/'),
-				'id': [this.props.id, name].join('/'),
-				'format': result[formatKey] || 'html'
-			}
+				'key': [id, name].join('/'),
+				'controlKey': [id, name, 'control'].join('/'),
+				'id': [id, name].join('/'),
+				'format': result[formatKey] || 'html',
+				'content': result[contentKey]
+			});
+		}
 
-			if ( data.format === 'html' && resultName === 'Documentation' ) {
-				content = <PatternDocumentation {...data}>{result[contentKey]}</PatternDocumentation>
-			} else {
-				content = <PatternCode {...data}>{result[contentKey]}</PatternCode>
-			}
+		return items;
+	}
 
-			results.push(<input className="pattern-state" type="checkbox" id={data.id} />);
-			results.push(content);
-			controls.push(<PatternControl {...data} target={data.key} />);
+	componentWillMount () {
+		this.items = Pattern.comprehend(this.props.results, this.props.id);
+	}
+
+	componentWillReceiveProps (props) {
+		this.items = Pattern.comprehend(props.results, props.id);
+	}
+
+	updateControls (id, checked) {
+		let active = this.state.active.slice(0);
+		let index = active.indexOf(id);
+
+		if (checked && index === - 1) {
+			active.push(id);
+		} else if ( index !== -1 ) {
+			active.splice(index, 1);
+		}
+
+		this.setState({
+			'active': active
+		});
+	}
+
+	closeControls ( ids = this.state.active ) {
+		let diff = this.state.active.filter((id) => ids.indexOf(id) === -1);
+
+		this.setState({
+			'active': diff
+		});
+	}
+
+	onControlChange (e) {
+		this.updateControls(e.target.id, e.target.checked);
+	}
+
+	onCloseClick () {
+		this.closeControls();
+	}
+
+	render () {
+		let results = [];
+		let controls = [];
+		let content;
+
+		for (let item of this.items) {
+			let isDoc = item.format === 'html' && item.name === 'Documentation';
+			let isActive = this.state.active.indexOf(item.id) > -1;
+
+			results.push(<input className="pattern-state" type="checkbox" id={item.id} checked={isActive} onChange={(e) => this.onControlChange(e)} />);
+			results.push(isDoc ? <PatternDocumentation {...item}>{item.content}</PatternDocumentation> : <PatternCode {...item}>{item.content}</PatternCode>);
+			controls.push(<PatternControl {...item} id={item.controlKey} key={item.controlKey} target={item.key} active={isActive} />);
 		}
 
 		return (
@@ -65,7 +115,9 @@ class Pattern extends React.Component {
 				</Headline>
 				<div className="pattern-toolbar">
 					{controls}
-					<button className="pattern-control" type="button">Close all</button>
+					<button className="pattern-control" type="button"
+						onClick={(e) => this.onCloseClick(e)}
+						disabled={this.state.active.length === 0}>Close all</button>
 				</div>
 				<div className="pattern-content">{results}</div>
 			</div>
