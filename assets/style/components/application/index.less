@@ -61,13 +61,15 @@
 	border: none;
 }
 
-.menu-state:checked {
+.menu-state {
 	position: fixed;
 	left: -10000px;
 	left: -100vh;
 	bottom: 0;
-	~ .navigation,
-	~ .content {
-		transform: translateX(0);
+	&:checked{
+		~ .navigation,
+		~ .content {
+			transform: translateX(0);
+		}
 	}
 }

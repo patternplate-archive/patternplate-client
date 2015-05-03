@@ -138,6 +138,11 @@
 .pattern-name {
 	display: inline-block;
 	margin: 0 30px 0 0;
+
+	@media screen and (max-width: 500px) {
+		display: block;
+		margin: 0 0 10px 0;
+	}
 }
 
 .pattern-lastmodified,
@@ -148,6 +153,9 @@
 	padding: 3px 5px;
 	font-size: .6em;
 	border: 1px solid @border-color;
+	@media screen and (max-width: 500px) {
+		margin: 3px 10px 3px 0;
+	}
 }
 
 .pattern-demo-container {
