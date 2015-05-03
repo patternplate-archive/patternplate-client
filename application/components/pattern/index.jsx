@@ -4,6 +4,8 @@ import moment from 'moment';
 import PatternCode from './pattern-code.jsx';
 import PatternDocumentation from './pattern-documentation.jsx';
 import PatternControl from './pattern-control.jsx';
+import PatternDemo from './pattern-demo.jsx';
+
 import Headline from '../common/headline.jsx';
 
 const resultMap = {
@@ -113,6 +115,7 @@ class Pattern extends React.Component {
 					<small className="pattern-version">v{this.props.manifest.version}</small>
 					<small className="pattern-lastmodified">Last modified: {moment(new Date(this.props.mtime)).fromNow()}</small>
 				</Headline>
+				<PatternDemo target={this.props.id} />
 				<div className="pattern-toolbar">
 					{controls}
 					<button className="pattern-control" type="button"

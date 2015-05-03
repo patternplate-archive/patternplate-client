@@ -12,6 +12,10 @@ const routes = {
 			'enabled': true,
 			'path': '/api/*'
 		},
+		'demo': {
+			'enabled': true,
+			'path': '/demo/*'
+		},
 		'script': {
 			'enabled': true,
 			'path': '/script/*'
