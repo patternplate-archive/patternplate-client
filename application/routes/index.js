@@ -34,13 +34,16 @@ function indexRouteFactory (application) {
 		}
 
 		let content = await router(this.path, data);
+		let icons = await fetch(`http://${application.configuration.server.host}:${application.configuration.server.port}/static/images/inline-icons.svg`);
+		icons = await icons.text();
 
 		this.body = layout({
 			'title': data.schema.name,
 			'data': JSON.stringify(data),
 			'content': content,
 			'script': '/script/index.js',
-			'stylesheet': '/style/light.css'
+			'stylesheet': '/style/light.css',
+			'icons': icons
 		});
 	};
 }

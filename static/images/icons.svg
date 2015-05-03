@@ -1,74 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100"
 	 overflow="visible" enable-background="new 0 0 100 100">
 <defs>
 	<symbol id="patternplate" viewBox="0 0 100 100">
-		<title>patternplate</title>
-  	<desc>patternplate logo</desc>
-		<rect x="33.666" y="60.667" width="10" height="10"/>
-		<rect x="46.666" y="60.667" width="10" height="10"/>
-		<rect x="59.666" y="60.667" width="10" height="10"/>
-		<rect x="20.666" y="47.667" width="10" height="10"/>
-		<rect x="33.666" y="47.667" width="10" height="10"/>
-		<rect x="46.666" y="47.667" width="10" height="10"/>
-		<rect x="59.666" y="47.667" width="10" height="10"/>
-		<rect x="20.666" y="34.667" width="10" height="10"/>
-		<rect x="33.666" y="34.667" width="10" height="10"/>
-		<rect x="46.666" y="34.667" width="10" height="10"/>
-		<rect x="59.666" y="34.667" width="10" height="10"/>
 		<rect x="20.666" y="21.667" width="10" height="10"/>
 		<rect x="33.666" y="21.667" width="10" height="10"/>
 		<rect x="46.666" y="21.667" width="10" height="10"/>
 		<rect x="59.666" y="21.667" width="10" height="10"/>
-		<rect x="20.666" y="60.667" width="10" height="10"/>
-		<rect x="33.666" y="60.667" width="10" height="10"/>
-		<rect x="46.666" y="60.667" width="10" height="10"/>
-		<rect x="59.666" y="60.667" width="10" height="10"/>
-		<rect x="20.666" y="47.667" width="10" height="10"/>
-		<rect x="33.666" y="47.667" width="10" height="10"/>
-		<rect x="46.666" y="47.667" width="10" height="10"/>
-		<rect x="59.666" y="47.667" width="10" height="10"/>
+
+
 		<rect x="20.666" y="34.667" width="10" height="10"/>
 		<rect x="33.666" y="34.667" width="10" height="10"/>
 		<rect x="46.666" y="34.667" width="10" height="10"/>
 		<rect x="59.666" y="34.667" width="10" height="10"/>
-		<rect x="20.666" y="21.667" width="10" height="10"/>
-		<rect x="33.666" y="21.667" width="10" height="10"/>
-		<rect x="46.666" y="21.667" width="10" height="10"/>
-		<rect x="59.666" y="21.667" width="10" height="10"/>
+
+		<rect x="20.666" y="47.667" width="10" height="10"/>
+		<rect x="33.666" y="47.667" width="10" height="10"/>
+		<rect x="46.666" y="47.667" width="10" height="10" fill="#29A8DE" id="led" class="led">
+			<animate
+				attributeName="fill"
+				values="#3C606D; #29A8DE; #3C606D"
+				dur="3s"
+				repeatCount="indefinite" />
+		</rect>
+		<rect x="59.666" y="47.667" width="10" height="10"/>
+
 		<rect x="20.666" y="60.667" width="10" height="10"/>
 		<rect x="33.666" y="60.667" width="10" height="10"/>
 		<rect x="46.666" y="60.667" width="10" height="10"/>
 		<rect x="59.666" y="60.667" width="10" height="10"/>
-		<rect x="20.666" y="47.667" width="10" height="10"/>
-		<rect x="33.666" y="47.667" width="10" height="10"/>
-		<rect x="46.666" y="47.667" width="10" height="10"/>
-		<rect x="59.666" y="47.667" width="10" height="10"/>
-		<rect x="20.666" y="34.667" width="10" height="10"/>
-		<rect x="33.666" y="34.667" width="10" height="10"/>
-		<rect x="46.666" y="34.667" width="10" height="10"/>
-		<rect x="59.666" y="34.667" width="10" height="10"/>
-		<rect x="20.666" y="21.667" width="10" height="10"/>
-		<rect x="33.666" y="21.667" width="10" height="10"/>
-		<rect x="46.666" y="21.667" width="10" height="10"/>
-		<rect x="59.666" y="21.667" width="10" height="10"/>
-		<rect x="20.666" y="60.667" width="10" height="10"/>
-		<rect x="33.666" y="60.667" width="10" height="10"/>
-		<rect x="46.666" y="60.667" width="10" height="10"/>
-		<rect x="59.666" y="60.667" width="10" height="10"/>
-		<rect x="20.666" y="47.667" width="10" height="10"/>
-		<rect x="33.666" y="47.667" width="10" height="10"/>
-		<rect x="46.666" y="47.667" width="10" height="10"/>
-		<rect x="59.666" y="47.667" width="10" height="10"/>
-		<rect x="20.666" y="34.667" width="10" height="10"/>
-		<rect x="33.666" y="34.667" width="10" height="10"/>
-		<rect x="46.666" y="34.667" width="10" height="10"/>
-		<rect x="59.666" y="34.667" width="10" height="10"/>
-		<rect x="20.666" y="21.667" width="10" height="10"/>
-		<rect x="33.666" y="21.667" width="10" height="10"/>
-		<rect x="46.666" y="21.667" width="10" height="10"/>
-		<rect x="59.666" y="21.667" width="10" height="10"/>
-		<rect x="20.666" y="60.667" width="10" height="10"/>
 	</symbol>
 	<symbol id="dark" viewBox="0 0 100 100">
 		<path d="M45.667,21.077c-13.558,0-24.59,11.032-24.59,24.591c0,13.557,11.032,24.589,24.59,24.589

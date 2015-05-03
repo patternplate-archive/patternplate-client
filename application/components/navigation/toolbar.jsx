@@ -13,7 +13,7 @@ class Toolbar extends React.Component {
 	};
 
 	componentDidMount() {
-		this.link = document.querySelector('[application-theme]');
+		this.link = document.querySelector('[data-application-theme]');
 	}
 
 	toggleTheme() {
@@ -44,11 +44,11 @@ class Toolbar extends React.Component {
 		return (
 			<header className="header">
 				<Link className="logo" to="root">
-					<Icon symbol="patternplate" fallback={false}>{ this.props.schema.name }</Icon>
+					<Icon symbol="patternplate" fallback={false} inline={true}>{ this.props.schema.name }</Icon>
 				</Link>
 				<div className="toolbar">
 					<label className="button menu" htmlFor="menu-state">
-						<Icon symbol="patternplate">Menu</Icon>
+						<Icon uri="" symbol="patternplate">Menu</Icon>
 					</label>
 					<button className={themeClassName} type="button" onClick={(e) => this.onThemeButtonClick(e)}>
 						<Icon symbol={this.state.target}>{this.state.target}</Icon>

@@ -7,21 +7,23 @@ class Icon extends React.Component {
 
 	static defaultProps = {
 		'uri': '/static/images/icons.svg',
-		'fallback': true
+		'fallback': true,
+		'inline': false
 	};
 
 	static propTypes = {
 		'uri': PropTypes.string.isRequired,
 		'symbol': PropTypes.string.isRequired,
 		'className': PropTypes.string,
-		'fallback': PropTypes.bool.isRequired
+		'fallback': PropTypes.bool.isRequired,
+		'inline': PropTypes.bool.isRequired
 	};
 
 	render () {
 		let className = classnames('icon', this.props.className);
 		let textClassName = classnames('svg-text', {'svg-fallback': this.props.fallback});
 
-		let href = `${this.props.uri}#${this.props.symbol}`
+		let href = this.props.inline ? `#${this.props.symbol}` : `${this.props.uri}#${this.props.symbol}`;
 		let text = this.props.children ? <div className={textClassName}>{this.props.children}</div> : '';
 
 		let svg = `<svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ><use xlink:href="${href}" /></svg>`;
