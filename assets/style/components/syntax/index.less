@@ -11,6 +11,12 @@
 	margin: 0;
 	padding: 0;
 	background: transparent;
+	pre {
+		border: 1px solid @border-color;
+		border-radius: 0;
+		background: @code-background;
+		transition: background .3s, border-color .3s;
+	}
 }
 
 .hljs {
