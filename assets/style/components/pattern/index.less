@@ -20,9 +20,17 @@
 		border: 5px solid transparent;
 		border-width: 5px 0;
 		background: transparent;
+		color: inherit;
+		text-decoration: none;
 		cursor: pointer;
-		&:last-child {
+		&.pattern-tool {
 			border-left: 1px solid @border-color;
+			&:hover,
+			&:focus {
+				&:not(:disabled) {
+					color: @active-color;
+				}
+			}
 		}
 		&:focus {
 			outline: none;
@@ -45,15 +53,49 @@
 	}
 
 	.pattern-content {
-		display: flex;
+		margin-top: 15px;
 	}
 
 	.pattern-code,
 	.pattern-documentation {
-		flex: 1 1;
-		&:not(:last-child) {
-			padding-right: 15px;
+		display: block;
+		.pattern-code-toolbar {
+			display: table;
+			width: 100%;
+			border: 1px solid @border-color;
+			border-width: 1px 1px 0 1px;
+			background: @root-background;
+			+ pre {
+				margin-top: 0;
+			}
 		}
+		.pattern-code-name,
+		.pattern-code-tools {
+			display: table-cell;
+			vertical-align: middle;
+			padding: 3px 6px;
+		}
+
+		.pattern-code-name {
+			font-weight: bold;
+		}
+
+		.pattern-code-tools {
+			text-align: right;
+			button {
+				padding: 0 3px;
+				border: none;
+				background: none;
+				&:focus,
+				&:hover {
+					outline: none;
+					cursor: pointer;
+					color: @active-color;
+				}
+			}
+		}
+
+
 	}
 
 	.pattern-documentation {
@@ -71,7 +113,7 @@
 		&.checked,
 		&:checked {
 			+ * {
-				display: inline-block;
+				display: block;
 			}
 		}
 	}
@@ -110,4 +152,11 @@
 	height: 0;
 	transition: height .3s ease-in-out;
 	background: transparent;
+}
+
+.clipboard {
+	position: fixed;
+	left: -10000px;
+	left: -100vw;
+	bottom: 0;
 }

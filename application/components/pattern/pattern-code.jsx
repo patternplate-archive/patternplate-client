@@ -22,6 +22,15 @@ class PatternCode extends React.Component {
 		}
 	}
 
+	static clipboard(component) {
+		let el = findDOMNode(component).querySelector('.clipboard');
+		el.focus();
+		el.select();
+
+		let result = document.execCommand('copy');
+		console.log(result);
+	}
+
 	static pretty(component) {
 		if (component.props.format !== 'html') {
 			return component.props.children;
@@ -37,14 +46,27 @@ class PatternCode extends React.Component {
 		PatternCode.highlight(this);
 	}
 
+	onCopyClick(e) {
+		PatternCode.clipboard(this);
+	}
+
 	render () {
+		let pretty = PatternCode.pretty(this);
+
 		return (
 			<div className="pattern-code">
+				<div className="pattern-code-toolbar">
+					<div className="pattern-code-name">{this.props.name}</div>
+					<div className="pattern-code-tools">
+						<button type="button" onClick={(e) => this.onCopyClick(e)}>Copy</button>
+					</div>
+				</div>
 				<pre>
 					<code className={this.props.format}>
-						{PatternCode.pretty(this)}
+						{pretty}
 					</code>
 				</pre>
+				<textarea className="clipboard" value={pretty} readOnly={true} />
 			</div>
 		);
 	}

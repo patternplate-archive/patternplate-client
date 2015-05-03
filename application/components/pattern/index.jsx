@@ -99,6 +99,8 @@ class Pattern extends React.Component {
 		let controls = [];
 		let content;
 
+		let fullscreen = `/demo/${this.props.id}`;
+
 		for (let item of this.items) {
 			let isDoc = item.format === 'html' && item.name === 'Documentation';
 			let isActive = this.state.active.indexOf(item.id) > -1;
@@ -117,9 +119,10 @@ class Pattern extends React.Component {
 				</Headline>
 				<div className="pattern-toolbar">
 					{controls}
-					<button className="pattern-control" type="button"
+					<button className="pattern-control pattern-tool" type="button"
 						onClick={(e) => this.onCloseClick(e)}
 						disabled={this.state.active.length === 0}>Close all</button>
+					<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">Fullscreen</a>
 				</div>
 				<div className="pattern-content">{results}</div>
 				<PatternDemo target={this.props.id} />

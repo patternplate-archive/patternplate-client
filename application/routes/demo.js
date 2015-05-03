@@ -32,7 +32,7 @@ function demoRouteFactory (application) {
 			}
 
 			if (data.results.Markup) {
-				templateData.content = data.results.Markup.buffer || data.results.Markup.demoBuffer;
+				templateData.content = data.results.Markup.demoBuffer || data.results.Markup.buffer;
 			}
 
 			if (data.results.Script) {
