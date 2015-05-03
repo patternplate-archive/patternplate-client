@@ -20,7 +20,9 @@ class PatternDemo extends React.Component {
 		let source = `${this.props.base}/${this.props.target}`;
 
 		return (
-			<iframe className="pattern-demo" src={source} id={source} />
+			<div className="pattern-demo-container">
+				<iframe className="pattern-demo" src={source} id={source} />
+			</div>
 		);
 	}
 }
