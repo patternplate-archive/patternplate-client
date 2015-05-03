@@ -2,6 +2,8 @@ import React from 'react';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 
+import Icon from '../common/icon.jsx';
+
 class Toolbar extends React.Component {
 	displayName = 'Toolbar';
 
@@ -41,13 +43,15 @@ class Toolbar extends React.Component {
 
 		return (
 			<header className="header">
-				<div className="logo">
-					<Link to="root">{ this.props.schema.name }</Link>
-				</div>
+				<Link className="logo" to="root">
+					<Icon symbol="patternplate" fallback={false}>{ this.props.schema.name }</Icon>
+				</Link>
 				<div className="toolbar">
-					<label className="button menu" htmlFor="menu-state">Menu</label>
+					<label className="button menu" htmlFor="menu-state">
+						<Icon symbol="patternplate">Menu</Icon>
+					</label>
 					<button className={themeClassName} type="button" onClick={(e) => this.onThemeButtonClick(e)}>
-						Switch to {this.state.target}
+						<Icon symbol={this.state.target}>{this.state.target}</Icon>
 					</button>
 				</div>
 			</header>

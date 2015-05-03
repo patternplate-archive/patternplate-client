@@ -3,6 +3,8 @@ import classnames from 'classnames';
 
 import {Link} from 'react-router';
 
+import Icon from '../common/icon.jsx';
+
 class NavigationItem extends React.Component {
 	displayName = 'NavigationItem';
 
@@ -15,7 +17,10 @@ class NavigationItem extends React.Component {
 
 		return (
 			<li className="navigation-item">
-				<Link to="pattern" params={{ 'splat': this.props.id }} className={className}>{this.props.name}</Link>
+				<Link to="pattern" params={{ 'splat': this.props.id }} className={className}>
+					<Icon symbol={this.props.name.toLowerCase()} />
+					{this.props.name}
+				</Link>
 				{this.props.children}
 			</li>
 		);

@@ -1,0 +1,35 @@
+.icon {
+	display: inline-block;
+	margin-right: 5px;
+	vertical-align: middle;
+	color: currentcolor;
+	.svg-icon{
+		width: 30px;
+		height: 30px;
+	}
+	.svg {
+		width: 100%;
+		height: 100%;
+	}
+	.svg {
+		fill: currentcolor;
+		pointer-events: none;
+	}
+	.svg-text,
+	.svg-icon {
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.svg-fallback {
+		display: none;
+	}
+}
+
+.not-supports-svg {
+	.svg-icon {
+		display: none;
+	}
+	.svg-fallback {
+		display: inline-block;
+	}
+}
