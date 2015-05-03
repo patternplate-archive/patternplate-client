@@ -10,6 +10,7 @@
 		"node_modules/q-io",
 		"node_modules/browserify",
 		"node_modules/babelify",
+		"node_modules/uglifyify",
 		"node_modules/es6-promises",
 		"node_modules/isomorphic-fetch",
 		"node_modules/moment",
