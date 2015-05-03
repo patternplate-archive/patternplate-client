@@ -4,6 +4,8 @@
 
 	.pattern-toolbar {
 		display: inline-block;
+		display: flex;
+		width: 100%;
 		border: 1px solid @border-color;
 		user-select: none;
 		a{
@@ -30,6 +32,9 @@
 				&:not(:disabled) {
 					color: @active-color;
 				}
+			}
+			&:last-child{
+				margin-left: auto;
 			}
 		}
 		&:focus {
@@ -140,9 +145,10 @@
 }
 
 .pattern-demo-container {
-	margin: 30px 0 50px 0;
+	margin: 30px 0 0 0;
 	padding: 30px;
 	border: 1px solid @border-color;
+	border-bottom: none;
 }
 
 .pattern-demo {
