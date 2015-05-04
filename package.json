@@ -2,9 +2,9 @@
   "name": "patternplate-client",
   "version": "0.1.0",
   "description": "Client for patternplate-server",
-  "main": "application",
+  "main": "binary/_patternplate-client",
   "scripts": {
-    "start": "boilerplate-server"
+    "start": "node binary/patternplate-client"
   },
   "repository": {
     "type": "git",
@@ -30,7 +30,7 @@
     "npm": ">= 2.5.1"
   },
   "dependencies": {
-    "babel-runtime": "^5.2.6",
+    "babel-core": "5.1.13",
     "babelify": "^6.0.2",
     "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:team-ux/boilerplate-server.git",
     "browserify": "^10.0.0",
@@ -44,12 +44,15 @@
     "less": "^2.5.0",
     "less-plugin-autoprefix": "^1.4.1",
     "less-plugin-clean-css": "^1.5.0",
+    "lodash": "^3.8.0",
     "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:team-ux/markdown-css.git",
+    "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "normalize-opentype.css": "^0.2.4",
     "normalize.less": "^1.0.0",
-    "pretty-data": "^0.40.0",
+    "pretty-data": "git://github.com/vkiryukhin/pretty-data#7131e11f701fc28bbea6ee093cdaaa06b1434890",
     "q-io": "^1.12.0",
+    "rc": "^1.0.1",
     "react": "^0.13.2",
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
