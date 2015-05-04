@@ -11,7 +11,7 @@ import Headline from '../common/headline.jsx';
 const resultMap = {
 	'Documentation': 'buffer',
 	'Markup': 'buffer',
-	'Script': 'source',
+	'Script': 'demoSource',
 	'Style': 'source'
 };
 

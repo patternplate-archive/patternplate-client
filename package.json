@@ -45,6 +45,7 @@
     "less-plugin-autoprefix": "^1.4.1",
     "less-plugin-clean-css": "^1.5.0",
     "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:team-ux/markdown-css.git",
+    "moment": "^2.10.2",
     "normalize-opentype.css": "^0.2.4",
     "normalize.less": "^1.0.0",
     "pretty-data": "^0.40.0",
