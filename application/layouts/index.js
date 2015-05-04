@@ -5,7 +5,7 @@ function layout (props) {
 			<title>${props.title}</title>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 			<link rel="icon" type="image/png" href="/static/images/favicon-32.png" sizes="32x32" />
-			<link rel="icon" type="image/png" href="favicon-16.png" sizes="16x16" />
+			<link rel="icon" type="image/png" href="/static/images/favicon-16.png" sizes="16x16" />
 			<link rel="stylesheet" href="${props.stylesheet}" data-application-theme="data-application-theme">
 		</head>
 		<body>

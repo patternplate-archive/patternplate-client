@@ -9,7 +9,7 @@ class Content extends React.Component {
 	render () {
 		return (
 			<main className="content">
-				<PatternSection id={this.props.params.splat} />
+				<PatternSection id={this.props.params.splat} data={this.props.patterns} />
 			</main>
 		);
 	}

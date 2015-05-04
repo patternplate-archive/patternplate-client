@@ -15,11 +15,15 @@ class PatternSection extends React.Component {
 	displayName = 'PatternSection';
 	state = { 'data': null };
 
-	async get(id) {
+	async get(id, force = false) {
 		let response = await fetch(`/api/pattern/${id}`);
-		let data = await response.json();
+		this.setState({ 'data': await response.json() });
+	}
 
-		setTimeout(() => this.setState({ 'data': data }), 300);
+	componentWillMount() {
+		this.setState({
+			'data': this.props.data
+		});
 	}
 
 	componentDidMount() {
@@ -28,6 +32,10 @@ class PatternSection extends React.Component {
 
 	componentWillReceiveProps(props) {
 		this.get(props.id);
+	}
+
+	update() {
+		this.get(this.props.id, true);
 	}
 
 	render () {
