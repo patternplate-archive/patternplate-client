@@ -105,6 +105,10 @@ class Pattern extends React.Component {
 			let isDoc = item.format === 'html' && item.name === 'Documentation';
 			let isActive = this.state.active.indexOf(item.id) > -1;
 
+			if (item.content.length === 0) {
+				continue;
+			}
+
 			results.push(<input className="pattern-state" type="checkbox" id={item.id} checked={isActive} onChange={(e) => this.onControlChange(e)} />);
 			results.push(isDoc ? <PatternDocumentation {...item}>{item.content}</PatternDocumentation> : <PatternCode {...item}>{item.content}</PatternCode>);
 			controls.push(<PatternControl {...item} id={item.controlKey} key={item.controlKey} target={item.key} active={isActive} />);
