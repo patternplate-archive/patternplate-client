@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle';
+
 function getHeight () {
 	const measurementElements = [document.documentElement, document.body];
 	const measurementMethods = ['scrollHeight', 'offsetHeight', 'clientHeight'];
@@ -17,9 +19,9 @@ function send () {
 	window.parent.postMessage({'type': 'rubberband', 'height': getHeight(), 'id': window.frameElement.id}, '*');
 }
 
-function onMessage (e) {
-	console.log(e);
+const throttledSend = throttle(send, 300);
 
+function onMessage (e) {
 	if (e.data.type !== 'rubberband') {
 		return;
 	}
@@ -28,7 +30,7 @@ function onMessage (e) {
 		return;
 	}
 
-	send();
+	throttledSend();
 }
 
 function start () {
@@ -44,8 +46,8 @@ function start () {
 		return;
 	}
 
-	window.addEventListener('load', send);
-	window.addEventListener('resize', send);
+	window.addEventListener('load', throttledSend);
+	window.addEventListener('resize', throttledSend);
 	window.addEventListener('message', onMessage);
 }
 

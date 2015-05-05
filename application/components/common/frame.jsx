@@ -1,26 +1,34 @@
 import React from 'react';
 import {Component, findDOMNode, PropTypes} from 'react';
 
+import iframeWindow from '../../utils/iframe-window';
+
 class Frame extends Component {
 	static displayName = 'Frame';
-
-	state = {
-		'height': 0
-	};
 
 	static propTypes = {
 		'src': PropTypes.string.isRequired,
 		'id': PropTypes.string.isRequired
 	};
 
+	constructor() {
+		super();
+		this.onMessage = this.onMessage.bind(this);
+	}
+
+	state = {
+		'height': 0
+	};
+
 	componentDidMount() {
 		let frame = findDOMNode(this);
 		frame.contentWindow.postMessage({'type': 'rubberband', 'id': this.props.id }, '*');
-		window.addEventListener('message', (e) => this.onMessage(e), false);
+		window.addEventListener('message', this.onMessage, false);
+		iframeWindow(frame);
 	}
 
-	componentDidUnmount() {
-		window.removeEventListener('message', (e) => this.onMessage(e));
+	componentWillUnmount() {
+		window.removeEventListener('message', this.onMessage);
 	}
 
 	onMessage(e) {
@@ -37,7 +45,7 @@ class Frame extends Component {
 
 	render () {
 		return (
-			<iframe {...this.props} style={{ height: this.state.height }} />
+			<iframe {...this.props} key={this.props.id} style={{ height: this.state.height }} />
 		);
 	}
 }
