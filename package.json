@@ -4,7 +4,7 @@
   "description": "Client for patternplate-server",
   "main": "binary/_patternplate-client",
   "scripts": {
-    "start": "node binary/patternplate-client"
+    "start": "node --harmony binary/patternplate-client"
   },
   "repository": {
     "type": "git",
@@ -47,6 +47,7 @@
     "lodash": "^3.8.0",
     "lodash.throttle": "^3.0.2",
     "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:team-ux/markdown-css.git",
+    "merge": "^1.2.0",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
     "normalize-opentype.css": "^0.2.4",
@@ -58,6 +59,7 @@
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
+    "rubberband": "git+ssh://git@git.sinnerschrader.com:marneb/rubberband.git",
     "string-humanize": "^1.0.0",
     "throttle-function": "^0.1.0",
     "uglifyify": "^3.0.1",
@@ -65,6 +67,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
+    "browserify": "^10.1.0",
     "eslint": "^0.20.0"
   }
 }

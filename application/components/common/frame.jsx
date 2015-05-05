@@ -1,4 +1,5 @@
 import React from 'react';
+import {host} from 'rubberband';
 import {Component, findDOMNode, PropTypes} from 'react';
 
 import iframeWindow from '../../utils/iframe-window';
@@ -11,36 +12,25 @@ class Frame extends Component {
 		'id': PropTypes.string.isRequired
 	};
 
-	constructor() {
-		super();
-		this.onMessage = this.onMessage.bind(this);
-	}
-
 	state = {
 		'height': 0
 	};
 
 	componentDidMount() {
 		let frame = findDOMNode(this);
-		frame.contentWindow.postMessage({'type': 'rubberband', 'id': this.props.id }, '*');
-		window.addEventListener('message', this.onMessage, false);
+		this.frame = host(frame, { 'callback': (frame, height) => this.onFrameResize(height) });
+		this.frame.request();
 		iframeWindow(frame);
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener('message', this.onMessage);
+		this.frame.stop();
 	}
 
-	onMessage(e) {
-		if (e.data.type !== 'rubberband') {
-			return;
-		}
-
-		if (e.data.id !== this.props.id) {
-			return;
-		}
-
-		window.requestAnimationFrame(() => this.setState({'height': e.data.height}));
+	onFrameResize(height) {
+		this.setState({
+			'height': height
+		});
 	}
 
 	render () {
