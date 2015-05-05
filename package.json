@@ -59,7 +59,7 @@
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
-    "rubber-band": "git+ssh://git@git.sinnerschrader.com:marneb/rubber-band.git",
+    "rubber-band": "git+ssh://git@git.sinnerschrader.com:team-ux/rubber-band.git",
     "string-humanize": "^1.0.0",
     "throttle-function": "^0.1.0",
     "uglifyify": "^3.0.1",
@@ -67,7 +67,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^3.0.1",
-    "browserify": "^10.1.0",
     "eslint": "^0.20.0"
   }
 }
