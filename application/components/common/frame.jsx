@@ -1,5 +1,5 @@
 import React from 'react';
-import {host} from 'rubberband';
+import {host} from 'rubber-band';
 import {Component, findDOMNode, PropTypes} from 'react';
 
 import iframeWindow from '../../utils/iframe-window';

@@ -59,7 +59,7 @@
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
-    "rubberband": "git+ssh://git@git.sinnerschrader.com:marneb/rubberband.git",
+    "rubber-band": "git+ssh://git@git.sinnerschrader.com:marneb/rubber-band.git",
     "string-humanize": "^1.0.0",
     "throttle-function": "^0.1.0",
     "uglifyify": "^3.0.1",
