@@ -5,7 +5,7 @@ import {EventEmitter} from 'events';
 
 import Application from '../components';
 import Content from '../components/content';
-import Home from '../components/content';
+import Home from '../components/home';
 
 const routes = (
 	<Route name="root" path="/" handler={Application}>

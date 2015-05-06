@@ -50,7 +50,10 @@ function client(data, el) {
 	return new Promise(function (resolve) {
 		var eventEmitter = new _events.EventEmitter();
 
+		console.log('!');
+
 		_reactRouter2['default'].run(routes, _reactRouter2['default'].HistoryLocation, function (Handler, state) {
+			console.log(Handler);
 			var appData = Object.assign({}, data, state, { eventEmitter: eventEmitter });
 			resolve(_react2['default'].render(_react2['default'].createElement(Handler, appData), el));
 		});

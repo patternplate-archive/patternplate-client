@@ -8,7 +8,6 @@ class Home extends React.Component {
 
 	render () {
 		let readme = this.props.schema.readme || '';
-
 		return (
 			<main className="content home">
 				<div className="markdown" dangerouslySetInnerHTML={{'__html': readme}} />

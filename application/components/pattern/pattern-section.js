@@ -168,6 +168,12 @@ var PatternSection = (function (_React$Component) {
 				content
 			);
 		}
+	}], [{
+		key: 'propTypes',
+		value: {
+			'id': _react.PropTypes.string.isRequired
+		},
+		enumerable: true
 	}]);
 
 	return PatternSection;

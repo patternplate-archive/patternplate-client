@@ -39,7 +39,6 @@ var Home = (function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var readme = this.props.schema.readme || '';
-
 			return _react2['default'].createElement(
 				'main',
 				{ className: 'content home' },

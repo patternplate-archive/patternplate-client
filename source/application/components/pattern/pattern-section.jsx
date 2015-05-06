@@ -2,6 +2,7 @@ import {polyfill} from 'es6-promise';
 polyfill();
 
 import React from 'react';
+import {PropTypes} from 'react';
 import CSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 
 import humanize from 'string-humanize';
@@ -14,6 +15,10 @@ import Headline from '../common/headline';
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
 	state = { 'data': null, 'error': false };
+
+	static propTypes = {
+		'id': PropTypes.string.isRequired
+	};
 
 	async get(id, force = false) {
 		try {
@@ -53,8 +58,6 @@ class PatternSection extends React.Component {
 
 	render () {
 		var content;
-
-		console.log(this.props);
 
 		let frags = this.props.id ? this.props.id.split('/') : [];
 		frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
