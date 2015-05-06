@@ -138,8 +138,6 @@ var PatternSection = (function (_React$Component) {
 		value: function render() {
 			var content;
 
-			console.log(this.props);
-
 			var frags = this.props.id ? this.props.id.split('/') : [];
 			frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
 

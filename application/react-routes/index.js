@@ -24,12 +24,14 @@ var _componentsContent = require('../components/content');
 
 var _componentsContent2 = _interopRequireDefault(_componentsContent);
 
-var _componentsContent3 = _interopRequireDefault(_componentsContent);
+var _componentsContentHome = require('../components/content/home');
+
+var _componentsContentHome2 = _interopRequireDefault(_componentsContentHome);
 
 var routes = _react2['default'].createElement(
 	_reactRouter.Route,
 	{ name: 'root', path: '/', handler: _components2['default'] },
-	_react2['default'].createElement(_reactRouter.DefaultRoute, { handler: _componentsContent3['default'] }),
+	_react2['default'].createElement(_reactRouter.DefaultRoute, { handler: _componentsContentHome2['default'] }),
 	_react2['default'].createElement(_reactRouter.Route, { name: 'pattern', path: '/pattern/*', handler: _componentsContent2['default'] })
 );
 
@@ -50,10 +52,7 @@ function client(data, el) {
 	return new Promise(function (resolve) {
 		var eventEmitter = new _events.EventEmitter();
 
-		console.log('!');
-
 		_reactRouter2['default'].run(routes, _reactRouter2['default'].HistoryLocation, function (Handler, state) {
-			console.log(Handler);
 			var appData = Object.assign({}, data, state, { eventEmitter: eventEmitter });
 			resolve(_react2['default'].render(_react2['default'].createElement(Handler, appData), el));
 		});
