@@ -1,2 +1,2 @@
-import {content} from 'rubberband';
+import {content} from 'rubber-band';
 content();

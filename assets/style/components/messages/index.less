@@ -1,0 +1,62 @@
+.messages {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	right: 0;
+	width: 82.5%;
+	@media screen and (max-width: 900px) {
+		width: 70%;
+	}
+	@media screen and (max-width: 900px) {
+		width: 100%;
+	}
+	.message {
+		display: flex;
+		position: absolute;
+		right: 0;
+		bottom: -50px;
+		width: 100%;
+		transition: all .3s ease-in-out;
+	}
+	.message-container{
+		display: flex;
+		width: 100%;
+		height: 50px;
+		padding: 10px 15px;
+		color: #fff;
+		background: @error-color;
+		transition: all .3s ease-in-out;
+	}
+	.message-content{
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+	.message-close{
+		margin-left: auto;
+		background: none;
+		border: 1px solid currentcolor;
+		border-radius: 0;
+		transition: all .3s ease-in-out;
+		&:focus,
+		&:hover{
+			outline: none;
+			background: #fff;
+			color: @error-color;
+		}
+	}
+}
+
+.message-enter{
+	opacity: 0;
+	&.message-enter-active{
+		opacity: 1;
+	}
+}
+
+.message-leave{
+	&.message-leave-active{
+		height: 0;
+	}
+}

@@ -16,7 +16,7 @@ class PatternDemo extends React.Component {
 
 		return (
 			<div className="pattern-demo-container">
-				<Frame className="pattern-demo" src={source} id={source} />
+				<Frame className="pattern-demo" src={source} id={source} sandbox="allow-same-origin allow-scripts allow-forms allow-scripts" />
 			</div>
 		);
 	}

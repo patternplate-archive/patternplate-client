@@ -1,6 +1,7 @@
 import React from 'react';
 import {DefaultRoute, NotFoundRoute, Route} from 'react-router';
 import Router from 'react-router';
+import {EventEmitter} from 'events';
 
 import Application from '../components/index.jsx';
 import Content from '../components/content/index.jsx';
@@ -15,8 +16,10 @@ const routes = (
 
 function router(path = '/', data) {
 	return new Promise(function(resolve){
+		let eventEmitter = new EventEmitter();
+
 		Router.run(routes, path, function(Handler, state){
-			let appData = Object.assign({}, data, state);
+			let appData = Object.assign({}, data, state, { eventEmitter });
 			resolve(React.renderToString(<Handler {...appData}/>));
 		});
 	});
@@ -24,8 +27,10 @@ function router(path = '/', data) {
 
 function client(data, el) {
 	return new Promise(function(resolve){
+		let eventEmitter = new EventEmitter();
+
 		Router.run(routes, Router.HistoryLocation, function(Handler, state){
-			let appData = Object.assign({}, data, state);
+			let appData = Object.assign({}, data, state, { eventEmitter });
 			resolve(React.render(<Handler {...appData}/>, el));
 		});
 	});

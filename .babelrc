@@ -20,6 +20,6 @@
 		"node_modules/less-plugin-autoprefix",
 		"node_modules/less-plugin-clean-css",
 		"node_modules/pretty-data",
-		"node_modules/elasticframe"
+		"node_modules/rubber-band"
 	]
 }

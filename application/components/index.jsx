@@ -5,7 +5,7 @@ import Toolbar from './navigation/toolbar.jsx';
 import Navigation from './navigation/index.jsx';
 
 class Application extends React.Component {
-	displayName = 'Application';
+	static displayName = 'Application';
 
 	render () {
 		return (

@@ -205,13 +205,24 @@
 	.svg-icon {
 		width: 120px;
 		height: 120px;
+		fill: currentcolor;
+	}
+	.svg{
+		fill: inherit;
+		color: @active-color;
+	}
+}
+.pattern-error {
+	.svg{
+		fill: inherit;
+		color: @error-color;
 	}
 }
 
 .pattern-loader{
 	&.pattern-content-transition-enter {
 	  opacity: 0;
-	  transition: opacity .6s ease-in;
+	  transition: opacity .3s ease-in;
 		&.pattern-content-transition-enter-active{
 			position: absolute;
 			opacity: 1;
@@ -220,7 +231,7 @@
 
 	&.pattern-content-transition-leave {
 	  opacity: 1;
-	  transition: opacity .6s ease-in;
+	  transition: opacity .3s ease-in;
 		&.pattern-content-transition-leave-active{
 			position: absolute;
 			opacity: 0;
