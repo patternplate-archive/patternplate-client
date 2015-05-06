@@ -1,2 +1,2 @@
-boilerplate-client
-------------------
+patternplate-client
+-------------------
