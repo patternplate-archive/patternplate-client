@@ -1,17 +1,12 @@
-const ui = {
-	'menuOrder': [
-		'Atoms',
-		'Molecules',
-		'Polymers',
-		'Organisms',
-		'Ecospheres'
-	],
-	'resultOrder': [
-		'Markup',
-		'Script',
-		'Style',
-		'Documentation'
-	]
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+	value: true
+});
+var ui = {
+	'menuOrder': ['Atoms', 'Molecules', 'Polymers', 'Organisms', 'Ecospheres'],
+	'resultOrder': ['Markup', 'Script', 'Style', 'Documentation']
 };
 
-export default ui;
+exports['default'] = ui;
+module.exports = exports['default'];

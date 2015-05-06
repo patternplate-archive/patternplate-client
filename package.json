@@ -2,9 +2,12 @@
   "name": "patternplate-client",
   "version": "0.1.0",
   "description": "Client for patternplate-server",
-  "main": "binary/_patternplate-client",
+  "main": "binary/_patternplate-client.js",
   "scripts": {
-    "start": "node --harmony binary/patternplate-client"
+    "start": "node binary/patternplate-client.js",
+    "build": "npm run babel",
+    "watch": "npm run babel -- --watch",
+    "babel": "babel source --out-dir ./"
   },
   "repository": {
     "type": "git",
@@ -30,6 +33,7 @@
     "npm": ">= 2.5.1"
   },
   "dependencies": {
+    "babel": "^5.2.15",
     "babel-core": "5.1.13",
     "babel-runtime": "^5.2.9",
     "babelify": "^6.0.2",
