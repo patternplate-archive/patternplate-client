@@ -16,6 +16,10 @@ var _babelify = require('babelify');
 
 var _babelify2 = _interopRequireDefault(_babelify);
 
+var _uglifyify = require('uglifyify');
+
+var _uglifyify2 = _interopRequireDefault(_uglifyify);
+
 var _qIoFs = require('q-io/fs');
 
 var memo = {};
@@ -69,7 +73,9 @@ function preBundle(application) {
 					'optional': ['runtime']
 				}));
 
-				bundler.transform('uglifyify');
+				bundler.transform(_uglifyify2['default'].configure({
+					'global': true
+				}));
 
 				bundler.add(_path.resolve(scripts, file));
 
