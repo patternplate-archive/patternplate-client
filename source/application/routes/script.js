@@ -2,6 +2,7 @@ import {resolve} from 'path';
 
 import browserify from 'browserify';
 import babelify from 'babelify';
+import uglifyify from 'uglifyify';
 import {exists, list} from 'q-io/fs';
 
 const memo = {};
@@ -31,7 +32,9 @@ async function preBundle (application) {
 				'optional': ['runtime']
 			}));
 
-			bundler.transform('uglifyify');
+			bundler.transform(uglifyify.configure({
+				'global': true
+			}));
 
 			bundler.add(resolve(scripts, file));
 
