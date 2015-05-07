@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.sinnerschrader.com:team-ux/patternplate-client.git"
+    "url": "git@git.sinnerschrader.com:patternplate/patternplate-client.git"
   },
   "keywords": [
     "patternplate"
@@ -37,7 +37,7 @@
     "babel-core": "5.1.13",
     "babel-runtime": "^5.2.9",
     "babelify": "^6.0.2",
-    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:team-ux/boilerplate-server.git",
+    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git",
     "browserify": "^10.0.0",
     "classnames": "^1.2.2",
     "es6-promise": "^2.1.1",
@@ -50,7 +50,7 @@
     "less-plugin-clean-css": "^1.5.0",
     "lodash": "^3.8.0",
     "lodash.throttle": "^3.0.2",
-    "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:team-ux/markdown-css.git",
+    "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:patternplate/markdown-css.git",
     "merge": "^1.2.0",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
@@ -63,7 +63,7 @@
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
-    "rubber-band": "git+ssh://git@git.sinnerschrader.com:team-ux/rubber-band.git",
+    "rubber-band": "git+ssh://git@git.sinnerschrader.com:patternplate/rubber-band.git",
     "string-humanize": "^1.0.0",
     "throttle-function": "^0.1.0",
     "uglifyify": "^3.0.1",
