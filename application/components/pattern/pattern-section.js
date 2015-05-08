@@ -68,50 +68,43 @@ var PatternSection = (function (_React$Component) {
 					case 0:
 						context$2$0.prev = 0;
 						context$2$0.next = 3;
-						return fetch('/api/pattern/' + id);
+						return fetch('/api/pattern/' + id, { 'headers': { 'accept-type': 'application/json' } });
 
 					case 3:
 						response = context$2$0.sent;
-
-						if (!(response.code < 200 || response.code >= 300)) {
-							context$2$0.next = 6;
-							break;
-						}
-
-						throw new Error('Error while fetching');
-
-					case 6:
-						context$2$0.next = 8;
+						context$2$0.next = 6;
 						return response.json();
 
-					case 8:
+					case 6:
 						data = context$2$0.sent;
 
-						if (data) {
-							context$2$0.next = 11;
+						console.log(data);
+
+						if (!(response.status >= 400)) {
+							context$2$0.next = 10;
 							break;
 						}
 
-						throw new Error('No data for');
+						throw new Error(data.message, data.err);
 
-					case 11:
+					case 10:
 
 						this.setState({ 'data': data, 'error': false });
-						context$2$0.next = 18;
+						context$2$0.next = 17;
 						break;
 
-					case 14:
-						context$2$0.prev = 14;
-						context$2$0.t0 = context$2$0['catch'](0);
+					case 13:
+						context$2$0.prev = 13;
+						context$2$0.t84 = context$2$0['catch'](0);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + this.props.id);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t84.message + ' ' + this.props.id);
 
-					case 18:
+					case 17:
 					case 'end':
 						return context$2$0.stop();
 				}
-			}, null, this, [[0, 14]]);
+			}, null, this, [[0, 13]]);
 		}
 	}, {
 		key: 'componentWillMount',

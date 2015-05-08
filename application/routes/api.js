@@ -18,50 +18,56 @@ function apiRouteFactory(application) {
 	var filter = _filtersPatternApi2['default'](application);
 
 	return function apiRoute() {
-		var data, path, response;
+		var path, response, data;
 		return regeneratorRuntime.async(function apiRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					data = {};
 					path = this.params[0].value;
-					context$2$0.prev = 2;
-					context$2$0.next = 5;
-					return fetch('' + base + '/' + path);
+					context$2$0.prev = 1;
+					context$2$0.next = 4;
+					return fetch('' + base + '/' + path, { 'headers': { 'accept-type': 'application/json' } });
 
-				case 5:
+				case 4:
 					response = context$2$0.sent;
-					context$2$0.next = 8;
+					context$2$0.next = 7;
 					return response.json();
 
-				case 8:
+				case 7:
 					data = context$2$0.sent;
+
+					if (!(response.status < 400)) {
+						context$2$0.next = 15;
+						break;
+					}
+
 					context$2$0.next = 11;
 					return filter(data, path);
 
 				case 11:
 					data = context$2$0.sent;
-					context$2$0.next = 18;
+
+					this.body = data;
+					context$2$0.next = 16;
 					break;
 
-				case 14:
-					context$2$0.prev = 14;
-					context$2$0.t1 = context$2$0['catch'](2);
+				case 15:
+					throw new Error(data.message || 'Request to ' + base + '/' + path + ' failed', data.error || {});
 
-					application.log.error(context$2$0.t1);
-					this['throw'](context$2$0.t1, 500);
+				case 16:
+					context$2$0.next = 21;
+					break;
 
 				case 18:
 					context$2$0.prev = 18;
+					context$2$0.t67 = context$2$0['catch'](1);
 
-					this.type = 'json';
-					this.body = data;
-					return context$2$0.finish(18);
+					this['throw'](context$2$0.t67, 500);
 
-				case 22:
+				case 21:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[2, 14, 18, 22]]);
+		}, null, this, [[1, 18]]);
 	};
 }
 

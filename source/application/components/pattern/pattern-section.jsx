@@ -22,14 +22,11 @@ class PatternSection extends React.Component {
 
 	async get(id, force = false) {
 		try {
-			let response = await fetch(`/api/pattern/${id}`);
-			if (response.code < 200 || response.code >= 300) {
-				throw new Error('Error while fetching');
-			}
-
+			let response = await fetch(`/api/pattern/${id}`, {'headers': {'accept-type':'application/json'}});
 			let data = await response.json();
-			if (! data) {
-				throw new Error('No data for');
+
+			if (response.status >= 400 || data.err) {
+				throw new Error(data.message, data.err);
 			}
 
 			this.setState({ 'data': data, 'error': false });
