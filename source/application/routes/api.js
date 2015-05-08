@@ -7,19 +7,20 @@ function apiRouteFactory (application) {
 	const filter = patternApiFilterFactory(application);
 
 	return async function apiRoute () {
-		let data = {};
 		let path = this.params[0].value;
 
 		try {
-			let response = await fetch(`${base}/${path}`);
-			data = await response.json();
-			data = await filter(data, path);
+			let response = await fetch(`${base}/${path}`, {'headers': {'accept-type':'application/json'}});
+			let data = await response.json();
+
+			if (response.status < 400) {
+				data = await filter(data, path);
+				this.body = data;
+			} else {
+				throw new Error(data.message || `Request to ${base}/${path} failed`, data.error || {});
+			}
 		} catch (err) {
-			application.log.error(err);
 			this.throw(err, 500);
-		} finally {
-			this.type = 'json';
-			this.body = data;
 		}
 	};
 }
