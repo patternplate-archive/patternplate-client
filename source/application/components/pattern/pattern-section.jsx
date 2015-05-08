@@ -25,9 +25,7 @@ class PatternSection extends React.Component {
 			let response = await fetch(`/api/pattern/${id}`, {'headers': {'accept-type':'application/json'}});
 			let data = await response.json();
 
-			console.log(data);
-
-			if (response.status >= 400) {
+			if (response.status >= 400 || data.err) {
 				throw new Error(data.message, data.err);
 			}
 
