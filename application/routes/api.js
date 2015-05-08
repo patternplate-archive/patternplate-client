@@ -59,9 +59,9 @@ function apiRouteFactory(application) {
 
 				case 18:
 					context$2$0.prev = 18;
-					context$2$0.t67 = context$2$0['catch'](1);
+					context$2$0.t3 = context$2$0['catch'](1);
 
-					this['throw'](context$2$0.t67, 500);
+					this['throw'](context$2$0.t3, 500);
 
 				case 21:
 				case 'end':

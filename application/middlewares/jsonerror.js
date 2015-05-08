@@ -20,22 +20,22 @@ function JSONErrorFactory(application) {
 
 				case 5:
 					context$2$0.prev = 5;
-					context$2$0.t72 = context$2$0['catch'](0);
+					context$2$0.t1 = context$2$0['catch'](0);
 
-					context$2$0.t72.expose = true;
-					this.response.status = context$2$0.t72.status || 404;
+					context$2$0.t1.expose = true;
+					this.response.status = context$2$0.t1.status || 404;
 
-					context$2$0.t73 = this.accepts('json', 'html', 'text');
-					context$2$0.next = context$2$0.t73 === 'json' ? 12 : 15;
+					context$2$0.t2 = this.accepts('json', 'html', 'text');
+					context$2$0.next = context$2$0.t2 === 'json' ? 12 : 15;
 					break;
 
 				case 12:
 					this.type = 'json';
-					this.body = { 'message': context$2$0.t72 ? context$2$0.t72.message : 'page not found', 'err': context$2$0.t72 };
+					this.body = { 'message': context$2$0.t1 ? context$2$0.t1.message : 'page not found', 'err': context$2$0.t1 };
 					return context$2$0.abrupt('break', 17);
 
 				case 15:
-					this.body = context$2$0.t72 ? context$2$0.t72.message : 'page not found';
+					this.body = context$2$0.t1 ? context$2$0.t1.message : 'page not found';
 					return context$2$0.abrupt('break', 17);
 
 				case 17:
