@@ -16,6 +16,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _camelCase = require('camel-case');
+
+var _camelCase2 = _interopRequireDefault(_camelCase);
+
 var _navigationItem = require('./navigation-item');
 
 var _navigationItem2 = _interopRequireDefault(_navigationItem);
@@ -58,10 +62,18 @@ var NavigationTree = (function (_React$Component) {
 					var keyName = _step.value;
 
 					var sub = this.props.data[keyName];
+					var path = keyName.split('/') || [];
+					var id = this.props.id ? this.props.id.split('/') : [];
+
+					var treeFragments = [].concat(id).concat(path).map(function (item) {
+						return item.toLowerCase();
+					});
+
+					var treeId = treeFragments.filter(function (item) {
+						return item;
+					}).join('/');
 
 					if (typeof sub === 'object') {
-						var treeId = keyName.toLowerCase();
-						var treeFragments = treeId.split('/');
 						var depth = treeFragments.length;
 						var active = treeFragments[depth - 1] === activePath[depth - 1];
 
@@ -71,8 +83,7 @@ var NavigationTree = (function (_React$Component) {
 							_react2['default'].createElement(NavigationTree, { data: sub, id: treeId, path: this.props.path })
 						));
 					} else {
-						var childId = [this.props.id, keyName].join('/');
-						children.push(_react2['default'].createElement(_navigationItem2['default'], { name: sub, id: childId, key: childId }));
+						children.push(_react2['default'].createElement(_navigationItem2['default'], { name: sub, id: treeId, key: treeId }));
 					}
 				}
 			} catch (err) {

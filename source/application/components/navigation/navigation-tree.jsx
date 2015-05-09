@@ -1,4 +1,6 @@
 import React from 'react';
+import {Component} from 'react';
+import camelCase from 'camel-case';
 
 import NavigationItem from './navigation-item';
 
@@ -17,10 +19,15 @@ class NavigationTree extends React.Component {
 
 		for (let keyName of Object.keys(this.props.data)) {
 			let sub = this.props.data[keyName];
+			let path = keyName.split('/') || [];
+			let id = this.props.id ? this.props.id.split('/') : [];
+
+			let treeFragments = [].concat(id).concat(path)
+				.map((item) => item.toLowerCase());
+
+			let treeId = treeFragments.filter((item) => item).join('/')
 
 			if ( typeof sub === 'object' ) {
-				let treeId = keyName.toLowerCase();
-				let treeFragments = treeId.split('/');
 				let depth = treeFragments.length;
 				let active = treeFragments[depth - 1] === activePath[depth - 1];
 
@@ -30,8 +37,7 @@ class NavigationTree extends React.Component {
 					</NavigationItem>
 				);
 			} else {
-				let childId = [this.props.id, keyName].join('/');
-				children.push(<NavigationItem name={sub} id={childId} key={childId} />)
+				children.push(<NavigationItem name={sub} id={treeId} key={treeId} />)
 			}
 		}
 
