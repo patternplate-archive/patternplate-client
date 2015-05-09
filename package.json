@@ -4,7 +4,7 @@
   "description": "Client for patternplate-server",
   "main": "binary/_patternplate-client.js",
   "scripts": {
-    "start": "node binary/patternplate-client.js",
+    "start": "node --harmony binary/patternplate-client.js",
     "build": "npm run babel",
     "watch": "npm run babel -- --watch",
     "babel": "babel source --out-dir ./"
@@ -39,6 +39,7 @@
     "babelify": "^6.0.2",
     "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git",
     "browserify": "^10.0.0",
+    "camel-case": "^1.1.1",
     "classnames": "^1.2.2",
     "es6-promise": "^2.1.1",
     "highlight.js": "^8.5.0",
