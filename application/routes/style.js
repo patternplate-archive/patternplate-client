@@ -29,7 +29,7 @@ function styleRouteFactory(application) {
 		return regeneratorRuntime.async(function scriptRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					name = this.params[0].value.replace('.css', '.less');
+					name = (this.params.path || '').replace('.css', '.less');
 					path = _path.resolve(application.runtime.cwd, 'assets', 'style', name);
 					context$2$0.next = 4;
 					return _qIoFs.exists(path);

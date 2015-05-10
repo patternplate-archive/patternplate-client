@@ -9,7 +9,7 @@ import {exists, read, directory} from 'q-io/fs';
 function styleRouteFactory (application) {
 
 	return async function scriptRoute () {
-		let name = this.params[0].value.replace('.css', '.less');
+		let name = (this.params.path || '').replace('.css', '.less');
 		let path = resolve(application.runtime.cwd, 'assets', 'style', name);
 
 		if (!await exists(path)) {

@@ -2,11 +2,12 @@ import 'isomorphic-fetch';
 import layout from '../layouts/demo';
 
 function demoRouteFactory (application) {
-	const config = application.configuration.client;
-	let base = `http://${config.server}:${config.port}`;
-
 	return async function demoRoute () {
-		let path = this.params[0].value;
+		const config = application.configuration.client;
+		let clientPath = config.path[config.path.length - 1] === '/' ? config.path : `${config.path}/`
+		let base = `http://${config.host}:${config.port}${clientPath}`;
+
+		let path = this.params.path;
 
 		let templateData = {
 			'style': {
@@ -22,9 +23,19 @@ function demoRouteFactory (application) {
 			'title': path
 		};
 
+		let response = await fetch(`${base}pattern/${path}`);
+
 		try {
-			let response = await fetch(`${base}/pattern/${path}`);
-			let data = await response.json();
+			response = await response;
+		} catch (err) {
+			application.log.error(err);
+			this.throw(err, 500);
+		}
+
+		let data = response.json();
+
+		try {
+			data = await data;
 
 			if (data.results.Style) {
 				templateData.style.index = data.results.Style.buffer || '';
@@ -39,12 +50,10 @@ function demoRouteFactory (application) {
 				templateData.script.index = data.results.Script.buffer || '';
 				templateData.script.demo = data.results.Script.demoBuffer || '';
 			}
-
+			this.body = layout(templateData);
 		} catch (err) {
 			application.log.error(err);
 			this.throw(err, 500);
-		} finally {
-			this.body = layout(templateData);
 		}
 	};
 }

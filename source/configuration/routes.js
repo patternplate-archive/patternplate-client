@@ -2,28 +2,29 @@ const routes = {
 	'path': './application/routes',
 	'enabled': {
 		'index': {
+			'enabled': true,
 			'path': '/'
 		},
 		'pattern': {
 			'enabled': true,
-			'path': '/pattern/*'
-		},
-		'api': {
-			'enabled': true,
-			'path': '/api/*'
+			'path': '/pattern/:path+'
 		},
 		'demo': {
 			'enabled': true,
-			'path': '/demo/*'
+			'path': '/demo/:path+'
 		},
 		'script': {
 			'enabled': true,
-			'path': '/script/*'
+			'path': '/script/:path+'
 		},
 		'style': {
 			'enabled': true,
-			'path': '/style/*'
-		}
+			'path': '/style/:path+'
+		},
+		'api': {
+			'enabled': true,
+			'path': '/api/:path+'
+		},
 	}
 };
 

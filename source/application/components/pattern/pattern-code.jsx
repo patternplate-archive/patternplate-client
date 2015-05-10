@@ -28,7 +28,6 @@ class PatternCode extends React.Component {
 		el.select();
 
 		let result = document.execCommand('copy');
-		console.log(result);
 	}
 
 	static pretty(component) {

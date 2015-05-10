@@ -3,11 +3,9 @@
 Object.defineProperty(exports, '__esModule', {
 	value: true
 });
-var client = {
-	'host': 'localhost',
-	'port': '1350',
-	'path': '/'
+var log = {
+	'level': 'silly'
 };
 
-exports['default'] = client;
+exports['default'] = log;
 module.exports = exports['default'];

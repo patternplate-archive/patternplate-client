@@ -4,11 +4,13 @@ import humanizeTree from '../utils/humanize-tree';
 import router from '../react-routes';
 import layout from '../layouts';
 
-function indexRouteFactory (application) {
-	const config = application.configuration.client;
-	let base = `http://${config.server}:${config.port}`;
-
+function indexRouteFactory ( application ) {
 	return async function indexRoute () {
+		let base = `http://${application.configuration.client.host}:${application.configuration.client.port}${application.configuration.client.path}`;
+		let self = `http://${application.configuration.server.host}:${application.configuration.server.port}${application.runtime.prefix}`;
+
+		let patternPath = this.params.path;
+
 		let data = {
 			'schema': {},
 			'navigation': {},
@@ -27,13 +29,12 @@ function indexRouteFactory (application) {
 		let navigationRoute = data.schema.routes.filter((route) => route.name === 'meta')[0];
 		let patternRoute = data.schema.routes.filter((route) => route.name === 'pattern')[0];
 
-		let patternPath = this.params[0] ? this.params[0].value : null;
 
 		let navigationResponse = fetch(navigationRoute.uri);
-		let iconsResponse = fetch(`http://${application.configuration.server.host}:${application.configuration.server.port}/static/images/inline-icons.svg`);
+		let iconsResponse = fetch(`${self}static/images/inline-icons.svg`);
 
 		if (patternPath) {
-			var patternResponse = fetch(`${base}/pattern/${patternPath}`);
+			var patternResponse = fetch(`${base}pattern/${patternPath}`);
 		}
 
 		try {
@@ -51,7 +52,7 @@ function indexRouteFactory (application) {
 				let patterns = await patternResponse.json();
 				data.patterns = Array.isArray(patterns) ? patterns : [patterns];
 			} catch(err) {
-				application.log.error(`Could not fetch initial data from ${base}/pattern/${patternPath}`);
+				application.log.error(`Could not fetch initial data from ${base}pattern/${patternPath}`);
 				application.log.error(err);
 			}
 		}

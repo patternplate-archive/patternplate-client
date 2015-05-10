@@ -21,122 +21,121 @@ var _layouts = require('../layouts');
 var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
-	var config = application.configuration.client;
-	var base = 'http://' + config.server + ':' + config.port;
-
 	return function indexRoute() {
-		var data, response, navigationRoute, patternRoute, patternPath, navigationResponse, iconsResponse, patternResponse, patterns, content, icons;
+		var base, self, patternPath, data, response, navigationRoute, patternRoute, navigationResponse, iconsResponse, patternResponse, patterns, content, icons;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
+					base = 'http://' + application.configuration.client.host + ':' + application.configuration.client.port + '' + application.configuration.client.path;
+					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + '' + application.runtime.prefix;
+					patternPath = this.params.path;
 					data = {
 						'schema': {},
 						'navigation': {},
 						'patterns': null,
 						'config': application.configuration.ui
 					};
-					context$2$0.prev = 1;
-					context$2$0.next = 4;
+					context$2$0.prev = 4;
+					context$2$0.next = 7;
 					return fetch(base);
 
-				case 4:
+				case 7:
 					response = context$2$0.sent;
-					context$2$0.next = 7;
+					context$2$0.next = 10;
 					return response.json();
 
-				case 7:
+				case 10:
 					data.schema = context$2$0.sent;
-					context$2$0.next = 14;
+					context$2$0.next = 17;
 					break;
 
-				case 10:
-					context$2$0.prev = 10;
-					context$2$0.t5 = context$2$0['catch'](1);
+				case 13:
+					context$2$0.prev = 13;
+					context$2$0.t5 = context$2$0['catch'](4);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
 					this['throw'](context$2$0.t5, 500);
 
-				case 14:
+				case 17:
 					navigationRoute = data.schema.routes.filter(function (route) {
 						return route.name === 'meta';
 					})[0];
 					patternRoute = data.schema.routes.filter(function (route) {
 						return route.name === 'pattern';
 					})[0];
-					patternPath = this.params[0] ? this.params[0].value : null;
 					navigationResponse = fetch(navigationRoute.uri);
-					iconsResponse = fetch('http://' + application.configuration.server.host + ':' + application.configuration.server.port + '/static/images/inline-icons.svg');
+					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg');
 
 					if (patternPath) {
-						patternResponse = fetch('' + base + '/pattern/' + patternPath);
+						patternResponse = fetch('' + base + 'pattern/' + patternPath);
 					}
 
-					context$2$0.prev = 20;
-					context$2$0.next = 23;
+					context$2$0.prev = 22;
+					context$2$0.next = 25;
 					return navigationResponse;
 
-				case 23:
+				case 25:
 					navigationResponse = context$2$0.sent;
-					context$2$0.next = 26;
+					context$2$0.next = 28;
 					return navigationResponse.json();
 
-				case 26:
+				case 28:
 					context$2$0.t6 = context$2$0.sent;
 					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t6);
-					context$2$0.next = 34;
+					context$2$0.next = 36;
 					break;
 
-				case 30:
-					context$2$0.prev = 30;
-					context$2$0.t7 = context$2$0['catch'](20);
+				case 32:
+					context$2$0.prev = 32;
+					context$2$0.t7 = context$2$0['catch'](22);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
 					this['throw'](context$2$0.t7, 500);
 
-				case 34:
+				case 36:
 					if (!patternPath) {
-						context$2$0.next = 49;
+						context$2$0.next = 51;
 						break;
 					}
 
-					context$2$0.prev = 35;
-					context$2$0.next = 38;
+					context$2$0.prev = 37;
+					context$2$0.next = 40;
 					return patternResponse;
 
-				case 38:
+				case 40:
 					patternResponse = context$2$0.sent;
-					context$2$0.next = 41;
+					context$2$0.next = 43;
 					return patternResponse.json();
 
-				case 41:
+				case 43:
 					patterns = context$2$0.sent;
 
 					data.patterns = Array.isArray(patterns) ? patterns : [patterns];
-					context$2$0.next = 49;
+					context$2$0.next = 51;
 					break;
 
-				case 45:
-					context$2$0.prev = 45;
-					context$2$0.t8 = context$2$0['catch'](35);
+				case 47:
+					context$2$0.prev = 47;
+					context$2$0.t8 = context$2$0['catch'](37);
 
-					application.log.error('Could not fetch initial data from ' + base + '/pattern/' + patternPath);
+					application.log.error('Could not fetch initial data from ' + base + 'pattern/' + patternPath);
 					application.log.error(context$2$0.t8);
 
-				case 49:
-					context$2$0.next = 51;
+				case 51:
+					context$2$0.next = 53;
 					return _reactRoutes2['default'](this.path, data);
 
-				case 51:
+				case 53:
 					content = context$2$0.sent;
-					context$2$0.next = 54;
+					context$2$0.next = 56;
 					return iconsResponse;
 
-				case 54:
+				case 56:
 					icons = context$2$0.sent;
-					context$2$0.next = 57;
+					context$2$0.next = 59;
 					return icons.text();
 
-				case 57:
+				case 59:
 					icons = context$2$0.sent;
 
 					this.body = _layouts2['default']({
@@ -148,11 +147,11 @@ function indexRouteFactory(application) {
 						'icons': icons
 					});
 
-				case 59:
+				case 61:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[1, 10], [20, 30], [35, 45]]);
+		}, null, this, [[4, 13], [22, 32], [37, 47]]);
 	};
 }
 

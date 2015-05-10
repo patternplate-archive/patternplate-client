@@ -51,7 +51,7 @@ function scriptRouteFactory (application) {
 	preBundle(application);
 
 	return async function scriptRoute () {
-		let path = resolve(application.runtime.cwd, 'assets', 'script', this.params[0].value);
+		let path = resolve(application.runtime.cwd, 'assets', 'script', this.params.path || '');
 
 		if (!await exists(path)) {
 			return;

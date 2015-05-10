@@ -2,12 +2,16 @@
   "name": "patternplate-client",
   "version": "0.1.0",
   "description": "Client for patternplate-server",
-  "main": "binary/_patternplate-client.js",
+  "main": "library/",
   "scripts": {
     "start": "node --harmony binary/patternplate-client.js",
     "build": "npm run babel",
     "watch": "npm run babel -- --watch",
-    "babel": "babel source --out-dir ./"
+    "babel": "npm run clean && babel source --out-dir ./",
+    "clean": "rm -rf application binary library"
+  },
+  "bin": {
+    "patternplate-client": "binary/patternplate-client.js"
   },
   "repository": {
     "type": "git",
@@ -50,6 +54,8 @@
     "merge": "^1.2.0",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
+    "normalize-opentype.css": "^0.2.4",
+    "normalize.less": "^1.0.0",
     "pretty-data": "^0.40.0",
     "q-io": "^1.12.0",
     "rc": "^1.0.1",

@@ -6,9 +6,9 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _ = require('./');
+var _index = require('./index');
 
-var _2 = _interopRequireDefault(_);
+var _index2 = _interopRequireDefault(_index);
 
-exports['default'] = _2['default'];
+exports['default'] = _index2['default'];
 module.exports = exports['default'];

@@ -148,7 +148,7 @@ function scriptRouteFactory(application) {
 		return regeneratorRuntime.async(function scriptRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					path = _path.resolve(application.runtime.cwd, 'assets', 'script', this.params[0].value);
+					path = _path.resolve(application.runtime.cwd, 'assets', 'script', this.params.path || '');
 					context$2$0.next = 3;
 					return _qIoFs.exists(path);
 

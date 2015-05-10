@@ -142,7 +142,6 @@ var PatternCode = (function (_React$Component) {
 			el.select();
 
 			var result = document.execCommand('copy');
-			console.log(result);
 		}
 	}, {
 		key: 'pretty',

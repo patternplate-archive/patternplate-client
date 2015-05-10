@@ -1,6 +1,7 @@
 const client = {
-	'server': 'localhost',
-	'port': '1338'
+	'host': 'localhost',
+	'port': '1350',
+	'path': '/'
 };
 
 export default client;

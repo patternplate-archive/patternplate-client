@@ -1,2 +1,2 @@
-import indexRouteFactory from './';
-export default indexRouteFactory;
+import index from './index';
+export default index;
