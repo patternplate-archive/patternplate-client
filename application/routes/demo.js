@@ -51,10 +51,10 @@ function demoRouteFactory(application) {
 
 				case 14:
 					context$2$0.prev = 14;
-					context$2$0.t78 = context$2$0['catch'](8);
+					context$2$0.t4 = context$2$0['catch'](8);
 
-					application.log.error(context$2$0.t78);
-					this['throw'](context$2$0.t78, 500);
+					application.log.error(context$2$0.t4);
+					this['throw'](context$2$0.t4, 500);
 
 				case 18:
 					data = response.json();
@@ -84,10 +84,10 @@ function demoRouteFactory(application) {
 
 				case 29:
 					context$2$0.prev = 29;
-					context$2$0.t79 = context$2$0['catch'](19);
+					context$2$0.t5 = context$2$0['catch'](19);
 
-					application.log.error(context$2$0.t79);
-					this['throw'](context$2$0.t79, 500);
+					application.log.error(context$2$0.t5);
+					this['throw'](context$2$0.t5, 500);
 
 				case 33:
 				case 'end':

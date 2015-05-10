@@ -1,6 +1,6 @@
 'use strict';
 
-require('babel/polyfill');
+require('babel-core/polyfill');
 
 var _applicationReactRoutes = require('../../application/react-routes');
 

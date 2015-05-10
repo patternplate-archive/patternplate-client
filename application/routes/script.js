@@ -90,9 +90,9 @@ function preBundle(application) {
 
 			case 22:
 				context$1$0.prev = 22;
-				context$1$0.t9 = context$1$0['catch'](16);
+				context$1$0.t10 = context$1$0['catch'](16);
 
-				application.log.error(context$1$0.t9);
+				application.log.error(context$1$0.t10);
 
 			case 25:
 				_iteratorNormalCompletion = true;
@@ -105,9 +105,9 @@ function preBundle(application) {
 
 			case 30:
 				context$1$0.prev = 30;
-				context$1$0.t10 = context$1$0['catch'](8);
+				context$1$0.t11 = context$1$0['catch'](8);
 				_didIteratorError = true;
-				_iteratorError = context$1$0.t10;
+				_iteratorError = context$1$0.t11;
 
 			case 34:
 				context$1$0.prev = 34;
@@ -196,10 +196,10 @@ function scriptRouteFactory(application) {
 
 				case 19:
 					context$2$0.prev = 19;
-					context$2$0.t11 = context$2$0['catch'](12);
+					context$2$0.t12 = context$2$0['catch'](12);
 
-					application.log.error(context$2$0.t11);
-					this['throw'](context$2$0.t11, 500);
+					application.log.error(context$2$0.t12);
+					this['throw'](context$2$0.t12, 500);
 
 				case 23:
 				case 'end':

@@ -1,4 +1,4 @@
-import 'babel/polyfill';
+import 'babel-core/polyfill';
 import {client} from '../../application/react-routes';
 
 async function start () {

@@ -51,10 +51,10 @@ function indexRouteFactory(application) {
 
 				case 13:
 					context$2$0.prev = 13;
-					context$2$0.t5 = context$2$0['catch'](4);
+					context$2$0.t6 = context$2$0['catch'](4);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
-					this['throw'](context$2$0.t5, 500);
+					this['throw'](context$2$0.t6, 500);
 
 				case 17:
 					navigationRoute = data.schema.routes.filter(function (route) {
@@ -80,17 +80,17 @@ function indexRouteFactory(application) {
 					return navigationResponse.json();
 
 				case 28:
-					context$2$0.t6 = context$2$0.sent;
-					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t6);
+					context$2$0.t7 = context$2$0.sent;
+					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t7);
 					context$2$0.next = 36;
 					break;
 
 				case 32:
 					context$2$0.prev = 32;
-					context$2$0.t7 = context$2$0['catch'](22);
+					context$2$0.t8 = context$2$0['catch'](22);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
-					this['throw'](context$2$0.t7, 500);
+					this['throw'](context$2$0.t8, 500);
 
 				case 36:
 					if (!patternPath) {
@@ -116,10 +116,10 @@ function indexRouteFactory(application) {
 
 				case 47:
 					context$2$0.prev = 47;
-					context$2$0.t8 = context$2$0['catch'](37);
+					context$2$0.t9 = context$2$0['catch'](37);
 
 					application.log.error('Could not fetch initial data from ' + base + 'pattern/' + patternPath);
-					application.log.error(context$2$0.t8);
+					application.log.error(context$2$0.t9);
 
 				case 51:
 					context$2$0.next = 53;
