@@ -29,12 +29,12 @@ function indexRouteFactory ( application ) {
 		let navigationRoute = data.schema.routes.filter((route) => route.name === 'meta')[0];
 		let patternRoute = data.schema.routes.filter((route) => route.name === 'pattern')[0];
 
-
 		let navigationResponse = fetch(navigationRoute.uri);
 		let iconsResponse = fetch(`${self}static/images/inline-icons.svg`);
 
 		if (patternPath) {
-			var patternResponse = fetch(`${base}pattern/${patternPath}`);
+			let patternBase = base[base.length] === '/' ? base : `${base}/`;
+			var patternResponse = fetch(`${patternBase}pattern/${patternPath}`);
 		}
 
 		try {

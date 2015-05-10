@@ -22,7 +22,7 @@ var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
 	return function indexRoute() {
-		var base, self, patternPath, data, response, navigationRoute, patternRoute, navigationResponse, iconsResponse, patternResponse, patterns, content, icons;
+		var base, self, patternPath, data, response, navigationRoute, patternRoute, navigationResponse, iconsResponse, patternBase, patternResponse, patterns, content, icons;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
@@ -67,7 +67,8 @@ function indexRouteFactory(application) {
 					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg');
 
 					if (patternPath) {
-						patternResponse = fetch('' + base + 'pattern/' + patternPath);
+						patternBase = base[base.length] === '/' ? base : '' + base + '/';
+						patternResponse = fetch('' + patternBase + 'pattern/' + patternPath);
 					}
 
 					context$2$0.prev = 22;
