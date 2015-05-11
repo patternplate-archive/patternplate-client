@@ -50,7 +50,7 @@
     "less": "^2.5.0",
     "less-plugin-autoprefix": "^1.4.1",
     "less-plugin-clean-css": "^1.5.0",
-    "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:patternplate/markdown-css.git",
+    "markdown-css-themes": "git+ssh://git@git.sinnerschrader.com:frontend/markdown-css.git",
     "merge": "^1.2.0",
     "minimist": "^1.1.1",
     "moment": "^2.10.2",
@@ -63,7 +63,7 @@
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
     "request-promise": "^0.4.2",
-    "rubber-band": "git+ssh://git@git.sinnerschrader.com:patternplate/rubber-band.git",
+    "rubber-band": "git+ssh://git@git.sinnerschrader.com:frontend/rubber-band.git",
     "string-humanize": "^1.0.0",
     "uglifyify": "^3.0.1",
     "whatwg-fetch": "^0.7.0"
