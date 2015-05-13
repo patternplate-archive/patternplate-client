@@ -15,13 +15,13 @@ async function start (options = {}) {
 		application = await patternClient(options);
 	} catch(err) {
 		console.trace(err);
-		throw new Error(err);
+		throw new Error(new Error(err).stack);
 	}
 
 	try {
 		await application.start();
 	} catch(err) {
-		application.log.error(err);
+		application.log.error(new Error(err).stack);
 		throw new Error(err);
 	}
 

@@ -6,8 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 exports['default'] = JSONErrorFactory;
 
 function JSONErrorFactory(application) {
-	return regeneratorRuntime.mark(function jsonErrorMiddlewares(next) {
-		return regeneratorRuntime.wrap(function jsonErrorMiddlewares$(context$2$0) {
+	return regeneratorRuntime.mark(function jsonErrorMiddleware(next) {
+		return regeneratorRuntime.wrap(function jsonErrorMiddleware$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					context$2$0.prev = 0;
@@ -15,7 +15,7 @@ function JSONErrorFactory(application) {
 					return next;
 
 				case 3:
-					context$2$0.next = 17;
+					context$2$0.next = 18;
 					break;
 
 				case 5:
@@ -25,24 +25,31 @@ function JSONErrorFactory(application) {
 					context$2$0.t1.expose = true;
 					this.response.status = context$2$0.t1.status || 404;
 
+					if (application.log && application.log.error) {
+						application.log.error(new Error(context$2$0.t1).stack);
+					} else {
+						/*eslint-disable no-console */
+						console.log.error(new Error(context$2$0.t1).stack);
+					}
+
 					context$2$0.t2 = this.accepts('json', 'html', 'text');
-					context$2$0.next = context$2$0.t2 === 'json' ? 12 : 15;
+					context$2$0.next = context$2$0.t2 === 'json' ? 13 : 16;
 					break;
 
-				case 12:
+				case 13:
 					this.type = 'json';
 					this.body = { 'message': context$2$0.t1 ? context$2$0.t1.message : 'page not found', 'err': context$2$0.t1 };
-					return context$2$0.abrupt('break', 17);
+					return context$2$0.abrupt('break', 18);
 
-				case 15:
+				case 16:
 					this.body = context$2$0.t1 ? context$2$0.t1.message : 'page not found';
-					return context$2$0.abrupt('break', 17);
+					return context$2$0.abrupt('break', 18);
 
-				case 17:
+				case 18:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, jsonErrorMiddlewares, this, [[0, 5]]);
+		}, jsonErrorMiddleware, this, [[0, 5]]);
 	});
 }
 

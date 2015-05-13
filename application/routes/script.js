@@ -6,19 +6,13 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+
 var _path = require('path');
 
 var _browserify = require('browserify');
 
 var _browserify2 = _interopRequireDefault(_browserify);
-
-var _babelify = require('babelify');
-
-var _babelify2 = _interopRequireDefault(_babelify);
-
-var _uglifyify = require('uglifyify');
-
-var _uglifyify2 = _interopRequireDefault(_uglifyify);
 
 var _qIoFs = require('q-io/fs');
 
@@ -67,13 +61,13 @@ function preBundle(application) {
 				file = _step.value;
 				bundler = _browserify2['default']();
 
-				bundler.transform(_babelify2['default'].configure({
+				bundler.transform(babelify.configure({
 					'stage': 0,
 					'ignore': /node_modules/,
 					'optional': ['runtime']
 				}));
 
-				bundler.transform(_uglifyify2['default'].configure({
+				bundler.transform(uglifyify.configure({
 					'global': true
 				}));
 
@@ -140,8 +134,76 @@ function preBundle(application) {
 	}, null, this, [[8, 30, 34, 42], [16, 22], [35,, 37, 41]]);
 }
 
+function applyTransforms(bundler, transformNames, transformConfigs, transformDictionary) {
+	var _iteratorNormalCompletion2 = true;
+	var _didIteratorError2 = false;
+	var _iteratorError2 = undefined;
+
+	try {
+		for (var _iterator2 = transformNames[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+			var transformName = _step2.value;
+
+			/*eslint-disable no-continue*/
+			var transformFn = transformDictionary[transformName];
+			var args = undefined;
+
+			if (!transformFn) {
+				continue;
+			}
+
+			if (typeof transformFn.configure === 'function') {
+				args = [transformFn.configure(transformConfigs[transformName])];
+			} else {
+				args = [transformFn, transformConfigs[transformName]];
+			}
+
+			bundler.transform.apply(bundler, _toConsumableArray(args));
+		}
+	} catch (err) {
+		_didIteratorError2 = true;
+		_iteratorError2 = err;
+	} finally {
+		try {
+			if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+				_iterator2['return']();
+			}
+		} finally {
+			if (_didIteratorError2) {
+				throw _iteratorError2;
+			}
+		}
+	}
+
+	return bundler;
+}
+
 function scriptRouteFactory(application) {
-	preBundle(application);
+	var browserifyConfig = application.configuration.assets.browserify || {};
+
+	var transformNames = Object.keys(browserifyConfig.transforms).filter(function (transformName) {
+		return browserifyConfig.transforms[transformName].enabled;
+	});
+
+	var transformConfigs = transformNames.reduce(function getTransformConfig(results, transformName) {
+		results[transformName] = browserifyConfig.transforms[transformName].opts || {};
+		return results;
+	}, {});
+
+	var transformFns = transformNames.reduce(function getTransformFns(results, transformName) {
+		results[transformName] = require(require.resolve(transformName));
+		return results;
+	}, {});
+
+	var useTransforms = function useTransforms(bundler) {
+		return applyTransforms(bundler, transformNames, transformConfigs, transformFns);
+	};
+
+	try {
+		preBundle(application);
+	} catch (err) {
+		application.log.warn('Prebundling of scripts failed');
+		application.log.trace(err);
+	}
 
 	return function scriptRoute() {
 		var path, bundler;
@@ -175,12 +237,7 @@ function scriptRouteFactory(application) {
 				case 9:
 					bundler = _browserify2['default']();
 
-					bundler.transform(_babelify2['default'].configure({
-						'stage': 0,
-						'ignore': /node_modules/,
-						'optional': ['runtime']
-					}));
-
+					useTransforms(bundler);
 					bundler.add(path);
 
 					context$2$0.prev = 12;

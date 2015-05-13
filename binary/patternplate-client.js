@@ -65,7 +65,7 @@ function start() {
 				context$1$0.t15 = context$1$0['catch'](2);
 
 				console.trace(context$1$0.t15);
-				throw new Error(context$1$0.t15);
+				throw new Error(new Error(context$1$0.t15).stack);
 
 			case 12:
 				context$1$0.prev = 12;
@@ -80,7 +80,7 @@ function start() {
 				context$1$0.prev = 17;
 				context$1$0.t16 = context$1$0['catch'](12);
 
-				application.log.error(context$1$0.t16);
+				application.log.error(new Error(context$1$0.t16).stack);
 				throw new Error(context$1$0.t16);
 
 			case 21:
