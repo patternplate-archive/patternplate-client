@@ -72,37 +72,46 @@ var PatternSection = (function (_React$Component) {
 
 					case 3:
 						response = context$2$0.sent;
-						context$2$0.next = 6;
-						return response.json();
+
+						if (!(this.state.data !== null)) {
+							context$2$0.next = 6;
+							break;
+						}
+
+						return context$2$0.abrupt('return');
 
 					case 6:
+						context$2$0.next = 8;
+						return response.json();
+
+					case 8:
 						data = context$2$0.sent;
 
 						if (!(response.status >= 400 || data.err)) {
-							context$2$0.next = 9;
+							context$2$0.next = 11;
 							break;
 						}
 
 						throw new Error(data.message, data.err);
 
-					case 9:
+					case 11:
 
 						this.setState({ 'data': data, 'error': false });
-						context$2$0.next = 16;
+						context$2$0.next = 18;
 						break;
 
-					case 12:
-						context$2$0.prev = 12;
-						context$2$0.t0 = context$2$0['catch'](0);
+					case 14:
+						context$2$0.prev = 14;
+						context$2$0.t65 = context$2$0['catch'](0);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + this.props.id);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t65.message + ' ' + this.props.id);
 
-					case 16:
+					case 18:
 					case 'end':
 						return context$2$0.stop();
 				}
-			}, null, this, [[0, 12]]);
+			}, null, this, [[0, 14]]);
 		}
 	}, {
 		key: 'componentWillMount',
