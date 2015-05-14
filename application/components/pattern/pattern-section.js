@@ -102,10 +102,10 @@ var PatternSection = (function (_React$Component) {
 
 					case 14:
 						context$2$0.prev = 14;
-						context$2$0.t65 = context$2$0['catch'](0);
+						context$2$0.t0 = context$2$0['catch'](0);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t65.message + ' ' + this.props.id);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + this.props.id);
 
 					case 18:
 					case 'end':

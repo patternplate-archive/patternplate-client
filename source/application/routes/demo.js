@@ -8,6 +8,7 @@ function demoRouteFactory (application) {
 		let base = `http://${config.host}:${config.port}${clientPath}`;
 
 		let path = this.params.path;
+		let uri = `${base}pattern/${path}`;
 
 		let templateData = {
 			'style': {
@@ -23,16 +24,28 @@ function demoRouteFactory (application) {
 			'title': path
 		};
 
-		let response = await fetch(`${base}pattern/${path}`);
+		let data;
 
-		try {
-			response = await response;
-		} catch (err) {
-			application.log.error(err);
-			this.throw(err, 500);
+		if (application.cache) {
+			data = application.cache.get(uri);
 		}
 
-		let data = response.json();
+		if (! data) {
+			let response = await fetch(uri);
+
+			try {
+				response = await response;
+			} catch (err) {
+				application.log.error(err);
+				this.throw(err, 500);
+			}
+
+			data = response.json();
+
+			if (application.cache) {
+				application.cache.set(uri, data);
+			}
+		}
 
 		try {
 			data = await data;
