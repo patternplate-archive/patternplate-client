@@ -27,15 +27,9 @@ function indexRouteFactory ( application ) {
 		}
 
 		let navigationRoute = data.schema.routes.filter((route) => route.name === 'meta')[0];
-		let patternRoute = data.schema.routes.filter((route) => route.name === 'pattern')[0];
 
 		let navigationResponse = fetch(navigationRoute.uri);
 		let iconsResponse = fetch(`${self}static/images/inline-icons.svg`);
-
-		if (patternPath) {
-			let patternBase = base[base.length] === '/' ? base : `${base}/`;
-			var patternResponse = fetch(`${patternBase}pattern/${patternPath}`);
-		}
 
 		try {
 			navigationResponse = await navigationResponse;
@@ -46,19 +40,7 @@ function indexRouteFactory ( application ) {
 			this.throw(err, 500);
 		}
 
-		if (patternPath) {
-			try{
-				patternResponse = await patternResponse;
-				let patterns = await patternResponse.json();
-				data.patterns = Array.isArray(patterns) ? patterns : [patterns];
-			} catch(err) {
-				application.log.error(`Could not fetch initial data from ${base}pattern/${patternPath}`);
-				application.log.error(err);
-			}
-		}
-
 		let content = await router(this.path, data);
-
 		let icons = await iconsResponse;
 		icons = await icons.text();
 
