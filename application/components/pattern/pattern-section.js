@@ -62,56 +62,107 @@ var PatternSection = (function (_React$Component) {
 		key: 'get',
 		value: function get(id) {
 			var force = arguments[1] === undefined ? false : arguments[1];
-			var response, data;
+
+			var response, data, url, message, _data;
+
 			return regeneratorRuntime.async(function get$(context$2$0) {
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
-						context$2$0.prev = 0;
-						context$2$0.next = 3;
-						return fetch('/api/pattern/' + id, { 'headers': { 'accept-type': 'application/json' } });
+						response = undefined;
+						data = undefined;
+						url = '/api/pattern/' + id;
+						context$2$0.prev = 3;
+						context$2$0.next = 6;
+						return fetch(url, { 'headers': { 'accept-type': 'application/json' } });
 
-					case 3:
+					case 6:
 						response = context$2$0.sent;
+						context$2$0.next = 14;
+						break;
 
+					case 9:
+						context$2$0.prev = 9;
+						context$2$0.t93 = context$2$0['catch'](3);
+
+						this.setState({ 'data': null, 'error': true });
+						this.props.eventEmitter.emit('error', '' + context$2$0.t93.message + ' ' + url);
+						return context$2$0.abrupt('return');
+
+					case 14:
 						if (!(this.state.data !== null)) {
-							context$2$0.next = 6;
+							context$2$0.next = 16;
 							break;
 						}
 
 						return context$2$0.abrupt('return');
 
-					case 6:
-						context$2$0.next = 8;
-						return response.json();
+					case 16:
+						context$2$0.prev = 16;
 
-					case 8:
-						data = context$2$0.sent;
-
-						if (!(response.status >= 400 || data.err)) {
-							context$2$0.next = 11;
+						if (!(response.status >= 400)) {
+							context$2$0.next = 30;
 							break;
 						}
 
-						throw new Error(data.message, data.err);
+						message = undefined;
+						context$2$0.prev = 19;
+						context$2$0.next = 22;
+						return response.json();
 
-					case 11:
+					case 22:
+						_data = context$2$0.sent;
 
-						this.setState({ 'data': data, 'error': false });
-						context$2$0.next = 18;
+						message = _data.message || response.statusText;
+						context$2$0.next = 29;
 						break;
 
-					case 14:
-						context$2$0.prev = 14;
-						context$2$0.t0 = context$2$0['catch'](0);
+					case 26:
+						context$2$0.prev = 26;
+						context$2$0.t94 = context$2$0['catch'](19);
+
+						message = '' + response.statusText + ' ' + url;
+
+					case 29:
+						throw new Error(message);
+
+					case 30:
+						context$2$0.next = 37;
+						break;
+
+					case 32:
+						context$2$0.prev = 32;
+						context$2$0.t95 = context$2$0['catch'](16);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + this.props.id);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t95.message);
+						return context$2$0.abrupt('return');
 
-					case 18:
+					case 37:
+						context$2$0.prev = 37;
+						context$2$0.next = 40;
+						return response.json();
+
+					case 40:
+						data = context$2$0.sent;
+						context$2$0.next = 47;
+						break;
+
+					case 43:
+						context$2$0.prev = 43;
+						context$2$0.t96 = context$2$0['catch'](37);
+
+						this.setState({ 'data': null, 'error': true });
+						this.props.eventEmitter.emit('error', 'Could not parse data for ' + url);
+
+					case 47:
+
+						this.setState({ 'data': data, 'error': false });
+
+					case 48:
 					case 'end':
 						return context$2$0.stop();
 				}
-			}, null, this, [[0, 14]]);
+			}, null, this, [[3, 9], [16, 32], [19, 26], [37, 43]]);
 		}
 	}, {
 		key: 'componentWillMount',
@@ -179,3 +230,5 @@ var PatternSection = (function (_React$Component) {
 
 exports['default'] = PatternSection;
 module.exports = exports['default'];
+
+// Try to get a meaningfull error message

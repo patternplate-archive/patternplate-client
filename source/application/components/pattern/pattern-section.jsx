@@ -21,24 +21,48 @@ class PatternSection extends React.Component {
 	};
 
 	async get(id, force = false) {
+		let response;
+		let data;
+		let url = `/api/pattern/${id}`;
+
 		try {
-			let response = await fetch(`/api/pattern/${id}`, {'headers': {'accept-type':'application/json'}});
-
-			if (this.state.data !== null) {
-				return;
-			}
-
-			let data = await response.json();
-
-			if (response.status >= 400 || data.err) {
-				throw new Error(data.message, data.err);
-			}
-
-			this.setState({ 'data': data, 'error': false });
+			response = await fetch(url, {'headers': {'accept-type':'application/json'}});
 		} catch (err) {
 			this.setState({ 'data': null, 'error': true });
-			this.props.eventEmitter.emit('error', `${err.message} ${this.props.id}`);
+			this.props.eventEmitter.emit('error', `${err.message} ${url}`);
+			return;
 		}
+
+		if (this.state.data !== null) {
+			return;
+		}
+
+		try {
+			if (response.status >= 400) {
+				// Try to get a meaningfull error message
+				let message;
+				try {
+					let data = await response.json();
+					message = data.message || response.statusText;
+				} catch(error) {
+					message = `${response.statusText} ${url}`;
+				}
+				throw new Error(message);
+			}
+		} catch (error) {
+			this.setState({ 'data': null, 'error': true });
+			this.props.eventEmitter.emit('error', `${error.message}`);
+			return;
+		}
+
+		try {
+			data = await response.json();
+		} catch (err) {
+			this.setState({ 'data': null, 'error': true });
+			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
+		}
+
+		this.setState({ 'data': data, 'error': false });
 	}
 
 	componentWillMount() {
