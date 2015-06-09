@@ -5,7 +5,7 @@ import Autoprefix from 'less-plugin-autoprefix';
 import Cleancss from 'less-plugin-clean-css';
 import NpmImport from 'less-plugin-npm-import';
 
-import {exists, read, directory} from 'q-io/fs';
+import qio from 'q-io/fs';
 
 function styleRouteFactory (application) {
 
@@ -13,7 +13,7 @@ function styleRouteFactory (application) {
 		let name = (this.params.path || '').replace('.css', '.less');
 		let path = resolve(application.runtime.cwd, 'assets', 'style', name);
 
-		if (!await exists(path)) {
+		if (!await qio.exists(path)) {
 			return;
 		}
 
@@ -22,9 +22,9 @@ function styleRouteFactory (application) {
 		let npmimport = new NpmImport();
 
 		try {
-			let source = await read(path);
+			let source = await qio.read(path);
 			let results = await less.render(source, {
-				'paths': [directory(path)],
+				'paths': [qio.directory(path)],
 				'plugins': [npmimport, autoprefix, cleancss]
 			});
 

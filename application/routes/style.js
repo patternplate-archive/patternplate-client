@@ -26,6 +26,8 @@ var _lessPluginNpmImport2 = _interopRequireDefault(_lessPluginNpmImport);
 
 var _qIoFs = require('q-io/fs');
 
+var _qIoFs2 = _interopRequireDefault(_qIoFs);
+
 function styleRouteFactory(application) {
 
 	return function scriptRoute() {
@@ -36,7 +38,7 @@ function styleRouteFactory(application) {
 					name = (this.params.path || '').replace('.css', '.less');
 					path = (0, _path.resolve)(application.runtime.cwd, 'assets', 'style', name);
 					context$2$0.next = 4;
-					return regeneratorRuntime.awrap((0, _qIoFs.exists)(path));
+					return regeneratorRuntime.awrap(_qIoFs2['default'].exists(path));
 
 				case 4:
 					if (context$2$0.sent) {
@@ -52,13 +54,13 @@ function styleRouteFactory(application) {
 					npmimport = new _lessPluginNpmImport2['default']();
 					context$2$0.prev = 9;
 					context$2$0.next = 12;
-					return regeneratorRuntime.awrap((0, _qIoFs.read)(path));
+					return regeneratorRuntime.awrap(_qIoFs2['default'].read(path));
 
 				case 12:
 					source = context$2$0.sent;
 					context$2$0.next = 15;
 					return regeneratorRuntime.awrap(_less2['default'].render(source, {
-						'paths': [(0, _qIoFs.directory)(path)],
+						'paths': [_qIoFs2['default'].directory(path)],
 						'plugins': [npmimport, autoprefix, cleancss]
 					}));
 

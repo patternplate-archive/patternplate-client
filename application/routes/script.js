@@ -16,6 +16,8 @@ var _browserify2 = _interopRequireDefault(_browserify);
 
 var _qIoFs = require('q-io/fs');
 
+var _qIoFs2 = _interopRequireDefault(_qIoFs);
+
 var memo = {};
 
 function bundle(bundler) {
@@ -42,7 +44,7 @@ function preBundle(application) {
 
 				scripts = (0, _path.resolve)(application.runtime.cwd, 'assets', 'script');
 				context$1$0.next = 4;
-				return regeneratorRuntime.awrap((0, _qIoFs.list)(scripts));
+				return regeneratorRuntime.awrap(_qIoFs2['default'].list(scripts));
 
 			case 4:
 				files = context$1$0.sent;
@@ -212,7 +214,7 @@ function scriptRouteFactory(application) {
 				case 0:
 					path = (0, _path.resolve)(application.runtime.cwd, 'assets', 'script', this.params.path || '');
 					context$2$0.next = 3;
-					return regeneratorRuntime.awrap((0, _qIoFs.exists)(path));
+					return regeneratorRuntime.awrap(_qIoFs2['default'].exists(path));
 
 				case 3:
 					if (context$2$0.sent) {

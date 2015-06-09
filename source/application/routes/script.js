@@ -1,7 +1,7 @@
 import {resolve} from 'path';
 
 import browserify from 'browserify';
-import {exists, list} from 'q-io/fs';
+import qio from 'q-io/fs';
 
 const memo = {};
 
@@ -19,7 +19,7 @@ function bundle(bundler) {
 async function preBundle (application) {
 	if (application.configuration.environment === 'production') {
 		let scripts = resolve(application.runtime.cwd, 'assets', 'script');
-		let files = await list(scripts);
+		let files = await qio.list(scripts);
 
 		for (let file of files) {
 			let bundler = browserify();
@@ -97,7 +97,7 @@ function scriptRouteFactory (application) {
 	return async function scriptRoute () {
 		let path = resolve(application.runtime.cwd, 'assets', 'script', this.params.path || '');
 
-		if (!await exists(path)) {
+		if (!await qio.exists(path)) {
 			return;
 		}
 
