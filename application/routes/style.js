@@ -34,9 +34,9 @@ function styleRouteFactory(application) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					name = (this.params.path || '').replace('.css', '.less');
-					path = _path.resolve(application.runtime.cwd, 'assets', 'style', name);
+					path = (0, _path.resolve)(application.runtime.cwd, 'assets', 'style', name);
 					context$2$0.next = 4;
-					return _qIoFs.exists(path);
+					return regeneratorRuntime.awrap((0, _qIoFs.exists)(path));
 
 				case 4:
 					if (context$2$0.sent) {
@@ -52,15 +52,15 @@ function styleRouteFactory(application) {
 					npmimport = new _lessPluginNpmImport2['default']();
 					context$2$0.prev = 9;
 					context$2$0.next = 12;
-					return _qIoFs.read(path);
+					return regeneratorRuntime.awrap((0, _qIoFs.read)(path));
 
 				case 12:
 					source = context$2$0.sent;
 					context$2$0.next = 15;
-					return _less2['default'].render(source, {
-						'paths': [_qIoFs.directory(path)],
+					return regeneratorRuntime.awrap(_less2['default'].render(source, {
+						'paths': [(0, _qIoFs.directory)(path)],
 						'plugins': [npmimport, autoprefix, cleancss]
-					});
+					}));
 
 				case 15:
 					results = context$2$0.sent;
@@ -72,10 +72,10 @@ function styleRouteFactory(application) {
 
 				case 20:
 					context$2$0.prev = 20;
-					context$2$0.t13 = context$2$0['catch'](9);
+					context$2$0.t0 = context$2$0['catch'](9);
 
-					application.log.error(context$2$0.t13);
-					this['throw'](context$2$0.t13, 500);
+					application.log.error(context$2$0.t0);
+					this['throw'](context$2$0.t0, 500);
 
 				case 24:
 				case 'end':

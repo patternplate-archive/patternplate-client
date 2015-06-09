@@ -40,9 +40,9 @@ function preBundle(application) {
 					break;
 				}
 
-				scripts = _path.resolve(application.runtime.cwd, 'assets', 'script');
+				scripts = (0, _path.resolve)(application.runtime.cwd, 'assets', 'script');
 				context$1$0.next = 4;
-				return _qIoFs.list(scripts);
+				return regeneratorRuntime.awrap((0, _qIoFs.list)(scripts));
 
 			case 4:
 				files = context$1$0.sent;
@@ -59,7 +59,7 @@ function preBundle(application) {
 				}
 
 				file = _step.value;
-				bundler = _browserify2['default']();
+				bundler = (0, _browserify2['default'])();
 
 				bundler.transform(babelify.configure({
 					'stage': 0,
@@ -71,22 +71,22 @@ function preBundle(application) {
 					'global': true
 				}));
 
-				bundler.add(_path.resolve(scripts, file));
+				bundler.add((0, _path.resolve)(scripts, file));
 
 				context$1$0.prev = 16;
 				context$1$0.next = 19;
-				return bundle(bundler);
+				return regeneratorRuntime.awrap(bundle(bundler));
 
 			case 19:
-				memo[_path.resolve(scripts, file)] = context$1$0.sent;
+				memo[(0, _path.resolve)(scripts, file)] = context$1$0.sent;
 				context$1$0.next = 25;
 				break;
 
 			case 22:
 				context$1$0.prev = 22;
-				context$1$0.t10 = context$1$0['catch'](16);
+				context$1$0.t0 = context$1$0['catch'](16);
 
-				application.log.error(context$1$0.t10);
+				application.log.error(context$1$0.t0);
 
 			case 25:
 				_iteratorNormalCompletion = true;
@@ -99,9 +99,9 @@ function preBundle(application) {
 
 			case 30:
 				context$1$0.prev = 30;
-				context$1$0.t11 = context$1$0['catch'](8);
+				context$1$0.t1 = context$1$0['catch'](8);
 				_didIteratorError = true;
-				_iteratorError = context$1$0.t11;
+				_iteratorError = context$1$0.t1;
 
 			case 34:
 				context$1$0.prev = 34;
@@ -210,9 +210,9 @@ function scriptRouteFactory(application) {
 		return regeneratorRuntime.async(function scriptRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					path = _path.resolve(application.runtime.cwd, 'assets', 'script', this.params.path || '');
+					path = (0, _path.resolve)(application.runtime.cwd, 'assets', 'script', this.params.path || '');
 					context$2$0.next = 3;
-					return _qIoFs.exists(path);
+					return regeneratorRuntime.awrap((0, _qIoFs.exists)(path));
 
 				case 3:
 					if (context$2$0.sent) {
@@ -235,14 +235,14 @@ function scriptRouteFactory(application) {
 					return context$2$0.abrupt('return');
 
 				case 9:
-					bundler = _browserify2['default']();
+					bundler = (0, _browserify2['default'])();
 
 					useTransforms(bundler);
 					bundler.add(path);
 
 					context$2$0.prev = 12;
 					context$2$0.next = 15;
-					return bundle(bundler);
+					return regeneratorRuntime.awrap(bundle(bundler));
 
 				case 15:
 					memo[path] = context$2$0.sent;
@@ -253,10 +253,10 @@ function scriptRouteFactory(application) {
 
 				case 19:
 					context$2$0.prev = 19;
-					context$2$0.t12 = context$2$0['catch'](12);
+					context$2$0.t0 = context$2$0['catch'](12);
 
-					application.log.error(context$2$0.t12);
-					this['throw'](context$2$0.t12, 500);
+					application.log.error(context$2$0.t0);
+					this['throw'](context$2$0.t0, 500);
 
 				case 23:
 				case 'end':

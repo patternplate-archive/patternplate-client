@@ -2,4 +2,4 @@
 
 var _rubberBand = require('rubber-band');
 
-_rubberBand.content();
+(0, _rubberBand.content)();

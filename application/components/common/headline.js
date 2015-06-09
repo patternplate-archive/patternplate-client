@@ -37,7 +37,7 @@ var Headline = (function (_React$Component) {
 		key: 'render',
 		value: function render() {
 			var TagName = 'h' + this.props.order;
-			var className = _classnames2['default']('h', 'h' + (this.props.display || this.props.order), this.props.className);
+			var className = (0, _classnames2['default'])('h', 'h' + (this.props.display || this.props.order), this.props.className);
 
 			return _react2['default'].createElement(
 				TagName,

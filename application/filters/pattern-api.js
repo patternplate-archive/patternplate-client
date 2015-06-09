@@ -33,7 +33,7 @@ function patternApiFilterFactory() {
 								while (1) switch (context$3$0.prev = context$3$0.next) {
 									case 0:
 										context$3$0.next = 2;
-										return patternApiFilter(item, path);
+										return regeneratorRuntime.awrap(patternApiFilter(item, path));
 
 									case 2:
 										copy[index] = context$3$0.sent;

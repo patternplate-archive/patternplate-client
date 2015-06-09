@@ -52,13 +52,13 @@ function demoRouteFactory(application) {
 					}
 
 					context$2$0.next = 12;
-					return fetch(uri, { headers: headers });
+					return regeneratorRuntime.awrap(fetch(uri, { headers: headers }));
 
 				case 12:
 					response = context$2$0.sent;
 					context$2$0.prev = 13;
 					context$2$0.next = 16;
-					return response;
+					return regeneratorRuntime.awrap(response);
 
 				case 16:
 					response = context$2$0.sent;
@@ -67,10 +67,10 @@ function demoRouteFactory(application) {
 
 				case 19:
 					context$2$0.prev = 19;
-					context$2$0.t208 = context$2$0['catch'](13);
+					context$2$0.t0 = context$2$0['catch'](13);
 
-					application.log.error(context$2$0.t208);
-					this['throw'](context$2$0.t208, 500);
+					application.log.error(context$2$0.t0);
+					this['throw'](context$2$0.t0, 500);
 
 				case 23:
 
@@ -83,7 +83,7 @@ function demoRouteFactory(application) {
 				case 25:
 					context$2$0.prev = 25;
 					context$2$0.next = 28;
-					return data;
+					return regeneratorRuntime.awrap(data);
 
 				case 28:
 					data = context$2$0.sent;
@@ -101,16 +101,16 @@ function demoRouteFactory(application) {
 						templateData.script.index = data.results.Script.buffer || '';
 						templateData.script.demo = data.results.Script.demoBuffer || '';
 					}
-					this.body = _layoutsDemo2['default'](templateData);
+					this.body = (0, _layoutsDemo2['default'])(templateData);
 					context$2$0.next = 39;
 					break;
 
 				case 35:
 					context$2$0.prev = 35;
-					context$2$0.t209 = context$2$0['catch'](25);
+					context$2$0.t1 = context$2$0['catch'](25);
 
-					application.log.error(context$2$0.t209);
-					this['throw'](context$2$0.t209, 500);
+					application.log.error(context$2$0.t1);
+					this['throw'](context$2$0.t1, 500);
 
 				case 39:
 				case 'end':

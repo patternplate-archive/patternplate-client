@@ -45,12 +45,12 @@ function indexRouteFactory(application) {
 					};
 					context$2$0.prev = 5;
 					context$2$0.next = 8;
-					return fetch(base, { headers: headers });
+					return regeneratorRuntime.awrap(fetch(base, { headers: headers }));
 
 				case 8:
 					response = context$2$0.sent;
 					context$2$0.next = 11;
-					return response.json();
+					return regeneratorRuntime.awrap(response.json());
 
 				case 11:
 					data.schema = context$2$0.sent;
@@ -63,10 +63,10 @@ function indexRouteFactory(application) {
 
 				case 15:
 					context$2$0.prev = 15;
-					context$2$0.t179 = context$2$0['catch'](5);
+					context$2$0.t0 = context$2$0['catch'](5);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
-					this['throw'](context$2$0.t179, 500);
+					this['throw'](context$2$0.t0, 500);
 					return context$2$0.abrupt('return');
 
 				case 20:
@@ -77,16 +77,16 @@ function indexRouteFactory(application) {
 					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg', { headers: headers });
 					context$2$0.prev = 23;
 					context$2$0.next = 26;
-					return navigationResponse;
+					return regeneratorRuntime.awrap(navigationResponse);
 
 				case 26:
 					navigationResponse = context$2$0.sent;
 					context$2$0.next = 29;
-					return navigationResponse.json();
+					return regeneratorRuntime.awrap(navigationResponse.json());
 
 				case 29:
-					context$2$0.t180 = context$2$0.sent;
-					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t180);
+					context$2$0.t1 = context$2$0.sent;
+					data.navigation = (0, _utilsHumanizeTree2['default'])(context$2$0.t1);
 
 					if (navigationResponse.status >= 400) {
 						this['throw'](500, data.navigation);
@@ -96,29 +96,29 @@ function indexRouteFactory(application) {
 
 				case 34:
 					context$2$0.prev = 34;
-					context$2$0.t181 = context$2$0['catch'](23);
+					context$2$0.t2 = context$2$0['catch'](23);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
-					this['throw'](context$2$0.t181, 500);
+					this['throw'](context$2$0.t2, 500);
 
 				case 38:
 					context$2$0.next = 40;
-					return _reactRoutes2['default'](this.path, data);
+					return regeneratorRuntime.awrap((0, _reactRoutes2['default'])(this.path, data));
 
 				case 40:
 					content = context$2$0.sent;
 					context$2$0.next = 43;
-					return iconsResponse;
+					return regeneratorRuntime.awrap(iconsResponse);
 
 				case 43:
 					icons = context$2$0.sent;
 					context$2$0.next = 46;
-					return icons.text();
+					return regeneratorRuntime.awrap(icons.text());
 
 				case 46:
 					icons = context$2$0.sent;
 
-					this.body = _layouts2['default']({
+					this.body = (0, _layouts2['default'])({
 						'title': data.schema.name,
 						'data': JSON.stringify(data),
 						'content': content,

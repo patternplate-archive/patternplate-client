@@ -32,12 +32,12 @@ function apiRouteFactory(application) {
 
 					context$2$0.prev = 8;
 					context$2$0.next = 11;
-					return fetch(uri, { 'headers': { 'accept-type': 'application/json' } });
+					return regeneratorRuntime.awrap(fetch(uri, { 'headers': { 'accept-type': 'application/json' } }));
 
 				case 11:
 					response = context$2$0.sent;
 					context$2$0.next = 14;
-					return response.json();
+					return regeneratorRuntime.awrap(response.json());
 
 				case 14:
 					data = context$2$0.sent;
@@ -59,9 +59,9 @@ function apiRouteFactory(application) {
 
 				case 20:
 					context$2$0.prev = 20;
-					context$2$0.t4 = context$2$0['catch'](8);
+					context$2$0.t0 = context$2$0['catch'](8);
 
-					this['throw'](context$2$0.t4, 500);
+					this['throw'](context$2$0.t0, 500);
 
 				case 23:
 

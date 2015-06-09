@@ -42,7 +42,7 @@ var NavigationItem = (function (_React$Component) {
 	_createClass(NavigationItem, [{
 		key: 'render',
 		value: function render() {
-			var className = _classnames2['default']('navigation-link', { 'child-active': this.props.active });
+			var className = (0, _classnames2['default'])('navigation-link', { 'child-active': this.props.active });
 
 			return _react2['default'].createElement(
 				'li',

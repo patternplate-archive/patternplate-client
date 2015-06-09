@@ -57,12 +57,6 @@ var PatternDocumentation = (function (_React$Component) {
 			);
 		}
 	}], [{
-		key: 'propTypes',
-		value: {
-			'children': _react.PropTypes.string.isRequired
-		},
-		enumerable: true
-	}, {
 		key: 'highlight',
 		value: function highlight(component) {
 			var selector = arguments[1] === undefined ? 'pre > code' : arguments[1];
@@ -71,7 +65,7 @@ var PatternDocumentation = (function (_React$Component) {
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = _react.findDOMNode(component).querySelectorAll(selector)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				for (var _iterator = (0, _react.findDOMNode)(component).querySelectorAll(selector)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var node = _step.value;
 
 					_highlightJs2['default'].highlightBlock(node);
@@ -91,6 +85,12 @@ var PatternDocumentation = (function (_React$Component) {
 				}
 			}
 		}
+	}, {
+		key: 'propTypes',
+		value: {
+			'children': _react.PropTypes.string.isRequired
+		},
+		enumerable: true
 	}]);
 
 	return PatternDocumentation;

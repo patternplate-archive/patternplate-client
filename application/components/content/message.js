@@ -25,7 +25,8 @@ var Message = (function (_Component) {
 		}
 
 		this.state = {
-			'style': { 'bottom': '-50px' } };
+			'style': { 'bottom': '-50px' }
+		};
 	}
 
 	_inherits(Message, _Component);

@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -42,7 +42,7 @@ var _commonHeadline = require('../common/headline');
 
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 
-_es6Promise.polyfill();
+(0, _es6Promise.polyfill)();
 
 var PatternSection = (function (_React$Component) {
 	function PatternSection() {
@@ -73,7 +73,7 @@ var PatternSection = (function (_React$Component) {
 						url = '/api/pattern/' + id;
 						context$2$0.prev = 3;
 						context$2$0.next = 6;
-						return fetch(url, { 'headers': { 'accept-type': 'json' }, 'credentials': 'include' });
+						return regeneratorRuntime.awrap(fetch(url, { 'headers': { 'accept-type': 'json' }, 'credentials': 'include' }));
 
 					case 6:
 						response = context$2$0.sent;
@@ -82,10 +82,10 @@ var PatternSection = (function (_React$Component) {
 
 					case 9:
 						context$2$0.prev = 9;
-						context$2$0.t198 = context$2$0['catch'](3);
+						context$2$0.t0 = context$2$0['catch'](3);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t198.message + ' ' + url);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + url);
 						return context$2$0.abrupt('return');
 
 					case 14:
@@ -107,7 +107,7 @@ var PatternSection = (function (_React$Component) {
 						message = undefined;
 						context$2$0.prev = 19;
 						context$2$0.next = 22;
-						return response.json();
+						return regeneratorRuntime.awrap(response.json());
 
 					case 22:
 						_data = context$2$0.sent;
@@ -118,7 +118,7 @@ var PatternSection = (function (_React$Component) {
 
 					case 26:
 						context$2$0.prev = 26;
-						context$2$0.t199 = context$2$0['catch'](19);
+						context$2$0.t1 = context$2$0['catch'](19);
 
 						message = '' + response.statusText + ' ' + url;
 
@@ -131,16 +131,16 @@ var PatternSection = (function (_React$Component) {
 
 					case 32:
 						context$2$0.prev = 32;
-						context$2$0.t200 = context$2$0['catch'](16);
+						context$2$0.t2 = context$2$0['catch'](16);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t200.message);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t2.message);
 						return context$2$0.abrupt('return');
 
 					case 37:
 						context$2$0.prev = 37;
 						context$2$0.next = 40;
-						return response.json();
+						return regeneratorRuntime.awrap(response.json());
 
 					case 40:
 						data = context$2$0.sent;
@@ -149,7 +149,7 @@ var PatternSection = (function (_React$Component) {
 
 					case 43:
 						context$2$0.prev = 43;
-						context$2$0.t201 = context$2$0['catch'](37);
+						context$2$0.t3 = context$2$0['catch'](37);
 
 						this.setState({ 'data': null, 'error': true });
 						this.props.eventEmitter.emit('error', 'Could not parse data for ' + url);
@@ -193,7 +193,7 @@ var PatternSection = (function (_React$Component) {
 			frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
 
 			var name = frags.map(function (fragment) {
-				return _stringHumanize2['default'](fragment);
+				return (0, _stringHumanize2['default'])(fragment);
 			}).join(' ');
 			var loader = this.state.data ? '' : _react2['default'].createElement(_patternLoader2['default'], _extends({}, this.state, { key: 'loader' }));
 

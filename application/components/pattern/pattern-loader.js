@@ -40,7 +40,7 @@ var PatternLoader = (function (_React$Component) {
 	_createClass(PatternLoader, [{
 		key: 'render',
 		value: function render() {
-			var className = _classnames2['default']('pattern-loader', {
+			var className = (0, _classnames2['default'])('pattern-loader', {
 				'pattern-error': this.props.error
 			});
 

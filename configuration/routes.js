@@ -29,7 +29,8 @@ var routes = {
 		'api': {
 			'enabled': true,
 			'path': '/api/:path+'
-		} }
+		}
+	}
 };
 
 exports['default'] = routes;

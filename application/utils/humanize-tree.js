@@ -23,10 +23,10 @@ function humanizeTree(tree) {
 
 			if (typeof sub === 'object') {
 				sub = humanizeTree(sub);
-				tree[_stringHumanize2['default'](leafName)] = sub;
+				tree[(0, _stringHumanize2['default'])(leafName)] = sub;
 				delete tree[leafName];
 			} else {
-				tree[leafName] = _stringHumanize2['default'](leafName);
+				tree[leafName] = (0, _stringHumanize2['default'])(leafName);
 			}
 		}
 	} catch (err) {

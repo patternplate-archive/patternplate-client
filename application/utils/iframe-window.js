@@ -1,3 +1,4 @@
+/*eslint-disable no-console */
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -8,8 +9,6 @@ var _bind = Function.prototype.bind;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-/*eslint-disable no-console */
 
 var _iframeConsole = require('./iframe-console');
 

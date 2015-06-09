@@ -35,8 +35,8 @@ var routes = _react2['default'].createElement(
 	_react2['default'].createElement(_reactRouter.Route, { name: 'pattern', path: '/pattern/*', handler: _componentsContent2['default'] })
 );
 
-function router(_x, data) {
-	var path = arguments[0] === undefined ? '/' : arguments[0];
+function router(path, data) {
+	if (path === undefined) path = '/';
 
 	return new Promise(function (resolve) {
 		var eventEmitter = new _events.EventEmitter();

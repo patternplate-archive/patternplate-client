@@ -36,8 +36,8 @@ var Icon = (function (_React$Component) {
 	_createClass(Icon, [{
 		key: 'render',
 		value: function render() {
-			var className = _classnames2['default']('icon', this.props.className);
-			var textClassName = _classnames2['default']('svg-text', { 'svg-fallback': this.props.fallback });
+			var className = (0, _classnames2['default'])('icon', this.props.className);
+			var textClassName = (0, _classnames2['default'])('svg-text', { 'svg-fallback': this.props.fallback });
 
 			var href = this.props.inline ? '#' + this.props.symbol : '' + this.props.uri + '#' + this.props.symbol;
 			var text = this.props.children ? _react2['default'].createElement(

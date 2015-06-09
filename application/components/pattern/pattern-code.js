@@ -93,19 +93,6 @@ var PatternCode = (function (_React$Component) {
 			);
 		}
 	}], [{
-		key: 'defaultProps',
-		value: {
-			'format': 'html' },
-		enumerable: true
-	}, {
-		key: 'propTypes',
-		value: {
-			'children': _react.PropTypes.string.isRequired,
-			'format': _react.PropTypes.string,
-			'name': _react.PropTypes.string.isRequired
-		},
-		enumerable: true
-	}, {
 		key: 'highlight',
 		value: function highlight(component) {
 			var selector = arguments[1] === undefined ? 'pre > code' : arguments[1];
@@ -114,7 +101,7 @@ var PatternCode = (function (_React$Component) {
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = _react.findDOMNode(component).querySelectorAll(selector)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				for (var _iterator = (0, _react.findDOMNode)(component).querySelectorAll(selector)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
 					var node = _step.value;
 
 					_highlightJs2['default'].highlightBlock(node);
@@ -137,7 +124,7 @@ var PatternCode = (function (_React$Component) {
 	}, {
 		key: 'clipboard',
 		value: function clipboard(component) {
-			var el = _react.findDOMNode(component).querySelector('.clipboard');
+			var el = (0, _react.findDOMNode)(component).querySelector('.clipboard');
 			el.focus();
 			el.select();
 
@@ -151,6 +138,20 @@ var PatternCode = (function (_React$Component) {
 			}
 			return _prettyData.pd.xml(component.props.children);
 		}
+	}, {
+		key: 'defaultProps',
+		value: {
+			'format': 'html'
+		},
+		enumerable: true
+	}, {
+		key: 'propTypes',
+		value: {
+			'children': _react.PropTypes.string.isRequired,
+			'format': _react.PropTypes.string,
+			'name': _react.PropTypes.string.isRequired
+		},
+		enumerable: true
 	}]);
 
 	return PatternCode;

@@ -15,7 +15,7 @@ function start() {
 
 				data = JSON.parse(document.querySelector('[data-application-state]').textContent);
 				context$1$0.next = 5;
-				return _applicationReactRoutes.client(data, document.querySelector('[data-application]'));
+				return regeneratorRuntime.awrap((0, _applicationReactRoutes.client)(data, document.querySelector('[data-application]')));
 
 			case 5:
 			case 'end':

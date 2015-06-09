@@ -79,7 +79,7 @@ var Toolbar = (function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var themeClassName = _classnames2['default']('button', this.state.target);
+			var themeClassName = (0, _classnames2['default'])('button', this.state.target);
 
 			return _react2['default'].createElement(
 				'header',

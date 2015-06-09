@@ -36,7 +36,7 @@ var PatternControl = (function (_React$Component) {
 	_createClass(PatternControl, [{
 		key: 'render',
 		value: function render() {
-			var className = _classnames2['default']('pattern-control', {
+			var className = (0, _classnames2['default'])('pattern-control', {
 				'active': this.props.active
 			});
 
