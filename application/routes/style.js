@@ -72,10 +72,10 @@ function styleRouteFactory(application) {
 
 				case 20:
 					context$2$0.prev = 20;
-					context$2$0.t15 = context$2$0['catch'](9);
+					context$2$0.t13 = context$2$0['catch'](9);
 
-					application.log.error(context$2$0.t15);
-					this['throw'](context$2$0.t15, 500);
+					application.log.error(context$2$0.t13);
+					this['throw'](context$2$0.t13, 500);
 
 				case 24:
 				case 'end':
