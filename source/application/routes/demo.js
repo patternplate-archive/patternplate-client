@@ -7,6 +7,11 @@ function demoRouteFactory (application) {
 		let clientPath = config.path[config.path.length - 1] === '/' ? config.path : `${config.path}/`
 		let base = `http://${config.host}:${config.port}${clientPath}`;
 
+		let headers = {
+			'accept-type': 'application/json',
+			'authorization': this.request.header.authorization
+		};
+
 		let path = this.params.path;
 		let uri = `${base}pattern/${path}`;
 
@@ -31,7 +36,7 @@ function demoRouteFactory (application) {
 		}
 
 		if (! data) {
-			let response = await fetch(uri);
+			let response = await fetch(uri, {headers});
 
 			try {
 				response = await response;

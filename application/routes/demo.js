@@ -14,13 +14,17 @@ var _layoutsDemo2 = _interopRequireDefault(_layoutsDemo);
 
 function demoRouteFactory(application) {
 	return function demoRoute() {
-		var config, clientPath, base, path, uri, templateData, data, response;
+		var config, clientPath, base, headers, path, uri, templateData, data, response;
 		return regeneratorRuntime.async(function demoRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					config = application.configuration.client;
 					clientPath = config.path[config.path.length - 1] === '/' ? config.path : '' + config.path + '/';
 					base = 'http://' + config.host + ':' + config.port + '' + clientPath;
+					headers = {
+						'accept-type': 'application/json',
+						'authorization': this.request.header.authorization
+					};
 					path = this.params.path;
 					uri = '' + base + 'pattern/' + path;
 					templateData = {
@@ -43,32 +47,32 @@ function demoRouteFactory(application) {
 					}
 
 					if (data) {
-						context$2$0.next = 24;
+						context$2$0.next = 25;
 						break;
 					}
 
-					context$2$0.next = 11;
-					return fetch(uri);
+					context$2$0.next = 12;
+					return fetch(uri, { headers: headers });
 
-				case 11:
+				case 12:
 					response = context$2$0.sent;
-					context$2$0.prev = 12;
-					context$2$0.next = 15;
+					context$2$0.prev = 13;
+					context$2$0.next = 16;
 					return response;
 
-				case 15:
+				case 16:
 					response = context$2$0.sent;
-					context$2$0.next = 22;
+					context$2$0.next = 23;
 					break;
 
-				case 18:
-					context$2$0.prev = 18;
-					context$2$0.t5 = context$2$0['catch'](12);
+				case 19:
+					context$2$0.prev = 19;
+					context$2$0.t208 = context$2$0['catch'](13);
 
-					application.log.error(context$2$0.t5);
-					this['throw'](context$2$0.t5, 500);
+					application.log.error(context$2$0.t208);
+					this['throw'](context$2$0.t208, 500);
 
-				case 22:
+				case 23:
 
 					data = response.json();
 
@@ -76,12 +80,12 @@ function demoRouteFactory(application) {
 						application.cache.set(uri, data);
 					}
 
-				case 24:
-					context$2$0.prev = 24;
-					context$2$0.next = 27;
+				case 25:
+					context$2$0.prev = 25;
+					context$2$0.next = 28;
 					return data;
 
-				case 27:
+				case 28:
 					data = context$2$0.sent;
 
 					if (data.results.Style) {
@@ -98,21 +102,21 @@ function demoRouteFactory(application) {
 						templateData.script.demo = data.results.Script.demoBuffer || '';
 					}
 					this.body = _layoutsDemo2['default'](templateData);
-					context$2$0.next = 38;
+					context$2$0.next = 39;
 					break;
 
-				case 34:
-					context$2$0.prev = 34;
-					context$2$0.t6 = context$2$0['catch'](24);
+				case 35:
+					context$2$0.prev = 35;
+					context$2$0.t209 = context$2$0['catch'](25);
 
-					application.log.error(context$2$0.t6);
-					this['throw'](context$2$0.t6, 500);
+					application.log.error(context$2$0.t209);
+					this['throw'](context$2$0.t209, 500);
 
-				case 38:
+				case 39:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[12, 18], [24, 34]]);
+		}, null, this, [[13, 19], [25, 35]]);
 	};
 }
 

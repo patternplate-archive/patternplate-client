@@ -26,7 +26,7 @@ class PatternSection extends React.Component {
 		let url = `/api/pattern/${id}`;
 
 		try {
-			response = await fetch(url, {'headers': {'accept-type':'application/json'}});
+			response = await fetch(url, { 'headers': {'accept-type': 'json'}, 'credentials': 'include' });
 		} catch (err) {
 			this.setState({ 'data': null, 'error': true });
 			this.props.eventEmitter.emit('error', `${err.message} ${url}`);

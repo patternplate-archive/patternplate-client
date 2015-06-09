@@ -8,6 +8,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 require('isomorphic-fetch');
 
+var _btoa = require('btoa');
+
+var _btoa2 = _interopRequireDefault(_btoa);
+
 var _utilsHumanizeTree = require('../utils/humanize-tree');
 
 var _utilsHumanizeTree2 = _interopRequireDefault(_utilsHumanizeTree);
@@ -22,12 +26,16 @@ var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
 	return function indexRoute() {
-		var base, self, patternPath, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
+		var base, self, headers, patternPath, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					base = 'http://' + application.configuration.client.host + ':' + application.configuration.client.port + '' + application.configuration.client.path;
 					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + '' + application.runtime.prefix;
+					headers = {
+						'accept-type': 'application/json',
+						'authorization': this.request.header.authorization
+					};
 					patternPath = this.params.path;
 					data = {
 						'schema': {},
@@ -35,70 +43,79 @@ function indexRouteFactory(application) {
 						'patterns': null,
 						'config': application.configuration.ui
 					};
-					context$2$0.prev = 4;
-					context$2$0.next = 7;
-					return fetch(base);
+					context$2$0.prev = 5;
+					context$2$0.next = 8;
+					return fetch(base, { headers: headers });
 
-				case 7:
+				case 8:
 					response = context$2$0.sent;
-					context$2$0.next = 10;
+					context$2$0.next = 11;
 					return response.json();
 
-				case 10:
+				case 11:
 					data.schema = context$2$0.sent;
-					context$2$0.next = 17;
+
+					if (response.status >= 400) {
+						this['throw'](500, data.schema);
+					}
+					context$2$0.next = 20;
 					break;
 
-				case 13:
-					context$2$0.prev = 13;
-					context$2$0.t7 = context$2$0['catch'](4);
+				case 15:
+					context$2$0.prev = 15;
+					context$2$0.t179 = context$2$0['catch'](5);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
-					this['throw'](context$2$0.t7, 500);
+					this['throw'](context$2$0.t179, 500);
+					return context$2$0.abrupt('return');
 
-				case 17:
+				case 20:
 					navigationRoute = data.schema.routes.filter(function (route) {
 						return route.name === 'meta';
 					})[0];
-					navigationResponse = fetch(navigationRoute.uri);
-					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg');
-					context$2$0.prev = 20;
-					context$2$0.next = 23;
+					navigationResponse = fetch(navigationRoute.uri, { headers: headers });
+					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg', { headers: headers });
+					context$2$0.prev = 23;
+					context$2$0.next = 26;
 					return navigationResponse;
 
-				case 23:
+				case 26:
 					navigationResponse = context$2$0.sent;
-					context$2$0.next = 26;
+					context$2$0.next = 29;
 					return navigationResponse.json();
 
-				case 26:
-					context$2$0.t8 = context$2$0.sent;
-					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t8);
-					context$2$0.next = 34;
+				case 29:
+					context$2$0.t180 = context$2$0.sent;
+					data.navigation = _utilsHumanizeTree2['default'](context$2$0.t180);
+
+					if (navigationResponse.status >= 400) {
+						this['throw'](500, data.navigation);
+					}
+					context$2$0.next = 38;
 					break;
 
-				case 30:
-					context$2$0.prev = 30;
-					context$2$0.t9 = context$2$0['catch'](20);
+				case 34:
+					context$2$0.prev = 34;
+					context$2$0.t181 = context$2$0['catch'](23);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
-					this['throw'](context$2$0.t9, 500);
+					this['throw'](context$2$0.t181, 500);
 
-				case 34:
-					context$2$0.next = 36;
+				case 38:
+					context$2$0.next = 40;
 					return _reactRoutes2['default'](this.path, data);
 
-				case 36:
+				case 40:
 					content = context$2$0.sent;
-					context$2$0.next = 39;
+					context$2$0.next = 43;
 					return iconsResponse;
 
-				case 39:
+				case 43:
 					icons = context$2$0.sent;
-					context$2$0.next = 42;
+					context$2$0.next = 46;
 					return icons.text();
 
-				case 42:
+				case 46:
 					icons = context$2$0.sent;
 
 					this.body = _layouts2['default']({
@@ -110,11 +127,11 @@ function indexRouteFactory(application) {
 						'icons': icons
 					});
 
-				case 44:
+				case 48:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[4, 13], [20, 30]]);
+		}, null, this, [[5, 15], [23, 34]]);
 	};
 }
 

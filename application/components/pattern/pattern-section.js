@@ -73,7 +73,7 @@ var PatternSection = (function (_React$Component) {
 						url = '/api/pattern/' + id;
 						context$2$0.prev = 3;
 						context$2$0.next = 6;
-						return fetch(url, { 'headers': { 'accept-type': 'application/json' } });
+						return fetch(url, { 'headers': { 'accept-type': 'json' }, 'credentials': 'include' });
 
 					case 6:
 						response = context$2$0.sent;
@@ -82,10 +82,10 @@ var PatternSection = (function (_React$Component) {
 
 					case 9:
 						context$2$0.prev = 9;
-						context$2$0.t0 = context$2$0['catch'](3);
+						context$2$0.t198 = context$2$0['catch'](3);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t0.message + ' ' + url);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t198.message + ' ' + url);
 						return context$2$0.abrupt('return');
 
 					case 14:
@@ -118,7 +118,7 @@ var PatternSection = (function (_React$Component) {
 
 					case 26:
 						context$2$0.prev = 26;
-						context$2$0.t1 = context$2$0['catch'](19);
+						context$2$0.t199 = context$2$0['catch'](19);
 
 						message = '' + response.statusText + ' ' + url;
 
@@ -131,10 +131,10 @@ var PatternSection = (function (_React$Component) {
 
 					case 32:
 						context$2$0.prev = 32;
-						context$2$0.t2 = context$2$0['catch'](16);
+						context$2$0.t200 = context$2$0['catch'](16);
 
 						this.setState({ 'data': null, 'error': true });
-						this.props.eventEmitter.emit('error', '' + context$2$0.t2.message);
+						this.props.eventEmitter.emit('error', '' + context$2$0.t200.message);
 						return context$2$0.abrupt('return');
 
 					case 37:
@@ -149,7 +149,7 @@ var PatternSection = (function (_React$Component) {
 
 					case 43:
 						context$2$0.prev = 43;
-						context$2$0.t3 = context$2$0['catch'](37);
+						context$2$0.t201 = context$2$0['catch'](37);
 
 						this.setState({ 'data': null, 'error': true });
 						this.props.eventEmitter.emit('error', 'Could not parse data for ' + url);
