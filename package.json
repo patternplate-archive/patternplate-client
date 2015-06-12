@@ -5,7 +5,8 @@
   "main": "library/",
   "scripts": {
     "start": "node --harmony binary/patternplate-client.js",
-    "build": "npm run babel",
+    "build": "npm run babel && npm run build-assets",
+    "build-assets": "browserify assets/script/index.js > assets/script/index.bundle.js && browserify assets/script/content.js > assets/script/content.bundle.js",
     "watch": "npm run babel -- --watch",
     "babel": "npm run clean && babel source --out-dir ./",
     "clean": "rm -rf application configuration binary library"
@@ -74,8 +75,8 @@
   },
   "devDependencies": {
     "babel": "^5.2.17",
-    "babel-eslint": "^3.0.1",
-    "eslint": "^0.20.0",
-    "eslint-plugin-react": "^2.2.0"
+    "babel-eslint": "^3.1.15",
+    "eslint": "^0.22.1",
+    "eslint-plugin-react": "^2.5.0"
   }
 }
