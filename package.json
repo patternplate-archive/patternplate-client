@@ -1,15 +1,18 @@
 {
   "name": "patternplate-client",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
     "start": "node --harmony binary/patternplate-client.js",
-    "build": "npm run babel && npm run build-assets",
-    "build-assets": "browserify assets/script/index.js > assets/script/index.bundle.js && browserify assets/script/content.js > assets/script/content.bundle.js",
-    "watch": "npm run babel -- --watch",
+    "build": "npm run clean && npm run build-server && npm run build-assets",
+    "build-server": "npm run babel",
+    "build-assets": "browserify assets/script/index.js | uglifyjs > assets/script/index.bundle.js && browserify assets/script/content.js | uglifyjs > assets/script/content.bundle.js",
+    "watch": "npm run watch-assets & npm run watch-server",
+    "watch-server": "npm run babel -- --watch",
+    "watch-assets": "chokidar 'assets/script/**/*' --ignore '**.bundle.js' -c 'npm run build-assets'",
     "babel": "npm run clean && babel source --out-dir ./",
-    "clean": "rm -rf application configuration binary library"
+    "clean": "rm -rf application configuration binary library assets/script"
   },
   "bin": {
     "patternplate-client": "binary/patternplate-client.js"
@@ -70,6 +73,7 @@
     "request-promise": "^0.4.2",
     "rubber-band": "git+ssh://git@git.sinnerschrader.com:frontend/rubber-band.git",
     "string-humanize": "^1.0.0",
+    "uglify-js": "^2.4.23",
     "uglifyify": "^3.0.1",
     "whatwg-fetch": "^0.7.0"
   },
