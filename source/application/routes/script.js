@@ -1,101 +1,22 @@
-import {resolve} from 'path';
+import {createReadStream} from 'fs';
+import {resolve, basename, extname, dirname} from 'path';
 
 import browserify from 'browserify';
 import qio from 'q-io/fs';
 
-const memo = {};
-
-function bundle(bundler) {
-	return new Promise(function(resolve, reject){
-		bundler.bundle(function(err, buffer){
-			if (err) {
-				return reject(err);
-			}
-			resolve(buffer);
-		});
-	});
-}
-
-async function preBundle (application) {
-	if (application.configuration.environment === 'production') {
-		let scripts = resolve(application.runtime.cwd, 'assets', 'script');
-		let files = await qio.list(scripts);
-
-		for (let file of files) {
-			let bundler = browserify();
-
-			bundler.transform(babelify.configure({
-				'stage': 0,
-				'ignore': /node_modules/,
-				'optional': ['runtime']
-			}));
-
-			bundler.transform(uglifyify.configure({
-				'global': true
-			}));
-
-			bundler.add(resolve(scripts, file));
-
-			try {
-				memo[resolve(scripts, file)] = await bundle(bundler);
-			} catch(err) {
-				application.log.error(err);
-			}
-		}
-	}
-}
-
-function applyTransforms (bundler, transformNames, transformConfigs, transformDictionary) {
-	for (let transformName of transformNames) {
-		/*eslint-disable no-continue*/
-		let transformFn = transformDictionary[transformName];
-		let args;
-
-		if (!transformFn) {
-			continue;
-		}
-
-		if (typeof transformFn.configure === 'function') {
-			args = [transformFn.configure(transformConfigs[transformName])];
-		} else {
-			args = [transformFn, transformConfigs[transformName]];
-		}
-
-		bundler.transform(...args);
-	}
-
-	return bundler;
-}
-
-
 function scriptRouteFactory (application) {
 	const browserifyConfig = application.configuration.assets.browserify || {};
 
-	const transformNames = Object.keys(browserifyConfig.transforms).filter((transformName) => {
-		return browserifyConfig.transforms[transformName].enabled;
-	});
-
-	const transformConfigs = transformNames.reduce(function getTransformConfig (results, transformName) {
-		results[transformName] = browserifyConfig.transforms[transformName].opts || {};
-		return results;
-	}, {});
-
-	const transformFns = transformNames.reduce(function getTransformFns (results, transformName) {
-		results[transformName] = require(require.resolve(transformName));
-		return results;
-	}, {});
-
-	const useTransforms = (bundler) => applyTransforms(bundler, transformNames, transformConfigs, transformFns);
-
-	try {
-		preBundle(application);
-	} catch (err) {
-		application.log.warn(`Prebundling of scripts failed`);
-		application.log.trace(err);
-	}
-
 	return async function scriptRoute () {
-		let path = resolve(application.runtime.cwd, 'assets', 'script', this.params.path || '');
+		let suffix = application.runtime.env === 'development' ? '' : 'bundle';
+		let ext = extname(this.params.path).slice(1);
+
+		let filename = [basename(this.params.path, `.${ext}`), suffix, ext]
+			.filter((fragment) => fragment)
+			.join('.');
+
+		let relative = dirname(this.params.path);
+		let path = resolve(application.runtime.cwd, 'assets', 'script', relative, filename);
 
 		if (!await qio.exists(path)) {
 			return;
@@ -103,18 +24,13 @@ function scriptRouteFactory (application) {
 
 		this.type = 'js';
 
-		if (application.configuration.environment === 'production' && memo[path]) {
-			this.body = memo[path];
-			return;
-		}
-
-		let bundler = browserify();
-		useTransforms(bundler);
-		bundler.add(path);
-
 		try {
-			memo[path] = await bundle(bundler);
-			this.body = memo[path];
+			if (application.runtime.env === 'development') {
+				let bundler = browserify(path, browserifyConfig);
+				this.body = bundler.bundle();
+			} else {
+				this.body = createReadStream(path);
+			}
 		} catch(err) {
 			application.log.error(err);
 			this.throw(err, 500);

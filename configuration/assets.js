@@ -5,21 +5,9 @@ Object.defineProperty(exports, '__esModule', {
 });
 var assets = {
 	'browserify': {
-		'transforms': {
-			'babelify': {
-				'enabled': true,
-				'opts': {
-					'stage': 0,
-					'optional': ['runtime']
-				}
-			},
-			'uglifyify': {
-				'enabled': false,
-				'opts': {
-					'global': true
-				}
-			}
-		}
+		'noParse': ['react', 'react-router'],
+		'detectGlobals': false,
+		'insertGlobals': true
 	},
 	'less': {}
 };
