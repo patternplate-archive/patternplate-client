@@ -3,6 +3,7 @@ import classnames from 'classnames';
 import {Link} from 'react-router';
 
 import Icon from '../common/icon';
+import DownloadList from './download-list';
 
 class Toolbar extends React.Component {
 	displayName = 'Toolbar';
@@ -39,8 +40,9 @@ class Toolbar extends React.Component {
 	}
 
 	render () {
+		let buildRoute = this.props.schema.routes.filter((route) => route.name === 'build')[0];
 		let themeClassName = classnames('button', this.state.target);
-
+		
 		return (
 			<header className="header">
 				<Link className="logo" to="root">
@@ -50,6 +52,7 @@ class Toolbar extends React.Component {
 					<label className="button menu" htmlFor="menu-state">
 						<Icon uri="" symbol="patternplate">Menu</Icon>
 					</label>
+					<DownloadList route={buildRoute} items={this.props.schema.builds} />
 					<button className={themeClassName} type="button" onClick={(e) => this.onThemeButtonClick(e)}>
 						<Icon symbol={this.state.target}>{this.state.target}</Icon>
 					</button>

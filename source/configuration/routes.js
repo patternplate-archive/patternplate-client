@@ -23,8 +23,8 @@ const routes = {
 		},
 		'api': {
 			'enabled': true,
-			'path': '/api/:path+'
-		},
+			'path': '/api/:path?*'
+		}
 	}
 };
 

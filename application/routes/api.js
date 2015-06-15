@@ -4,75 +4,35 @@ Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 var _path = require('path');
 
-require('isomorphic-fetch');
+var _koaProxy = require('koa-proxy');
+
+var _koaProxy2 = _interopRequireDefault(_koaProxy);
 
 function apiRouteFactory(application) {
-	return function apiRoute() {
-		var config, path, clientPath, base, uri, data, response;
-		return regeneratorRuntime.async(function apiRoute$(context$2$0) {
+	return regeneratorRuntime.mark(function apiRoute(next) {
+		var config, host;
+		return regeneratorRuntime.wrap(function apiRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					config = application.configuration.client;
-					path = this.params.path;
-					clientPath = config.path[config.path.length - 1] === '/' ? config.path : '' + config.path + '/';
-					base = 'http://' + config.host + ':' + config.port + '' + clientPath;
-					uri = '' + base + '' + path;
-					data = undefined;
+					host = 'http://' + config.host + ':' + config.port;
 
-					if (application.cache) {
-						data = application.cache.get(uri);
-					}
+					this.path = '/' + this.path.split('/').slice(2).join('/');
+					console.log('path', this.path);
 
-					if (data) {
-						context$2$0.next = 23;
-						break;
-					}
+					context$2$0.next = 6;
+					return (0, _koaProxy2['default'])({ host: host }).call(this, next);
 
-					context$2$0.prev = 8;
-					context$2$0.next = 11;
-					return regeneratorRuntime.awrap(fetch(uri, { 'headers': { 'accept-type': 'application/json' } }));
-
-				case 11:
-					response = context$2$0.sent;
-					context$2$0.next = 14;
-					return regeneratorRuntime.awrap(response.json());
-
-				case 14:
-					data = context$2$0.sent;
-
-					if (application.cache) {
-						application.cache.set(uri, data);
-					}
-
-					if (!(response.status >= 400)) {
-						context$2$0.next = 18;
-						break;
-					}
-
-					throw new Error(data.message || 'Request to ' + base + '/' + path + ' failed', data.error || {});
-
-				case 18:
-					context$2$0.next = 23;
-					break;
-
-				case 20:
-					context$2$0.prev = 20;
-					context$2$0.t0 = context$2$0['catch'](8);
-
-					this['throw'](context$2$0.t0, 500);
-
-				case 23:
-
-					this.body = data;
-
-				case 24:
+				case 6:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[8, 20]]);
-	};
+		}, apiRoute, this);
+	});
 }
 
 exports['default'] = apiRouteFactory;

@@ -5,8 +5,6 @@ Object.defineProperty(exports, '__esModule', {
 });
 var assets = {
 	'browserify': {
-		'noParse': ['react', 'react-router'],
-		'detectGlobals': false,
 		'insertGlobals': true
 	},
 	'less': {}

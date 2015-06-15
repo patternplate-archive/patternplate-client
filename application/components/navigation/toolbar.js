@@ -26,6 +26,10 @@ var _commonIcon = require('../common/icon');
 
 var _commonIcon2 = _interopRequireDefault(_commonIcon);
 
+var _downloadList = require('./download-list');
+
+var _downloadList2 = _interopRequireDefault(_downloadList);
+
 var Toolbar = (function (_React$Component) {
 	function Toolbar() {
 		_classCallCheck(this, Toolbar);
@@ -79,6 +83,9 @@ var Toolbar = (function (_React$Component) {
 		value: function render() {
 			var _this2 = this;
 
+			var buildRoute = this.props.schema.routes.filter(function (route) {
+				return route.name === 'build';
+			})[0];
 			var themeClassName = (0, _classnames2['default'])('button', this.state.target);
 
 			return _react2['default'].createElement(
@@ -105,6 +112,7 @@ var Toolbar = (function (_React$Component) {
 							'Menu'
 						)
 					),
+					_react2['default'].createElement(_downloadList2['default'], { route: buildRoute, items: this.props.schema.builds }),
 					_react2['default'].createElement(
 						'button',
 						{ className: themeClassName, type: 'button', onClick: function (e) {
