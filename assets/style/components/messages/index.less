@@ -4,6 +4,7 @@
 	bottom: 0;
 	right: 0;
 	width: 82.5%;
+	z-index: 4;
 	@media screen and (max-width: 900px) {
 		width: 70%;
 	}
@@ -45,6 +46,19 @@
 			background: #fff;
 			color: @error-color;
 		}
+	}
+	/* message types */
+	.error .message-container {
+		background: @error-color;
+		color: #fff;
+	}
+	.info .message-container {
+		background: @info-color;
+		color: #fff;
+	}
+	.success .message-container {
+		background: @success-color;
+		color: #fff;
 	}
 }
 
