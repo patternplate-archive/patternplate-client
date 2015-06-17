@@ -1,11 +1,11 @@
 .application {
 	display: table;
+	display: flex;
 	table-layout: fixed;
 	width: 100%;
 }
 
 .header {
-	display: table-row;
 	position: fixed;
 	z-index: 2;
 	top: 0;
@@ -18,7 +18,6 @@
 	display: table-cell;
 	vertical-align: top;
 	padding-top: 50px;
-	height: 100vh;
 	transition: transform .3s ease-in-out;
 	@media screen and (max-width: 500px) {
 		display: block;
@@ -29,6 +28,7 @@
 }
 
 .navigation {
+	min-height: 100vh;
 	width: 17.5%;
 	@media screen and (max-width: 900px) {
 		width: 30%;
@@ -43,8 +43,8 @@
 .content {
 	width: 82.5%;
 	padding: 65px 15px 10px 30px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
+	// overflow: auto;
+	// -webkit-overflow-scrolling: touch;
 	@media screen and (max-width: 900px) {
 		width: 70%;
 	}

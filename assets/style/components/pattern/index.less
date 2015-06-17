@@ -21,7 +21,7 @@
 		padding: 10px 15px;
 		border: 5px solid transparent;
 		border-width: 5px 0;
-		background: transparent;
+		background: @sidebar-bg-hl;
 		color: inherit;
 		text-decoration: none;
 		cursor: pointer;
@@ -55,11 +55,9 @@
 		}
 		&.active {
 			color: @active-color;
+			background-color: @sidebar-bg-sub;
 			border-bottom-color: currentcolor;
 			text-shadow: 0 0 4px fadeout(@active-color, 90%);
-			box-shadow: inset 0 -3px 3px fadeout(@active-color, 90%),
-				inset -6px 0 0 @root-background,
-				inset 6px 0 0 @root-background;
 		}
 	}
 
