@@ -22,12 +22,10 @@ function apiRouteFactory(application) {
 					host = 'http://' + config.host + ':' + config.port;
 
 					this.path = '/' + this.path.split('/').slice(2).join('/');
-					console.log('path', this.path);
-
-					context$2$0.next = 6;
+					context$2$0.next = 5;
 					return (0, _koaProxy2['default'])({ host: host }).call(this, next);
 
-				case 6:
+				case 5:
 				case 'end':
 					return context$2$0.stop();
 			}

@@ -1,6 +1,24 @@
 import 'isomorphic-fetch';
 import layout from '../layouts/demo';
 
+function getWrapper (expression) {
+	if (!expression) {
+		return function faithfulWrapper (input) {
+			return input;
+		};
+	}
+
+	if (expression === '!IE') {
+		return function noIEWrapper (input) {
+			return `<!--[if !IE]> -->\n${input}\n<!-- <![endif]-->`;
+		};
+	}
+
+	return function IEWrapper (input) {
+		return `<!--[if ${expression}]>\n${input}\n<![endif]-->`;
+	};
+}
+
 function demoRouteFactory (application) {
 	return async function demoRoute () {
 		const config = application.configuration.client;
@@ -15,27 +33,13 @@ function demoRouteFactory (application) {
 		let path = this.params.path;
 		let uri = `${base}pattern/${path}`;
 
-		let templateData = {
-			'style': {
-				'index': '',
-				'demo': ''
-			},
-			'script': {
-				'index': '',
-				'demo': ''
-			},
-			'content': '',
-			'raw': null,
-			'title': path
-		};
-
 		let data;
 
 		if (application.cache) {
 			data = application.cache.get(uri);
 		}
 
-		if (! data) {
+		if (!data) {
 			let response = await fetch(uri, {headers});
 
 			try {
@@ -55,18 +59,30 @@ function demoRouteFactory (application) {
 		try {
 			data = await data;
 
-			if (data.results.Style) {
-				templateData.style.index = data.results.Style.buffer || '';
-				templateData.style.demo = data.results.Style.demoBuffer || '';
-			}
+			let templateData = {
+				'title': path,
+				'style': [],
+				'script': [],
+				'markup': []
+			};
 
-			if (data.results.Markup) {
-				templateData.content = data.results.Markup.demoBuffer || data.results.Markup.buffer;
-			}
+			for (let environmentName of Object.keys(data.results)) {
+				let environment = data.results[environmentName];
+				let envConfig = data.environments[environmentName].manifest;
+				let wrapper = getWrapper(envConfig['conditional-comment']);
+				let blueprint = {'environment': environmentName, 'content': '', wrapper};
 
-			if (data.results.Script) {
-				templateData.script.index = data.results.Script.buffer || '';
-				templateData.script.demo = data.results.Script.demoBuffer || '';
+				for (let resultType of Object.keys(environment)) {
+					let result = environment[resultType];
+					let templateKey = resultType.toLowerCase();
+
+					let content = result.demoBuffer || result.buffer;
+					let templateSectionData = Object.assign({}, blueprint, {content});
+
+					templateData[templateKey] = Array.isArray(templateData[templateKey]) ?
+						templateData[templateKey].concat([templateSectionData]) :
+						[templateSectionData];
+				}
 			}
 			this.body = layout(templateData);
 		} catch (err) {

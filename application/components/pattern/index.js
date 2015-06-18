@@ -237,10 +237,10 @@ var Pattern = (function (_React$Component) {
 			var _iteratorError2 = undefined;
 
 			try {
-				for (var _iterator2 = Object.keys(results)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+				for (var _iterator2 = Object.keys(results.index)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 					var resultName = _step2.value;
 
-					var result = results[resultName];
+					var result = results.index[resultName];
 					var contentKey = resultMap[resultName];
 					var formatKey = formatMap[contentKey];
 					var _name = resultName.toLowerCase();

@@ -7,8 +7,6 @@ function apiRouteFactory (application) {
 		let host = `http://${config.host}:${config.port}`;
 
 		this.path = '/' + this.path.split('/').slice(2).join('/');
-		console.log('path', this.path);
-
 		yield proxy({host}).call(this, next);
 	};
 }
