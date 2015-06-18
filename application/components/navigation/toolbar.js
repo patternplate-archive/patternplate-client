@@ -32,6 +32,8 @@ var _downloadList2 = _interopRequireDefault(_downloadList);
 
 var Toolbar = (function (_React$Component) {
 	function Toolbar() {
+		var _this = this;
+
 		_classCallCheck(this, Toolbar);
 
 		if (_React$Component != null) {
@@ -42,6 +44,10 @@ var Toolbar = (function (_React$Component) {
 		this.state = {
 			'theme': 'light',
 			'target': 'dark'
+		};
+
+		this.onThemeButtonClick = function () {
+			_this.toggleTheme();
 		};
 	}
 
@@ -55,7 +61,7 @@ var Toolbar = (function (_React$Component) {
 	}, {
 		key: 'toggleTheme',
 		value: function toggleTheme() {
-			var _this = this;
+			var _this2 = this;
 
 			this.setState({
 				'theme': this.state.target,
@@ -67,21 +73,16 @@ var Toolbar = (function (_React$Component) {
 			link.href = this.link.href.replace(this.state.theme, this.state.target);
 
 			link.onload = function (e) {
-				document.head.removeChild(_this.link);
-				_this.link = link;
+				document.head.removeChild(_this2.link);
+				_this2.link = link;
 			};
 
 			document.head.appendChild(link);
 		}
 	}, {
-		key: 'onThemeButtonClick',
-		value: function onThemeButtonClick() {
-			this.toggleTheme();
-		}
-	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var buildRoute = this.props.schema.routes.filter(function (route) {
 				return route.name === 'build';
@@ -116,7 +117,7 @@ var Toolbar = (function (_React$Component) {
 					_react2['default'].createElement(
 						'button',
 						{ className: themeClassName, type: 'button', onClick: function (e) {
-								return _this2.onThemeButtonClick(e);
+								return _this3.onThemeButtonClick(e);
 							} },
 						_react2['default'].createElement(
 							_commonIcon2['default'],

@@ -35,14 +35,14 @@ class Toolbar extends React.Component {
 		document.head.appendChild(link);
 	}
 
-	onThemeButtonClick() {
+	onThemeButtonClick = () => {
 		this.toggleTheme();
 	}
 
 	render () {
 		let buildRoute = this.props.schema.routes.filter((route) => route.name === 'build')[0];
 		let themeClassName = classnames('button', this.state.target);
-		
+
 		return (
 			<header className="header">
 				<Link className="logo" to="root">

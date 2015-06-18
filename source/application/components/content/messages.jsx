@@ -7,12 +7,10 @@ class Messages extends Component {
 	static displayName = 'Messages';
 
 	static defaultProps = {
-		'messages': [],
 		'max': 3
 	};
 
 	static propTypes = {
-		'messages': PropTypes.array,
 		'max': PropTypes.number.isRequired
 	};
 
@@ -26,18 +24,27 @@ class Messages extends Component {
 	}
 
 	componentWillMount() {
-		this.props.eventEmitter.addListener('error', this.push);
+		this.props.eventEmitter.addListener('error', this.pushError);
 		this.props.eventEmitter.addListener('message', this.push);
 	}
 
 	componentWillUnmount() {
-		this.props.eventEmitter.removeListener('error', this.push);
+		this.props.eventEmitter.removeListener('error', this.pushError);
 		this.props.eventEmitter.removeListener('message', this.push);
 	}
 
-	push(message) {
+	pushError = (message) => {
+		return this.push(message, 'error');
+	}
+
+	push(message, type='info') {
 		let messages = this.state.messages.slice(0);
-		messages.push({ 'content': message, 'date': Date.now(), 'hash': window.btoa(`${message.message}${Date.now()}`) });
+		messages.push({
+			'content': message,
+			'type': type,
+			'date': Date.now(),
+			'hash': window.btoa(`${message.message}${Date.now()}`)
+		});
 		messages = messages.slice(this.props.max * -1);
 
 		this.setState({
@@ -58,8 +65,7 @@ class Messages extends Component {
 		let children = this.state.messages
 			.sort((a, b) => a.date - b.date)
 			.map((message, index) => {
-				let style = { 'bottom': `${50*index}px` };
-				return <Message key={message.hash} index={index} date={message.date} manager={this}>{message.content}</Message>
+				return <Message key={message.hash} index={index} date={message.date} type={message.type} manager={this}>{message.content}</Message>
 			});
 
 		return (

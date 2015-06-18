@@ -18,68 +18,51 @@ var _react2 = _interopRequireDefault(_react);
 
 var Message = (function (_Component) {
 	function Message() {
+		var _this = this;
+
 		_classCallCheck(this, Message);
 
 		if (_Component != null) {
 			_Component.apply(this, arguments);
 		}
 
-		this.state = {
-			'style': { 'bottom': '-50px' }
+		this.onButtonClick = function () {
+			_this.props.manager.pull(_this.props.index);
 		};
-	}
 
-	_inherits(Message, _Component);
-
-	_createClass(Message, [{
-		key: 'onButtonClick',
-		value: function onButtonClick() {
-			this.props.manager.pull(this.props.index);
-		}
-	}, {
-		key: 'componentDidMount',
-		value: function componentDidMount() {
-			this.setState({ 'style': { 'bottom': '' + this.props.index * 50 + 'px' } });
-		}
-	}, {
-		key: 'componentWillReceiveProps',
-		value: function componentWillReceiveProps(props) {
-			this.setState({ 'style': { 'bottom': '' + props.index * 50 + 'px' } });
-		}
-	}, {
-		key: 'componentWillUnmount',
-		value: function componentWillUnmount() {
-			this.setState({ 'style': { 'bottom': '' } });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this = this;
+		this.render = function () {
+			var style = {
+				bottom: '' + _this.props.index * 50 + 'px'
+			};
 
 			return _react2['default'].createElement(
 				'div',
-				{ className: 'message', style: this.state.style },
+				{ className: 'message ' + _this.props.type, style: style },
 				_react2['default'].createElement(
 					'div',
 					{ className: 'message-container', key: 'single' },
 					_react2['default'].createElement(
 						'div',
 						{ className: 'message-content' },
-						this.props.children
+						_this.props.children
 					),
 					_react2['default'].createElement(
 						'button',
-						{ onClick: function (e) {
-								return _this.onButtonClick(e);
-							}, className: 'message-close', type: 'button' },
+						{ onClick: _this.onButtonClick, className: 'message-close', type: 'button' },
 						'Close'
 					)
 				)
 			);
-		}
-	}], [{
-		key: 'displayName',
-		value: 'Message',
+		};
+	}
+
+	_inherits(Message, _Component);
+
+	_createClass(Message, null, [{
+		key: 'propTypes',
+		value: {
+			'type': _react.PropTypes.oneOf(['info', 'error', 'success'])
+		},
 		enumerable: true
 	}]);
 
