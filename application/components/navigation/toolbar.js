@@ -41,9 +41,11 @@ var Toolbar = (function (_React$Component) {
 		}
 
 		this.displayName = 'Toolbar';
+
+		var theme = this.props.theme;
 		this.state = {
-			'theme': 'light',
-			'target': 'dark'
+			'theme': theme,
+			'target': theme === 'dark' ? 'light' : 'dark'
 		};
 
 		this.onThemeButtonClick = function () {
@@ -67,6 +69,7 @@ var Toolbar = (function (_React$Component) {
 				'theme': this.state.target,
 				'target': this.state.theme
 			});
+			document.cookie = 'theme=' + this.state.target;
 
 			var link = document.createElement('link');
 			link.rel = 'stylesheet';

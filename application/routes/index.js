@@ -26,7 +26,7 @@ var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
 	return function indexRoute() {
-		var base, self, headers, patternPath, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
+		var base, self, headers, patternPath, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons, cookieTheme;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
@@ -37,11 +37,15 @@ function indexRouteFactory(application) {
 						'authorization': this.request.header.authorization
 					};
 					patternPath = this.params.path;
+
+					var theme = this.request.header.cookie ? this.request.header.cookie.match('theme=([^;]*)') : null;
+					cookieTheme = theme ? theme[1] : 'light';
 					data = {
 						'schema': {},
 						'navigation': {},
 						'patterns': null,
-						'config': application.configuration.ui
+						'config': application.configuration.ui,
+						'theme': cookieTheme
 					};
 					context$2$0.prev = 5;
 					context$2$0.next = 8;
@@ -123,7 +127,7 @@ function indexRouteFactory(application) {
 						'data': JSON.stringify(data),
 						'content': content,
 						'script': '/script/index.js',
-						'stylesheet': '/style/light.css',
+						'stylesheet': '/style/' + cookieTheme + '.css',
 						'icons': icons
 					});
 
