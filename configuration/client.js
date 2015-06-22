@@ -6,7 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 var client = {
 	'host': 'localhost',
 	'port': '1338',
-	'path': '/'
+	'path': '/',
+	'defaultTheme': 'light'
 };
 
 exports['default'] = client;

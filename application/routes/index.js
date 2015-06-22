@@ -39,7 +39,7 @@ function indexRouteFactory(application) {
 					patternPath = this.params.path;
 
 					var theme = this.request.header.cookie ? this.request.header.cookie.match('theme=([^;]*)') : null;
-					cookieTheme = theme ? theme[1] : 'light';
+					cookieTheme = theme ? theme[1] : application.configuration.client.defaultTheme;
 					data = {
 						'schema': {},
 						'navigation': {},
