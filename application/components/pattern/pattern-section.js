@@ -73,7 +73,7 @@ var PatternSection = (function (_React$Component) {
 						url = '/api/pattern/' + id;
 						context$2$0.prev = 3;
 						context$2$0.next = 6;
-						return regeneratorRuntime.awrap(fetch(url, { 'headers': { 'accept-type': 'json' }, 'credentials': 'include' }));
+						return regeneratorRuntime.awrap(fetch(url, { 'headers': { 'Accept': 'application/json' }, 'credentials': 'include' }));
 
 					case 6:
 						response = context$2$0.sent;

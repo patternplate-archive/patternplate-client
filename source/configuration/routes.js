@@ -24,6 +24,10 @@ const routes = {
 		'api': {
 			'enabled': true,
 			'path': '/api/:path?*'
+		},
+		'static': {
+			'enabled': true,
+			'path': '/static/:path+'
 		}
 	}
 };
