@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "0.5.0",
+  "version": "0.6.1",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
@@ -45,7 +45,7 @@
     "babel-runtime": "^5.2.9",
     "babelify": "^6.0.2",
     "bluebird": "^2.9.27",
-    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git#v0.6.1",
+    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git#v0.7.0",
     "browserify": "^10.0.0",
     "btoa": "^1.1.2",
     "camel-case": "^1.1.1",
