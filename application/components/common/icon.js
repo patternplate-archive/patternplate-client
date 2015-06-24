@@ -46,7 +46,7 @@ var Icon = (function (_React$Component) {
 				this.props.children
 			) : '';
 
-			var svg = '<svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ><use xlink:href="' + href + '" /></svg>';
+			var svg = '<svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="' + href + '" /></svg>';
 
 			return _react2['default'].createElement(
 				'div',

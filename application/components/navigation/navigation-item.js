@@ -42,14 +42,15 @@ var NavigationItem = (function (_React$Component) {
 	_createClass(NavigationItem, [{
 		key: 'render',
 		value: function render() {
-			var className = (0, _classnames2['default'])('navigation-link', { 'child-active': this.props.active });
+			var linkClassName = (0, _classnames2['default'])('navigation-link', { 'child-active': this.props.active });
+			var itemClassName = (0, _classnames2['default'])('navigation-item', { 'child-active': this.props.active });
 
 			return _react2['default'].createElement(
 				'li',
-				{ className: 'navigation-item' },
+				{ className: itemClassName },
 				_react2['default'].createElement(
 					_reactRouter.Link,
-					{ to: 'pattern', params: { 'splat': this.props.id }, className: className },
+					{ to: this.props.linkTo, params: { 'splat': this.props.id }, title: this.props.name, className: linkClassName },
 					_react2['default'].createElement(_commonIcon2['default'], { symbol: this.props.name.toLowerCase() }),
 					this.props.name
 				),
@@ -59,7 +60,8 @@ var NavigationItem = (function (_React$Component) {
 	}], [{
 		key: 'defaultProps',
 		value: {
-			'active': false
+			'active': false,
+			'linkTo': 'pattern'
 		},
 		enumerable: true
 	}]);

@@ -1,73 +1,153 @@
 .navigation {
+	position: relative;
 	background-color: @sidebar-bg;
-	> .navigation-tree > .navigation-item > a {
-		font-weight: bold;
-	}
 	> .navigation-tree {
 		position: fixed;
-		width: 17.5%;
+		z-index: 1;
 		top: 55px;
 		bottom: 0;
-		border-right: 1px solid @border-color;
 		overflow: auto;
+		width: inherit;
+
 		-webkit-overflow-scrolling: touch;
-		@media screen and (max-width: 900px) {
-			width: ~'calc(30% - 2px)';
-		}
-		@media screen and (max-width: 500px) {
-			width: 100%;
+		@media screen and (min-width: 500px) {
 			border-right: 1px solid @border-color;
+		}
+		> .navigation-item {
+			&:first-child {
+				border-top: none;
+			}
+			&:last-child {
+				border-bottom: 1px solid @border-color;
+			}
+		}
+	}
+	.toggleMode {
+		position: fixed;
+		z-index: 3;
+		bottom: 0;
+		display: none;
+		width: 40px;
+		height: 40px;
+		color: @active-color;
+		border: 1px solid @border-color;
+		border-right: 0;
+		border-bottom: 0;
+		outline: 0;
+		background-color: transparent;
+		font-size: 1.25em;
+
+		appearance: none;
+		@media screen and (min-width: 500px) {
+			left: @navWidthMedium;
+			display: block;
+			margin-left: -40px;
+			.slim& {
+				left: 0;
+				width: @navWidthSlim;
+				margin-left: 0;
+				border-left: 0;
+			}
+		}
+		@media screen and (min-width: 900px) {
+			left: @navWidthWide;
 		}
 	}
 }
 
 .navigation-tree {
 	margin: 0;
-	padding: 15px 0;
+	padding: 0;
 	list-style: none;
+	.navigation-tree {
+		background-color: @sidebar-bg-sub;
+	}
 }
 
 .navigation-item {
+	position: relative;
 	margin: 0;
+	border-top: 1px solid @border-color;
+	&.child-active {
+		background-color: @sidebar-bg-sub;
+	}
+	.navigation-item {
+		padding-left: 30px;
+		border-top-color: transparent;
+		.icon {
+			display: none;
+		}
+	}
 	a {
 		display: block;
-		width: 100%;
-		padding: 10px 15px;
-		border-left: 3px solid transparent;
+		overflow: hidden;
+		padding: 10px 20px 10px 10px;
 		color: inherit;
+		border-left: 4px solid transparent;
+		font-weight: bold;
+		line-height: 30px;
+		white-space: nowrap;
 		text-decoration: none;
-		transition: color .3s ease-in-out;
+		text-overflow: ellipsis;
+		transition: color 0.3s ease-in-out;
 		&:hover {
 			color: @hover-color;
 		}
 		&.active {
-			border-color: currentcolor;
-			text-shadow: 0 0 4px fadeout(@active-color, 90%);
-			// box-shadow: 0 3px 3px fadeout(@active-color, 90%), inset 0 -3px 3px fadeout(@active-color, 90%);
-		}
-		&.child-active {
-			//border-color: currentcolor;
+			border-left-color: currentcolor;
 			background-color: @sidebar-bg-hl;
 		}
 		&.active,
 		&.child-active {
 			color: @active-color;
 			+ .navigation-tree {
-				height: auto;
 				background-color: @sidebar-bg-sub;
-				&:last-child{
-					padding-top: 0;
-				}
 			}
 		}
-		+ .navigation-tree {
-			padding-top: 0;
+		@media screen and (min-width: 500px) {
+			+ .navigation-tree {
+				overflow: hidden;
+				height: 0;
+				padding: 0;
+			}
+		}
+	}
+	.icon {
+		margin-right: 10px;
+	}
+}
+
+// Slim is only for wide(r) screens
+@media screen and (min-width: 500px) {
+	.slim {
+		.navigation-tree .navigation-tree {
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			left: 100%;
 			padding-bottom: 0;
-			overflow: hidden;
-			height: 0;
-			.navigation-item a {
-				padding-left: 30px;
+			box-shadow: 0 0 7px rgba(0,0,0,0.1);
+			.navigation-item {
+				padding-left: 0;
 			}
 		}
+		> .navigation-tree {
+			overflow: visible;
+		}
+	}
+
+	.navigation:not(.slim) .navigation-item a.active + .navigation-tree,
+	.navigation:not(.slim) .navigation-item.child-active > .navigation-tree,
+	.slim .navigation-tree .navigation-tree:hover,
+	.slim .navigation-item:hover > .navigation-tree {
+		overflow: auto;
+		height: auto;
+	}
+}
+
+.navigation:not(.slim) {
+	.navigation-item a.active + .navigation-tree,
+	.navigation-item.child-active > .navigation-tree {
+		padding-bottom: 15px;
 	}
 }

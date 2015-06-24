@@ -18,12 +18,22 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _navigationTree = require('./navigation-tree');
 
 var _navigationTree2 = _interopRequireDefault(_navigationTree);
 
+var _navigationItem = require('./navigation-item');
+
+var _navigationItem2 = _interopRequireDefault(_navigationItem);
+
 var Navigation = (function (_React$Component) {
 	function Navigation() {
+		var _this = this;
+
 		_classCallCheck(this, Navigation);
 
 		if (_React$Component != null) {
@@ -31,6 +41,14 @@ var Navigation = (function (_React$Component) {
 		}
 
 		this.displayName = 'Navigation';
+		this.state = {
+			expanded: true
+		};
+
+		this.toggleMode = function (e) {
+			e.preventDefault();
+			_this.setState({ expanded: !_this.state.expanded });
+		};
 	}
 
 	_inherits(Navigation, _React$Component);
@@ -38,21 +56,19 @@ var Navigation = (function (_React$Component) {
 	_createClass(Navigation, [{
 		key: 'render',
 		value: function render() {
+			var className = (0, _classnames2['default'])('navigation', { 'slim': !this.state.expanded });
 			return _react2['default'].createElement(
 				'nav',
-				{ className: 'navigation' },
+				{ className: className },
 				_react2['default'].createElement(
 					_navigationTree2['default'],
 					{ data: this.props.navigation, path: this.props.path, config: this.props.config },
-					_react2['default'].createElement(
-						'li',
-						{ className: 'navigation-item', key: 'root' },
-						_react2['default'].createElement(
-							_reactRouter.Link,
-							{ to: '/' },
-							'Home'
-						)
-					)
+					_react2['default'].createElement(_navigationItem2['default'], { name: 'Home', id: 0, key: 'root', linkTo: '/' })
+				),
+				_react2['default'].createElement(
+					'button',
+					{ className: 'toggleMode', onClick: this.toggleMode },
+					this.state.expanded ? '«' : '»'
 				)
 			);
 		}
