@@ -232,6 +232,14 @@ var Pattern = (function (_React$Component) {
 		value: function comprehend(results, id) {
 			var items = [];
 
+			if (!results) {
+				return [];
+			}
+
+			if (!results.index) {
+				return [];
+			}
+
 			var _iteratorNormalCompletion2 = true;
 			var _didIteratorError2 = false;
 			var _iteratorError2 = undefined;

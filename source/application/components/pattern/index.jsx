@@ -32,8 +32,15 @@ class Pattern extends React.Component {
 	static comprehend(results, id) {
 		let items = [];
 
-		for (let resultName of Object.keys(results.index)) {
+		if (!results){
+			return [];
+		}
 
+		if (!results.index) {
+			return [];
+		}
+
+		for (let resultName of Object.keys(results.index)) {
 			let result = results.index[resultName];
 			let contentKey = resultMap[resultName];
 			let formatKey = formatMap[contentKey];
