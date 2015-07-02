@@ -11,7 +11,21 @@ const ui = {
 		'Script',
 		'Style',
 		'Documentation'
-	]
+	],
+	'results': {
+		'Documentation': {
+			'use': 'buffer'
+		},
+		'Markup': {
+			'use': 'buffer'
+		},
+		'Script': {
+			'use': 'demoSource'
+		},
+		'Style': {
+			'use': 'source'
+		}
+	}
 };
 
 export default ui;

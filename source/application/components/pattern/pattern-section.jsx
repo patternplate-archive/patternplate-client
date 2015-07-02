@@ -94,7 +94,7 @@ class PatternSection extends React.Component {
 		if (this.state.data) {
 			let data = Array.isArray(this.state.data) ? this.state.data : [this.state.data];
 			content = data.map((item) => {
-				return <Pattern {...item} key={item.id} />
+				return <Pattern {...item} key={item.id} config={this.props.config} />
 			});
 		} else {
 			content = '';

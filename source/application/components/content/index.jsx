@@ -8,7 +8,11 @@ class Content extends React.Component {
 	render () {
 		return (
 			<main className="content">
-				<PatternSection id={this.props.params.splat} data={this.props.patterns} eventEmitter={this.props.eventEmitter} />
+				<PatternSection
+					id={this.props.params.splat}
+					data={this.props.patterns}
+					config={this.props.config}
+					eventEmitter={this.props.eventEmitter} />
 				<Messages eventEmitter={this.props.eventEmitter} />
 			</main>
 		);

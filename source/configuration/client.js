@@ -1,6 +1,6 @@
 const client = {
 	'host': 'localhost',
-	'port': '1350',
+	'port': '1338',
 	'path': '/'
 };
 

@@ -1,16 +1,16 @@
 {
   "name": "patternplate-client",
-  "version": "0.8.1",
+  "version": "0.8.3",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
     "start": "node --harmony binary/patternplate-client.js",
     "build": "npm run clean && npm run build-server && npm run build-assets",
     "build-server": "npm run babel",
-    "build-assets": "browserify assets/script/index.js | uglifyjs > assets/script/index.bundle.js && browserify assets/script/content.js | uglifyjs > assets/script/content.bundle.js",
-    "watch": "npm run watch-assets & npm run watch-server",
+    "build-assets": "browserify assets/script/index.js | uglifyjs > assets/script/index.bundle.js",
+    "watch": "npm run watch-server & npm run watch-assets",
     "watch-server": "npm run babel -- --watch",
-    "watch-assets": "chokidar 'assets/script/**/*' --ignore '**.bundle.js' -c 'npm run build-assets'",
+    "watch-assets": "chokidar 'assets/script/**/*' 'application/components' 'application/react-routes' --ignore '**.bundle.js' -c 'npm run build-assets'",
     "babel": "npm run clean && babel source --out-dir ./",
     "clean": "rm -rf application configuration binary library assets/script"
   },
@@ -46,7 +46,7 @@
     "babel-runtime": "^5.2.9",
     "babelify": "^6.0.2",
     "bluebird": "^2.9.27",
-    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git#v0.8.0",
+    "boilerplate-server": "git+ssh://git@git.sinnerschrader.com:patternplate/boilerplate-server.git#v0.8.2",
     "browserify": "^10.0.0",
     "btoa": "^1.1.2",
     "camel-case": "^1.1.1",
@@ -82,6 +82,7 @@
   "devDependencies": {
     "babel": "^5.2.17",
     "babel-eslint": "^3.1.15",
+    "chokidar-cli": "^0.3.0",
     "eslint": "^0.22.1",
     "eslint-plugin-react": "^2.5.0"
   }

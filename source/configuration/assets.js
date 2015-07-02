@@ -1,9 +1,6 @@
 const assets = {
 	'browserify': {
 		'insertGlobals': true
-	},
-	'less': {
-
 	}
 };
 

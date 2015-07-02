@@ -44,13 +44,6 @@ var _commonHeadline = require('../common/headline');
 
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 
-var resultMap = {
-	'Documentation': 'buffer',
-	'Markup': 'buffer',
-	'Script': 'demoSource',
-	'Style': 'source'
-};
-
 var formatMap = {
 	'source': 'in',
 	'buffer': 'out',
@@ -73,14 +66,89 @@ var Pattern = (function (_React$Component) {
 	_inherits(Pattern, _React$Component);
 
 	_createClass(Pattern, [{
+		key: 'comprehend',
+		value: function comprehend(results, id) {
+			var _this = this;
+
+			var items = [];
+
+			if (!results) {
+				return [];
+			}
+
+			if (!results.index) {
+				return [];
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				var _loop = function () {
+					var resultName = _step.value;
+
+					var resultConfig = _this.props.config.results[resultName];
+
+					if (!resultConfig) {
+						return 'continue';
+					}
+
+					var result = results.index[resultName];
+					var name = resultConfig.name || resultName;
+					var keys = resultConfig.use;
+					keys = Array.isArray(keys) ? keys : [keys];
+					var contentKey = keys.filter(function (key) {
+						return result[key];
+					})[0];
+
+					var formatKey = formatMap[contentKey];
+
+					if (typeof result !== 'object' || typeof contentKey === 'undefined') {
+						return 'continue';
+					}
+
+					items.push({
+						'name': name,
+						'key': [id, name].join('/'),
+						'controlKey': [id, name, 'control'].join('/'),
+						'id': [id, name].join('/'),
+						'format': result[formatKey] || 'html',
+						'content': result[contentKey]
+					});
+				};
+
+				for (var _iterator = Object.keys(results.index)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var _ret = _loop();
+
+					if (_ret === 'continue') continue;
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator['return']) {
+						_iterator['return']();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return items;
+		}
+	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			this.items = Pattern.comprehend(this.props.results, this.props.id);
+			this.items = this.comprehend(this.props.results, this.props.id);
 		}
 	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(props) {
-			this.items = Pattern.comprehend(props.results, props.id);
+			this.items = this.comprehend(props.results, props.id);
 		}
 	}, {
 		key: 'updateControls',
@@ -124,7 +192,7 @@ var Pattern = (function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this = this;
+			var _this2 = this;
 
 			var results = [];
 			var controls = [];
@@ -132,13 +200,13 @@ var Pattern = (function (_React$Component) {
 
 			var fullscreen = '/demo/' + this.props.id;
 
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
+			var _iteratorNormalCompletion2 = true;
+			var _didIteratorError2 = false;
+			var _iteratorError2 = undefined;
 
 			try {
-				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
+				for (var _iterator2 = this.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+					var item = _step2.value;
 
 					var isDoc = item.format === 'html' && item.name === 'Documentation';
 					var isActive = this.state.active.indexOf(item.id) > -1;
@@ -148,7 +216,7 @@ var Pattern = (function (_React$Component) {
 					}
 
 					results.push(_react2['default'].createElement('input', { className: 'pattern-state', type: 'checkbox', id: item.id, key: item.controlKey, checked: isActive, onChange: function (e) {
-							return _this.onControlChange(e);
+							return _this2.onControlChange(e);
 						} }));
 					results.push(isDoc ? _react2['default'].createElement(
 						_patternDocumentation2['default'],
@@ -162,16 +230,16 @@ var Pattern = (function (_React$Component) {
 					controls.push(_react2['default'].createElement(_patternControl2['default'], _extends({}, item, { id: item.controlKey, key: item.controlKey, target: item.key, active: isActive })));
 				}
 			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
+				_didIteratorError2 = true;
+				_iteratorError2 = err;
 			} finally {
 				try {
-					if (!_iteratorNormalCompletion && _iterator['return']) {
-						_iterator['return']();
+					if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+						_iterator2['return']();
 					}
 				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
+					if (_didIteratorError2) {
+						throw _iteratorError2;
 					}
 				}
 			}
@@ -209,7 +277,7 @@ var Pattern = (function (_React$Component) {
 						'button',
 						{ className: 'pattern-control pattern-tool', type: 'button',
 							onClick: function (e) {
-								return _this.onCloseClick(e);
+								return _this2.onCloseClick(e);
 							},
 							disabled: this.state.active.length === 0 },
 						'Close all'
@@ -226,54 +294,6 @@ var Pattern = (function (_React$Component) {
 					results
 				)
 			);
-		}
-	}], [{
-		key: 'comprehend',
-		value: function comprehend(results, id) {
-			var items = [];
-
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
-
-			try {
-				for (var _iterator2 = Object.keys(results.index)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var resultName = _step2.value;
-
-					var result = results.index[resultName];
-					var contentKey = resultMap[resultName];
-					var formatKey = formatMap[contentKey];
-					var _name = resultName.toLowerCase();
-
-					if (typeof result !== 'object' || typeof contentKey === 'undefined') {
-						continue;
-					}
-
-					items.push({
-						'name': resultName,
-						'key': [id, _name].join('/'),
-						'controlKey': [id, _name, 'control'].join('/'),
-						'id': [id, _name].join('/'),
-						'format': result[formatKey] || 'html',
-						'content': result[contentKey]
-					});
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-						_iterator2['return']();
-					}
-				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
-					}
-				}
-			}
-
-			return items;
 		}
 	}]);
 

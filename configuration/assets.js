@@ -6,8 +6,7 @@ Object.defineProperty(exports, '__esModule', {
 var assets = {
 	'browserify': {
 		'insertGlobals': true
-	},
-	'less': {}
+	}
 };
 
 exports['default'] = assets;

@@ -8,13 +8,6 @@ import PatternDemo from './pattern-demo';
 
 import Headline from '../common/headline';
 
-const resultMap = {
-	'Documentation': 'buffer',
-	'Markup': 'buffer',
-	'Script': 'demoSource',
-	'Style': 'source'
-};
-
 const formatMap = {
 	'source': 'in',
 	'buffer': 'out',
@@ -29,22 +22,38 @@ class Pattern extends React.Component {
 		'active': []
 	};
 
-	static comprehend(results, id) {
+	comprehend(results, id) {
 		let items = [];
 
+		if (!results){
+			return [];
+		}
+
+		if (!results.index) {
+			return [];
+		}
+
 		for (let resultName of Object.keys(results.index)) {
+			let resultConfig = this.props.config.results[resultName];
+
+			if (!resultConfig) {
+				continue;
+			}
 
 			let result = results.index[resultName];
-			let contentKey = resultMap[resultName];
+			let name = resultConfig.name || resultName;
+			let keys = resultConfig.use;
+			keys = Array.isArray(keys) ? keys : [keys];
+			let contentKey = keys.filter((key) => result[key])[0];
+
 			let formatKey = formatMap[contentKey];
-			let name = resultName.toLowerCase();
 
 			if ( typeof result !== 'object' || typeof contentKey === 'undefined' ) {
 				continue;
 			}
 
 			items.push({
-				'name': resultName,
+				'name': name,
 				'key': [id, name].join('/'),
 				'controlKey': [id, name, 'control'].join('/'),
 				'id': [id, name].join('/'),
@@ -57,11 +66,11 @@ class Pattern extends React.Component {
 	}
 
 	componentWillMount () {
-		this.items = Pattern.comprehend(this.props.results, this.props.id);
+		this.items = this.comprehend(this.props.results, this.props.id);
 	}
 
 	componentWillReceiveProps (props) {
-		this.items = Pattern.comprehend(props.results, props.id);
+		this.items = this.comprehend(props.results, props.id);
 	}
 
 	updateControls (id, checked) {
