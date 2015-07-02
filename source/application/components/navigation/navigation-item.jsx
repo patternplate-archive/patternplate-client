@@ -9,15 +9,17 @@ class NavigationItem extends React.Component {
 	displayName = 'NavigationItem';
 
 	static defaultProps = {
-		'active': false
+		'active': false,
+		'linkTo': 'pattern'
 	};
 
 	render () {
-		let className = classnames('navigation-link', {'child-active': this.props.active});
+		let linkClassName = classnames('navigation-link', {'child-active': this.props.active});
+		let itemClassName = classnames('navigation-item', {'child-active': this.props.active});
 
 		return (
-			<li className="navigation-item">
-				<Link to="pattern" params={{ 'splat': this.props.id }} className={className}>
+			<li className={ itemClassName }>
+				<Link to={this.props.linkTo} params={{ 'splat': this.props.id }} title={this.props.name} className={ linkClassName }>
 					<Icon symbol={this.props.name.toLowerCase()} />
 					{this.props.name}
 				</Link>

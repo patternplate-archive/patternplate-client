@@ -26,7 +26,7 @@ class Icon extends React.Component {
 		let href = this.props.inline ? `#${this.props.symbol}` : `${this.props.uri}#${this.props.symbol}`;
 		let text = this.props.children ? <div className={textClassName}>{this.props.children}</div> : '';
 
-		let svg = `<svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" ><use xlink:href="${href}" /></svg>`;
+		let svg = `<svg class="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><use xlink:href="${href}" /></svg>`;
 
 		return (
 			<div className={className}>

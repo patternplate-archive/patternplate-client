@@ -1,13 +1,13 @@
 .application {
 	display: table;
+	display: flex;
 	table-layout: fixed;
 	width: 100%;
 }
 
 .header {
-	display: table-row;
 	position: fixed;
-	z-index: 2;
+	z-index: 3;
 	top: 0;
 	right: 0;
 	left: 0;
@@ -16,9 +16,10 @@
 .navigation,
 .content {
 	display: table-cell;
+	display: flex;
+	flex-direction: column;
 	vertical-align: top;
 	padding-top: 50px;
-	height: 100vh;
 	transition: transform .3s ease-in-out;
 	@media screen and (max-width: 500px) {
 		display: block;
@@ -29,29 +30,34 @@
 }
 
 .navigation {
-	width: 17.5%;
-	@media screen and (max-width: 900px) {
-		width: 30%;
+	min-height: 100vh;
+	width: 100%;
+	transform: translateX(-100%);
+	@media screen and (min-width: 500px) {
+		width: @navWidthMedium;
+		border-right: 1px solid @border-color;
+		transform: none;
+		&.slim {
+			width: @navWidthSlim;
+		}
 	}
-	@media screen and (max-width: 500px) {
-		width: 50%;
-		border: 0;
-		transform: translateX(-100%);
+	@media screen and (min-width: 900px) {
+		width: @navWidthWide;
 	}
 }
 
 .content {
 	width: 82.5%;
 	padding: 65px 15px 10px 30px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
+	// overflow: auto;
+	// -webkit-overflow-scrolling: touch;
 	@media screen and (max-width: 900px) {
 		width: 70%;
 	}
 	@media screen and (max-width: 500px) {
 		width: 100%;
-		left: 50%;
-		transform: translateX(-50%);
+		left: 100%;
+		transform: translateX(-100%);
 		padding: 60px 15px 15px 15px;
 	}
 }

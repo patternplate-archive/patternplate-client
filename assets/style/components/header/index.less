@@ -1,7 +1,7 @@
 .header {
 	height: 55px;
-	border-bottom: 1px solid @border-color;
-	background: fadeout(@root-background, 15%);
+	background: @header-bg;
+	box-shadow: 0 0 5px rgba(0,0,0,0.1);
 	.logo,
 	.toolbar {
 		display: inline-block;
@@ -9,7 +9,7 @@
 	}
 	.logo {
 		width: 17.5%;
-		padding: 10px 15px;
+		padding: 10px 4px;
 		vertical-align: top;
 		@media screen and (max-width: 900px) {
 			width: 30%;
@@ -66,6 +66,7 @@
 		border: none;
 		vertical-align: middle;
 		border: 1px solid @border-color;
+		color: @active-color;
 		&:focus {
 			outline: none;
 		}

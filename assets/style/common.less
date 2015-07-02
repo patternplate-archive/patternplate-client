@@ -1,16 +1,27 @@
-@root-font-family : 'Helvetica Neue', 'Helvetica', Arial;
+@root-font-family : 'Roboto', 'Helvetica Neue', 'Helvetica', Arial;
 @root-font-size   : 14px;
 @root-line-height : 150%;
 @root-color       : #444444;
 @root-background  : #ffffff;
+@header-bg        : @root-background;
+@sidebar-bg       : #f2f5f6;
+@sidebar-bg-sub   : @root-background;
+@sidebar-bg-hl    : mix(@root-background, @active-color, 95%);
 
 @code-background  : darken(@root-background, 2%);
 
 @hover-color      : darken(@root-color, 15%);
-@border-color     : #eeeeee;
-@active-color     : rgb(41, 168, 222);
+@border-color     : #e9eeef;
+@active-color     : #00abdb;
 
 // messages
 @error-color      : rgb(205, 63, 69);
 @info-color       : @active-color;
 @success-color    : #4AA54A;
+
+
+// Layout
+
+@navWidthSlim: 54px;
+@navWidthMedium: 30%;
+@navWidthWide: 17.5%;

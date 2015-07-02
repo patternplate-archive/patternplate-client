@@ -1,36 +1,37 @@
 .pattern {
-	width: 100%;
 	overflow: hidden;
-
+	width: 100%;
 	.pattern-toolbar {
 		display: inline-block;
 		display: flex;
 		width: 100%;
 		border: 1px solid @border-color;
 		user-select: none;
-		a{
-			transition: color .3s ease-in-out;
-			&:hover{
+		a {
+			transition: color 0.3s ease-in-out;
+			&:hover {
 				color: @hover-color;
 			}
 		}
 	}
-
 	.pattern-control {
 		display: inline-block;
+		display: inline-flex;
+		overflow: hidden;
 		padding: 10px 15px;
+		color: inherit;
 		border: 5px solid transparent;
 		border-width: 5px 0;
-		background: transparent;
-		color: inherit;
-		text-decoration: none;
-		cursor: pointer;
-		overflow: hidden;
+		background: @sidebar-bg;
 		white-space: nowrap;
+		text-decoration: none;
 		text-overflow: ellipsis;
+		cursor: pointer;
+
+		align-items: center;
 		&.pattern-tool {
-			border-left: 1px solid @border-color;
 			overflow: hidden;
+			border-left: 1px solid @border-color;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 			&:hover,
@@ -39,7 +40,7 @@
 					color: @active-color;
 				}
 			}
-			&:last-child{
+			&:last-child {
 				margin-left: auto;
 			}
 		}
@@ -56,17 +57,13 @@
 		&.active {
 			color: @active-color;
 			border-bottom-color: currentcolor;
+			background-color: @sidebar-bg-sub;
 			text-shadow: 0 0 4px fadeout(@active-color, 90%);
-			box-shadow: inset 0 -3px 3px fadeout(@active-color, 90%),
-				inset -6px 0 0 @root-background,
-				inset 6px 0 0 @root-background;
 		}
 	}
-
 	.pattern-content {
 		margin-top: 15px;
 	}
-
 	.pattern-code,
 	.pattern-documentation {
 		display: block;
@@ -83,14 +80,12 @@
 		.pattern-code-name,
 		.pattern-code-tools {
 			display: table-cell;
-			vertical-align: middle;
 			padding: 3px 6px;
+			vertical-align: middle;
 		}
-
 		.pattern-code-name {
 			font-weight: bold;
 		}
-
 		.pattern-code-tools {
 			text-align: right;
 			button {
@@ -99,25 +94,21 @@
 				background: none;
 				&:focus,
 				&:hover {
+					color: @active-color;
 					outline: none;
 					cursor: pointer;
-					color: @active-color;
 				}
 			}
 		}
-
-
 	}
-
 	.pattern-documentation {
 		margin: 15px 0;
 	}
-
 	.pattern-state {
 		position: fixed;
+		bottom: 0;
 		left: -10000px;
 		left: -100vw;
-		bottom: 0;
 		+ * {
 			display: none;
 		}
@@ -128,7 +119,6 @@
 			}
 		}
 	}
-
 	+ .pattern {
 		margin-top: 30px;
 		padding-top: 30px;
@@ -138,7 +128,6 @@
 .pattern-name {
 	display: inline-block;
 	margin: 0 30px 0 0;
-
 	@media screen and (max-width: 500px) {
 		display: block;
 		margin: 0 0 10px 0;
@@ -148,11 +137,10 @@
 .pattern-lastmodified,
 .pattern-version {
 	display: inline-block;
-	vertical-align: baseline;
 	margin: 0 5px;
 	padding: 3px 5px;
-	font-size: .6em;
-	border: 1px solid @border-color;
+	font-size: 0.6em;
+	vertical-align: baseline;
 	@media screen and (max-width: 500px) {
 		margin: 3px 10px 3px 0;
 	}
@@ -167,19 +155,19 @@
 
 .pattern-demo {
 	display: block;
-	width: 100%;
-	border: 0;
-	height: 0;
 	overflow: hidden;
-	transition: height .3s ease-in-out;
+	width: 100%;
+	height: 0;
+	border: 0;
 	background: transparent;
+	transition: height 0.3s ease-in-out;
 }
 
 .clipboard {
 	position: fixed;
+	bottom: 0;
 	left: -10000px;
 	left: -100vw;
-	bottom: 0;
 }
 
 .pattern-section {
@@ -188,51 +176,54 @@
 }
 
 .pattern-loader {
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	position: absolute;
-	width: 100%;
-	height: 100%;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
+	display: flex;
+	width: 100%;
+	height: 100%;
 	background: @root-background;
-	.icon{
+
+	align-items: center;
+	justify-content: center;
+	.icon {
 		margin: 0;
 	}
 	.svg-icon {
 		width: 120px;
 		height: 120px;
+
 		fill: currentcolor;
 	}
-	.svg{
-		fill: inherit;
+	.svg {
 		color: @active-color;
+
+		fill: inherit;
 	}
 }
 .pattern-error {
-	.svg{
-		fill: inherit;
+	.svg {
 		color: @error-color;
+
+		fill: inherit;
 	}
 }
 
-.pattern-loader{
+.pattern-loader {
 	&.pattern-content-transition-enter {
-	  opacity: 0;
-	  transition: opacity .3s ease-in;
-		&.pattern-content-transition-enter-active{
+		opacity: 0;
+		transition: opacity 0.3s ease-in;
+		&.pattern-content-transition-enter-active {
 			position: absolute;
 			opacity: 1;
 		}
 	}
-
 	&.pattern-content-transition-leave {
-	  opacity: 1;
-	  transition: opacity .3s ease-in;
-		&.pattern-content-transition-leave-active{
+		opacity: 1;
+		transition: opacity 0.3s ease-in;
+		&.pattern-content-transition-leave-active {
 			position: absolute;
 			opacity: 0;
 		}

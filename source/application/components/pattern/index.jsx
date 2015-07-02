@@ -7,6 +7,7 @@ import PatternControl from './pattern-control';
 import PatternDemo from './pattern-demo';
 
 import Headline from '../common/headline';
+import Icon from '../common/icon';
 
 const formatMap = {
 	'source': 'in',
@@ -137,7 +138,9 @@ class Pattern extends React.Component {
 					<button className="pattern-control pattern-tool" type="button"
 						onClick={(e) => this.onCloseClick(e)}
 						disabled={this.state.active.length === 0}>Close all</button>
-					<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">Fullscreen</a>
+					<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
+						<Icon symbol="fullscreen"></Icon>
+					</a>
 				</div>
 				<div className="pattern-content">{results}</div>
 			</div>
