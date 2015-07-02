@@ -6,8 +6,10 @@
 		z-index: 1;
 		top: 55px;
 		bottom: 0;
+		margin-bottom: 40px;
 		overflow: auto;
 		width: inherit;
+		border-bottom: 1px solid @border-color;
 
 		-webkit-overflow-scrolling: touch;
 		@media screen and (min-width: 500px) {
@@ -16,9 +18,6 @@
 		> .navigation-item {
 			&:first-child {
 				border-top: none;
-			}
-			&:last-child {
-				border-bottom: 1px solid @border-color;
 			}
 		}
 	}
@@ -30,11 +29,10 @@
 		width: 40px;
 		height: 40px;
 		color: @active-color;
-		border: 1px solid @border-color;
-		border-right: 0;
-		border-bottom: 0;
+		border: solid @border-color;
+		border-width: 0 1px;
 		outline: 0;
-		background-color: transparent;
+		background-color: inherit;
 		font-size: 1.25em;
 
 		appearance: none;
@@ -74,7 +72,7 @@
 	}
 	.navigation-item {
 		padding-left: 40px;
-		border-top-color: transparent;
+		border-top-width: 0;
 		font-weight: normal;
 		.icon {
 			display: none;
@@ -82,8 +80,12 @@
 	}
 	a {
 		display: block;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
 		overflow: hidden;
-		padding: 10px 20px 10px 10px;
+		padding: 0 20px 0 10px;
+		height: 50px;
 		color: inherit;
 		border-left: 4px solid transparent;
 		line-height: 30px;
@@ -115,6 +117,7 @@
 	}
 	.icon {
 		margin-right: 10px;
+		flex-shrink: 0;
 	}
 }
 
@@ -134,14 +137,17 @@
 		}
 		> .navigation-tree {
 			overflow: visible;
+			> .navigation-item > .navigation-tree {
+				margin-left: 2px;
+			}
 		}
 	}
 
 	.navigation:not(.slim) .navigation-item a.active + .navigation-tree,
 	.navigation:not(.slim) .navigation-item.child-active > .navigation-tree,
-	.slim .navigation-tree .navigation-tree:hover,
-	.slim .navigation-item:hover > .navigation-tree {
-		overflow: auto;
+	.slim .navigation-item:hover > .navigation-tree,
+	.slim > .navigation-tree .navigation-item:hover > .navigation-tree {
+		overflow: visible;
 		height: auto;
 	}
 }
