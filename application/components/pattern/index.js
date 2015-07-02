@@ -68,6 +68,8 @@ var Pattern = (function (_React$Component) {
 	_createClass(Pattern, [{
 		key: 'comprehend',
 		value: function comprehend(results, id) {
+			var _this = this;
+
 			var items = [];
 
 			if (!results) {
@@ -83,32 +85,42 @@ var Pattern = (function (_React$Component) {
 			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator = Object.keys(results.index)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+				var _loop = function () {
 					var resultName = _step.value;
 
-					var resultConfig = this.props.config.results[resultName];
+					var resultConfig = _this.props.config.results[resultName];
 
 					if (!resultConfig) {
-						continue;
+						return 'continue';
 					}
 
 					var result = results.index[resultName];
-					var contentKey = resultConfig.use;
+					var name = resultConfig.name || resultName;
+					var keys = resultConfig.use;
+					keys = Array.isArray(keys) ? keys : [keys];
+					var contentKey = keys.filter(function (key) {
+						return result[key];
+					})[0];
 					var formatKey = formatMap[contentKey];
-					var _name = resultConfig.name || resultName;
 
 					if (typeof result !== 'object' || typeof contentKey === 'undefined') {
-						continue;
+						return 'continue';
 					}
 
 					items.push({
-						'name': _name,
-						'key': [id, _name].join('/'),
-						'controlKey': [id, _name, 'control'].join('/'),
-						'id': [id, _name].join('/'),
+						'name': name,
+						'key': [id, name].join('/'),
+						'controlKey': [id, name, 'control'].join('/'),
+						'id': [id, name].join('/'),
 						'format': result[formatKey] || 'html',
 						'content': result[contentKey]
 					});
+				};
+
+				for (var _iterator = Object.keys(results.index)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var _ret = _loop();
+
+					if (_ret === 'continue') continue;
 				}
 			} catch (err) {
 				_didIteratorError = true;
@@ -179,7 +191,7 @@ var Pattern = (function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this = this;
+			var _this2 = this;
 
 			var results = [];
 			var controls = [];
@@ -203,7 +215,7 @@ var Pattern = (function (_React$Component) {
 					}
 
 					results.push(_react2['default'].createElement('input', { className: 'pattern-state', type: 'checkbox', id: item.id, key: item.controlKey, checked: isActive, onChange: function (e) {
-							return _this.onControlChange(e);
+							return _this2.onControlChange(e);
 						} }));
 					results.push(isDoc ? _react2['default'].createElement(
 						_patternDocumentation2['default'],
@@ -264,7 +276,7 @@ var Pattern = (function (_React$Component) {
 						'button',
 						{ className: 'pattern-control pattern-tool', type: 'button',
 							onClick: function (e) {
-								return _this.onCloseClick(e);
+								return _this2.onCloseClick(e);
 							},
 							disabled: this.state.active.length === 0 },
 						'Close all'
