@@ -43,7 +43,11 @@ var Content = (function (_React$Component) {
 			return _react2['default'].createElement(
 				'main',
 				{ className: 'content' },
-				_react2['default'].createElement(_patternPatternSection2['default'], { id: this.props.params.splat, data: this.props.patterns, eventEmitter: this.props.eventEmitter }),
+				_react2['default'].createElement(_patternPatternSection2['default'], {
+					id: this.props.params.splat,
+					data: this.props.patterns,
+					config: this.props.config,
+					eventEmitter: this.props.eventEmitter }),
 				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter })
 			);
 		}

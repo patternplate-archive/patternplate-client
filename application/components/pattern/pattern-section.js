@@ -187,6 +187,8 @@ var PatternSection = (function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _this = this;
+
 			var content;
 
 			var frags = this.props.id ? this.props.id.split('/') : [];
@@ -200,7 +202,7 @@ var PatternSection = (function (_React$Component) {
 			if (this.state.data) {
 				var data = Array.isArray(this.state.data) ? this.state.data : [this.state.data];
 				content = data.map(function (item) {
-					return _react2['default'].createElement(_index2['default'], _extends({}, item, { key: item.id }));
+					return _react2['default'].createElement(_index2['default'], _extends({}, item, { key: item.id, config: _this.props.config }));
 				});
 			} else {
 				content = '';

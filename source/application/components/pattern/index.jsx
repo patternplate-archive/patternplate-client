@@ -29,7 +29,7 @@ class Pattern extends React.Component {
 		'active': []
 	};
 
-	static comprehend(results, id) {
+	comprehend(results, id) {
 		let items = [];
 
 		if (!results){
@@ -41,17 +41,24 @@ class Pattern extends React.Component {
 		}
 
 		for (let resultName of Object.keys(results.index)) {
+			let resultConfig = this.props.config.results[resultName];
+			console.log(resultConfig);
+
+			if (!resultConfig) {
+				continue;
+			}
+
 			let result = results.index[resultName];
-			let contentKey = resultMap[resultName];
+			let contentKey = resultConfig.use;
 			let formatKey = formatMap[contentKey];
-			let name = resultName.toLowerCase();
+			let name = resultConfig.name || resultName;
 
 			if ( typeof result !== 'object' || typeof contentKey === 'undefined' ) {
 				continue;
 			}
 
 			items.push({
-				'name': resultName,
+				'name': name,
 				'key': [id, name].join('/'),
 				'controlKey': [id, name, 'control'].join('/'),
 				'id': [id, name].join('/'),
@@ -64,11 +71,11 @@ class Pattern extends React.Component {
 	}
 
 	componentWillMount () {
-		this.items = Pattern.comprehend(this.props.results, this.props.id);
+		this.items = this.comprehend(this.props.results, this.props.id);
 	}
 
 	componentWillReceiveProps (props) {
-		this.items = Pattern.comprehend(props.results, props.id);
+		this.items = this.comprehend(props.results, props.id);
 	}
 
 	updateControls (id, checked) {

@@ -73,14 +73,77 @@ var Pattern = (function (_React$Component) {
 	_inherits(Pattern, _React$Component);
 
 	_createClass(Pattern, [{
+		key: 'comprehend',
+		value: function comprehend(results, id) {
+			var items = [];
+
+			if (!results) {
+				return [];
+			}
+
+			if (!results.index) {
+				return [];
+			}
+
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
+
+			try {
+				for (var _iterator = Object.keys(results.index)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var resultName = _step.value;
+
+					var resultConfig = this.props.config.results[resultName];
+					console.log(resultConfig);
+
+					if (!resultConfig) {
+						continue;
+					}
+
+					var result = results.index[resultName];
+					var contentKey = resultConfig.use;
+					var formatKey = formatMap[contentKey];
+					var _name = resultConfig.name || resultName;
+
+					if (typeof result !== 'object' || typeof contentKey === 'undefined') {
+						continue;
+					}
+
+					items.push({
+						'name': _name,
+						'key': [id, _name].join('/'),
+						'controlKey': [id, _name, 'control'].join('/'),
+						'id': [id, _name].join('/'),
+						'format': result[formatKey] || 'html',
+						'content': result[contentKey]
+					});
+				}
+			} catch (err) {
+				_didIteratorError = true;
+				_iteratorError = err;
+			} finally {
+				try {
+					if (!_iteratorNormalCompletion && _iterator['return']) {
+						_iterator['return']();
+					}
+				} finally {
+					if (_didIteratorError) {
+						throw _iteratorError;
+					}
+				}
+			}
+
+			return items;
+		}
+	}, {
 		key: 'componentWillMount',
 		value: function componentWillMount() {
-			this.items = Pattern.comprehend(this.props.results, this.props.id);
+			this.items = this.comprehend(this.props.results, this.props.id);
 		}
 	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(props) {
-			this.items = Pattern.comprehend(props.results, props.id);
+			this.items = this.comprehend(props.results, props.id);
 		}
 	}, {
 		key: 'updateControls',
@@ -132,13 +195,13 @@ var Pattern = (function (_React$Component) {
 
 			var fullscreen = '/demo/' + this.props.id;
 
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
+			var _iteratorNormalCompletion2 = true;
+			var _didIteratorError2 = false;
+			var _iteratorError2 = undefined;
 
 			try {
-				for (var _iterator = this.items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var item = _step.value;
+				for (var _iterator2 = this.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+					var item = _step2.value;
 
 					var isDoc = item.format === 'html' && item.name === 'Documentation';
 					var isActive = this.state.active.indexOf(item.id) > -1;
@@ -162,16 +225,16 @@ var Pattern = (function (_React$Component) {
 					controls.push(_react2['default'].createElement(_patternControl2['default'], _extends({}, item, { id: item.controlKey, key: item.controlKey, target: item.key, active: isActive })));
 				}
 			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
+				_didIteratorError2 = true;
+				_iteratorError2 = err;
 			} finally {
 				try {
-					if (!_iteratorNormalCompletion && _iterator['return']) {
-						_iterator['return']();
+					if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+						_iterator2['return']();
 					}
 				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
+					if (_didIteratorError2) {
+						throw _iteratorError2;
 					}
 				}
 			}
@@ -226,62 +289,6 @@ var Pattern = (function (_React$Component) {
 					results
 				)
 			);
-		}
-	}], [{
-		key: 'comprehend',
-		value: function comprehend(results, id) {
-			var items = [];
-
-			if (!results) {
-				return [];
-			}
-
-			if (!results.index) {
-				return [];
-			}
-
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
-
-			try {
-				for (var _iterator2 = Object.keys(results.index)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var resultName = _step2.value;
-
-					var result = results.index[resultName];
-					var contentKey = resultMap[resultName];
-					var formatKey = formatMap[contentKey];
-					var _name = resultName.toLowerCase();
-
-					if (typeof result !== 'object' || typeof contentKey === 'undefined') {
-						continue;
-					}
-
-					items.push({
-						'name': resultName,
-						'key': [id, _name].join('/'),
-						'controlKey': [id, _name, 'control'].join('/'),
-						'id': [id, _name].join('/'),
-						'format': result[formatKey] || 'html',
-						'content': result[contentKey]
-					});
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-						_iterator2['return']();
-					}
-				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
-					}
-				}
-			}
-
-			return items;
 		}
 	}]);
 
