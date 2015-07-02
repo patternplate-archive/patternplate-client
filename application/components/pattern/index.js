@@ -101,6 +101,7 @@ var Pattern = (function (_React$Component) {
 					var contentKey = keys.filter(function (key) {
 						return result[key];
 					})[0];
+
 					var formatKey = formatMap[contentKey];
 
 					if (typeof result !== 'object' || typeof contentKey === 'undefined') {

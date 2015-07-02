@@ -45,6 +45,7 @@ class Pattern extends React.Component {
 			let keys = resultConfig.use;
 			keys = Array.isArray(keys) ? keys : [keys];
 			let contentKey = keys.filter((key) => result[key])[0];
+
 			let formatKey = formatMap[contentKey];
 
 			if ( typeof result !== 'object' || typeof contentKey === 'undefined' ) {
