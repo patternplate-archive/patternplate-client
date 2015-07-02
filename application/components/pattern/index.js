@@ -42,13 +42,6 @@ var _commonHeadline = require('../common/headline');
 
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 
-var resultMap = {
-	'Documentation': 'buffer',
-	'Markup': 'buffer',
-	'Script': 'demoSource',
-	'Style': 'source'
-};
-
 var formatMap = {
 	'source': 'in',
 	'buffer': 'out',
@@ -94,7 +87,6 @@ var Pattern = (function (_React$Component) {
 					var resultName = _step.value;
 
 					var resultConfig = this.props.config.results[resultName];
-					console.log(resultConfig);
 
 					if (!resultConfig) {
 						continue;

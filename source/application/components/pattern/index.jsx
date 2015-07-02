@@ -8,13 +8,6 @@ import PatternDemo from './pattern-demo';
 
 import Headline from '../common/headline';
 
-const resultMap = {
-	'Documentation': 'buffer',
-	'Markup': 'buffer',
-	'Script': 'demoSource',
-	'Style': 'source'
-};
-
 const formatMap = {
 	'source': 'in',
 	'buffer': 'out',
@@ -42,7 +35,6 @@ class Pattern extends React.Component {
 
 		for (let resultName of Object.keys(results.index)) {
 			let resultConfig = this.props.config.results[resultName];
-			console.log(resultConfig);
 
 			if (!resultConfig) {
 				continue;
