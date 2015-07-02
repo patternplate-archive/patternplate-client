@@ -44,6 +44,10 @@ var _commonHeadline = require('../common/headline');
 
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 
+var _commonIcon = require('../common/icon');
+
+var _commonIcon2 = _interopRequireDefault(_commonIcon);
+
 var formatMap = {
 	'source': 'in',
 	'buffer': 'out',
@@ -285,7 +289,7 @@ var Pattern = (function (_React$Component) {
 					_react2['default'].createElement(
 						'a',
 						{ className: 'pattern-control pattern-tool', href: fullscreen, target: '_blank' },
-						'Fullscreen'
+						_react2['default'].createElement(_commonIcon2['default'], { symbol: 'fullscreen' })
 					)
 				),
 				_react2['default'].createElement(

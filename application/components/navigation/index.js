@@ -32,6 +32,10 @@ var _navigationItem = require('./navigation-item');
 
 var _navigationItem2 = _interopRequireDefault(_navigationItem);
 
+var _commonIcon = require('../common/icon');
+
+var _commonIcon2 = _interopRequireDefault(_commonIcon);
+
 var Navigation = (function (_React$Component) {
 	function Navigation() {
 		var _this = this;
@@ -68,7 +72,7 @@ var Navigation = (function (_React$Component) {
 				_react2['default'].createElement(
 					'button',
 					{ className: 'toggleMode', onClick: this.toggleMode },
-					this.state.expanded ? '«' : '»'
+					this.state.expanded ? _react2['default'].createElement(_commonIcon2['default'], { symbol: 'arrow-double-left' }) : _react2['default'].createElement(_commonIcon2['default'], { symbol: 'arrow-double-right' })
 				)
 			);
 		}

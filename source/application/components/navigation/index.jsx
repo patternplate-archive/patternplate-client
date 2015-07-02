@@ -4,6 +4,7 @@ import classnames from 'classnames';
 
 import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
+import Icon from '../common/icon';
 
 class Navigation extends React.Component {
 	displayName = 'Navigation';
@@ -25,7 +26,7 @@ class Navigation extends React.Component {
 					<NavigationItem name="Home" id={0} key="root" linkTo="/"/>
 				</NavigationTree>
 				<button className="toggleMode" onClick={this.toggleMode}>
-					{ this.state.expanded ? '«' : '»' }
+					{ this.state.expanded ? <Icon symbol="arrow-double-left"></Icon> : <Icon symbol="arrow-double-right"></Icon> }
 				</button>
 			</nav>
 		);
