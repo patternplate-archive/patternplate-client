@@ -20,11 +20,11 @@ function apiRouteFactory(application) {
 				case 0:
 					config = application.configuration.client;
 					serverConfig = application.configuration.server;
-					serverHost = serverConfig.host + ':' + serverConfig.port;
-					clientHost = config.host + ':' + config.port;
+					serverHost = '' + serverConfig.host + ':' + serverConfig.port;
+					clientHost = '' + config.host + ':' + config.port;
 					proxied = clientHost === serverHost;
 					path = proxied ? '/api/pattern/' : '/pattern/';
-					host = 'http://' + config.host + ':' + config.port + path;
+					host = 'http://' + config.host + ':' + config.port + '' + path;
 
 					this.path = this.path.split('/').slice(2).join('/');
 
