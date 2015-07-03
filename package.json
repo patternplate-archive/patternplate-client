@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "0.11.0",
+  "version": "0.11.1",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
@@ -65,6 +65,7 @@
     "classnames": "^1.2.2",
     "core-util-is": "^1.0.1",
     "es6-promise": "^2.1.1",
+    "find-root": "^0.1.1",
     "highlight.js": "^8.5.0",
     "isomorphic-fetch": "^2.0.2",
     "koa-proxy": "^0.2.0",

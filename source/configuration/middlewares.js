@@ -4,7 +4,8 @@ const middlewares = {
 		'application/patternplate-client/middlewares'
 	],
 	'enabled': {
-		'jsonerror': true
+		'jsonerror': true,
+		'basicauth': false
 	}
 };
 

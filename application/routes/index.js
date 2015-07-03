@@ -30,8 +30,8 @@ function indexRouteFactory(application) {
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					base = 'http://' + application.configuration.client.host + ':' + application.configuration.client.port + '' + application.configuration.client.path;
-					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + '' + application.runtime.prefix;
+					base = 'http://' + application.configuration.client.host + ':' + application.configuration.client.port + application.configuration.client.path;
+					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + application.runtime.prefix;
 					headers = {
 						'accept-type': 'application/json',
 						'authorization': this.request.header.authorization
@@ -78,7 +78,7 @@ function indexRouteFactory(application) {
 						return route.name === 'meta';
 					})[0];
 					navigationResponse = fetch(navigationRoute.uri, { headers: headers });
-					iconsResponse = fetch('' + self + 'static/images/inline-icons.svg', { headers: headers });
+					iconsResponse = fetch(self + 'static/images/inline-icons.svg', { headers: headers });
 					context$2$0.prev = 23;
 					context$2$0.next = 26;
 					return regeneratorRuntime.awrap(navigationResponse);

@@ -6,7 +6,8 @@ Object.defineProperty(exports, '__esModule', {
 var middlewares = {
 	'path': ['application/middlewares', 'application/patternplate-client/middlewares'],
 	'enabled': {
-		'jsonerror': true
+		'jsonerror': true,
+		'basicauth': false
 	}
 };
 
