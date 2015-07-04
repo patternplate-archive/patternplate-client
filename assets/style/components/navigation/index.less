@@ -92,13 +92,13 @@
 		white-space: nowrap;
 		text-decoration: none;
 		text-overflow: ellipsis;
-		transition: color 0.3s ease-in-out;
-		&:hover {
+		transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		&.active, &:hover {
+			background-color: @sidebar-bg-hl;
 			color: @hover-color;
 		}
 		&.active {
 			border-left-color: currentcolor;
-			background-color: @sidebar-bg-hl;
 		}
 		&.active,
 		&.child-active {
