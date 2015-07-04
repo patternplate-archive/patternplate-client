@@ -110,12 +110,16 @@
 		left: -10000px;
 		left: -100vw;
 		+ * {
-			display: none;
+			height: 0;
+			opacity: 0;
+			transition: opacity .3s ease-in-out, height 0s .4s ease-in-out;
 		}
 		&.checked,
 		&:checked {
 			+ * {
-				display: block;
+				height: 100%;
+				opacity: 1;
+				transition: opacity .3s ease-in-out;
 			}
 		}
 	}
