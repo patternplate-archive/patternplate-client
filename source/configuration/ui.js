@@ -25,7 +25,9 @@ const ui = {
 		'Style': {
 			'use': 'source'
 		}
-	}
+	},
+	'theme': 'light',
+	'themeTarget': 'dark'
 };
 
 export default ui;

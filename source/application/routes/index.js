@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import btoa from 'btoa';
+import cookie from 'cookie';
 
 import humanizeTree from '../utils/humanize-tree';
 import router from '../react-routes';
@@ -37,11 +38,24 @@ function indexRouteFactory ( application ) {
 			'authorization': authHeader
 		});
 
+		let passedConfig = Object.assign({}, application.configuration.ui);
+		let cookieData = decodeURIComponent(this.cookies.get('patternplate-client'));
+
+		if (cookie) {
+			try {
+				let cookieJSON = JSON.parse(cookieData);
+				Object.assign(passedConfig, cookieJSON);
+				application.log.silly('read cookie data', JSON.stringify(cookieJSON));
+			} catch (err) {
+				application.log.warn('Failed reading cookie');
+			}
+		}
+
 		let data = {
 			'schema': {},
 			'navigation': {},
 			'patterns': null,
-			'config': application.configuration.ui
+			'config': passedConfig
 		};
 
 		if (base !== self) {
@@ -103,7 +117,7 @@ function indexRouteFactory ( application ) {
 			'data': JSON.stringify(data),
 			'content': content,
 			'script': '/script/index.js',
-			'stylesheet': '/style/light.css',
+			'stylesheet': '/style/' + data.config.theme + '.css',
 			'icons': icons
 		});
 	};

@@ -19,7 +19,9 @@ var ui = {
 		'Style': {
 			'use': 'source'
 		}
-	}
+	},
+	'theme': 'light',
+	'themeTarget': 'dark'
 };
 
 exports['default'] = ui;

@@ -24,6 +24,10 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _reactRouter = require('react-router');
 
+var _cookie = require('cookie');
+
+var _cookie2 = _interopRequireDefault(_cookie);
+
 var _commonIcon = require('../common/icon');
 
 var _commonIcon2 = _interopRequireDefault(_commonIcon);
@@ -41,10 +45,6 @@ var Toolbar = (function (_React$Component) {
 		_get(Object.getPrototypeOf(Toolbar.prototype), 'constructor', this).apply(this, arguments);
 
 		this.displayName = 'Toolbar';
-		this.state = {
-			'theme': 'light',
-			'target': 'dark'
-		};
 
 		this.onThemeButtonClick = function () {
 			_this.toggleTheme();
@@ -54,6 +54,14 @@ var Toolbar = (function (_React$Component) {
 	_inherits(Toolbar, _React$Component);
 
 	_createClass(Toolbar, [{
+		key: 'componentWillMount',
+		value: function componentWillMount() {
+			this.setState({
+				'theme': this.props.config.theme,
+				'themeTarget': this.props.config.themeTarget
+			});
+		}
+	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			this.link = document.querySelector('[data-application-theme]');
@@ -63,14 +71,29 @@ var Toolbar = (function (_React$Component) {
 		value: function toggleTheme() {
 			var _this2 = this;
 
-			this.setState({
-				'theme': this.state.target,
-				'target': this.state.theme
-			});
+			var state = {
+				'theme': this.state.themeTarget,
+				'themeTarget': this.state.theme
+			};
+
+			this.setState(state);
+
+			if (document) {
+				var data = {};
+
+				try {
+					var cookieData = JSON.parse(_cookie2['default'].parse(document.cookie)['patternplate-client'] || {});
+					data = cookieData;
+				} catch (err) {
+					console.warn('Failed to read data from "patternplate-client" cookie');
+				}
+
+				document.cookie = _cookie2['default'].serialize('patternplate-client', JSON.stringify(Object.assign({}, data, state)));
+			}
 
 			var link = document.createElement('link');
 			link.rel = 'stylesheet';
-			link.href = this.link.href.replace(this.state.theme, this.state.target);
+			link.href = this.link.href.replace(this.state.theme, this.state.themeTarget);
 
 			link.onload = function (e) {
 				document.head.removeChild(_this2.link);
@@ -87,7 +110,7 @@ var Toolbar = (function (_React$Component) {
 			var buildRoute = this.props.schema.routes && this.props.schema.routes.filter(function (route) {
 				return route.name === 'build';
 			})[0];
-			var themeClassName = (0, _classnames2['default'])('button', this.state.target);
+			var themeClassName = (0, _classnames2['default'])('button', this.state.themeTarget);
 
 			return _react2['default'].createElement(
 				'header',
@@ -121,8 +144,8 @@ var Toolbar = (function (_React$Component) {
 							} },
 						_react2['default'].createElement(
 							_commonIcon2['default'],
-							{ symbol: this.state.target },
-							this.state.target
+							{ symbol: this.state.themeTarget },
+							this.state.themeTarget
 						)
 					)
 				)
