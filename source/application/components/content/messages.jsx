@@ -1,5 +1,6 @@
 import React from 'react';
 import {PropTypes, Component} from 'react';
+import btoa from 'btoa';
 
 import Message from './message';
 
@@ -7,7 +8,8 @@ class Messages extends Component {
 	static displayName = 'Messages';
 
 	static defaultProps = {
-		'max': 3
+		'max': 3,
+		'messages': []
 	};
 
 	static propTypes = {
@@ -24,6 +26,10 @@ class Messages extends Component {
 	}
 
 	componentWillMount() {
+		this.props.messages.forEach((message) => {
+			this.push(message.content, message.type);
+		});
+
 		this.props.eventEmitter.addListener('error', this.pushError);
 		this.props.eventEmitter.addListener('message', this.push);
 	}
@@ -43,7 +49,7 @@ class Messages extends Component {
 			'content': message,
 			'type': type,
 			'date': Date.now(),
-			'hash': window.btoa(`${message.message}${Date.now()}`)
+			'hash': btoa(`${message.message}${Date.now()}`)
 		});
 		messages = messages.slice(this.props.max * -1);
 

@@ -40,7 +40,7 @@ class Toolbar extends React.Component {
 	}
 
 	render () {
-		let buildRoute = this.props.schema.routes.filter((route) => route.name === 'build')[0];
+		let buildRoute = this.props.schema.routes && this.props.schema.routes.filter((route) => route.name === 'build')[0];
 		let themeClassName = classnames('button', this.state.target);
 
 		return (

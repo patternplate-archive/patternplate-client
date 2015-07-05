@@ -4,9 +4,13 @@ import classnames from 'classnames';
 class Toolbar extends React.Component {
 	displayName = 'Toolbar';
 
+	static defaultProps = {
+		items: []
+	};
+
 	render () {
-		let items = this.props.items.map((item) => <option key={item.path} value={encodeURIComponent(item.path)}>{item.version} - {item.environment} - {item.revision}</option>)
-		let available = this.props.items.length > 0;
+		let items = (this.props.items || []).map((item) => <option key={item.path} value={encodeURIComponent(item.path)}>{item.version} - {item.environment} - {item.revision}</option>)
+		let available = items.length > 0;
 
 		let display;
 

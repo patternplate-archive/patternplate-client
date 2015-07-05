@@ -13,7 +13,7 @@ class Content extends React.Component {
 					data={this.props.patterns}
 					config={this.props.config}
 					eventEmitter={this.props.eventEmitter} />
-				<Messages eventEmitter={this.props.eventEmitter} />
+					<Messages eventEmitter={this.props.eventEmitter} messages={this.props.messages}  />
 			</main>
 		);
 	}

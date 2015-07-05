@@ -48,7 +48,7 @@ var Content = (function (_React$Component) {
 					data: this.props.patterns,
 					config: this.props.config,
 					eventEmitter: this.props.eventEmitter }),
-				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter })
+				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter, messages: this.props.messages })
 			);
 		}
 	}]);

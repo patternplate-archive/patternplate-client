@@ -36,7 +36,7 @@ var Toolbar = (function (_React$Component) {
 	_createClass(Toolbar, [{
 		key: 'render',
 		value: function render() {
-			var items = this.props.items.map(function (item) {
+			var items = (this.props.items || []).map(function (item) {
 				return _react2['default'].createElement(
 					'option',
 					{ key: item.path, value: encodeURIComponent(item.path) },
@@ -47,7 +47,7 @@ var Toolbar = (function (_React$Component) {
 					item.revision
 				);
 			});
-			var available = this.props.items.length > 0;
+			var available = items.length > 0;
 
 			var display = undefined;
 
@@ -80,6 +80,12 @@ var Toolbar = (function (_React$Component) {
 				)
 			);
 		}
+	}], [{
+		key: 'defaultProps',
+		value: {
+			items: []
+		},
+		enumerable: true
 	}]);
 
 	return Toolbar;

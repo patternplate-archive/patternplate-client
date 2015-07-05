@@ -11,7 +11,7 @@ class Home extends React.Component {
 		return (
 			<main className="content home">
 				<div className="markdown" dangerouslySetInnerHTML={{'__html': readme}} />
-				<Messages eventEmitter={this.props.eventEmitter} />
+				<Messages eventEmitter={this.props.eventEmitter} messages={this.props.messages} />
 			</main>
 		);
 	}

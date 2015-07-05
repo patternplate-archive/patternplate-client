@@ -28,7 +28,7 @@ function apiRouteFactory(application) {
 					clientHost = config.host + ':' + config.port;
 					proxied = clientHost === serverHost;
 					path = proxied ? '/api/pattern/' : '/pattern/';
-					host = 'http://' + config.host + ':' + config.port + path;
+					host = this.protocol + '://' + config.host + ':' + config.port + path;
 
 					this.path = this.path.split('/').slice(2).join('/');
 

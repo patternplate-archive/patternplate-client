@@ -84,7 +84,7 @@ var Toolbar = (function (_React$Component) {
 		value: function render() {
 			var _this3 = this;
 
-			var buildRoute = this.props.schema.routes.filter(function (route) {
+			var buildRoute = this.props.schema.routes && this.props.schema.routes.filter(function (route) {
 				return route.name === 'build';
 			})[0];
 			var themeClassName = (0, _classnames2['default'])('button', this.state.target);

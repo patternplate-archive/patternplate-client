@@ -12,7 +12,7 @@ function apiRouteFactory (application) {
 
 		let proxied = clientHost === serverHost;
 		let path = proxied ? '/api/pattern/' : '/pattern/';
-		let host = `http://${config.host}:${config.port}${path}`;
+		let host = `${this.protocol}://${config.host}:${config.port}${path}`;
 		this.path = this.path.split('/').slice(2).join('/');
 
 		Object.assign(this.headers, config.headers || {});

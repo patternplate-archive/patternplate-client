@@ -5,7 +5,7 @@ import btoa from 'btoa';
 function apiRouteFactory (application) {
 	return function * apiRoute (next) {
 		let config = application.configuration.client;
-		let host = `http://${config.host}:${config.port}`;
+		let host = `${this.protocol}://${config.host}:${config.port}`;
 		this.path = '/' + this.path.split('/').slice(2).join('/');
 
 		Object.assign(this.headers, config.headers || {});

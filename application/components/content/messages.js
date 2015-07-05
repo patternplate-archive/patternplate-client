@@ -18,6 +18,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _btoa = require('btoa');
+
+var _btoa2 = _interopRequireDefault(_btoa);
+
 var _message = require('./message');
 
 var _message2 = _interopRequireDefault(_message);
@@ -45,6 +49,12 @@ var Messages = (function (_Component) {
 	_createClass(Messages, [{
 		key: 'componentWillMount',
 		value: function componentWillMount() {
+			var _this2 = this;
+
+			this.props.messages.forEach(function (message) {
+				_this2.push(message.content, message.type);
+			});
+
 			this.props.eventEmitter.addListener('error', this.pushError);
 			this.props.eventEmitter.addListener('message', this.push);
 		}
@@ -64,7 +74,7 @@ var Messages = (function (_Component) {
 				'content': message,
 				'type': type,
 				'date': Date.now(),
-				'hash': window.btoa('' + message.message + Date.now())
+				'hash': (0, _btoa2['default'])('' + message.message + Date.now())
 			});
 			messages = messages.slice(this.props.max * -1);
 
@@ -85,14 +95,14 @@ var Messages = (function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _this3 = this;
 
 			var children = this.state.messages.sort(function (a, b) {
 				return a.date - b.date;
 			}).map(function (message, index) {
 				return _react2['default'].createElement(
 					_message2['default'],
-					{ key: message.hash, index: index, date: message.date, type: message.type, manager: _this2 },
+					{ key: message.hash, index: index, date: message.date, type: message.type, manager: _this3 },
 					message.content
 				);
 			});
@@ -110,7 +120,8 @@ var Messages = (function (_Component) {
 	}, {
 		key: 'defaultProps',
 		value: {
-			'max': 3
+			'max': 3,
+			'messages': []
 		},
 		enumerable: true
 	}, {

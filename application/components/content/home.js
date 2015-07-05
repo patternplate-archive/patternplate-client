@@ -43,7 +43,7 @@ var Home = (function (_React$Component) {
 				'main',
 				{ className: 'content home' },
 				_react2['default'].createElement('div', { className: 'markdown', dangerouslySetInnerHTML: { '__html': readme } }),
-				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter })
+				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter, messages: this.props.messages })
 			);
 		}
 	}]);

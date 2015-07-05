@@ -26,14 +26,28 @@ var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
 	return function indexRoute() {
-		var clientConfig, base, self, authHeader, headers, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
+		var clientConfig, base, self, messages, authHeader, selfHeaders, headers, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					clientConfig = application.configuration.client;
 					base = 'http://' + clientConfig.host + ':' + clientConfig.port + clientConfig.path;
 					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + application.runtime.prefix;
+					messages = [];
+
+					if (base === self) {
+						messages.push({
+							'type': 'warn',
+							'content': 'Client at ' + self + ' will not execute api call against itself at ' + base + '.'
+						});
+						application.log.warn('Client at ' + self + ' will not execute api call against itself at ' + base + '. Check configurations "client" and "server".');
+					}
+
 					authHeader = this.headers.authorization;
+					selfHeaders = Object.assign({}, {
+						'accept-type': 'application/json',
+						'authorization': this.headers.authorization
+					});
 
 					if (clientConfig.credentials) {
 						authHeader = 'Basic ' + (0, _btoa2['default'])(clientConfig.credentials.name + ':' + clientConfig.credentials.pass);
@@ -49,83 +63,116 @@ function indexRouteFactory(application) {
 						'patterns': null,
 						'config': application.configuration.ui
 					};
-					context$2$0.prev = 7;
-					context$2$0.next = 10;
+
+					if (!(base !== self)) {
+						context$2$0.next = 25;
+						break;
+					}
+
+					context$2$0.prev = 11;
+					context$2$0.next = 14;
 					return regeneratorRuntime.awrap(fetch(base, { headers: headers }));
 
-				case 10:
+				case 14:
 					response = context$2$0.sent;
-					context$2$0.next = 13;
+					context$2$0.next = 17;
 					return regeneratorRuntime.awrap(response.json());
 
-				case 13:
+				case 17:
 					data.schema = context$2$0.sent;
 
 					if (response.status >= 400) {
 						this['throw'](500, data.schema);
 					}
-					context$2$0.next = 22;
+					context$2$0.next = 25;
 					break;
 
-				case 17:
-					context$2$0.prev = 17;
-					context$2$0.t0 = context$2$0['catch'](7);
+				case 21:
+					context$2$0.prev = 21;
+					context$2$0.t0 = context$2$0['catch'](11);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
-					this['throw'](context$2$0.t0, 500);
-					return context$2$0.abrupt('return');
+					messages.push({
+						'type': 'error',
+						'content': 'Could not fetch server schema from ' + base + ': ' + context$2$0.t0
+					});
 
-				case 22:
+				case 25:
+					if (!data.schema.routes) {
+						context$2$0.next = 45;
+						break;
+					}
+
 					navigationRoute = data.schema.routes.filter(function (route) {
 						return route.name === 'meta';
 					})[0];
+
+					if (!navigationRoute) {
+						application.log.warn('Missing navigation route from server schema.');
+						messages.push({
+							'type': 'warn',
+							'content': 'Missing navigation route from server schema.'
+						});
+					}
+
+					if (!navigationRoute) {
+						context$2$0.next = 45;
+						break;
+					}
+
 					navigationResponse = fetch(navigationRoute.uri, { headers: headers });
-					iconsResponse = fetch(self + 'static/images/inline-icons.svg', { headers: headers });
-					context$2$0.prev = 25;
-					context$2$0.next = 28;
+					context$2$0.prev = 30;
+					context$2$0.next = 33;
 					return regeneratorRuntime.awrap(navigationResponse);
 
-				case 28:
+				case 33:
 					navigationResponse = context$2$0.sent;
-					context$2$0.next = 31;
+					context$2$0.next = 36;
 					return regeneratorRuntime.awrap(navigationResponse.json());
 
-				case 31:
+				case 36:
 					context$2$0.t1 = context$2$0.sent;
 					data.navigation = (0, _utilsHumanizeTree2['default'])(context$2$0.t1);
 
 					if (navigationResponse.status >= 400) {
 						this['throw'](500, data.navigation);
 					}
-					context$2$0.next = 40;
+					context$2$0.next = 45;
 					break;
 
-				case 36:
-					context$2$0.prev = 36;
-					context$2$0.t2 = context$2$0['catch'](25);
+				case 41:
+					context$2$0.prev = 41;
+					context$2$0.t2 = context$2$0['catch'](30);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
-					this['throw'](context$2$0.t2, 500);
-
-				case 40:
-					context$2$0.next = 42;
-					return regeneratorRuntime.awrap((0, _reactRoutes2['default'])(this.path, data));
-
-				case 42:
-					content = context$2$0.sent;
-					context$2$0.next = 45;
-					return regeneratorRuntime.awrap(iconsResponse);
+					messages.push({
+						'type': 'error',
+						'content': 'Could not fetch navigation from ' + navigationRoute.uri + ': ' + context$2$0.t2
+					});
 
 				case 45:
+
+					data.messages = (data.messages || []).concat(messages);
+
+					iconsResponse = fetch(self + 'static/images/inline-icons.svg', { 'headers': selfHeaders });
+					context$2$0.next = 49;
+					return regeneratorRuntime.awrap((0, _reactRoutes2['default'])(this.path, data));
+
+				case 49:
+					content = context$2$0.sent;
+					context$2$0.next = 52;
+					return regeneratorRuntime.awrap(iconsResponse);
+
+				case 52:
 					icons = context$2$0.sent;
-					context$2$0.next = 48;
+					context$2$0.next = 55;
 					return regeneratorRuntime.awrap(icons.text());
 
-				case 48:
+				case 55:
 					icons = context$2$0.sent;
 
 					this.body = (0, _layouts2['default'])({
-						'title': data.schema.name,
+						'title': data.schema.name || 'patternplate-client',
 						'data': JSON.stringify(data),
 						'content': content,
 						'script': '/script/index.js',
@@ -133,11 +180,11 @@ function indexRouteFactory(application) {
 						'icons': icons
 					});
 
-				case 50:
+				case 57:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[7, 17], [25, 36]]);
+		}, null, this, [[11, 21], [30, 41]]);
 	};
 }
 

@@ -23,7 +23,7 @@ function apiRouteFactory(application) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
 					config = application.configuration.client;
-					host = 'http://' + config.host + ':' + config.port;
+					host = this.protocol + '://' + config.host + ':' + config.port;
 
 					this.path = '/' + this.path.split('/').slice(2).join('/');
 
