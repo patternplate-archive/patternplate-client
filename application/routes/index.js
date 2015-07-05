@@ -26,100 +26,102 @@ var _layouts2 = _interopRequireDefault(_layouts);
 
 function indexRouteFactory(application) {
 	return function indexRoute() {
-		var base, self, headers, patternPath, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons, cookieTheme;
+		var clientConfig, base, self, authHeader, headers, data, response, navigationRoute, navigationResponse, iconsResponse, content, icons;
 		return regeneratorRuntime.async(function indexRoute$(context$2$0) {
 			while (1) switch (context$2$0.prev = context$2$0.next) {
 				case 0:
-					base = 'http://' + application.configuration.client.host + ':' + application.configuration.client.port + application.configuration.client.path;
+					clientConfig = application.configuration.client;
+					base = 'http://' + clientConfig.host + ':' + clientConfig.port + clientConfig.path;
 					self = 'http://' + application.configuration.server.host + ':' + application.configuration.server.port + application.runtime.prefix;
-					headers = {
-						'accept-type': 'application/json',
-						'authorization': this.request.header.authorization
-					};
-					patternPath = this.params.path;
+					authHeader = this.headers.authorization;
 
-					var theme = this.request.header.cookie ? this.request.header.cookie.match('theme=([^;]*)') : null;
-					cookieTheme = theme ? theme[1] : application.configuration.client.defaultTheme;
+					if (clientConfig.credentials) {
+						authHeader = 'Basic ' + (0, _btoa2['default'])(clientConfig.credentials.name + ':' + clientConfig.credentials.pass);
+					}
+
+					headers = Object.assign({}, {
+						'accept-type': 'application/json',
+						'authorization': authHeader
+					});
 					data = {
 						'schema': {},
 						'navigation': {},
 						'patterns': null,
-						'config': application.configuration.ui,
-						'theme': cookieTheme
+						'config': application.configuration.ui
 					};
-					context$2$0.prev = 5;
-					context$2$0.next = 8;
+					context$2$0.prev = 7;
+					context$2$0.next = 10;
 					return regeneratorRuntime.awrap(fetch(base, { headers: headers }));
 
-				case 8:
+				case 10:
 					response = context$2$0.sent;
-					context$2$0.next = 11;
+					context$2$0.next = 13;
 					return regeneratorRuntime.awrap(response.json());
 
-				case 11:
+				case 13:
 					data.schema = context$2$0.sent;
 
 					if (response.status >= 400) {
 						this['throw'](500, data.schema);
 					}
-					context$2$0.next = 20;
+					context$2$0.next = 22;
 					break;
 
-				case 15:
-					context$2$0.prev = 15;
-					context$2$0.t0 = context$2$0['catch'](5);
+				case 17:
+					context$2$0.prev = 17;
+					context$2$0.t0 = context$2$0['catch'](7);
 
 					application.log.error('Could not fetch server schema from ' + base + '.');
 					this['throw'](context$2$0.t0, 500);
 					return context$2$0.abrupt('return');
 
-				case 20:
+				case 22:
 					navigationRoute = data.schema.routes.filter(function (route) {
 						return route.name === 'meta';
 					})[0];
 					navigationResponse = fetch(navigationRoute.uri, { headers: headers });
 					iconsResponse = fetch(self + 'static/images/inline-icons.svg', { headers: headers });
-					context$2$0.prev = 23;
-					context$2$0.next = 26;
+					context$2$0.prev = 25;
+					context$2$0.next = 28;
 					return regeneratorRuntime.awrap(navigationResponse);
 
-				case 26:
+				case 28:
 					navigationResponse = context$2$0.sent;
-					context$2$0.next = 29;
+					context$2$0.next = 31;
 					return regeneratorRuntime.awrap(navigationResponse.json());
 
-				case 29:
+				case 31:
 					context$2$0.t1 = context$2$0.sent;
 					data.navigation = (0, _utilsHumanizeTree2['default'])(context$2$0.t1);
 
 					if (navigationResponse.status >= 400) {
 						this['throw'](500, data.navigation);
 					}
-					context$2$0.next = 38;
+					context$2$0.next = 40;
 					break;
 
-				case 34:
-					context$2$0.prev = 34;
-					context$2$0.t2 = context$2$0['catch'](23);
+				case 36:
+					context$2$0.prev = 36;
+					context$2$0.t2 = context$2$0['catch'](25);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
 					this['throw'](context$2$0.t2, 500);
 
-				case 38:
-					context$2$0.next = 40;
+				case 40:
+					context$2$0.next = 42;
 					return regeneratorRuntime.awrap((0, _reactRoutes2['default'])(this.path, data));
 
-				case 40:
+				case 42:
 					content = context$2$0.sent;
-					context$2$0.next = 43;
+					context$2$0.next = 45;
 					return regeneratorRuntime.awrap(iconsResponse);
 
-				case 43:
+				case 45:
 					icons = context$2$0.sent;
-					context$2$0.next = 46;
+					context$2$0.next = 48;
 					return regeneratorRuntime.awrap(icons.text());
 
-				case 46:
+				case 48:
 					icons = context$2$0.sent;
 
 					this.body = (0, _layouts2['default'])({
@@ -127,15 +129,15 @@ function indexRouteFactory(application) {
 						'data': JSON.stringify(data),
 						'content': content,
 						'script': '/script/index.js',
-						'stylesheet': '/style/' + cookieTheme + '.css',
+						'stylesheet': '/style/light.css',
 						'icons': icons
 					});
 
-				case 48:
+				case 50:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[5, 15], [23, 34]]);
+		}, null, this, [[7, 17], [25, 36]]);
 	};
 }
 

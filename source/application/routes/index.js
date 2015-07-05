@@ -7,15 +7,21 @@ import layout from '../layouts';
 
 function indexRouteFactory ( application ) {
 	return async function indexRoute () {
-		let base = `http://${application.configuration.client.host}:${application.configuration.client.port}${application.configuration.client.path}`;
+		let clientConfig = application.configuration.client;
+
+		let base = `http://${clientConfig.host}:${clientConfig.port}${clientConfig.path}`;
 		let self = `http://${application.configuration.server.host}:${application.configuration.server.port}${application.runtime.prefix}`;
 
-		let headers = {
-			'accept-type': 'application/json',
-			'authorization': this.request.header.authorization
-		};
+		let authHeader = this.headers.authorization;
 
-		let patternPath = this.params.path;
+		if (clientConfig.credentials) {
+			authHeader = 'Basic ' + btoa(`${clientConfig.credentials.name}:${clientConfig.credentials.pass}`);
+		}
+
+		let headers = Object.assign({}, {
+			'accept-type': 'application/json',
+			'authorization': authHeader
+		});
 
 		let data = {
 			'schema': {},
@@ -37,7 +43,6 @@ function indexRouteFactory ( application ) {
 		}
 
 		let navigationRoute = data.schema.routes.filter((route) => route.name === 'meta')[0];
-
 		let navigationResponse = fetch(navigationRoute.uri, {headers});
 		let iconsResponse = fetch(`${self}static/images/inline-icons.svg`, {headers});
 

@@ -3,11 +3,13 @@
 Object.defineProperty(exports, '__esModule', {
 	value: true
 });
-var client = {
-	'host': 'localhost',
-	'port': '1338',
-	'path': '/'
+var middlewares = {
+	'enabled': {
+		'basicauth': {
+			'enabled': true
+		}
+	}
 };
 
-exports['default'] = client;
+exports['default'] = middlewares;
 module.exports = exports['default'];
