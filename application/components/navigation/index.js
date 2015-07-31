@@ -67,7 +67,7 @@ var Navigation = (function (_React$Component) {
 				_react2['default'].createElement(
 					_navigationTree2['default'],
 					{ data: this.props.navigation, path: this.props.path, config: this.props.config },
-					_react2['default'].createElement(_navigationItem2['default'], { name: 'Home', id: 0, key: 'root', linkTo: '/' })
+					_react2['default'].createElement(_navigationItem2['default'], { name: 'Home', symbol: 'home', id: 0, key: 'root', linkTo: '/' })
 				),
 				_react2['default'].createElement(
 					'button',

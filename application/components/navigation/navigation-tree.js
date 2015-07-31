@@ -4,6 +4,8 @@ Object.defineProperty(exports, '__esModule', {
 	value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
@@ -18,9 +20,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _camelCase = require('camel-case');
+var _deepEqual = require('deep-equal');
 
-var _camelCase2 = _interopRequireDefault(_camelCase);
+var _deepEqual2 = _interopRequireDefault(_deepEqual);
 
 var _navigationItem = require('./navigation-item');
 
@@ -42,75 +44,86 @@ var NavigationTree = (function (_React$Component) {
 		value: function render() {
 			var _this = this;
 
-			var children = Array.isArray(this.props.children) ? this.props.children : [this.props.children];
-			children = children.filter(function (item) {
+			var data = this.props.data;
+
+			var folders = [];
+			var patterns = [];
+
+			var children = Object.keys(data).forEach(function (childKey) {
+				var child = _this.props.data[childKey];
+
+				if (child.type == 'pattern') {
+					patterns.push(child);
+				} else if (child.type == 'folder') {
+					folders.push(child);
+				} else {
+					console.warn('Unknown meta hierarchy type "' + child.type + '", skipping.');
+				}
+			});
+
+			// extract displayName and order from hierarchy config for each folder
+			folders = folders.map(function (folder) {
+				var splits = folder.id.split('/');
+				var key = splits[splits.length - 1];
+
+				var defaultHierarchyEntry = {
+					'order': -1, // default order is -1, hence 'unordered' items are on top
+					'displayName': key,
+					'icon': 'folder' // TODO: add 'folder' default icon
+				};
+
+				var hierarchyEntry = _this.props.config.hierarchy[folder.id];
+
+				return _extends({}, folder, defaultHierarchyEntry, hierarchyEntry);
+			});
+
+			folders.sort(function (a, b) {
+				return a.order == b.order ? a.displayName > b.displayName : a.order > b.order;
+			});
+
+			folders = folders.map(function (folder) {
+				var currentPath = _this.props.path.split('/');
+				var folderPath = folder.id.split('/');
+				var active = (0, _deepEqual2['default'])(currentPath.slice(2, 2 + folderPath.length), folderPath);
+
+				return _react2['default'].createElement(
+					_navigationItem2['default'],
+					{ name: folder.displayName, symbol: folder.icon, id: folder.id, key: folder.id, active: active },
+					_react2['default'].createElement(NavigationTree, { path: _this.props.path, config: _this.props.config, data: folder.children, id: folder.id })
+				);
+			});
+
+			// extract displayName / name from pattern
+			patterns = patterns.map(function (pattern) {
+				return _extends({}, pattern, {
+					displayName: pattern.manifest.displayName || pattern.manifest.name
+				});
+			});
+
+			patterns.sort(function (a, b) {
+				return b.displayName > a.displayName;
+			});
+
+			patterns = patterns.map(function (pattern) {
+				return _react2['default'].createElement(_navigationItem2['default'], { name: pattern.displayName, id: pattern.id, key: pattern.id });
+			});
+
+			// inject external children (e.g. "Home" item)
+
+			var external = Array.isArray(this.props.children) ? this.props.children : [this.props.children];
+			external = external.filter(function (item) {
 				return item;
 			});
-
-			children = children.map(function (child) {
+			external = external.map(function (child) {
 				return _react2['default'].cloneElement(child);
 			});
-
-			var activePath = this.props.path.split('/').slice(2);
-
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
-
-			try {
-				for (var _iterator = Object.keys(this.props.data)[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var keyName = _step.value;
-
-					var sub = this.props.data[keyName];
-					var path = keyName.split('/') || [];
-					var id = this.props.id ? this.props.id.split('/') : [];
-
-					var treeFragments = [].concat(id).concat(path).map(function (item) {
-						return item.toLowerCase();
-					});
-
-					var treeId = treeFragments.filter(function (item) {
-						return item;
-					}).join('/');
-
-					if (typeof sub === 'object') {
-						var depth = treeFragments.length;
-						var active = treeFragments[depth - 1] === activePath[depth - 1];
-
-						children.push(_react2['default'].createElement(
-							_navigationItem2['default'],
-							{ name: keyName, id: treeId, key: treeId, active: active },
-							_react2['default'].createElement(NavigationTree, { data: sub, id: treeId, path: this.props.path })
-						));
-					} else {
-						children.push(_react2['default'].createElement(_navigationItem2['default'], { name: sub, id: treeId, key: treeId }));
-					}
-				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator['return']) {
-						_iterator['return']();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
-
-			if (this.props.config) {
-				children.sort(function (a, b) {
-					return _this.props.config.menuOrder.indexOf(a.props.name) - _this.props.config.menuOrder.indexOf(b.props.name);
-				});
-			}
 
 			return _react2['default'].createElement(
 				'ul',
 				{ className: 'navigation-tree' },
-				children
+				external,
+				folders,
+				patterns
 			);
 		}
 	}]);

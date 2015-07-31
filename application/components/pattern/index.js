@@ -257,7 +257,7 @@ var Pattern = (function (_React$Component) {
 					_react2['default'].createElement(
 						'span',
 						{ className: 'pattern-name' },
-						this.props.manifest.name
+						this.props.manifest.displayName || this.props.manifest.name
 					),
 					_react2['default'].createElement(
 						'small',

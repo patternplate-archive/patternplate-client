@@ -16,10 +16,6 @@ var _cookie = require('cookie');
 
 var _cookie2 = _interopRequireDefault(_cookie);
 
-var _utilsHumanizeTree = require('../utils/humanize-tree');
-
-var _utilsHumanizeTree2 = _interopRequireDefault(_utilsHumanizeTree);
-
 var _reactRoutes = require('../react-routes');
 
 var _reactRoutes2 = _interopRequireDefault(_reactRoutes);
@@ -117,7 +113,7 @@ function indexRouteFactory(application) {
 
 				case 28:
 					if (!data.schema.routes) {
-						context$2$0.next = 48;
+						context$2$0.next = 47;
 						break;
 					}
 
@@ -134,7 +130,7 @@ function indexRouteFactory(application) {
 					}
 
 					if (!navigationRoute) {
-						context$2$0.next = 48;
+						context$2$0.next = 47;
 						break;
 					}
 
@@ -149,44 +145,43 @@ function indexRouteFactory(application) {
 					return regeneratorRuntime.awrap(navigationResponse.json());
 
 				case 39:
-					context$2$0.t1 = context$2$0.sent;
-					data.navigation = (0, _utilsHumanizeTree2['default'])(context$2$0.t1);
+					data.navigation = context$2$0.sent;
 
 					if (navigationResponse.status >= 400) {
 						this['throw'](500, data.navigation);
 					}
-					context$2$0.next = 48;
+					context$2$0.next = 47;
 					break;
 
-				case 44:
-					context$2$0.prev = 44;
-					context$2$0.t2 = context$2$0['catch'](33);
+				case 43:
+					context$2$0.prev = 43;
+					context$2$0.t1 = context$2$0['catch'](33);
 
 					application.log.error('Could not fetch navigation from ' + navigationRoute.uri);
 					messages.push({
 						'type': 'error',
-						'content': 'Could not fetch navigation from ' + navigationRoute.uri + ': ' + context$2$0.t2
+						'content': 'Could not fetch navigation from ' + navigationRoute.uri + ': ' + context$2$0.t1
 					});
 
-				case 48:
+				case 47:
 
 					data.messages = (data.messages || []).concat(messages);
 
 					iconsResponse = fetch(self + 'static/images/inline-icons.svg', { 'headers': selfHeaders });
-					context$2$0.next = 52;
+					context$2$0.next = 51;
 					return regeneratorRuntime.awrap((0, _reactRoutes2['default'])(this.path, data));
 
-				case 52:
+				case 51:
 					content = context$2$0.sent;
-					context$2$0.next = 55;
+					context$2$0.next = 54;
 					return regeneratorRuntime.awrap(iconsResponse);
 
-				case 55:
+				case 54:
 					icons = context$2$0.sent;
-					context$2$0.next = 58;
+					context$2$0.next = 57;
 					return regeneratorRuntime.awrap(icons.text());
 
-				case 58:
+				case 57:
 					icons = context$2$0.sent;
 
 					this.body = (0, _layouts2['default'])({
@@ -198,11 +193,11 @@ function indexRouteFactory(application) {
 						'icons': icons
 					});
 
-				case 60:
+				case 59:
 				case 'end':
 					return context$2$0.stop();
 			}
-		}, null, this, [[14, 24], [33, 44]]);
+		}, null, this, [[14, 24], [33, 43]]);
 	};
 }
 

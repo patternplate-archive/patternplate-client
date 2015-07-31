@@ -128,7 +128,7 @@ class Pattern extends React.Component {
 		return (
 			<div className="pattern">
 				<Headline className="pattern-header" order={2}>
-					<span className="pattern-name">{this.props.manifest.name}</span>
+					<span className="pattern-name">{this.props.manifest.displayName || this.props.manifest.name}</span>
 					<small className="pattern-version">v{this.props.manifest.version}</small>
 					<small className="pattern-lastmodified">Last modified: {moment(new Date(this.props.mtime)).fromNow()}</small>
 				</Headline>
