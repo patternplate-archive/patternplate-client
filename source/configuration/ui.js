@@ -26,6 +26,9 @@ const ui = {
 			'use': 'source'
 		}
 	},
+	'fullscreenPatterns': [
+		// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
+	],
 	'theme': 'light',
 	'themeTarget': 'dark'
 };
