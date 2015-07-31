@@ -2,7 +2,6 @@ import 'isomorphic-fetch';
 import btoa from 'btoa';
 import cookie from 'cookie';
 
-import humanizeTree from '../utils/humanize-tree';
 import router from '../react-routes';
 import layout from '../layouts';
 
@@ -89,7 +88,7 @@ function indexRouteFactory ( application ) {
 				let navigationResponse = fetch(navigationRoute.uri, {headers});
 				try {
 					navigationResponse = await navigationResponse;
-					data.navigation = humanizeTree(await navigationResponse.json());
+					data.navigation = await navigationResponse.json();
 
 					if (navigationResponse.status >= 400) {
 						this.throw(500, data.navigation);

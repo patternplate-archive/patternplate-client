@@ -42,17 +42,22 @@ var NavigationItem = (function (_React$Component) {
 	_createClass(NavigationItem, [{
 		key: 'render',
 		value: function render() {
-			var linkClassName = (0, _classnames2['default'])('navigation-link', { 'child-active': this.props.active });
-			var itemClassName = (0, _classnames2['default'])('navigation-item', { 'child-active': this.props.active });
+			var _props = this.props;
+			var name = _props.name;
+			var symbol = _props.symbol;
+			var active = _props.active;
+
+			var linkClassName = (0, _classnames2['default'])('navigation-link', { 'child-active': active });
+			var itemClassName = (0, _classnames2['default'])('navigation-item', { 'child-active': active });
 
 			return _react2['default'].createElement(
 				'li',
 				{ className: itemClassName },
 				_react2['default'].createElement(
 					_reactRouter.Link,
-					{ to: this.props.linkTo, params: { 'splat': this.props.id }, title: this.props.name, className: linkClassName },
-					_react2['default'].createElement(_commonIcon2['default'], { symbol: this.props.name.toLowerCase() }),
-					this.props.name
+					{ to: this.props.linkTo, params: { 'splat': this.props.id }, title: name, className: linkClassName },
+					symbol && _react2['default'].createElement(_commonIcon2['default'], { symbol: symbol }),
+					name
 				),
 				this.props.children
 			);

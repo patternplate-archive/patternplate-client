@@ -42,4 +42,10 @@
 	<symbol id="arrow-double-right" viewBox="0 0 32 32">
 		<path d="M15.71 18.59L18.29 16l-2.59-2.59L17.12 12l4 4-4 4-1.41-1.41zM12.29 20l4-4-4-4-1.41 1.41L13.46 16l-2.59 2.59L12.29 20z"/>
 	</symbol>
+	<symbol id="folder" viewBox="-13.8 -12.5 100 100">
+		<path d="M73 62H0V9.5h73V62zM5 57h63V14.5H5V57zm8.8-57H5.2v8.7h8.6V0zM24 0h-8.7v8.7H24V0zm9.8 0h-8.6v8.7h8.6V0z"/>
+	</symbol>
+	<symbol id="pattern" viewBox="0 0 100 100">
+		<path d="M62.5 62.5h-25v-25h25v25zM40 60h20V40H40v20z"/>
+	</symbol>
 </svg>

@@ -23,7 +23,7 @@ class Navigation extends React.Component {
 		return (
 			<nav className={ className }>
 				<NavigationTree data={this.props.navigation} path={this.props.path} config={this.props.config}>
-					<NavigationItem name="Home" id={0} key="root" linkTo="/"/>
+					<NavigationItem name="Home" symbol="home" id={0} key="root" linkTo="/"/>
 				</NavigationTree>
 				<button className="toggleMode" onClick={this.toggleMode}>
 					{ this.state.expanded ? <Icon symbol="arrow-double-left"></Icon> : <Icon symbol="arrow-double-right"></Icon> }

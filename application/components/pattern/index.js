@@ -173,7 +173,7 @@ var Pattern = (function (_React$Component) {
 	}, {
 		key: 'closeControls',
 		value: function closeControls() {
-			var ids = arguments[0] === undefined ? this.state.active : arguments[0];
+			var ids = arguments.length <= 0 || arguments[0] === undefined ? this.state.active : arguments[0];
 
 			var diff = this.state.active.filter(function (id) {
 				return ids.indexOf(id) === -1;
@@ -278,7 +278,7 @@ var Pattern = (function (_React$Component) {
 					_react2['default'].createElement(
 						'span',
 						{ className: 'pattern-name' },
-						this.props.manifest.name
+						this.props.manifest.displayName || this.props.manifest.name
 					),
 					_react2['default'].createElement(
 						'small',

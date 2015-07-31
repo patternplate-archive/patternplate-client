@@ -27,6 +27,27 @@ var _message = require('./message');
 var _message2 = _interopRequireDefault(_message);
 
 var Messages = (function (_Component) {
+	_inherits(Messages, _Component);
+
+	_createClass(Messages, null, [{
+		key: 'displayName',
+		value: 'Messages',
+		enumerable: true
+	}, {
+		key: 'defaultProps',
+		value: {
+			'max': 3,
+			'messages': []
+		},
+		enumerable: true
+	}, {
+		key: 'propTypes',
+		value: {
+			'max': _react.PropTypes.number.isRequired
+		},
+		enumerable: true
+	}]);
+
 	function Messages() {
 		var _this = this;
 
@@ -43,8 +64,6 @@ var Messages = (function (_Component) {
 
 		this.push = this.push.bind(this);
 	}
-
-	_inherits(Messages, _Component);
 
 	_createClass(Messages, [{
 		key: 'componentWillMount',
@@ -67,7 +86,7 @@ var Messages = (function (_Component) {
 	}, {
 		key: 'push',
 		value: function push(message) {
-			var type = arguments[1] === undefined ? 'info' : arguments[1];
+			var type = arguments.length <= 1 || arguments[1] === undefined ? 'info' : arguments[1];
 
 			var messages = this.state.messages.slice(0);
 			messages.push({
@@ -113,23 +132,6 @@ var Messages = (function (_Component) {
 				children
 			);
 		}
-	}], [{
-		key: 'displayName',
-		value: 'Messages',
-		enumerable: true
-	}, {
-		key: 'defaultProps',
-		value: {
-			'max': 3,
-			'messages': []
-		},
-		enumerable: true
-	}, {
-		key: 'propTypes',
-		value: {
-			'max': _react.PropTypes.number.isRequired
-		},
-		enumerable: true
 	}]);
 
 	return Messages;

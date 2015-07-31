@@ -14,14 +14,16 @@ class NavigationItem extends React.Component {
 	};
 
 	render () {
-		let linkClassName = classnames('navigation-link', {'child-active': this.props.active});
-		let itemClassName = classnames('navigation-item', {'child-active': this.props.active});
+		let { name, symbol, active } = this.props;
+
+		let linkClassName = classnames('navigation-link', { 'child-active': active });
+		let itemClassName = classnames('navigation-item', { 'child-active': active });
 
 		return (
 			<li className={ itemClassName }>
-				<Link to={this.props.linkTo} params={{ 'splat': this.props.id }} title={this.props.name} className={ linkClassName }>
-					<Icon symbol={this.props.name.toLowerCase()} />
-					{this.props.name}
+				<Link to={this.props.linkTo} params={{ 'splat': this.props.id }} title={name} className={ linkClassName }>
+					{symbol && <Icon symbol={symbol} />}
+					{name}
 				</Link>
 				{this.props.children}
 			</li>
