@@ -5,8 +5,6 @@ Object.defineProperty(exports, '__esModule', {
 });
 var ui = {
 	'hierarchy': {
-		// top level hierarchy
-
 		'atoms': {
 			'displayName': 'Atoms',
 			'order': 1,
@@ -22,19 +20,16 @@ var ui = {
 			'order': 3,
 			'icon': 'polymers'
 		},
-		'organsims': {
+		'organisms': {
 			'displayName': 'Organisms',
 			'order': 4,
-			'icon': 'organsims'
+			'icon': 'organisms'
 		},
 		'ecospheres': {
 			'displayName': 'Ecospheres',
 			'order': 5,
 			'icon': 'ecospheres'
 		},
-
-		// other folder aliases
-
 		'atoms/special-atoms': {
 			'displayName': 'Specialized Atoms'
 		}
