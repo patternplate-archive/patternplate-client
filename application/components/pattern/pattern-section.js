@@ -61,7 +61,7 @@ var PatternSection = (function (_React$Component) {
 	_createClass(PatternSection, [{
 		key: 'get',
 		value: function get(id) {
-			var force = arguments[1] === undefined ? false : arguments[1];
+			var force = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
 			var response, data, url, message, _data;
 

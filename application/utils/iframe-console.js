@@ -10,7 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var IframeConsole = (function () {
 	function IframeConsole() {
-		var origin = arguments[0] === undefined ? '' : arguments[0];
+		var origin = arguments.length <= 0 || arguments[0] === undefined ? '' : arguments[0];
 
 		_classCallCheck(this, IframeConsole);
 

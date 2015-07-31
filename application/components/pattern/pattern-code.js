@@ -95,7 +95,7 @@ var PatternCode = (function (_React$Component) {
 	}], [{
 		key: 'highlight',
 		value: function highlight(component) {
-			var selector = arguments[1] === undefined ? 'pre > code' : arguments[1];
+			var selector = arguments.length <= 1 || arguments[1] === undefined ? 'pre > code' : arguments[1];
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
 			var _iteratorError = undefined;

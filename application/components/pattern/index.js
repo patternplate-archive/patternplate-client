@@ -173,7 +173,7 @@ var Pattern = (function (_React$Component) {
 	}, {
 		key: 'closeControls',
 		value: function closeControls() {
-			var ids = arguments[0] === undefined ? this.state.active : arguments[0];
+			var ids = arguments.length <= 0 || arguments[0] === undefined ? this.state.active : arguments[0];
 
 			var diff = this.state.active.filter(function (id) {
 				return ids.indexOf(id) === -1;
@@ -200,7 +200,6 @@ var Pattern = (function (_React$Component) {
 
 			var results = [];
 			var controls = [];
-			var content = undefined;
 
 			var fullscreen = '/demo/' + this.props.id;
 
@@ -248,6 +247,28 @@ var Pattern = (function (_React$Component) {
 				}
 			}
 
+			var allowFullscreen = this.props.config.fullscreenPatterns.every(function (rule) {
+				return !_this2.props.id.match(new RegExp(rule));
+			});
+
+			var content = undefined;
+
+			if (allowFullscreen) {
+				content = _react2['default'].createElement(_patternDemo2['default'], { target: this.props.id });
+			} else {
+				content = _react2['default'].createElement(
+					'div',
+					{ className: 'pattern-fullscreen-message' },
+					'This pattern is disabled in embedded view. Please open the ',
+					_react2['default'].createElement(
+						'a',
+						{ href: fullscreen, target: '_blank' },
+						'fullscreen view'
+					),
+					' to display it.'
+				);
+			}
+
 			return _react2['default'].createElement(
 				'div',
 				{ className: 'pattern' },
@@ -272,7 +293,7 @@ var Pattern = (function (_React$Component) {
 						(0, _moment2['default'])(new Date(this.props.mtime)).fromNow()
 					)
 				),
-				_react2['default'].createElement(_patternDemo2['default'], { target: this.props.id }),
+				content,
 				_react2['default'].createElement(
 					'div',
 					{ className: 'pattern-toolbar' },

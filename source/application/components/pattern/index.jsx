@@ -108,7 +108,6 @@ class Pattern extends React.Component {
 	render () {
 		let results = [];
 		let controls = [];
-		let content;
 
 		let fullscreen = `/demo/${this.props.id}`;
 
@@ -125,6 +124,24 @@ class Pattern extends React.Component {
 			controls.push(<PatternControl {...item} id={item.controlKey} key={item.controlKey} target={item.key} active={isActive} />);
 		}
 
+		let allowFullscreen = this.props.config.fullscreenPatterns.every(rule => {
+			return !this.props.id.match(new RegExp(rule));
+		});
+
+		let content;
+
+		if (allowFullscreen) {
+			content = <PatternDemo target={this.props.id} />;
+		} else {
+			content = (
+				<div className="pattern-fullscreen-message">
+					{"This pattern is disabled in embedded view. Please open the "}
+					<a href={fullscreen} target="_blank">fullscreen view</a>
+					{" to display it."}
+				</div>
+			);
+		}
+
 		return (
 			<div className="pattern">
 				<Headline className="pattern-header" order={2}>
@@ -132,7 +149,7 @@ class Pattern extends React.Component {
 					<small className="pattern-version">v{this.props.manifest.version}</small>
 					<small className="pattern-lastmodified">Last modified: {moment(new Date(this.props.mtime)).fromNow()}</small>
 				</Headline>
-				<PatternDemo target={this.props.id} />
+				{content}
 				<div className="pattern-toolbar">
 					{controls}
 					<button className="pattern-control pattern-tool" type="button"
