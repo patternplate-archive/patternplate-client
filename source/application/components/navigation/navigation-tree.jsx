@@ -77,7 +77,7 @@ class NavigationTree extends React.Component {
 
 		patterns = patterns.map(pattern => {
 			return (
-				<NavigationItem name={pattern.displayName} id={pattern.id} key={pattern.id} />
+				<NavigationItem name={pattern.displayName} id={pattern.id} key={pattern.id} symbol={pattern.type} />
 			);
 		});
 

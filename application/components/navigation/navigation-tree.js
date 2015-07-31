@@ -105,7 +105,7 @@ var NavigationTree = (function (_React$Component) {
 			});
 
 			patterns = patterns.map(function (pattern) {
-				return _react2['default'].createElement(_navigationItem2['default'], { name: pattern.displayName, id: pattern.id, key: pattern.id });
+				return _react2['default'].createElement(_navigationItem2['default'], { name: pattern.displayName, id: pattern.id, key: pattern.id, symbol: pattern.type });
 			});
 
 			// inject external children (e.g. "Home" item)
