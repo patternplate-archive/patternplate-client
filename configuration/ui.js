@@ -5,6 +5,11 @@ Object.defineProperty(exports, '__esModule', {
 });
 var ui = {
 	'hierarchy': {
+		'globals': {
+			'displayName': 'Globals',
+			'order': 0,
+			'icon': 'globals'
+		},
 		'atoms': {
 			'displayName': 'Atoms',
 			'order': 1,
