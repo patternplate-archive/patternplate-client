@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _es6Promise = require('es6-promise');
 
@@ -47,6 +47,8 @@ var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 (0, _es6Promise.polyfill)();
 
 var PatternSection = (function (_React$Component) {
+	_inherits(PatternSection, _React$Component);
+
 	function PatternSection() {
 		_classCallCheck(this, PatternSection);
 
@@ -55,8 +57,6 @@ var PatternSection = (function (_React$Component) {
 		this.displayName = 'PatternSection';
 		this.state = { 'data': null, 'error': false };
 	}
-
-	_inherits(PatternSection, _React$Component);
 
 	_createClass(PatternSection, [{
 		key: 'get',
