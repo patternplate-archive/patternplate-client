@@ -1,7 +1,7 @@
 
 function hierarchyCompare (a, b) {
 	return (a.order == b.order) ?
-		a.displayName > b.displayName :
+		a.displayName.localeCompare(b.displayName) :
 		a.order > b.order;
 }
 

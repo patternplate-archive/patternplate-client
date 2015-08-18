@@ -9,7 +9,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports['default'] = getAugmentedChildren;
 
 function hierarchyCompare(a, b) {
-	return a.order == b.order ? a.displayName > b.displayName : a.order > b.order;
+	return a.order == b.order ? a.displayName.localeCompare(b.displayName) : a.order > b.order;
 }
 
 function augmentFolderData(hierarchy) {

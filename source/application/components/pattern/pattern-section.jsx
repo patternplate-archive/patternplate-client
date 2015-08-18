@@ -110,7 +110,6 @@ class PatternSection extends React.Component {
 			let rows = Object.values(folders.concat(patterns)).map(child => {
 
 				let { type, displayName, id } = child;
-				let title = id.split('/').unshift();
 				let link = `/pattern/${id}`;
 
 				if (type == 'pattern') {
@@ -118,7 +117,7 @@ class PatternSection extends React.Component {
 					return (
 						<tr key={id}>
 							<td><Icon symbol="pattern" /></td>
-							<td title={title}><Link to={link}>{displayName}</Link></td>
+							<td><Link to={link}>{displayName}</Link></td>
 							<td>{child.manifest.version}</td>
 							<td><Link to={link}>Show pattern</Link></td>
 							<td><a href={`/demo/${id}`} target="_blank">Fullscreen</a></td>
@@ -130,7 +129,7 @@ class PatternSection extends React.Component {
 					return (
 						<tr key={id}>
 							<td><Icon symbol={type} /></td>
-							<td title={title} colSpan={4}>
+							<td colSpan={4}>
 								<Link to={link}>{displayName}</Link>
 							</td>
 						</tr>

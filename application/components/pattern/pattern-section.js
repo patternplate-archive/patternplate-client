@@ -229,7 +229,6 @@ var PatternSection = (function (_React$Component) {
 					var displayName = child.displayName;
 					var id = child.id;
 
-					var title = id.split('/').unshift();
 					var link = '/pattern/' + id;
 
 					if (type == 'pattern') {
@@ -244,7 +243,7 @@ var PatternSection = (function (_React$Component) {
 							),
 							_react2['default'].createElement(
 								'td',
-								{ title: title },
+								null,
 								_react2['default'].createElement(
 									_reactRouter.Link,
 									{ to: link },
@@ -287,7 +286,7 @@ var PatternSection = (function (_React$Component) {
 							),
 							_react2['default'].createElement(
 								'td',
-								{ title: title, colSpan: 4 },
+								{ colSpan: 4 },
 								_react2['default'].createElement(
 									_reactRouter.Link,
 									{ to: link },
