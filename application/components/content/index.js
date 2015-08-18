@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -29,13 +29,13 @@ var _patternPatternSection = require('../pattern/pattern-section');
 var _patternPatternSection2 = _interopRequireDefault(_patternPatternSection);
 
 var Content = (function (_React$Component) {
-	_inherits(Content, _React$Component);
-
 	function Content() {
 		_classCallCheck(this, Content);
 
 		_get(Object.getPrototypeOf(Content.prototype), 'constructor', this).apply(this, arguments);
 	}
+
+	_inherits(Content, _React$Component);
 
 	_createClass(Content, [{
 		key: 'render',
@@ -46,6 +46,7 @@ var Content = (function (_React$Component) {
 				_react2['default'].createElement(_patternPatternSection2['default'], {
 					id: this.props.params.splat,
 					data: this.props.patterns,
+					navigation: this.props.navigation,
 					config: this.props.config,
 					eventEmitter: this.props.eventEmitter }),
 				_react2['default'].createElement(_messages2['default'], { eventEmitter: this.props.eventEmitter, messages: this.props.messages })

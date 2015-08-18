@@ -3,6 +3,7 @@ polyfill();
 
 import React from 'react';
 import {PropTypes} from 'react';
+import { Link } from 'react-router';
 import CSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
 
 import humanize from 'string-humanize';
@@ -11,24 +12,40 @@ import 'isomorphic-fetch';
 import Pattern from './index';
 import PatternLoader from './pattern-loader';
 import Headline from '../common/headline';
+import Icon from '../common/icon';
+
+import getAugmentedChildren from '../../utils/augment-hierarchy';
 
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
-	state = { 'data': null, 'error': false };
+	state = { 'data': null, 'error': false, 'type': null };
 
 	static propTypes = {
 		'id': PropTypes.string.isRequired
 	};
 
-	async get(id, force = false) {
+	async get(navigation, id) {
+		// check if this is a pattern or folder
+		let splits = id.split('/');
+		let last = splits.pop();
+
+		let folder = splits.reduce((folder, pathItem) => folder[pathItem].children, navigation);
+		let type = (folder && folder[last].type) || 'pattern';
+
+		if (type == 'folder') {
+			this.setState({ 'data': folder[last], 'error': false, 'type': 'folder' });
+			return;
+		}
+
+		let url = `/api/pattern/${id}`;
+
 		let response;
 		let data;
-		let url = `/api/pattern/${id}`;
 
 		try {
 			response = await fetch(url, { 'headers': {'Accept': 'application/json'}, 'credentials': 'include' });
 		} catch (err) {
-			this.setState({ 'data': null, 'error': true });
+			this.setState({ 'data': null, 'error': true, 'type': null });
 			this.props.eventEmitter.emit('error', `${err.message} ${url}`);
 			return;
 		}
@@ -50,7 +67,7 @@ class PatternSection extends React.Component {
 				throw new Error(message);
 			}
 		} catch (error) {
-			this.setState({ 'data': null, 'error': true });
+			this.setState({ 'data': null, 'error': true, 'type': null });
 			this.props.eventEmitter.emit('error', `${error.message}`);
 			return;
 		}
@@ -58,56 +75,122 @@ class PatternSection extends React.Component {
 		try {
 			data = await response.json();
 		} catch (err) {
-			this.setState({ 'data': null, 'error': true });
+			this.setState({ 'data': null, 'error': true, 'type': null });
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
 		}
 
-		this.setState({ 'data': data, 'error': false });
+		this.setState({ 'data': data, 'error': false, 'type': 'pattern' });
 	}
 
 	componentWillMount() {
 		this.setState({
-			'data': this.props.data
+			'data': this.props.data,
+			'type': 'pattern'
 		});
 	}
 
 	componentDidMount() {
 		if (! this.state.data) {
-			this.get(this.props.id);
+			this.get(this.props.navigation, this.props.id);
 		}
 	}
 
 	componentWillReceiveProps(props) {
-		this.setState({ 'data': null });
-		this.get(props.id);
+		this.setState({ 'data': null, 'type': 'pattern' });
+		this.get(props.navigation, props.id);
 	}
 
 	render () {
-		var content;
+		let { type, data } = this.state;
 
-		let frags = this.props.id ? this.props.id.split('/') : [];
-		frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
+		if (type == 'folder') {
 
-		let name = frags.map((fragment) => humanize(fragment)).join(' ');
-		let loader = this.state.data ? '' : <PatternLoader {...this.state} key="loader" />;
+			let { folders, patterns } = getAugmentedChildren(data.children, this.props.config.hierarchy);
 
-		if (this.state.data) {
-			let data = Array.isArray(this.state.data) ? this.state.data : [this.state.data];
-			content = data.map((item) => {
-				return <Pattern {...item} key={item.id} config={this.props.config} />
+			let rows = Object.values(folders.concat(patterns)).map(child => {
+
+				let { type, displayName, id } = child;
+				let title = id.split('/').unshift();
+				let link = `/pattern/${id}`;
+
+				if (type == 'pattern') {
+
+					return (
+						<tr key={id}>
+							<td><Icon symbol="pattern" /></td>
+							<td title={title}><Link to={link}>{displayName}</Link></td>
+							<td>{child.manifest.version}</td>
+							<td><Link to={link}>Show pattern</Link></td>
+							<td><a href={`/demo/${id}`} target="_blank">Fullscreen</a></td>
+						</tr>
+					);
+
+				} else {
+
+					return (
+						<tr key={id}>
+							<td><Icon symbol={type} /></td>
+							<td title={title} colSpan={4}>
+								<Link to={link}>{displayName}</Link>
+							</td>
+						</tr>
+					);
+
+				}
 			});
-		} else {
-			content = '';
+
+			let up = '/pattern/' + data.id.split('/').slice(0, -1).join('/');
+
+			return (
+				<table className="pattern-folder">
+					<thead>
+						<tr>
+							<th width={10} />
+							<th>Title</th>
+							<th>Version</th>
+							<th width={50} />
+							<th width={50} />
+						</tr>
+					</thead>
+					<tbody>
+						<tr id="up!">
+							<td><Icon symbol="folder" /></td>
+							<td title="Folder up"><Link to={up}>..</Link></td>
+							<td />
+							<td />
+							<td />
+						</tr>
+						{rows}
+					</tbody>
+				</table>
+			);
+
+		} else if (type == 'pattern') {
+			let content = 'Not found.';
+
+			let frags = this.props.id ? this.props.id.split('/') : [];
+			frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
+
+			let loader = data ? '' : <PatternLoader {...this.state} key="loader" />;
+
+			if (data) {
+				data = Array.isArray(data) ? data : [data];
+				content = data.map((item) => {
+					return <Pattern {...item} key={item.id} config={this.props.config} />
+				});
+			}
+
+			return (
+				<section className="pattern-section">
+					<CSSTransitionGroup component="div" transitionName="pattern-content-transition" transitionEnter={false}>
+						{loader}
+					</CSSTransitionGroup>
+					{content}
+				</section>
+			);
 		}
 
-		return (
-			<section className="pattern-section">
-				<CSSTransitionGroup component="div" transitionName="pattern-content-transition" transitionEnter={false}>
-					{loader}
-				</CSSTransitionGroup>
-				{content}
-			</section>
-		);
+		return <span>No type: {type}</span>;
 	}
 }
 

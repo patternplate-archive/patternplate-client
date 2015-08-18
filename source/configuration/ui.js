@@ -59,6 +59,7 @@ const ui = {
 	],
 	'theme': 'light',
 	'themeTarget': 'dark'
+
 };
 
 export default ui;

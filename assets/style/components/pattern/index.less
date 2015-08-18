@@ -240,3 +240,32 @@
 		}
 	}
 }
+
+table.pattern-folder {
+	font: inherit;
+	color: inherit;
+	width: 100%;
+
+	td, th {
+		height: 50px;
+		padding: 0 10px;
+		border-bottom: 1px solid @border-color;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		&:first-child {
+			padding-left: 20px;
+		}
+
+		&:last-child {
+			padding-right: 20px;
+		}
+	}
+
+	th {
+		background: @sidebar-bg;
+		border-bottom-width: 2px;
+		text-align: left;
+	}
+}

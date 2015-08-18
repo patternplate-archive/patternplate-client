@@ -54,12 +54,13 @@ var ui = {
 			'use': 'source'
 		}
 	},
-	'fullscreenPatterns': [
-		// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
-	],
+	'fullscreenPatterns': [],
 	'theme': 'light',
 	'themeTarget': 'dark'
+
 };
 
 exports['default'] = ui;
 module.exports = exports['default'];
+
+// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
