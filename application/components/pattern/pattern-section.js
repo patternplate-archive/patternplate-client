@@ -70,12 +70,15 @@ var PatternSection = (function (_React$Component) {
 
 	_createClass(PatternSection, [{
 		key: 'get',
-		value: function get(navigation, id) {
-			var splits, last, folder, type, url, response, data, message, _data;
+		value: function get(props) {
+			var navigation, id, config, splits, last, folder, type, url, response, data, message, _data;
 
 			return regeneratorRuntime.async(function get$(context$2$0) {
 				while (1) switch (context$2$0.prev = context$2$0.next) {
 					case 0:
+						navigation = props.navigation;
+						id = props.id;
+						config = props.config;
 						splits = id.split('/');
 						last = splits.pop();
 						folder = splits.reduce(function (folder, pathItem) {
@@ -83,110 +86,110 @@ var PatternSection = (function (_React$Component) {
 						}, navigation);
 						type = folder && folder[last].type || 'pattern';
 
-						if (!(type == 'folder')) {
-							context$2$0.next = 7;
+						if (!(type == 'folder' && config.useFolderTable)) {
+							context$2$0.next = 10;
 							break;
 						}
 
 						this.setState({ 'data': folder[last], 'error': false, 'type': 'folder' });
 						return context$2$0.abrupt('return');
 
-					case 7:
+					case 10:
 						url = '/api/pattern/' + id;
 						response = undefined;
 						data = undefined;
-						context$2$0.prev = 10;
-						context$2$0.next = 13;
+						context$2$0.prev = 13;
+						context$2$0.next = 16;
 						return regeneratorRuntime.awrap(fetch(url, { 'headers': { 'Accept': 'application/json' }, 'credentials': 'include' }));
 
-					case 13:
+					case 16:
 						response = context$2$0.sent;
-						context$2$0.next = 21;
+						context$2$0.next = 24;
 						break;
 
-					case 16:
-						context$2$0.prev = 16;
-						context$2$0.t0 = context$2$0['catch'](10);
+					case 19:
+						context$2$0.prev = 19;
+						context$2$0.t0 = context$2$0['catch'](13);
 
 						this.setState({ 'data': null, 'error': true, 'type': null });
 						this.props.eventEmitter.emit('error', context$2$0.t0.message + ' ' + url);
 						return context$2$0.abrupt('return');
 
-					case 21:
+					case 24:
 						if (!(this.state.data !== null)) {
-							context$2$0.next = 23;
+							context$2$0.next = 26;
 							break;
 						}
 
 						return context$2$0.abrupt('return');
 
-					case 23:
-						context$2$0.prev = 23;
+					case 26:
+						context$2$0.prev = 26;
 
 						if (!(response.status >= 400)) {
-							context$2$0.next = 37;
+							context$2$0.next = 40;
 							break;
 						}
 
 						message = undefined;
-						context$2$0.prev = 26;
-						context$2$0.next = 29;
+						context$2$0.prev = 29;
+						context$2$0.next = 32;
 						return regeneratorRuntime.awrap(response.json());
 
-					case 29:
+					case 32:
 						_data = context$2$0.sent;
 
 						message = _data.message || response.statusText;
-						context$2$0.next = 36;
+						context$2$0.next = 39;
 						break;
 
-					case 33:
-						context$2$0.prev = 33;
-						context$2$0.t1 = context$2$0['catch'](26);
+					case 36:
+						context$2$0.prev = 36;
+						context$2$0.t1 = context$2$0['catch'](29);
 
 						message = response.statusText + ' ' + url;
 
-					case 36:
+					case 39:
 						throw new Error(message);
 
-					case 37:
-						context$2$0.next = 44;
+					case 40:
+						context$2$0.next = 47;
 						break;
 
-					case 39:
-						context$2$0.prev = 39;
-						context$2$0.t2 = context$2$0['catch'](23);
+					case 42:
+						context$2$0.prev = 42;
+						context$2$0.t2 = context$2$0['catch'](26);
 
 						this.setState({ 'data': null, 'error': true, 'type': null });
 						this.props.eventEmitter.emit('error', '' + context$2$0.t2.message);
 						return context$2$0.abrupt('return');
 
-					case 44:
-						context$2$0.prev = 44;
-						context$2$0.next = 47;
+					case 47:
+						context$2$0.prev = 47;
+						context$2$0.next = 50;
 						return regeneratorRuntime.awrap(response.json());
 
-					case 47:
+					case 50:
 						data = context$2$0.sent;
-						context$2$0.next = 54;
+						context$2$0.next = 57;
 						break;
 
-					case 50:
-						context$2$0.prev = 50;
-						context$2$0.t3 = context$2$0['catch'](44);
+					case 53:
+						context$2$0.prev = 53;
+						context$2$0.t3 = context$2$0['catch'](47);
 
 						this.setState({ 'data': null, 'error': true, 'type': null });
 						this.props.eventEmitter.emit('error', 'Could not parse data for ' + url);
 
-					case 54:
+					case 57:
 
 						this.setState({ 'data': data, 'error': false, 'type': 'pattern' });
 
-					case 55:
+					case 58:
 					case 'end':
 						return context$2$0.stop();
 				}
-			}, null, this, [[10, 16], [23, 39], [26, 33], [44, 50]]);
+			}, null, this, [[13, 19], [26, 42], [29, 36], [47, 53]]);
 		}
 	}, {
 		key: 'componentWillMount',
@@ -200,14 +203,14 @@ var PatternSection = (function (_React$Component) {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
 			if (!this.state.data) {
-				this.get(this.props.navigation, this.props.id);
+				this.get(this.props);
 			}
 		}
 	}, {
 		key: 'componentWillReceiveProps',
 		value: function componentWillReceiveProps(props) {
 			this.setState({ 'data': null, 'type': 'pattern' });
-			this.get(props.navigation, props.id);
+			this.get(props);
 		}
 	}, {
 		key: 'render',

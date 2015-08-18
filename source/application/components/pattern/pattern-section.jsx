@@ -24,7 +24,9 @@ class PatternSection extends React.Component {
 		'id': PropTypes.string.isRequired
 	};
 
-	async get(navigation, id) {
+	async get(props) {
+		let { navigation, id, config } = props;
+
 		// check if this is a pattern or folder
 		let splits = id.split('/');
 		let last = splits.pop();
@@ -32,7 +34,7 @@ class PatternSection extends React.Component {
 		let folder = splits.reduce((folder, pathItem) => folder[pathItem].children, navigation);
 		let type = (folder && folder[last].type) || 'pattern';
 
-		if (type == 'folder') {
+		if (type == 'folder' && config.useFolderTable) {
 			this.setState({ 'data': folder[last], 'error': false, 'type': 'folder' });
 			return;
 		}
@@ -91,13 +93,13 @@ class PatternSection extends React.Component {
 
 	componentDidMount() {
 		if (! this.state.data) {
-			this.get(this.props.navigation, this.props.id);
+			this.get(this.props);
 		}
 	}
 
 	componentWillReceiveProps(props) {
 		this.setState({ 'data': null, 'type': 'pattern' });
-		this.get(props.navigation, props.id);
+		this.get(props);
 	}
 
 	render () {

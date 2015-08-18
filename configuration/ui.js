@@ -5,11 +5,6 @@ Object.defineProperty(exports, '__esModule', {
 });
 var ui = {
 	'hierarchy': {
-		'globals': {
-			'displayName': 'Globals',
-			'order': 0,
-			'icon': 'globals'
-		},
 		'atoms': {
 			'displayName': 'Atoms',
 			'order': 1,
@@ -56,7 +51,8 @@ var ui = {
 	},
 	'fullscreenPatterns': [],
 	'theme': 'light',
-	'themeTarget': 'dark'
+	'themeTarget': 'dark',
+	'useFolderTable': false
 
 };
 
