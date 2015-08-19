@@ -1,10 +1,5 @@
 const ui = {
 	'hierarchy': {
-		'globals': {
-			'displayName': 'Globals',
-			'order': 0,
-			'icon': 'globals'
-		},
 		'atoms': {
 			'displayName': 'Atoms',
 			'order': 1,
@@ -58,7 +53,9 @@ const ui = {
 		// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
 	],
 	'theme': 'light',
-	'themeTarget': 'dark'
+	'themeTarget': 'dark',
+	'useFolderTable': false
+
 };
 
 export default ui;

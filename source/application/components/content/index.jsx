@@ -11,6 +11,7 @@ class Content extends React.Component {
 				<PatternSection
 					id={this.props.params.splat}
 					data={this.props.patterns}
+					navigation={this.props.navigation}
 					config={this.props.config}
 					eventEmitter={this.props.eventEmitter} />
 					<Messages eventEmitter={this.props.eventEmitter} messages={this.props.messages}  />

@@ -5,11 +5,6 @@ Object.defineProperty(exports, '__esModule', {
 });
 var ui = {
 	'hierarchy': {
-		'globals': {
-			'displayName': 'Globals',
-			'order': 0,
-			'icon': 'globals'
-		},
 		'atoms': {
 			'displayName': 'Atoms',
 			'order': 1,
@@ -54,12 +49,14 @@ var ui = {
 			'use': 'source'
 		}
 	},
-	'fullscreenPatterns': [
-		// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
-	],
+	'fullscreenPatterns': [],
 	'theme': 'light',
-	'themeTarget': 'dark'
+	'themeTarget': 'dark',
+	'useFolderTable': false
+
 };
 
 exports['default'] = ui;
 module.exports = exports['default'];
+
+// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!

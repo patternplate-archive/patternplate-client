@@ -14,3 +14,15 @@ body {
 	background: @root-background;
 	transition: background .3s ease-in, color .3s ease-in;
 }
+
+a {
+	text-decoration: none;
+
+	&, &:active {
+		color: @active-color;
+	}
+
+	&:hover {
+		color: lighten(@active-color, 15%);
+	}
+}
