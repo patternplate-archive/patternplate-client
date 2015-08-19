@@ -221,6 +221,8 @@ var PatternSection = (function (_React$Component) {
 			var type = _state.type;
 			var data = _state.data;
 
+			console.log(this.context);
+
 			if (type == 'folder') {
 				var _getAugmentedChildren = (0, _utilsAugmentHierarchy2['default'])(data.children, this.props.config.hierarchy);
 
@@ -263,8 +265,13 @@ var PatternSection = (function (_React$Component) {
 								null,
 								_react2['default'].createElement(
 									_reactRouter.Link,
-									{ to: link },
-									'Show pattern'
+									{ to: link, title: 'Show pattern' },
+									_react2['default'].createElement(_commonIcon2['default'], { symbol: 'arrow-double-right' }),
+									_react2['default'].createElement(
+										'span',
+										null,
+										'Show pattern'
+									)
 								)
 							),
 							_react2['default'].createElement(
@@ -272,8 +279,13 @@ var PatternSection = (function (_React$Component) {
 								null,
 								_react2['default'].createElement(
 									'a',
-									{ href: '/demo/' + id, target: '_blank' },
-									'Fullscreen'
+									{ href: '/demo/' + id, target: '_blank', title: 'Fullscreen' },
+									_react2['default'].createElement(_commonIcon2['default'], { symbol: 'fullscreen' }),
+									_react2['default'].createElement(
+										'span',
+										null,
+										'Fullscreen'
+									)
 								)
 							)
 						);
@@ -285,16 +297,23 @@ var PatternSection = (function (_React$Component) {
 							_react2['default'].createElement(
 								'td',
 								null,
-								_react2['default'].createElement(_commonIcon2['default'], { symbol: type })
+								_react2['default'].createElement(_commonIcon2['default'], { symbol: 'folder' })
 							),
 							_react2['default'].createElement(
 								'td',
-								{ colSpan: 4 },
+								null,
 								_react2['default'].createElement(
 									_reactRouter.Link,
 									{ to: link },
 									displayName
 								)
+							),
+							_react2['default'].createElement('td', null),
+							_react2['default'].createElement('td', null),
+							_react2['default'].createElement(
+								'td',
+								null,
+								_react2['default'].createElement(_commonIcon2['default'], { symbol: 'folder', className: 'mobile-only' })
 							)
 						);
 					}
@@ -348,7 +367,11 @@ var PatternSection = (function (_React$Component) {
 							),
 							_react2['default'].createElement('td', null),
 							_react2['default'].createElement('td', null),
-							_react2['default'].createElement('td', null)
+							_react2['default'].createElement(
+								'td',
+								null,
+								_react2['default'].createElement(_commonIcon2['default'], { symbol: 'folder', className: 'mobile-only' })
+							)
 						),
 						rows
 					)

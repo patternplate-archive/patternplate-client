@@ -245,6 +245,7 @@ table.pattern-folder {
 	font: inherit;
 	color: inherit;
 	width: 100%;
+	max-width: 100%;
 
 	td, th {
 		height: 50px;
@@ -253,6 +254,15 @@ table.pattern-folder {
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		max-width: 60%;
+
+		@media screen and (max-width: 900px) {
+			&:nth-child(1),
+			&:nth-child(3),
+			&:nth-child(4) {
+				display: none;
+			}
+		}
 
 		&:first-child {
 			padding-left: 20px;
@@ -260,6 +270,24 @@ table.pattern-folder {
 
 		&:last-child {
 			padding-right: 20px;
+		}
+
+		a > span {
+			display: none;
+		}
+
+		@media screen and (min-width: 900px) {
+			a > span {
+				display: inline;
+			}
+
+			a > .icon {
+				display: none;
+			}
+
+			.mobile-only {
+				display: none;
+			}
 		}
 	}
 

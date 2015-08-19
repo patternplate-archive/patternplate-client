@@ -105,6 +105,8 @@ class PatternSection extends React.Component {
 	render () {
 		let { type, data } = this.state;
 
+		console.log(this.context);
+
 		if (type == 'folder') {
 
 			let { folders, patterns } = getAugmentedChildren(data.children, this.props.config.hierarchy);
@@ -121,8 +123,18 @@ class PatternSection extends React.Component {
 							<td><Icon symbol="pattern" /></td>
 							<td><Link to={link}>{displayName}</Link></td>
 							<td>{child.manifest.version}</td>
-							<td><Link to={link}>Show pattern</Link></td>
-							<td><a href={`/demo/${id}`} target="_blank">Fullscreen</a></td>
+							<td>
+								<Link to={link} title="Show pattern">
+									<Icon symbol="arrow-double-right" />
+									<span>Show pattern</span>
+								</Link>
+							</td>
+							<td>
+								<a href={`/demo/${id}`} target="_blank" title="Fullscreen">
+									<Icon symbol="fullscreen" />
+									<span>Fullscreen</span>
+								</a>
+							</td>
 						</tr>
 					);
 
@@ -130,9 +142,14 @@ class PatternSection extends React.Component {
 
 					return (
 						<tr key={id}>
-							<td><Icon symbol={type} /></td>
-							<td colSpan={4}>
+							<td><Icon symbol="folder" /></td>
+							<td>
 								<Link to={link}>{displayName}</Link>
+							</td>
+							<td />
+							<td />
+							<td>
+								<Icon symbol="folder" className="mobile-only" />
 							</td>
 						</tr>
 					);
@@ -159,7 +176,9 @@ class PatternSection extends React.Component {
 							<td title="Folder up"><Link to={up}>..</Link></td>
 							<td />
 							<td />
-							<td />
+							<td>
+								<Icon symbol="folder" className="mobile-only" />
+							</td>
 						</tr>
 						{rows}
 					</tbody>
