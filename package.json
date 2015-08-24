@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@git.sinnerschrader.com:patternplate/patternplate-client.git"
+    "url": "sinnerschrader/patternplate-client"
   },
   "keywords": [
     "patternplate"
