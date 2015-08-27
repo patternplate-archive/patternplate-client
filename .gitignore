@@ -33,3 +33,8 @@ _test
 # Build targets
 dist
 .settings
+/application
+/configuration
+/binary
+/library
+/assets/script

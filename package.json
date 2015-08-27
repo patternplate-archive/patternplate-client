@@ -12,7 +12,8 @@
     "watch-server": "npm run babel -- --watch",
     "watch-assets": "chokidar 'assets/script/**/*' 'application/components' 'application/react-routes' --ignore '**.bundle.js' -c 'npm run build-assets'",
     "babel": "npm run clean && babel source --out-dir ./",
-    "clean": "rm -rf application configuration binary library assets/script"
+    "clean": "rm -rf application configuration binary library assets/script",
+    "publish": "npm run build && npm publish"
   },
   "bin": {
     "patternplate-client": "binary/patternplate-client.js"
