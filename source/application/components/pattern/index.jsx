@@ -112,7 +112,7 @@ class Pattern extends React.Component {
 		let fullscreen = `/demo/${this.props.id}`;
 
 		for (let item of this.items) {
-			let isDoc = item.format === 'html' && item.name === 'Documentation';
+			let isDoc = item.format === 'html' && (item.name === 'Documentation' || item.name === 'Dependencies');
 			let isActive = this.state.active.indexOf(item.id) > -1;
 
 			if (item.content.length === 0) {
