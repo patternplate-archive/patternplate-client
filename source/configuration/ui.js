@@ -30,12 +30,16 @@ const ui = {
 		}
 	},
 	'resultOrder': [
+    'Dependencies',
 		'Markup',
 		'Script',
 		'Style',
 		'Documentation'
 	],
 	'results': {
+    'Dependencies': {
+      'use': 'source'
+    },
 		'Documentation': {
 			'use': 'buffer'
 		},

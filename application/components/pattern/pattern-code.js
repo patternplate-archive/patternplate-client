@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -25,6 +25,8 @@ var _highlightJs2 = _interopRequireDefault(_highlightJs);
 var _prettyData = require('pretty-data');
 
 var PatternCode = (function (_React$Component) {
+	_inherits(PatternCode, _React$Component);
+
 	function PatternCode() {
 		_classCallCheck(this, PatternCode);
 
@@ -32,8 +34,6 @@ var PatternCode = (function (_React$Component) {
 
 		this.displayName = 'PatternCode';
 	}
-
-	_inherits(PatternCode, _React$Component);
 
 	_createClass(PatternCode, [{
 		key: 'componentDidMount',
@@ -95,7 +95,7 @@ var PatternCode = (function (_React$Component) {
 	}], [{
 		key: 'highlight',
 		value: function highlight(component) {
-			var selector = arguments[1] === undefined ? 'pre > code' : arguments[1];
+			var selector = arguments.length <= 1 || arguments[1] === undefined ? 'pre > code' : arguments[1];
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
 			var _iteratorError = undefined;

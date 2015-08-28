@@ -32,3 +32,4 @@ _test
 
 # Build targets
 dist
+.settings

@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _es6Promise = require('es6-promise');
 
@@ -42,6 +42,10 @@ var _patternLoader = require('./pattern-loader');
 
 var _patternLoader2 = _interopRequireDefault(_patternLoader);
 
+var _patternDependencies = require('./pattern-dependencies');
+
+var _patternDependencies2 = _interopRequireDefault(_patternDependencies);
+
 var _commonHeadline = require('../common/headline');
 
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
@@ -57,6 +61,8 @@ var _utilsAugmentHierarchy2 = _interopRequireDefault(_utilsAugmentHierarchy);
 (0, _es6Promise.polyfill)();
 
 var PatternSection = (function (_React$Component) {
+	_inherits(PatternSection, _React$Component);
+
 	function PatternSection() {
 		_classCallCheck(this, PatternSection);
 
@@ -65,8 +71,6 @@ var PatternSection = (function (_React$Component) {
 		this.displayName = 'PatternSection';
 		this.state = { 'data': null, 'error': false, 'type': null };
 	}
-
-	_inherits(PatternSection, _React$Component);
 
 	_createClass(PatternSection, [{
 		key: 'get',
@@ -171,25 +175,41 @@ var PatternSection = (function (_React$Component) {
 
 					case 50:
 						data = context$2$0.sent;
-						context$2$0.next = 57;
+
+						this.generateDependencyGraph(data);
+						context$2$0.next = 58;
 						break;
 
-					case 53:
-						context$2$0.prev = 53;
+					case 54:
+						context$2$0.prev = 54;
 						context$2$0.t3 = context$2$0['catch'](47);
 
 						this.setState({ 'data': null, 'error': true, 'type': null });
 						this.props.eventEmitter.emit('error', 'Could not parse data for ' + url);
 
-					case 57:
+					case 58:
 
 						this.setState({ 'data': data, 'error': false, 'type': 'pattern' });
 
-					case 58:
+					case 59:
 					case 'end':
 						return context$2$0.stop();
 				}
-			}, null, this, [[13, 19], [26, 42], [29, 36], [47, 53]]);
+			}, null, this, [[13, 19], [26, 42], [29, 36], [47, 54]]);
+		}
+	}, {
+		key: 'generateDependencyGraph',
+		value: function generateDependencyGraph(data) {
+			try {
+				data.results.index['Dependencies'] = {
+					'id': 'Dependencies',
+					'controlKey': 'Dependencies',
+					'in': 'html',
+					'source': _react2['default'].renderToStaticMarkup(_react2['default'].createElement(_patternDependencies2['default'], { data: data }))
+				};
+			} catch (e) {
+				console.error(e);
+			}
 		}
 	}, {
 		key: 'componentWillMount',

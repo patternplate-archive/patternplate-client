@@ -34,8 +34,11 @@ var ui = {
 			'displayName': 'Specialized Atoms'
 		}
 	},
-	'resultOrder': ['Markup', 'Script', 'Style', 'Documentation'],
+	'resultOrder': ['Dependencies', 'Markup', 'Script', 'Style', 'Documentation'],
 	'results': {
+		'Dependencies': {
+			'use': 'source'
+		},
 		'Documentation': {
 			'use': 'buffer'
 		},
@@ -49,7 +52,9 @@ var ui = {
 			'use': 'source'
 		}
 	},
-	'fullscreenPatterns': [],
+	'fullscreenPatterns': [
+		// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
+	],
 	'theme': 'light',
 	'themeTarget': 'dark',
 	'useFolderTable': false
@@ -58,5 +63,3 @@ var ui = {
 
 exports['default'] = ui;
 module.exports = exports['default'];
-
-// '^pages\/' // Strings containing regexes. do not use /regex/ syntax!
