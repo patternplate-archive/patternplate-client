@@ -14,7 +14,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -56,6 +56,8 @@ var formatMap = {
 };
 
 var Pattern = (function (_React$Component) {
+	_inherits(Pattern, _React$Component);
+
 	function Pattern() {
 		_classCallCheck(this, Pattern);
 
@@ -66,8 +68,6 @@ var Pattern = (function (_React$Component) {
 			'active': []
 		};
 	}
-
-	_inherits(Pattern, _React$Component);
 
 	_createClass(Pattern, [{
 		key: 'comprehend',
@@ -173,7 +173,7 @@ var Pattern = (function (_React$Component) {
 	}, {
 		key: 'closeControls',
 		value: function closeControls() {
-			var ids = arguments[0] === undefined ? this.state.active : arguments[0];
+			var ids = arguments.length <= 0 || arguments[0] === undefined ? this.state.active : arguments[0];
 
 			var diff = this.state.active.filter(function (id) {
 				return ids.indexOf(id) === -1;
@@ -211,7 +211,7 @@ var Pattern = (function (_React$Component) {
 				for (var _iterator2 = this.items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
 					var item = _step2.value;
 
-					var isDoc = item.format === 'html' && item.name === 'Documentation';
+					var isDoc = item.format === 'html' && (item.name === 'Documentation' || item.name === 'Dependencies');
 					var isActive = this.state.active.indexOf(item.id) > -1;
 
 					if (item.content.length === 0) {
@@ -259,13 +259,13 @@ var Pattern = (function (_React$Component) {
 				content = _react2['default'].createElement(
 					'div',
 					{ className: 'pattern-fullscreen-message' },
-					'This pattern is disabled in embedded view. Please open the ',
+					"This pattern is disabled in embedded view. Please open the ",
 					_react2['default'].createElement(
 						'a',
 						{ href: fullscreen, target: '_blank' },
 						'fullscreen view'
 					),
-					' to display it.'
+					" to display it."
 				);
 			}
 

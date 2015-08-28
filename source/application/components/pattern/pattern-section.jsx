@@ -11,6 +11,7 @@ import 'isomorphic-fetch';
 
 import Pattern from './index';
 import PatternLoader from './pattern-loader';
+import PatternDependencies from './pattern-dependencies';
 import Headline from '../common/headline';
 import Icon from '../common/icon';
 
@@ -76,6 +77,7 @@ class PatternSection extends React.Component {
 
 		try {
 			data = await response.json();
+			this.generateDependencyGraph(data);
 		} catch (err) {
 			this.setState({ 'data': null, 'error': true, 'type': null });
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
@@ -83,6 +85,19 @@ class PatternSection extends React.Component {
 
 		this.setState({ 'data': data, 'error': false, 'type': 'pattern' });
 	}
+
+  generateDependencyGraph(data) {
+		try {
+		data.results.index['Dependencies'] = {
+			'id': 'Dependencies',
+			'controlKey': 'Dependencies',
+			'in': 'html',
+			'source': React.renderToStaticMarkup(<PatternDependencies data={data} />)
+		};
+		} catch (e) {
+			console.error(e);
+		}
+  }
 
 	componentWillMount() {
 		this.setState({

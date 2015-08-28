@@ -12,7 +12,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var _react = require('react');
 
@@ -27,6 +27,8 @@ var _commonHeadline = require('../common/headline');
 var _commonHeadline2 = _interopRequireDefault(_commonHeadline);
 
 var PatternDocumentation = (function (_React$Component) {
+	_inherits(PatternDocumentation, _React$Component);
+
 	function PatternDocumentation() {
 		_classCallCheck(this, PatternDocumentation);
 
@@ -34,8 +36,6 @@ var PatternDocumentation = (function (_React$Component) {
 
 		this.displayName = 'PatternDocumentation';
 	}
-
-	_inherits(PatternDocumentation, _React$Component);
 
 	_createClass(PatternDocumentation, [{
 		key: 'componentDidMount',
@@ -59,7 +59,7 @@ var PatternDocumentation = (function (_React$Component) {
 	}], [{
 		key: 'highlight',
 		value: function highlight(component) {
-			var selector = arguments[1] === undefined ? 'pre > code' : arguments[1];
+			var selector = arguments.length <= 1 || arguments[1] === undefined ? 'pre > code' : arguments[1];
 			var _iteratorNormalCompletion = true;
 			var _didIteratorError = false;
 			var _iteratorError = undefined;
