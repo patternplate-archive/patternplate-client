@@ -8,15 +8,29 @@
 		flex-grow: 1;
 		flex-direction: column;
 		align-items: center;
+		padding: 0 40px;
+		text-align: center;
 
 		&-headline {
 			font-weight: bold;
+			width: 100%;
 		}
 
 		&-content {
 			list-style: none;
+			width: 100%;
 			margin: auto;
 			padding: 0;
+			a {
+				padding: 5px;
+				border: 1px solid @border-color;
+				background-color: @root-background;
+			}
 		}
+	}
+	.center-pattern {
+		padding: 10px;
+		background-color: @active-color;
+		color: @root-background;
 	}
 }
