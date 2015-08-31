@@ -110,7 +110,7 @@ var PatternDependencies = (function (_React$Component) {
 					),
 					_react2['default'].createElement(
 						'div',
-						{ className: 'pattern-dependencies-column-content' },
+						{ className: 'pattern-dependencies-column-content center-pattern' },
 						this.props.data.manifest.displayName || this.props.data.manifest.name
 					)
 				),

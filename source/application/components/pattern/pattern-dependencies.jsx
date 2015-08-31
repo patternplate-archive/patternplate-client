@@ -38,7 +38,7 @@ export default class PatternDependencies extends React.Component {
 				</div>
 				<div className="pattern-dependencies-column">
 					<div className="pattern-dependencies-column-headline">Pattern</div>
-					<div className="pattern-dependencies-column-content">
+					<div className="pattern-dependencies-column-content center-pattern">
 						{this.props.data.manifest.displayName || this.props.data.manifest.name}
 					</div>
 				</div>
