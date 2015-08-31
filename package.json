@@ -8,10 +8,10 @@
     "prestart": "npm run build",
     "build": "npm run clean && npm run build-server && npm run build-assets",
     "build-server": "npm run babel",
-    "build-assets": "browserify assets/script/index.js | uglifyjs > assets/script/index.bundle.js",
+    "build-assets": "browserify assets/script/index.js | uglifyjs > assets/script/index.bundle.js && echo 'Built assets successfully...'",
     "watch": "npm run watch-server & npm run watch-assets",
     "watch-server": "npm run babel -- --watch",
-    "watch-assets": "chokidar 'assets/script/**/*' 'application/components' 'application/react-routes' --ignore '**.bundle.js' -c 'npm run build-assets'",
+    "watch-assets": "chokidar 'assets/script/index.js' 'application/components' 'application/react-routes' -c 'npm run build-assets'",
     "babel": "npm run clean && babel source --out-dir ./ --source-maps inline",
     "clean": "rm -rf application configuration binary library assets/script",
     "prepublish": "npm run build"
