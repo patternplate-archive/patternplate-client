@@ -115,7 +115,7 @@ function indexRouteFactory ( application ) {
 			'title': data.schema.name || 'patternplate-client',
 			'data': JSON.stringify(data),
 			'content': content,
-			'script': '/script/index.js',
+			'script': '/script/index.bundle.js',
 			'stylesheet': '/style/' + data.config.theme + '.css',
 			'icons': icons
 		});
