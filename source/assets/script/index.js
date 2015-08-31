@@ -1,5 +1,5 @@
 import 'babel-core/polyfill';
-import {client} from '../../application/react-routes';
+import {client} from '../../source/application/react-routes';
 
 async function start () {
 	let supportsSVG = document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1');
