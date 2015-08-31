@@ -32,3 +32,8 @@ _test
 
 # Build targets
 dist
+/application
+/configuration
+/binary
+/library
+/assets/script
