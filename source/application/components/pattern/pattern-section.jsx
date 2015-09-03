@@ -77,7 +77,12 @@ class PatternSection extends React.Component {
 
 		try {
 			data = await response.json();
-			this.generateDependencyGraph(data);
+			if(!Array.isArray(data)){
+				data = [data];
+			}
+			data.forEach((item) => {
+				this.generateDependencyGraph(item);
+			});
 		} catch (err) {
 			this.setState({ 'data': null, 'error': true, 'type': null });
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
