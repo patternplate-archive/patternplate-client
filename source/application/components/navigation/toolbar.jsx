@@ -63,7 +63,7 @@ class Toolbar extends React.Component {
 		let themeClassName = classnames('button', this.state.themeTarget);
 
 		return (
-			<header className="header">
+			<header className="main-header">
 				<Link className="logo" to="root">
 					<Icon symbol="patternplate" fallback={false} inline={true}>{ this.props.schema.name }</Icon>
 				</Link>

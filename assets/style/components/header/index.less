@@ -1,36 +1,27 @@
-.header {
-	height: 55px;
-	background: @header-bg;
-	box-shadow: 0 0 5px rgba(0,0,0,0.1);
-	.logo,
-	.toolbar {
-		display: inline-block;
-		height: 50px;
-	}
+.main-header {
+	height: @headerHeight;
+	background-color: @root-background;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+
 	.logo {
+		display: inline-block;
 		width: 17.5%;
-		padding: 10px 4px;
-		vertical-align: top;
 		@media screen and (max-width: 900px) {
 			width: 30%;
 		}
 		@media screen and (max-width: 500px) {
-			position: absolute;
-			z-index: 1;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			margin: 0;
-			text-align: center;
-			.svg-icon {
-				display: none;
-			}
+			display: none;
 		}
-		a {
-			color: inherit;
-			text-decoration: none;
+		.svg-icon {
+			display: inline-block;
+			width: @headerHeight;
+			height: @headerHeight;
+			padding: 10px;
 		}
 	}
 
@@ -39,6 +30,7 @@
 	}
 
 	.toolbar {
+		display: inline-block;
 		width: 82.5%;
 		@media screen and (max-width: 900px) {
 			width: 70%;
@@ -78,11 +70,13 @@
 		.button,
 		.menu{
 			margin: 0;
-			height: 55px;
+			height: @headerHeight;
 			border: none;
+			vertical-align: middle;
 			.svg-icon{
-				width: 45px;
-				height: 45px;
+				width: 50px;
+				height: 50px;
+				padding: 5px;
 			}
 		}
 		.menu {
@@ -99,21 +93,17 @@
 
 .logo {
 	color: @root-color;
-	margin-top: -5px;
 	.icon{
+		height: 100%;
 		white-space: nowrap;
 	}
 	.svg-icon {
-		width: 50px;
-		height: 50px;
+		height: 100%;
 		fill: currentcolor;
-	}
-	.svg-text {
-		line-height: 45px;
-		margin-top: -7.5px;
+		color: inherit;
 	}
 	.svg{
-		fill: inherit;
+		fill: currentColor;
 		color: @active-color;
 	}
 }
