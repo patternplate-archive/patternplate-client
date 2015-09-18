@@ -114,6 +114,7 @@
 		+ * {
 			height: 0;
 			opacity: 0;
+			pointer-events: none;
 			transition: opacity .3s ease-in-out, height 0s .4s ease-in-out;
 		}
 		&.checked,
@@ -121,6 +122,7 @@
 			+ * {
 				height: 100%;
 				opacity: 1;
+				pointer-events: auto;
 				transition: opacity .3s ease-in-out;
 			}
 		}
