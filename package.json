@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "0.12.3",
+  "version": "0.12.4",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
@@ -64,7 +64,7 @@
     "babel-runtime": "^5.2.9",
     "babelify": "^6.0.2",
     "bluebird": "^2.9.27",
-    "boilerplate-server": "^0.9.5",
+    "boilerplate-server": "~0.10.0",
     "browserify": "^10.0.0",
     "btoa": "^1.1.2",
     "classnames": "^1.2.2",
