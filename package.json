@@ -1,34 +1,47 @@
 {
   "name": "patternplate-client",
-  "version": "0.12.4",
-  "description": "Client for patternplate-server",
-  "main": "library/",
+  "description": "Universal client-application for patternplate-server",
+  "main": "distribution/library/",
   "scripts": {
-    "start": "node --harmony binary/patternplate-client.js",
-    "prestart": "npm run build",
-    "build": "npm run clean && npm run build-server && npm run build-assets",
-    "build-server": "npm run babel",
-    "build-assets": "browserify --extension=.jsx -t [ babelify --stage 0 --optional regenerator,runtime --blacklist asyncToGenerator ] assets/script/index.js | uglifyjs > assets/script/index.bundle.js && echo 'Built assets successfully...'",
-    "watch": "npm run watch-server & npm run watch-assets",
-    "watch-server": "npm run babel -- --watch",
-    "watch-assets": "chokidar 'assets/script/index.js' 'application/components' 'application/react-routes' -c 'npm run build-assets'",
-    "babel": "npm run clean && babel source --out-dir ./ --source-maps inline",
-    "clean": "rm -rf application configuration binary library assets/script",
-    "prepublish": "npm run build"
+    "start": "node ./distribution/binary/patternplate-client.js",
+    "fly": "fly",
+    "build": "npm run fly build && npm run fly documentation",
+    "test": "tape distribution/test/index.js | tap-spec",
+    "cover": "istanbul cover distribution/test/index.js",
+    "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
+    "commit": "commitizen",
+    "pretest": "node distribution/scripts/when-ci.js 'node' 'distribution/scripts/validate-commit.js'",
+    "posttest": "node distribution/scripts/when-ci.js 'node' 'distribution/scripts/posttest.js'",
+    "prepublish": "not-in-install && npm run build || echo 'In install cycle, skipping prepublish'",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "bin": {
-    "patternplate-client": "binary/patternplate-client.js"
+    "patternplate-client": "distribution/binary/patternplate-client.js"
   },
   "repository": {
     "type": "git",
-    "url": "sinnerschrader/patternplate-client"
+    "slug": "sinnerschrader/patternplate-client",
+    "url": "https://github.com/sinnerschrader/patternplate-client.git"
+  },
+  "publishConfig": {
+    "tag": "next"
+  },
+  "release": {
+    "branch": "next"
   },
   "keywords": [
-    "patternplate"
+    "atomic",
+    "atomic design",
+    "tool",
+    "universal",
+    "isomorphic",
+    "react",
+    "patternplate",
+    "patternplate-client"
   ],
   "author": {
-    "name": "Team UX",
-    "email": "team-ux@sinnerschrader.com"
+    "name": "SinnerSchrader",
+    "email": "jobs@sinnerschrader.com"
   },
   "contributors": [
     {
@@ -53,58 +66,59 @@
     }
   ],
   "license": "MIT",
-  "engines": {
-    "iojs": ">= 1.4.3",
-    "node": ">= 0.12.0",
-    "npm": ">= 2.5.1"
+  "bugs": {
+    "slug": "sinnerschrader/patternplate",
+    "url": "https://github.com/sinnerschrader/patternplate/issues"
   },
   "dependencies": {
-    "app-root-path": "^1.0.0",
-    "babel-core": "^5.1.13",
-    "babel-runtime": "^5.2.9",
-    "babelify": "^6.0.2",
-    "bluebird": "^2.9.27",
-    "boilerplate-server": "~0.10.0",
-    "browserify": "^10.0.0",
-    "btoa": "^1.1.2",
-    "classnames": "^1.2.2",
-    "cookie": "^0.1.3",
-    "core-util-is": "^1.0.1",
-    "deep-equal": "^1.0.0",
-    "es6-promise": "^2.1.1",
-    "find-root": "^0.1.1",
-    "highlight.js": "^8.5.0",
-    "isomorphic-fetch": "^2.0.2",
-    "koa-proxy": "^0.2.0",
-    "less": "^2.5.0",
-    "less-plugin-autoprefix": "^1.4.1",
-    "less-plugin-clean-css": "^1.5.0",
-    "less-plugin-npm-import": "^2.0.0",
-    "markdown-css-themes": "^1.0.1",
-    "merge": "^1.2.0",
-    "minimist": "^1.1.1",
-    "moment": "^2.10.2",
-    "normalize-opentype.css": "^0.2.4",
-    "normalize.less": "^1.0.0",
-    "pretty-data": "^0.40.0",
-    "q-io": "^1.12.0",
-    "rc": "^1.0.1",
-    "react": "^0.13.3",
-    "react-jsx": "^0.13.0",
-    "react-router": "^0.13.3",
-    "request-promise": "^0.4.2",
-    "rubber-band": "^0.1.3",
-    "string-humanize": "^1.0.0",
-    "uglify-js": "^2.4.23",
-    "uglifyify": "^3.0.1",
-    "whatwg-fetch": "^0.7.0"
+    "babel-runtime": "5.8.25",
+    "boilerplate-server": "0.10.0",
+    "denodeify": "1.2.1",
+    "find-root": "0.1.1",
+    "history": "1.12.3",
+    "minimist": "1.2.0",
+    "react": "0.13.3",
+    "react-dom": "0.14.0",
+    "react-redux": "3.1.0",
+    "react-router": "1.0.0-rc3",
+    "redux": "3.0.2",
+    "redux-devtools": "2.1.5",
+    "redux-logger": "2.0.3",
+    "redux-router": "1.0.0-beta3",
+    "redux-thunk": "1.0.0",
+    "serialize-javascript": "1.1.2"
   },
   "devDependencies": {
-    "babel": "^5.2.17",
-    "babel-eslint": "^3.1.15",
-    "babelify": "^6.3.0",
-    "chokidar-cli": "^0.3.0",
-    "eslint": "^0.22.1",
-    "eslint-plugin-react": "^2.5.0"
+    "abab": "1.0.0",
+    "babel-core": "5.8.25",
+    "babel-eslint": "4.1.3",
+    "blue-tape": "0.1.10",
+    "chalk": "1.1.1",
+    "commitizen": "1.0.5",
+    "coveralls": "2.11.4",
+    "covert": "1.1.0",
+    "cracks": "3.1.1",
+    "cz-conventional-changelog": "1.1.2",
+    "eslint": "1.6.0",
+    "eslint-config-xo": "0.5.0",
+    "eslint-config-xo-react": "0.3.0",
+    "eslint-plugin-babel": "2.1.1",
+    "eslint-plugin-react": "3.5.1",
+    "fly": "0.8.3",
+    "fly-babel": "0.6.0",
+    "fly-eslint": "marionebl/fly-eslint",
+    "in-publish": "2.0.0",
+    "istanbul": "0.3.22",
+    "jsdoc-parse": "1.1.1",
+    "jsdoc-to-markdown": "1.2.0",
+    "md5": "2.0.0",
+    "npm": "3.3.5",
+    "rc": "1.1.2",
+    "require-all": "1.1.0",
+    "rimraf": "2.4.3",
+    "semantic-release": "^4.3.5",
+    "source-map-support": "0.3.2",
+    "tap-spec": "4.1.0",
+    "tape": "4.2.1"
   }
 }

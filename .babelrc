@@ -1,5 +1,6 @@
 {
-	"stage": 0,
-	"optional": ["asyncToGenerator"],
-	"sourceMaps": "inline"
+  "stage": 0,
+  "optional": ["asyncToGenerator", "runtime"],
+  "sourceMaps": "inline",
+  "auxiliaryCommentBefore": "istanbul ignore next"
 }

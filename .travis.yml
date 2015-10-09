@@ -1,0 +1,31 @@
+sudo: false
+language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+node_js:
+  - '4'
+  - '3'
+  - '2'
+  - '1'
+before_install:
+  - npm i -g npm@^2.0.0
+before_script:
+  - npm prune
+  - 'curl -Lo travis_after_all.py https://git.io/vLSON'
+  - npm run build
+after_script:
+  - npm run coveralls
+after_success:
+  - python travis_after_all.py
+  - export $(cat .to_export_back)
+  - npm run semantic-release
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/429941b00e1a3874f9a9
+    on_success: always
+    on_failure: always
+    on_start: never

@@ -4,11 +4,12 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 indent_style = tab
 
-[*rc]
+[.*rc]
 indent_style = space
 
-[*.json]
+[{package.json,.travis.yml}]
 indent_style = space
 
-[*.font]
+[*.md]
 indent_style = space
+trim_trailing_whitespace = false

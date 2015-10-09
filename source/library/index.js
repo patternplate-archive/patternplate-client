@@ -1,13 +1,16 @@
-import boilerplate from 'boilerplate-server';
+import {resolve} from 'path';
+
+import boilerplateServer from 'boilerplate-server';
 import findRoot from 'find-root';
 
-async function server (opts) {
-	let options = Object.assign({
-			'name': 'patternplate-client',
-			'cwd': findRoot(__dirname)
-		}, opts);
+const defaults = {
+	name: 'patternplate-client',
+	cwd: resolve(findRoot(__dirname), 'distribution', 'library')
+};
 
-	return await boilerplate(options);
+async function patternplateClient(options) {
+	const settings = {...defaults, ...options};
+	return boilerplateServer(settings);
 }
 
-export default server;
+export default patternplateClient;
