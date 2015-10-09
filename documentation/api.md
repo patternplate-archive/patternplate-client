@@ -9,9 +9,6 @@
 [![npm version][npm-image]][npm-url] [![Downloads][npm-dl-image]][npm-url]
 [![Build status][ci-image]][ci-url] [![Coverage][coverage-image]][coverage-url]
 
-
-ERROR, Cannot find module.
-
 ---
 patternplate-client is built by SinnerSchrader and [contributors](./contributors.md) with :heart:
 and released under the [MIT License](./license.md).

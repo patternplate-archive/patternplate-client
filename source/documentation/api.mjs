@@ -9,8 +9,6 @@
 [![npm version][npm-image]][npm-url] [![Downloads][npm-dl-image]][npm-url]
 [![Build status][ci-image]][ci-url] [![Coverage][coverage-image]][coverage-url]
 
-${props.apiDocs}
-
 ---
 ${props.pkg.name} is built by ${props.pkg.author.name} and [contributors](./contributors.md) with :heart:
 and released under the [MIT License](./license.md).

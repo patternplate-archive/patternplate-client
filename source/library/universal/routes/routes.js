@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route} from 'react-router';
+import {Route, IndexRoute} from 'react-router';
 import {
 	Application,
 	Documentation,
@@ -9,8 +9,8 @@ import {
 } from '../containers';
 
 export default (
-	<Route component={Application}>
-		<Route path="/" component={Home} />
+	<Route path="/" component={Application}>
+		<IndexRoute component={Home} />
 		<Route path="/documentation(/:path)*" component={Documentation} />
 		<Route path="/pattern(/:path)*" component={Pattern} />
 		<Route path="*" component={NotFound} />

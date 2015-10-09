@@ -3,22 +3,25 @@ import {reduxReactRouter as clientRouter} from 'redux-router';
 import {reduxReactRouter as serverRouter} from 'redux-router/server';
 import {devTools} from 'redux-devtools';
 import thunk from 'redux-thunk';
-import createHistory from 'history/lib/createBrowserHistory';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import createLogger from 'redux-logger';
 
 import routes from '../routes/routes';
 import rootReducer from '../reducers';
 
 const client = typeof global.location !== 'undefined';
+
 const router = client ?
-	clientRouter({routes, createHistory}) :
+	clientRouter({routes, createHistory: createBrowserHistory}) :
 	serverRouter({routes});
+
+const debugging = process.env.NODE_ENV !== 'production' ?
+	[applyMiddleware(createLogger()), devTools()] : [];
 
 const chain = client ? [
 	applyMiddleware(thunk),
 	router,
-	applyMiddleware(createLogger()),
-	devTools()
+	...debugging
 ] : [
 	applyMiddleware(thunk),
 	router

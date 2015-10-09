@@ -5,13 +5,13 @@ import {ReduxRouter} from 'redux-router';
 import {match} from 'redux-router/server';
 
 import configureStore from './store/configure-store';
-import HTMLDocument from './components/html-document/html-document';
+import HTMLDocument from './containers/html-document';
 
 export default function (location) {
-	const store = configureStore({});
+	const store = configureStore();
 
 	return new Promise((resolve, reject) => {
-		store.dispatch(match(location, (error, redirect) => {
+		store.dispatch(match(location, (error, redirect, renderProps) => {
 			if (error) {
 				reject(error);
 			} else if (redirect) {
@@ -20,7 +20,7 @@ export default function (location) {
 				return resolve(render(
 					<HTMLDocument state={store.getState()}>
 						<Provider store={store}>
-							<ReduxRouter />
+							<ReduxRouter {...renderProps} />
 						</Provider>
 					</HTMLDocument>
 				));
