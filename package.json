@@ -65,7 +65,7 @@
     "babelify": "^6.0.2",
     "bluebird": "^2.9.27",
     "boilerplate-server": "~0.10.0",
-    "browserify": "^10.0.0",
+    "browserify": "^11.2.0",
     "btoa": "^1.1.2",
     "classnames": "^1.2.2",
     "cookie": "^0.1.3",
