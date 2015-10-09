@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/sinnerschrader/patternplate">
-    <img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/master/patternplate.svg" />
+		<img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/next/patternplate.svg" />
   </a>
 </div>
 <h1 align="center">☸ ${props.pkg.name} roadmap</h1>
@@ -17,35 +17,14 @@ This is a rough roadmap for ${props.pkg.name}, which is steadily updated and evo
 - [x] Extensive testing facilities
 - [x] Extensive CI setup
 - [x] Generate documentation
-- [x] Documentation template for all patternplate projects
-- [x] Contribution guide template
+- [x] Documentation frame
+- [x] Contribution guide
+- [ ] Detailed roadmap
 
 ## Features
-- [ ] **manifest.validate**
-	- [ ] JSON schema validation for `pattern.json`
-	- [ ] Register JSON schema with jsonschema.org
-- [ ] **meta**
-	- [ ] Move `meta.meta` to default export
-	- [x] Basic error handling
-	- [x] Mechanism to pass warnings up the chain
-	- [x] Fetch basic meta data for a given pattern tree
-	- [ ] Add dependencies to results
-	- [ ] Handle circular dependencies
-	- [ ] Add manifest meta data to results
-	- [ ] Add file dictionaries to results
-	- [ ] Watch pattern tree for changes and return relevant subtree
-- [ ] **query**
-	- [ ] Move `query.query` to default export
-	- [x] Basic error handling
-	- [x] Use `meta` to get pattern meta data
-	- [ ] Query meta data for a given pattern tree
-	- [ ] Watch pattern tree for changes and return relevant subtree
-	- [ ] Query Engine to filter results
+
 
 ## Integration
-- [ ] Test in use with command line utility `patternplate-manager`
-- [ ] Replace portions of pattern hook in `patternplate-server`
-- [ ] Replace `patternplate-server` pattern hook completely
 
 ---
 ${props.pkg.name} is built by ${props.pkg.author.name} and [contributors](./contributors.md) with :heart:

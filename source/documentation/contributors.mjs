@@ -1,11 +1,11 @@
 <div align="center">
   <a href="https://github.com/sinnerschrader/patternplate">
-    <img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/master/patternplate.svg" />
+    <img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/next/patternplate.svg" />
   </a>
 </div>
 <h1 align="center">☸ ${props.pkg.name} contributors</h1>
 
-|Gravatar | Name  | Email	| Website |
+|Gravatar | Name  | Email | Website |
 |:---:    |:---   |:----  |:----    |
 ${props.pkg.contributors.map(function(contributor) {
   var name = contributor.name || 'Anonymous';
