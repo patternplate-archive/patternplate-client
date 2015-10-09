@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/sinnerschrader/patternplate">
-    <img width="200" src="https://cdn.rawgit.com/sinnerschrader/patternplate-client/master/patternplate.svg" />
+    <img width="200" src="https://cdn.rawgit.com/sinnerschrader/patternplate-client/next/patternplate.svg" />
   </a>
 </div>
 <h1 align="center">☸ patternplate-client development</h1>

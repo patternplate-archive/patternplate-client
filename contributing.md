@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/sinnerschrader/patternplate">
-    <img width="200" src="https://cdn.rawgit.com/sinnerschrader/patternplate-client/master/patternplate.svg" />
+    <img width="200" src="https://cdn.rawgit.com/sinnerschrader/patternplate-client/next/patternplate.svg" />
   </a>
 </div>
 <br />
@@ -54,10 +54,10 @@ Please consider these guidelines when filing a pull request:
 * Squash your commits when filing the pull request
 * Provide a short title with a maximum of 100 characters
 * Provide a more detailed description containing
-	* What you want to achieve
-	* What you changed
-	* What you added
-	* What you removed
+  * What you want to achieve
+  * What you changed
+  * What you added
+  * What you removed
 
 ## Coding Rules
 To keep the code base of patternplate-client neat and tidy the following rules apply to every change

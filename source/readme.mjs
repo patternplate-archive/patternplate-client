@@ -1,11 +1,11 @@
 <div align="center">
   <a href="https://github.com/sinnerschrader/patternplate">
-    <img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/master/patternplate.svg" />
+    <img width="200" src="https://cdn.rawgit.com/${props.pkg.repository.slug}/next/patternplate.svg" />
   </a>
 </div>
 <h1 align="center">☸ ${props.pkg.name}</h1>
 <p align="center">
-  <b><a href="#about">About</a></b> | <b><a href="#usage">Usage</a></b> | <b><a href="./documentation/readme.md">Documentation</a></b> | <b><a href="./documentation/contributing.md">Contributing</a></b>
+  <b><a href="#about">About</a></b> | <b><a href="#usage">Usage</a></b> | <b><a href="./documentation/readme.md">Documentation</a></b> | <b><a href="./contributing.md">Contributing</a></b>
 </p>
 <br />
 > Health
@@ -27,7 +27,7 @@
 [![chat with patternplate][gitter-image]][gitter-url]
 
 ## About
-${props.pkg.name} contains shared functionality of all [patternplate](/sinnerschrader/patternplate/) projects. Its primary task is traversal and comprehension of pattern trees.
+${props.pkg.name} is the client application for [patternplate][patternplate-url].
 
 ## Install
 [${props.pkg.name}](npm-url) is available on npm.
@@ -101,4 +101,4 @@ and released under the [MIT License](./license.md).
 [gitter-image]: https://img.shields.io/badge/gitter-join%20chat-3989c9.svg?style=flat-square
 [gitter-url]: https://gitter.im/sinnerschrader/patternplate
 
-[patternplate-url]: /sinnerschrader/patternplate
+[patternplate-url]: https://github.com/sinnerschrader/patternplate
