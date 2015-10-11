@@ -1,4 +1,4 @@
-#!/usr/bin/env node --harmony
+#!/usr/bin/env node
 import 'babel-core/polyfill';
 import minimist from 'minimist';
 

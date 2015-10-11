@@ -17,18 +17,16 @@ import pkg from './package.json';
 
 const paths = {
 	'root': '.',
-	'assets': ['source/static/**/*.!(js|less)'],
-	'script': ['source/static/**/*.js'],
-	'style': ['source/static/**/*.less'],
-	'source': [
-		'source/!(library)/**/*.@(js|jsx)',
-		'source/**/!(static|universal)/**/*.@(js|jsx)'
-	],
+	'source': ['source/!(universal)/**/*.{js,jsx}'],
+	'bundle': ['source/universal/**/*.{js,jsx}'],
+	'assets': ['source/library/static/**/*.!(js)'],
+	'script': ['source/library/static/**/*.js'],
 	'documentation': 'source/**/*.mjs',
 	'json': 'source/**/*.json',
-	'distribution': 'distribution',
 	'public': 'distribution/library/static',
-	'docs': ['./*.md', 'documentation/**/*.md']
+	'docs': ['./*.md', 'documentation/**/*.md'],
+	'distribution': 'distribution',
+	'server': 'distribution/library'
 };
 
 export async function test() {
@@ -169,8 +167,10 @@ async function bundle(options, watch = false) {
 	}
 }
 
-export async function script(watch = false) {
+export async function script(options) {
 	const source = await this.source(paths.script);
+	const settings = {watch: false, ...options};
+
 	await source.eslint();
 	await source.target(paths.public);
 
@@ -181,7 +181,7 @@ export async function script(watch = false) {
 			entry: './source/library/static/script/index.js',
 			cssout: './distribution/library/static/style/light.css',
 			jsout: './distribution/library/static/script/index.js'
-		}, watch);
+		}, settings.watch);
 	} catch (err) {
 		this.error(err.message);
 	}
@@ -198,50 +198,35 @@ export async function clear() {
 	return await this.clear(paths.distribution);
 }
 
-export async function build(withScripts = true) {
+export async function build(options) {
 	/** @desc Transpiles sources and lints them. Executes the tasks clear, copy and test */
-	const source = await this.source(paths.source);
+	const settings = {watch: false, script: true, ...options};
+	const sourcePaths = [...paths.bundle, ...paths.source];
+	await this.source(sourcePaths).eslint();
 
-	await source.eslint();
-	const results = await source.babel();
-
-	// await clear.bind(this)();
-	await results.target(paths.distribution);
+	await this.source(paths.source).babel().target(paths.distribution);
 	await copy.bind(this)();
 
-	try {
-		await bundle.bind(this)({
-			rc: 'babel',
-			server: true,
-			livereactload: false,
-			add: './source/library/universal/server.js',
-			cssout: './distribution/library/static/style/_light.css',
-			jsout: './distribution/library/universal/server.js'
-		});
-	} catch (err) {
-		this.error(err.message);
-	}
+	await bundle.bind(this)({
+		rc: 'babel',
+		server: true,
+		livereactload: false,
+		add: './source/universal/server.js',
+		cssout: './distribution/library/static/style/_light.css',
+		jsout: './distribution/universal/server.js'
+	}, settings.watch);
 
-	if (withScripts) {
-		await script.bind(this)();
-	}
-
-	return test.bind(this)();
-}
-
-export async function watchbuild() {
-	try {
-		await build.bind(this)(false);
-		return await documentation.bind(this)();
-	} catch (err) {
-		throw err;
+	if (settings.script) {
+		await script.bind(this)(options);
 	}
 }
 
 export async function watch() {
 	/** @desc Watches files found in ./source and starts build and/or documentation tasks on file changes */
-	await this.watch(paths.source, ['watchbuild']);
-	await script.bind(this)(true);
+	await build.bind(this)({
+		watch: true,
+		script: true
+	});
 }
 
 export default async function () {

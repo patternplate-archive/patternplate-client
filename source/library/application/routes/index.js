@@ -1,4 +1,4 @@
-import universal from '../../universal/server';
+import universal from '../../../universal/server';
 
 export default function () {
 	return async function() {

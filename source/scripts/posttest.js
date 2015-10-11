@@ -35,5 +35,8 @@ main(process.cwd())
 	.catch(err => {
 		console.error(`  ${chalk.red('✖')}   validate-production-dependencies failed.`);
 		console.trace(err);
-		throw new Error(err);
+		// So who thought Promise.catch would gobble up errors?
+		setTimeout(() => {
+			throw new Error(err);
+		}, 0);
 	});

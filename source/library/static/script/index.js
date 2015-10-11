@@ -5,7 +5,7 @@ import {render} from 'react-dom';
 import {Provider} from 'react-redux';
 import {ReduxRouter} from 'redux-router';
 
-import configureStore from '../../universal/store/configure-store';
+import configureStore from '../../../universal/store/configure-store';
 import devTools from './dev-tools';
 
 const queries = {
