@@ -1,0 +1,24 @@
+{
+  "stage": 0,
+  "env": {
+    "development": {
+      "sourceMaps": "inline",
+      "optional": ["asyncToGenerator", "runtime"],
+      "plugins": ["react-transform"],
+      "blacklist": ["runtime"],
+      "extra": {
+        "react-transform": {
+          "transforms": [{
+            "transform": "livereactload/babel-transform",
+            "imports": ["react"]
+          }]
+        }
+      }
+    },
+    "production": {
+      "sourceMaps": false,
+      "optional": ["regenerator", "runtime"],
+      "blacklist": ["asyncToGenerator"]
+    }
+  }
+}

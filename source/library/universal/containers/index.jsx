@@ -1,3 +1,4 @@
+export HTMLDocument from './html-document';
 export Application from './application';
 export Documentation from './documentation';
 export Home from './home';

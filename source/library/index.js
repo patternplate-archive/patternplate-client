@@ -1,3 +1,5 @@
+import 'babel-core/polyfill';
+
 import {resolve} from 'path';
 
 import boilerplateServer from 'boilerplate-server';

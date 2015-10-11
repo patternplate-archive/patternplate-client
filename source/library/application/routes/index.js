@@ -5,7 +5,7 @@ export default function () {
 		const path = this.params.path || this.captures[0] || '';
 		const search = this.request.search || '';
 
-		const document = await universal(`/${path}${search}`);
+		const document = await universal(`${path}${search}`);
 		this.body = `<!doctype html>${document}`;
 	};
 }

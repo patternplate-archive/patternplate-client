@@ -1,10 +1,25 @@
 import React from 'react';
+import {Link} from 'react-router';
 
-export default function(props) {
+// Does not work on the server side yet
+import {normal} from './application.css';
+
+export default function (props) {
+	const routes = ['/', '/pattern', '/documentation'];
+
 	return (
-		<div>
-			<h1>Application</h1>
+		<div className={normal}>
+			<h1>Application 12</h1>
 			{props.children}
+			<ul>
+				{
+					routes.map((route, index) => {
+						return (<li key={index}>
+							<Link to={route}>{route}</Link>
+						</li>);
+					})
+				}
+			</ul>
 		</div>
 	);
 }
