@@ -20,7 +20,7 @@ async function main(command, flags) {
 		return `  ${chalk.green('✔')}   Not in CI environment, skipping "${cmd}"\n`;
 	}
 
-	return execute(command, flags);
+	return await execute(command, flags);
 }
 
 const args = process.argv.slice(2);
@@ -29,6 +29,8 @@ const [command, ...flags] = args;
 main(command, flags)
 	.then(message => message && console.log(message))
 	.catch(err => {
-		console.trace(err);
-		throw new Error(err);
+		// So who thought Promise.catch would gobble up errors?
+		setTimeout(() => {
+			throw new Error(err);
+		}, 0);
 	});

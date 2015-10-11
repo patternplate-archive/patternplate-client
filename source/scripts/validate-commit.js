@@ -105,5 +105,8 @@ main()
 	.catch(err => {
 		console.error(`  ✖   validate-commit-msg failed.\n`);
 		console.trace(err);
-		process.exit(1);
+		// So who thought Promise.catch would gobble up errors?
+		setTimeout(() => {
+			throw new Error(err);
+		}, 0);
 	});
