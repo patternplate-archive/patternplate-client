@@ -1,13 +1,8 @@
-import 'babel-core/polyfill';
-
-import {resolve} from 'path';
-
 import boilerplateServer from 'boilerplate-server';
-import findRoot from 'find-root';
 
 const defaults = {
 	name: 'patternplate-client',
-	cwd: resolve(findRoot(__dirname), 'distribution', 'library')
+	cwd: __dirname
 };
 
 async function patternplateClient(options) {
