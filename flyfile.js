@@ -18,15 +18,13 @@ import pkg from './package.json';
 const paths = {
 	'root': '.',
 	'assets': ['source/static/**/*.!(js|less)'],
-	'script': ['source/static/**/*.js'],
-	'style': ['source/static/**/*.less'],
-	'source': [
-		'source/!(library)/**/*.@(js|jsx)',
-		'source/**/!(static|universal)/**/*.@(js|jsx)'
-	],
+	'script': ['source/library/static/**/*.js'],
+	'secondarySource': ['source/!(library)/**/*.@(js|jsx)'],
+	'serverSource': ['source/library/!(static|universal)/**/*.@(js|jsx)'],
 	'documentation': 'source/**/*.mjs',
 	'json': 'source/**/*.json',
 	'distribution': 'distribution',
+	'serverDistribution': 'distribution/library/',
 	'public': 'distribution/library/static',
 	'docs': ['./*.md', 'documentation/**/*.md']
 };
@@ -171,6 +169,7 @@ async function bundle(options, watch = false) {
 
 export async function script(watch = false) {
 	const source = await this.source(paths.script);
+
 	await source.eslint();
 	await source.target(paths.public);
 
@@ -200,13 +199,16 @@ export async function clear() {
 
 export async function build(withScripts = true) {
 	/** @desc Transpiles sources and lints them. Executes the tasks clear, copy and test */
-	const source = await this.source(paths.source);
+	const source = await this.source(paths.serverSource);
+	const secondary = await this.source(paths.secondarySource);
 
 	await source.eslint();
+	await secondary.eslint();
 	const results = await source.babel();
 
 	// await clear.bind(this)();
-	await results.target(paths.distribution);
+	await results.target(paths.serverDistribution);
+	await secondary.babel().target(paths.distribution);
 	await copy.bind(this)();
 
 	try {
@@ -240,7 +242,9 @@ export async function watchbuild() {
 
 export async function watch() {
 	/** @desc Watches files found in ./source and starts build and/or documentation tasks on file changes */
-	await this.watch(paths.source, ['watchbuild']);
+	await this.watch(paths.serverSource, ['watchbuild']);
+	await this.watch(paths.secondarySource, ['watchbuild']);
+
 	await script.bind(this)(true);
 }
 
