@@ -227,8 +227,6 @@ export async function build(withScripts = true) {
 	if (withScripts) {
 		await script.bind(this)();
 	}
-
-	return test.bind(this)();
 }
 
 export async function watchbuild() {
@@ -242,8 +240,8 @@ export async function watchbuild() {
 
 export async function watch() {
 	/** @desc Watches files found in ./source and starts build and/or documentation tasks on file changes */
-	await this.watch(paths.serverSource, ['watchbuild']);
-	await this.watch(paths.secondarySource, ['watchbuild']);
+	await this.watch(paths.serverSource, ['watchbuild', 'test']);
+	await this.watch(paths.secondarySource, ['watchbuild', 'test']);
 
 	await script.bind(this)(true);
 }
