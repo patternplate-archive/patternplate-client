@@ -19,10 +19,21 @@ This is a rough roadmap for patternplate-client, which is steadily updated and e
 - [x] Generate documentation
 - [x] Documentation frame
 - [x] Contribution guide
+- [x] CSS Modules
+- [x] Basic universal redux setup
+- [ ] Client side JS unit test setup
+- [ ] Client side JS integration test setup
+- [ ] Galen framework for layout testing
+- [ ] Saucelabs test setup
+- [ ] JSDoc comments for all boilerplate code
+- [ ] Good universal client - server communication
+- [ ] Solid persistence abstraction
+- [ ] Revisit and deprecate config schemas if needed
+- [ ] Move existing server code over to next branch
+- [ ] Test [rollup](https://github.com/rollup/rollup) for bundled code
 - [ ] Detailed roadmap
 
 ## Features
-
 
 ## Integration
 
