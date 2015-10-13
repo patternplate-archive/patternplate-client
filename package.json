@@ -82,7 +82,7 @@
     "less-plugin-npm-import": "^2.0.0",
     "markdown-css-themes": "^1.0.1",
     "merge": "^1.2.0",
-    "minimist": "^1.1.1",
+    "minimist": "^1.2.0",
     "moment": "^2.10.2",
     "normalize-opentype.css": "^0.2.4",
     "normalize.less": "^1.0.0",
