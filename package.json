@@ -83,7 +83,7 @@
     "markdown-css-themes": "^1.0.1",
     "merge": "^1.2.0",
     "minimist": "^1.1.1",
-    "moment": "^2.10.2",
+    "moment": "^2.10.6",
     "normalize-opentype.css": "^0.2.4",
     "normalize.less": "^1.0.0",
     "pretty-data": "^0.40.0",
