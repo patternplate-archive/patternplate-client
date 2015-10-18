@@ -1,12 +1,5 @@
-// import 'babel-core/polyfill';
-
-import React from 'react';
-import {render} from 'react-dom';
-import {Provider} from 'react-redux';
-import {ReduxRouter} from 'redux-router';
-
-import configureStore from '../../universal/store/configure-store';
-// import devTools from './dev-tools';
+import 'babel-core/polyfill';
+import render from '../../universal/client';
 
 const queries = {
 	mount: () => document.querySelectorAll('[data-mount]'),
@@ -22,8 +15,7 @@ function deserialize(key) {
 
 function mount(element) {
 	const data = deserialize(element.dataset.mount);
-	const store = configureStore(data);
-	render(<Provider store={store}><ReduxRouter /></Provider>, element);
+	render(data, element);
 }
 
 function main() {

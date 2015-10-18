@@ -1,0 +1,33 @@
+ui: tape
+# IMPORTANT: Here be dragons!
+# For the client-side tests to actually test the same scripts
+# as we deliver this configuration has to be the same as the
+# one found in .babel-clientrc. An exception from this is the
+# react plugin needed for livereactload
+browserify:
+  - transform: babelify
+    stage: 0
+    optional:
+      - "regenerator"
+      - "runtime"
+    blacklist:
+      - "asyncToGenerator"
+  - options:
+      extensions:
+        - .jsx
+        - .js
+browsers:
+  - name: chrome
+    version: -2..latest
+  - name: firefox
+    version: -2..latest
+  - name: ie
+    version: [10, 11]
+  - name: microsoftedge
+    version: latest
+  - name: safari
+    version: latest
+  - name: iphone
+    version: latest
+  - name: android
+    version: latest

@@ -28,3 +28,6 @@ node_modules
 
 # Build target
 /distribution
+
+# make sure .zuulrc never leaks saucelabs credentials
+.zuulrc

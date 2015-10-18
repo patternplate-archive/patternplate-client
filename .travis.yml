@@ -12,6 +12,9 @@ node_js:
   - '1'
 before_install:
   - npm i -g npm@^2.0.0
+script:
+  - npm test
+  - npm run zuul
 before_script:
   - npm prune
   - 'curl -Lo travis_after_all.py https://git.io/vLSON'
@@ -29,3 +32,7 @@ notifications:
     on_success: always
     on_failure: always
     on_start: never
+env:
+  global:
+    - secure: yOjBKSOVWRXGtLVBVUDerJL5GjwYtly1vKJnn6/ixWfIuBg+QkWBsOMXpM5C7IyjdjYgGsAT7l9mOdIbHIvXehW4zDcnQDwb407bdchenUagCn3lCX1GwbsAGp9mntGKVIAbqnGsfS71QLsDibtGdRmqPYn6OboEl3NAtMhJaNimnqP1w/JSWnmN2za/z0YaW918OIn4UTZu3LX9upHIFThxG6v5T5TRI+ovfC7LaBjdlwoeMgXs8WEuoTX7izah9qQHez81bZObOCJBPTUeNprHL8BiCbyejGwRb0Mh8qXdp5z6DL7K0w+zR6oqBW39Mr9LcOcmPgOoe4hs7PNdBP+kvY4lCXHfyOSTLZ1osydL46sKqTjM6xqBJFitfP+5Hp+rpg05bjiRtkuH+/VQoIgN5dp1zwAq9tKvX4tKw9KHNNpinwlsKssNvdQt5vwfyEh6pN3tCkfr/8bqjfvht1XMQYBeya2TB8SmaUygxdqgwMZNcQ5mmNbKaFh/3zUxkpJayzcNQrhUPdOA31y22Rdfa2PVHKlnx3QdeQyogLR3jBxUoBTBKiAOCtdlXkLS7Ba91szvNvQq2LvOh3TO1ijR8pmhDaohOoMNiTsx2GCdVvOOwc9CQWrwWjc4m/2HvAdkfEkrrytZaH/J0ZBWavqS0lYh5vDfUADc/HrsAEI=
+    - secure: Jk81UvpAQPlfLwBoQPgAtzqbd3hOtSI7cJRK5PNSER9lBTN0WxiXIjHYkLIDZyqgv6+IXHpgXPLoL34JLAhmxkNLkHAJROVHJ9e762E9B/EKYq+Jh8cPA4ce6BtSGV82EKoOVqBSEZoGfMc2YyM4aV3saAHYVqFdBWSHIvFSqTJDEsGeZRNbz/oXVPVIdBIKGnF8lm9TaKoehiAj2Hc40EZu2CPb00ksaHx1R7Bv9PL1if+UZeYL8ll8unO56zR5W+nnWq9QXlQQxjvC3gdknYJ5urNPFl7VcZ5Hxep7+JKZVomrA+/cenXlnzpr44d02JsalrOW3Fk4e6d/j6tQuXoeBVzOYWi53KG9ycP7Qz9bhW+C6f4PFFAi3y3qddEODX/KotkicJUTymPocVJnYTmBxw3CXVjglFxjKtZXF4V39Hlhwt4TkW7dKgfa4yM/59E0encbmmp0wkOqIIb9VB19BrF45uPBaRgFwrlijbuN/xn6JCZzq2CFOMkwm46uftX3/bvMJRnstnpr/Evz3t59nXEdH4E7mPKr0+AgEU17jlp7o+X4m0azdtNeAXc2dR9kGAq5yqlYo6XbNrGmGJfowjJHBk7iPm6V/mEQG4gViPoojZOVD2OJh7Rtq0QouKXuWKnh6VmVrxRyJSrATEzb9Is288/lJyHy8xA/KUg=

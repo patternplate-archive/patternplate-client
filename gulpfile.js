@@ -1,3 +1,4 @@
+'use strict'
 /* eslint-disable */
 const read = require('fs').readFileSync;
 const resolve = require('path').resolve;
@@ -17,6 +18,7 @@ const data = require('gulp-data');
 const extension = require('gulp-ext-replace');
 const jsdoc = require('gulp-jsdoc-to-markdown');
 const tape = require('gulp-tape');
+const shell = require('gulp-shell');
 
 const browserify = require('browserify');
 const watchify = require('watchify');
@@ -45,7 +47,7 @@ const paths = {
 	// source globs
 	source: [
 		'source/**/*.{js,jsx}',
-		'!source/library/universal/**/*',
+		'!source/library/universal/server.js',
 		'!source/library/static/**/*'
 	],
 	api: 'distribution/library/**/*.js',
@@ -63,6 +65,7 @@ const paths = {
 	},
 	templates: ['source/**/*.tpl'],
 	test: ['distribution/test/index.js'],
+	browserTest: ['source/test/client.js'],
 	// target globs
 	public: 'distribution/library/static',
 	css: './distribution/library/static/style/light.css',
@@ -75,12 +78,14 @@ const templates = {
 	'short': read('source/templates/short.hbs', 'utf-8')
 };
 
+let isWatching = false;
+
 /**
  * Helper to create gulp tasks from named functions on the fly
  * Allows for keeping tasks around as functions and keeping them private
- * @param  {Function} fn named function that should be used as gulp task
- * @param  {string}   forced optional forced name for the task to create
- * @return {string}   name of the created task
+ * @param	{Function} fn named function that should be used as gulp task
+ * @param	{string}	 forced optional forced name for the task to create
+ * @return {string}	 name of the created task
  */
 function task(fn, forced) {
 	const name = forced || functionName(fn);
@@ -93,10 +98,15 @@ function task(fn, forced) {
 	return name;
 }
 
+function isLeader(jobNumber) {
+	jobNumber = jobNumber || '';
+	var fragments = jobNumber.split('.');
+	return fragments[fragments.length - 1] === '1';
+}
+
 /**
  * Helper to fetch babel configuration rc files with custom names
- * Allows for keeping tasks around as functions and keeping them private
- * @param  {string} [name='babel'] name of the rc file to search for
+ * @param	{string} [name='babel'] name of the rc file to search for
  * @return {object} fetched babel configuration
  */
 function getBabelConfig(forced) {
@@ -106,8 +116,8 @@ function getBabelConfig(forced) {
 
 /**
  * Helper to create a templated markdown string from js sources
- * @param  {string}   template string to use
- * @param  {Function} callback bback-style callback
+ * @param	{string}	 template string to use
+ * @param	{Function} callback bback-style callback
  */
 function apiDoc(template, callback) {
 	gulp.src(resolve(paths.api), {read: false})
@@ -167,6 +177,12 @@ function transpile() {
 		.pipe(cached('transpile'))
 			.pipe(eslint())
 			.pipe(eslint.failOnError())
+			.on('error', function(error){
+				util.log(error);
+				if (!isWatching) {
+					throw error;
+				}
+			})
 			.pipe(babel())
 			.pipe(remember('transpile'))
 		.pipe(gulp.dest(paths.distribution));
@@ -266,16 +282,46 @@ function build(done) {
 function clean() {
 	/* @desc clean all build results from project */
 	return del(paths.documentation.concat([paths.distribution]));
-};
+}
 
-function test() {
+function test(cb) {
 	/* @desc execute the test suite */
 	const reporter = spec();
 	return gulp.src(paths.test)
-		.pipe(tape({reporter: reporter}))
-};
+		.pipe(tape({reporter: reporter}));
+}
+
+function zuul(cb) {
+	if (process.env.CI === 'true' && !isLeader(process.env.TRAVIS_JOB_NUMBER)) {
+		return util.log(util.colors.green('✔') + ' Skipping browser tests, on CI and not the leader.');
+	}
+
+	let errored;
+
+	gulp.src(paths.browserTest, {read: false})
+		.pipe(shell([
+			'zuul -- <%= file.path %>'
+		], {
+			errorMessage: '<%= error %>'
+		}))
+		.on('error', function(err){
+			const message = err.message || '';
+			if (message.indexOf('connection refused') > -1 || message.indexOf('run out of minutes') > -1) {
+				util.log('   '+ util.colors.yellow('⚠') + '   Error while connecting to saucelabs, skipping browser tests.');
+			} else {
+				util.log('   '+ util.colors.red('⚠') + '   Error in browser tests.');
+				errored = err;
+				return cb(err);
+			}
+		})
+		.on('end', function(){
+			cb(errored);
+		});
+}
 
 function watch() {
+	isWatching = true;
+
 	const universalWatch = watchify(universalBundler);
 	const clientWatch = watchify(clientBundler);
 
@@ -340,6 +386,7 @@ function help() {
 // Register public tasks
 task(build);
 task(test);
+task(zuul);
 task(clean);
 task(watch);
 task(help);
