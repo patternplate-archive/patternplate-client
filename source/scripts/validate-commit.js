@@ -62,17 +62,18 @@ function validate(message) {
 }
 
 async function getHashes() {
-	const range = process.env.TRAVIS_COMMIT_RANGE;
+	/* const range = process.env.TRAVIS_COMMIT_RANGE;
 	let result;
 
 	if (range) {
 		const list = await execute(`git rev-list ${range}`);
 		result = list.split('\n');
 	} else {
-		result = [process.env.TRAVIS_COMMIT];
-	}
+		result = ;
+	} */
 
-	return result;
+	// return result;
+	return [process.env.TRAVIS_COMMIT];
 }
 
 async function getMessage(hash) {

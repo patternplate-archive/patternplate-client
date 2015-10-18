@@ -1,0 +1,21 @@
+environment:
+  matrix:
+    - nodejs_version: "4"
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm i -g npm@^2.0.0
+  - npm install
+  - npm run build
+
+test_script:
+  - npm test
+
+notifications:
+  - provider: Webhook
+    url: https://webhooks.gitter.im/e/190f3b0d76b5d26d3f88
+    on_build_success: true
+    on_build_failure: true
+    on_build_status_changed: true
+
+build: off

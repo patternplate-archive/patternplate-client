@@ -1,0 +1,14 @@
+{
+  "stage": 0,
+  "optional": ["regenerator"],
+  "blacklist": ["asyncToGenerator", "runtime"],
+  "plugins": ["react-transform"],
+  "extra": {
+    "react-transform": {
+      "transforms": [{
+        "transform": "livereactload/babel-transform",
+        "imports": ["react"]
+      }]
+    }
+  }
+}
