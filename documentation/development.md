@@ -16,9 +16,9 @@ Here are some notes to get you coding real quick.
 
 ### Prerequesites
 For development for patternplate-client you'll need:
-* git
-* node/io `>=3`
-* npm `>=2`
+* **All systems**: git
+* **Windows**: node/io `4`
+* **Unix(ish)**: node/io `4, 3, 2, 1`
 
 ### Getting started
 Fetch, install and start the default watch task
@@ -36,8 +36,8 @@ patternplate-client is written using ES6 and ES7 features and transpiled to ES5 
 
 * All js sources are kept in `source` and built to `distribution/`.
   **NOTE** `distribution/` is ignored from SCM and only included when releasing to npm
-* Documentation templates are kept in `source` with an extension of `.mjs` and built to `.`
-* [fly](https://github.com/fly/flyjs) is used as task manager. List available tasks via `npm start -- --list`
+* Documentation templates are kept in `source` with an extension of `.tpl` and built to `.`
+* gulp is used as task manager. List available tasks via `npm run gulp help`
 * A [.editorconfig](.editorconfig) is provided. Make sure to use the applicable plugin for your editor.
 * A [.eslintrc](.eslintrc) is provided. The default build will fail when linting fails. To make your life easier you can install the eslint plugin applicable for your editor.
 * patternplate-client uses commitizen to make adherence to the [commit rules](../contributing.md#commit-rules) easier. Use `npm run commit` to commit changes.

@@ -5,7 +5,7 @@
 </div>
 <h1 align="center">☸ patternplate-client contributors</h1>
 
-|Gravatar | Name  | Email | Website |
+|Gravatar | Name  | Email	| Website |
 |:---:    |:---   |:----  |:----    |
 |![Paul Bienkowski](https://s.gravatar.com/avatar/c3da6a412cc88b633ab9e2297eb1aa13?s=150)|Paul Bienkowski|paul.bienkowski@sinnerschrader.com|none|
 |![Daniel Gooß](https://s.gravatar.com/avatar/b854ac89940bb2ba1aadc4b2e8f196d4?s=150)|Daniel Gooß|daniel.gooss@sinnerschrader.com|none|

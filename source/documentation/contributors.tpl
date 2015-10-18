@@ -5,16 +5,16 @@
 </div>
 <h1 align="center">☸ ${props.pkg.name} contributors</h1>
 
-|Gravatar | Name  | Email | Website |
+|Gravatar | Name  | Email	| Website |
 |:---:    |:---   |:----  |:----    |
-${props.pkg.contributors.map(function(contributor) {
+<%- props.pkg.contributors.map(function(contributor) {
   var name = contributor.name || 'Anonymous';
   var email = contributor.email || '';
-  var avatar = '!['+name+'](https://s.gravatar.com/avatar/' + props.helpers.md5(email.trim()) + '?s=150)';
+  var avatar = '!['+name+'](https://s.gravatar.com/avatar/' + helpers.md5(email.trim()) + '?s=150)';
   var url = contributor.url ? '[To the interwebs!](' + contributor.url + ')' : 'none';
   email = email || 'none';
   return '|' + [avatar, name, email, url].join('|') + '|';
-}).join('\n')}
+}).join('\n') %>
 <sub>Table is populated from package.json's contributors field.</sub><br />
 
 

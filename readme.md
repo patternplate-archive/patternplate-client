@@ -11,7 +11,10 @@
 > Health
 
 [![npm version][npm-image]][npm-url] [![Downloads][npm-dl-image]][npm-url]
-[![Build status][ci-image]][ci-url] [![Coverage][coverage-image]][coverage-url]
+
+[![Unix build status][ci-image]][ci-url] [![Windows build status][appveyor-image]][appveyor-url]
+
+[![Coverage][coverage-image]][coverage-url] [![Code Quality][climate-image]][climate-url]
 
 > Activity
 
@@ -19,7 +22,7 @@
 
 > Standards
 
-[![Commitizen friendly][commitizen-image]][commitizen-url] [![Build system][buildsystem-image]][buildsystem-url] [![Dependency management][dependency-manager-image]][dependency-manager-url] [![Release management][release-manager-image]][release-manager-url]
+[![Commitizen friendly][commitizen-image]][commitizen-url] [![Dependency management][dependency-manager-image]][dependency-manager-url] [![Release management][release-manager-image]][release-manager-url]
 ![Ecmascript version][ecma-image] [![Javascript coding style][codestyle-image]][codestyle-url] [![License][license-image]][license-url]
 
 > Reach out
@@ -72,7 +75,10 @@ and released under the [MIT License](./license.md).
 [npm-dl-image]: http://img.shields.io/npm/dm/patternplate-client.svg?style=flat-square
 
 [ci-url]: https://travis-ci.org/sinnerschrader/patternplate-client
-[ci-image]: https://img.shields.io/travis/sinnerschrader/patternplate-client.svg?style=flat-square
+[ci-image]: https://img.shields.io/travis/sinnerschrader/patternplate-client/next.svg?style=flat-square
+[appveyor-url]: https://ci.appveyor.com/project/sinnerschrader/patternplate-client
+[appveyor-image]: https://img.shields.io/appveyor/ci/sinnerschrader/patternplate-client/next.svg?style=flat-square
+
 [coverage-url]: https://coveralls.io/r/sinnerschrader/patternplate-client
 [coverage-image]: https://img.shields.io/coveralls/sinnerschrader/patternplate-client.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/sinnerschrader/patternplate-client
@@ -83,8 +89,6 @@ and released under the [MIT License](./license.md).
 [issue-url]: https://github.com/sinnerschrader/patternplate/issues
 [issue-image]: http://issuestats.com/github/sinnerschrader/patternplate/badge/issue?style=flat-square
 
-[buildsystem-image]: https://img.shields.io/badge/builds%20with-fly-3989c9.svg?style=flat-square
-[buildsystem-url]: https://github.com/flyjs/fly
 [dependency-manager-image]: https://img.shields.io/badge/tracks%20with-greenkeeper-3989c9.svg?style=flat-square
 [dependency-manager-url]: https://github.com/greenkeeperio/greenkeeper
 [release-manager-image]: https://img.shields.io/badge/releases%20with-semantic--release-3989c9.svg?style=flat-square

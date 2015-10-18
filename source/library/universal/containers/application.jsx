@@ -1,15 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router';
 
-// Does not work on the server side yet
-import {normal} from './application.css';
+import {normal, foo} from './application.css';
 
 export default function (props) {
 	const routes = ['/', '/pattern', '/documentation'];
 
 	return (
 		<div className={normal}>
-			<h1>Application 12</h1>
+			<h1 className={foo}>Application 12</h1>
 			{props.children}
 			<ul>
 				{
