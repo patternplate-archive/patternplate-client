@@ -74,7 +74,7 @@
     "es6-promise": "^2.1.1",
     "find-root": "^0.1.1",
     "highlight.js": "^8.5.0",
-    "isomorphic-fetch": "^2.0.2",
+    "isomorphic-fetch": "^2.2.0",
     "koa-proxy": "^0.2.0",
     "less": "^2.5.0",
     "less-plugin-autoprefix": "^1.4.1",
