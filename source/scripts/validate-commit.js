@@ -47,7 +47,7 @@ function validate(message) {
 	}
 
 	if (!scopeName && !scope) {
-		console.warn('Specifying a scope is recommended');
+		console.warn(`  ${chalk.yellow('⚠')}   Specifying a scope is recommended`);
 	}
 
 	if (scope && !scopeName) {

@@ -6,7 +6,9 @@
     "start": "node ./distribution/binary/patternplate-client.js",
     "gulp": "gulp",
     "build": "gulp build",
+    "watch": "gulp watch",
     "test": "gulp test",
+    "zuul": "gulp zuul",
     "cover": "istanbul cover distribution/test/index.js",
     "coveralls": "npm run cover && cat coverage/lcov.info | coveralls",
     "commit": "git-cz",
@@ -101,7 +103,7 @@
     "blue-tape": "0.1.10",
     "browserify": "11.2.0",
     "chalk": "1.1.1",
-    "commitizen": "1.0.5",
+    "commitizen": "2.3.0",
     "coveralls": "2.11.4",
     "covert": "1.1.0",
     "cracks": "3.1.1",
@@ -125,6 +127,7 @@
     "gulp-jsdoc-to-markdown": "1.1.1",
     "gulp-remember": "0.3.0",
     "gulp-sequence": "0.4.1",
+    "gulp-shell": "0.5.0",
     "gulp-tape": "0.0.4",
     "gulp-template": "3.0.0",
     "gulp-util": "3.0.6",
@@ -132,7 +135,7 @@
     "istanbul": "0.3.22",
     "jsdoc-parse": "1.1.1",
     "jsdoc-to-markdown": "1.2.0",
-    "livereactload": "2.0.4",
+    "livereactload": "2.0.5",
     "md5": "2.0.0",
     "mkdirp": "0.5.1",
     "npm": "3.3.5",
@@ -145,9 +148,12 @@
     "tap-spec": "4.1.0",
     "vinyl-source-stream": "1.1.0",
     "watchify": "3.4.0",
-    "yamljs": "0.2.4"
+    "yamljs": "0.2.4",
+    "zuul": "3.7.1"
   },
-  "czConfig": {
-    "path": "./node_modules/cz-conventional-changelog"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

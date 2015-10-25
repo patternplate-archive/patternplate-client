@@ -51,6 +51,12 @@ import patternplateClient from '${props.pkg.name}';
 const client = await patternplateClient();
 ```
 
+## Browser matrix
+${props.pkg.name} sports a complex web interface. The current browser matrix according to our saucelabs tests can be found below
+
+[![Browser matrix][matrix-image]][matrix-url]
+
+
 ## Development
 You dig ${props.pkg.name} and want to submit a pull request? Awesome!
 Be sure to read the [contribution guide](./contributing.md) and you should be good to go.
@@ -83,6 +89,9 @@ and released under the [MIT License](./license.md).
 [coverage-image]: https://img.shields.io/coveralls/${props.pkg.repository.slug}.svg?style=flat-square
 [climate-url]: https://codeclimate.com/github/${props.pkg.repository.slug}
 [climate-image]: https://img.shields.io/codeclimate/github/${props.pkg.repository.slug}.svg?style=flat-square
+
+[matrix-url]: https://saucelabs.com/u/mario-nebl
+[matrix-image]: https://saucelabs.com/browser-matrix/mario-nebl.svg
 
 [pr-url]: http://issuestats.com/github/${props.pkg.repository.slug}
 [pr-image]: http://issuestats.com/github/${props.pkg.repository.slug}/badge/pr?style=flat-square
