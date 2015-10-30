@@ -61,7 +61,7 @@
   "dependencies": {
     "app-root-path": "^1.0.0",
     "babel-core": "^5.1.13",
-    "babel-runtime": "^5.2.9",
+    "babel-runtime": "^6.0.14",
     "babelify": "^6.0.2",
     "bluebird": "^2.9.27",
     "boilerplate-server": "~0.10.0",
