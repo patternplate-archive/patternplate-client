@@ -88,7 +88,7 @@
     "normalize.less": "^1.0.0",
     "pretty-data": "^0.40.0",
     "q-io": "^1.12.0",
-    "rc": "^1.0.1",
+    "rc": "^1.1.2",
     "react": "^0.13.3",
     "react-jsx": "^0.13.0",
     "react-router": "^0.13.3",
