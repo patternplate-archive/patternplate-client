@@ -105,6 +105,6 @@
     "babelify": "^6.3.0",
     "chokidar-cli": "^0.3.0",
     "eslint": "^0.22.1",
-    "eslint-plugin-react": "^2.5.0"
+    "eslint-plugin-react": "^3.7.1"
   }
 }
