@@ -21,6 +21,19 @@
 		background: @code-background;
 		transition: background .3s, border-color .3s;
 	}
+	table {
+		border: 1px solid @border-color;
+		tr {
+			border: 1px solid @border-color;
+			&:nth-child(2) {
+				background-color: @table-background;
+			}
+		}
+		th, td {
+			padding: 6px 13px;
+			border: 1px solid @border-color;
+		}
+	}
 }
 
 .hljs {
