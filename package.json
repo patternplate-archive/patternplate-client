@@ -87,7 +87,7 @@
     "normalize-opentype.css": "^0.2.4",
     "normalize.less": "^1.0.0",
     "pretty-data": "^0.40.0",
-    "q-io": "^1.12.0",
+    "q-io": "^1.13.1",
     "rc": "^1.0.1",
     "react": "^0.13.3",
     "react-jsx": "^0.13.0",
