@@ -70,7 +70,7 @@
     "classnames": "^1.2.2",
     "cookie": "^0.1.3",
     "core-util-is": "^1.0.1",
-    "deep-equal": "^1.0.0",
+    "deep-equal": "^1.0.1",
     "es6-promise": "^2.1.1",
     "find-root": "^0.1.1",
     "highlight.js": "^8.5.0",
