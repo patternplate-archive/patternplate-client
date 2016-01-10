@@ -5,6 +5,7 @@
   "main": "library/",
   "scripts": {
     "start": "node --harmony binary/patternplate-client.js",
+    "console": "node --harmony binary/patternplate-client-console.js",
     "prestart": "npm run build",
     "build": "npm run clean && npm run build-server && npm run build-assets",
     "build-server": "npm run babel",
@@ -17,7 +18,8 @@
     "prepublish": "npm run build"
   },
   "bin": {
-    "patternplate-client": "binary/patternplate-client.js"
+    "patternplate-client": "binary/patternplate-client.js",
+    "patternplate-client-console": "binary/patternplate-client-console.js"
   },
   "repository": {
     "type": "git",
