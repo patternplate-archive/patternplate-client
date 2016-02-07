@@ -5,7 +5,6 @@ import {Link} from 'react-router';
 import cookie from 'cookie';
 
 import Icon from '../common/icon';
-import DownloadList from './download-list';
 
 class Toolbar extends React.Component {
 	displayName = 'Toolbar';
@@ -14,7 +13,7 @@ class Toolbar extends React.Component {
 		this.setState({
 			'theme': this.props.config.theme,
 			'themeTarget': this.props.config.themeTarget
-		})
+		});
 	}
 
 	componentDidMount() {
@@ -46,10 +45,10 @@ class Toolbar extends React.Component {
 		link.rel = 'stylesheet';
 		link.href = this.link.href.replace(this.state.theme, this.state.themeTarget);
 
-		link.onload = (e) => {
+		link.onload = () => {
 			document.head.removeChild(this.link);
 			this.link = link;
-		}
+		};
 
 		document.head.appendChild(link);
 	}
@@ -59,7 +58,6 @@ class Toolbar extends React.Component {
 	}
 
 	render () {
-		let buildRoute = this.props.schema.routes && this.props.schema.routes.filter((route) => route.name === 'build')[0];
 		let themeClassName = classnames('button', this.state.themeTarget);
 
 		return (
@@ -71,7 +69,6 @@ class Toolbar extends React.Component {
 					<label className="button menu" htmlFor="menu-state">
 						<Icon uri="" symbol="patternplate">Menu</Icon>
 					</label>
-					<DownloadList route={buildRoute} items={this.props.schema.builds} />
 					<button className={themeClassName} type="button" onClick={(e) => this.onThemeButtonClick(e)}>
 						<Icon symbol={this.state.themeTarget}>{this.state.themeTarget}</Icon>
 					</button>
