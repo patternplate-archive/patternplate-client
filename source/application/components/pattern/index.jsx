@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 
 import PatternCode from './pattern-code';
 import PatternDocumentation from './pattern-documentation';
@@ -147,7 +146,6 @@ class Pattern extends React.Component {
 				<Headline className="pattern-header" order={2}>
 					<span className="pattern-name">{this.props.manifest.displayName || this.props.manifest.name}</span>
 					<small className="pattern-version">v{this.props.manifest.version}</small>
-					<small className="pattern-lastmodified">Last modified: {moment(new Date(this.props.mtime)).fromNow()}</small>
 				</Headline>
 				{content}
 				<div className="pattern-toolbar">

@@ -58,8 +58,7 @@ const ui = {
 	],
 	'theme': 'light',
 	'themeTarget': 'dark',
-	'useFolderTable': false
-
+	'useFolderTable': true
 };
 
 export default ui;
