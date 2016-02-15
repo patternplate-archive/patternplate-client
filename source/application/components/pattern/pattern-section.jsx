@@ -125,8 +125,6 @@ class PatternSection extends React.Component {
 	render () {
 		let { type, data } = this.state;
 
-		console.log(this.context);
-
 		if (type == 'folder') {
 
 			let { folders, patterns } = getAugmentedChildren(data.children, this.props.config.hierarchy);
