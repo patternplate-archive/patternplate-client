@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "0.13.1-beta",
+  "version": "0.13.2-dev",
   "description": "Client for patternplate-server",
   "main": "library/",
   "scripts": {
