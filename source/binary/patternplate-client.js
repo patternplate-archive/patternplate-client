@@ -1,45 +1,39 @@
-#!/usr/bin/env node --harmony
-'use strict';
+#!/usr/bin/env node
 
-import 'babel-core/polyfill';
+import 'babel-polyfill';
 import minimist from 'minimist';
 
 import patternClient from '../';
 
-var args = minimist(process.argv.slice(1));
-
-async function start (options = {}) {
+async function main(options = {}) {
 	let application;
 
 	try {
 		application = await patternClient(options);
-	} catch(err) {
+	} catch (err) {
 		console.trace(err);
-		throw new Error(new Error(err).stack);
+		throw new Error(err);
 	}
 
 	try {
 		await application.start();
-	} catch(err) {
-		application.log.error(new Error(err).stack);
+	} catch (err) {
+		application.log.error(err);
 		throw new Error(err);
 	}
-
-	async function stop () {
-		try {
-			await application.stop();
-			process.exit( 0 );
-		} catch ( err ) {
-			application.log.error( err );
-			process.exit( 1 );
-		}
-	}
-
-	process.on( 'SIGINT', () => stop( 'SIGINT' ) );
-	process.on( 'SIGHUP', () => stop( 'SIGHUP' ) );
-	process.on( 'SIGQUIT', () => stop( 'SIGQUIT' ) );
-	process.on( 'SIGABRT', () => stop( 'SIGABRT' ) );
-	process.on( 'SIGTERM', () => stop( 'SIGTERM' ) );
 }
 
-start(args);
+const args = minimist(process.argv.slice(1));
+
+main(args)
+	.catch(err => {
+		setTimeout(() => {
+			throw err;
+		});
+	});
+
+// Catch unhandled rejections globally
+process.on('unhandledRejection', (reason, promise) => {
+	console.log('Unhandled Rejection at: Promise ', promise, ' reason: ', reason);
+	throw reason;
+});
