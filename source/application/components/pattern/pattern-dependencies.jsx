@@ -1,36 +1,38 @@
-import React from 'react';
-import {PropTypes} from 'react';
+import React, {PropTypes as types} from 'react';
+import {Link} from 'react-router';
 import classnames from 'classnames';
 
-import Icon from '../common/icon';
-
 export default class PatternDependencies extends React.Component {
+	static defaultProps = {
+		data: types.shape({
+			manifest: types.shape({
+				name: types.string,
+				displayName: types.string,
+				dependentPatterns: types.object
+			}),
+			dependencies: types.object
+		})
+	};
 
-	getManifests(list) {
-		let manifests = [];
-		if (list) {
-			for (let key of Object.keys(list)) {
-				manifests.push(list[key]);
-			}
-		}
-		return manifests;
-	}
-
-	render () {
-		let dependencies = this.getManifests(this.props.data.dependencies);
-		let dependents = this.getManifests(this.props.data.manifest.dependentPatterns);
+	render() {
+		const {manifest} = this.props.data;
+		const dependencies = Object.values(this.props.data.dependencies);
+		const dependents = Object.values(this.props.data.manifest.dependentPatterns);
+		const className = classnames(this.props.className, 'pattern-dependencies');
 
 		return (
-			<div className="pattern-dependencies">
+			<div className={className}>
 				<div className="pattern-dependencies-column">
 					<div className="pattern-dependencies-column-headline">Dependencies</div>
 					<ul className="pattern-dependencies-column-content">
-						{dependencies.map((dependency) => {
+						{dependencies.map(dependency => {
+							const splat = dependency.id;
+							const name = dependency.manifest.displayName || dependency.manifest.name;
 							return (
-								<li>
-									<a href={'/pattern/' + dependency.id}>
-										{dependency.manifest.displayName || dependency.manifest.name}
-									</a>
+								<li key={splat}>
+									<Link to="pattern" params={{splat}} title={name}>
+										{name}
+									</Link>
 								</li>
 							);
 						})}
@@ -39,18 +41,20 @@ export default class PatternDependencies extends React.Component {
 				<div className="pattern-dependencies-column">
 					<div className="pattern-dependencies-column-headline">Pattern</div>
 					<div className="pattern-dependencies-column-content center-pattern">
-						{this.props.data.manifest.displayName || this.props.data.manifest.name}
+						{manifest.displayName || manifest.name}
 					</div>
 				</div>
 				<div className="pattern-dependencies-column">
 					<div className="pattern-dependencies-column-headline">Dependent</div>
 					<ul className="pattern-dependencies-column-content">
-						{dependents.map((dependent) => {
+						{dependents.map(dependent => {
+							const splat = dependent.id;
+							const name = dependent.displayName || dependent.name;
 							return (
-								<li>
-									<a href={'/pattern/' + dependent.id}>
-										{dependent.displayName || dependent.name}
-									</a>
+								<li key={splat}>
+									<Link to="pattern" params={{splat}} title={name}>
+										{name}
+									</Link>
 								</li>
 							);
 						})}

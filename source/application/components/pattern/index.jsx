@@ -1,6 +1,7 @@
 import React from 'react';
 
 import PatternCode from './pattern-code';
+import PatternDependencies from './pattern-dependencies';
 import PatternDocumentation from './pattern-documentation';
 import PatternControl from './pattern-control';
 import PatternDemo from './pattern-demo';
@@ -25,7 +26,7 @@ class Pattern extends React.Component {
 	comprehend(results, id) {
 		let items = [];
 
-		if (!results){
+		if (!results) {
 			return [];
 		}
 
@@ -105,6 +106,9 @@ class Pattern extends React.Component {
 	}
 
 	render () {
+		const hasRelations = Object.keys(this.props.manifest.patterns).length > 0 ||
+			Object.keys(this.props.manifest.dependentPatterns).length > 0;
+
 		let results = [];
 		let controls = [];
 
@@ -118,9 +122,32 @@ class Pattern extends React.Component {
 				continue;
 			}
 
-			results.push(<input className="pattern-state" type="checkbox" id={item.id} key={item.controlKey} checked={isActive} onChange={(e) => this.onControlChange(e)} />);
-			results.push(isDoc ? <PatternDocumentation {...item}>{item.content}</PatternDocumentation> : <PatternCode {...item}>{item.content}</PatternCode>);
-			controls.push(<PatternControl {...item} id={item.controlKey} key={item.controlKey} target={item.key} active={isActive} />);
+			results.push(
+				<input
+					className="pattern-state"
+					type="checkbox"
+					id={item.id}
+					key={item.controlKey}
+					checked={isActive}
+					onChange={(e) => this.onControlChange(e)} />
+				);
+			results.push(isDoc ?
+				<PatternDocumentation {...item}>
+					{item.content}
+				</PatternDocumentation> :
+				<PatternCode {...item}>
+					{item.content}
+				</PatternCode>
+			);
+			controls.push(
+				<PatternControl
+					{...item}
+					id={item.controlKey}
+					key={item.controlKey}
+					target={item.key}
+					active={isActive}
+					/>
+				);
 		}
 
 		let allowFullscreen = this.props.config.fullscreenPatterns.every(rule => {
@@ -153,11 +180,47 @@ class Pattern extends React.Component {
 					<button className="pattern-control pattern-tool" type="button"
 						onClick={(e) => this.onCloseClick(e)}
 						disabled={this.state.active.length === 0}>Close all</button>
-					<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
-						<Icon symbol="fullscreen"></Icon>
-					</a>
+					<div className="pattern-tools">
+						{
+							hasRelations &&
+							<PatternControl
+								className="pattern-tool"
+								id={`${this.props.id}/dependencies-control`}
+								key={`${this.props.id}/dependencies-control`}
+								target={`${this.props.id}/dependencies-state`}
+								active={this.state.active.indexOf(`${this.props.id}/dependencies-state`) > -1}
+								name={<Icon symbol="dependencies" />}
+								/>
+						}
+						<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
+							<Icon symbol="fullscreen" />
+						</a>
+					</div>
 				</div>
-				<div className="pattern-content">{results}</div>
+				<div className="pattern-content">
+					{results}
+					{
+						hasRelations &&
+							[
+								<input
+									className="pattern-state"
+									type="checkbox"
+									id={`${this.props.id}/dependencies-state`}
+									key={`${this.props.id}/dependencies-state`}
+									checked={this.state.active.indexOf(`${this.props.id}/dependencies-state`) > -1}
+									onChange={(e) => this.onControlChange(e)} />,
+								<PatternCode
+									name="Dependencies"
+									highlight={false}
+									key={`${this.props.id}/dependencies`}>
+									<PatternDependencies
+										className="hljs"
+										data={this.props}
+										/>
+								</PatternCode>
+							]
+					}
+				</div>
 			</div>
 		);
 	}

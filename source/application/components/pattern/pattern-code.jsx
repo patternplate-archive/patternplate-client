@@ -1,63 +1,74 @@
 import React from 'react';
 import {PropTypes, findDOMNode} from 'react';
 import highlight from 'highlight.js';
-import {pd as pretty} from 'pretty-data';
+import {pd as prettyData} from 'pretty-data';
 
 class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
 	static defaultProps = {
-		'format': 'html',
+		format: 'html',
+		highlight: true,
+		copy: true
 	};
 
 	static propTypes = {
-		'children': PropTypes.string.isRequired,
-		'format': PropTypes.string,
-		'name': PropTypes.string.isRequired
+		children: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.node,
+			PropTypes.element
+		]).isRequired,
+		format: PropTypes.string,
+		name: PropTypes.string.isRequired,
+		highlight: PropTypes.bool,
+		copy: PropTypes.bool
 	};
 
 	static highlight(component, selector = 'pre > code') {
-		for (let node of findDOMNode(component).querySelectorAll(selector)) {
+		for (const node of findDOMNode(component).querySelectorAll(selector)) {
 			highlight.highlightBlock(node);
 		}
 	}
 
 	static clipboard(component) {
-		let el = findDOMNode(component).querySelector('.clipboard');
+		const el = findDOMNode(component).querySelector('.clipboard');
 		el.focus();
 		el.select();
-
-		let result = document.execCommand('copy');
-	}
-
-	static pretty(component) {
-		if (component.props.format !== 'html') {
-			return component.props.children;
-		}
-		return pretty.xml(component.props.children);
+		global.document.execCommand('copy');
 	}
 
 	componentDidMount() {
-		PatternCode.highlight(this);
+		if (this.props.highlight) {
+			PatternCode.highlight(this);
+		}
 	}
 
 	componentDidUpdate() {
-		PatternCode.highlight(this);
+		if (this.props.highlight) {
+			PatternCode.highlight(this);
+		}
 	}
 
-	onCopyClick(e) {
+	onCopyClick() {
 		PatternCode.clipboard(this);
 	}
 
-	render () {
-		let pretty = PatternCode.pretty(this);
+	render() {
+		const pretty = this.props.highlight && this.props.format === 'html' ?
+			prettyData.xml(this.props.children) :
+			this.props.children;
 
 		return (
 			<div className="pattern-code">
 				<div className="pattern-code-toolbar">
 					<div className="pattern-code-name">{this.props.name}</div>
 					<div className="pattern-code-tools">
-						<button type="button" onClick={(e) => this.onCopyClick(e)}>Copy</button>
+						{
+							this.props.copy &&
+								<button type="button" onClick={(e) => this.onCopyClick(e)}>
+									Copy
+								</button>
+						}
 					</div>
 				</div>
 				<pre>
@@ -65,7 +76,7 @@ class PatternCode extends React.Component {
 						{pretty}
 					</code>
 				</pre>
-				<textarea className="clipboard" value={pretty} readOnly={true} />
+				<textarea className="clipboard" value={pretty} readOnly />
 			</div>
 		);
 	}
