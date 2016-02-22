@@ -9,7 +9,7 @@
     "prestart": "npm run build",
     "build": "npm run clean && npm run build-server && npm run build-assets",
     "build-server": "npm run babel",
-    "build-assets": "browserify --extension=.jsx -t [ babelify --stage 0 --optional regenerator,runtime --blacklist asyncToGenerator ] assets/script/index.js | uglifyjs > assets/script/index.bundle.js && echo 'Built assets successfully...'",
+    "build-assets": "browserify --extension=.jsx -t [ babelify --stage 0 --optional regenerator,runtime --blacklist asyncToGenerator ] assets/script/index.js > assets/script/index.bundle.js && echo 'Built assets successfully...'",
     "watch": "npm run watch-server & npm run watch-assets",
     "watch-server": "npm run babel -- --watch",
     "watch-assets": "chokidar 'assets/script/index.js' 'application/components' 'application/react-routes' -c 'npm run build-assets'",
@@ -90,9 +90,7 @@
     "rc": "^1.0.1",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
-    "request-promise": "^0.4.2",
     "rubber-band": "^0.1.3",
-    "string-humanize": "^1.0.0",
     "uglify-js": "^2.4.23",
     "uglifyify": "^3.0.1",
     "whatwg-fetch": "^0.7.0"
@@ -104,8 +102,9 @@
     "chokidar-cli": "^0.3.0",
     "eslint": "^2.1.0",
     "eslint-config-xo": "^0.10.1",
+    "eslint-config-xo-react": "^0.4.0",
     "eslint-plugin-babel": "^3.1.0",
-    "eslint-plugin-react": "^2.5.0",
+    "eslint-plugin-react": "^3.16.1",
     "jsonlint": "^1.6.2"
   }
 }
