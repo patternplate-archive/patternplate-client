@@ -1,0 +1,314 @@
+<svg
+	width="100"
+	height="100"
+	viewBox="0 0 100 100"
+	xmlns="http://www.w3.org/2000/svg"
+	xmlns:xlink="http://www.w3.org/1999/xlink"
+	>
+	<defs>
+		<style><![CDATA[
+			@keyframes logo {
+				to {
+					transform: scale(0.1);
+				}
+			}
+			@keyframes stroke {
+				to {
+					stroke-dashoffset: 0;
+				}
+			}
+			@keyframes stroke-bottom {
+				from {
+					stroke-dashoffset: -53;
+				}
+				7% {
+					stroke-dashoffset: -53;
+				}
+				10% {
+					stroke-dashoffset: 0;
+				}
+				90% {
+					stroke-dashoffset: 0;
+				}
+				to {
+					stroke-dashoffset: 35;
+				}
+			}
+			@keyframes stroke-right {
+				from {
+					stroke-dashoffset: -68;
+				}
+				14% {
+					stroke-dashoffset: -68;
+				}
+				20% {
+					stroke-dashoffset: 0;
+				}
+				90% {
+					stroke-dashoffset: 0;
+				}
+				to {
+					stroke-dashoffset: 16;
+				}
+			}
+			@keyframes grow {
+				to {
+					transform: scale(1);
+				}
+			}
+			@keyframes fade {
+				to {
+					opacity: 0;
+				}
+			}
+			@keyframes p-fill {
+				to {
+					fill: #ffffff;
+				}
+			}
+			@keyframes background-fill {
+				to {
+					fill: rgb(66, 165, 245);;
+				}
+			}
+			.construct, .background {
+				stroke: rgb(44, 44, 44);
+				stroke-width: 0.2;
+			}
+			.construct, .rough-p {
+				animation: fade .2s both 4.7s;
+			}
+			.rough-construct {
+				stroke: rgb(44, 44, 44);
+				stroke-width: 0.1;
+				animation: fade .2s both 3.4s;
+			}
+			.fill-background {
+				fill: transparent;
+				animation: background-fill .2s 4.7s both;
+			}
+			.background {
+				fill: none;
+				/* document.querySelector('.background').getTotalLength(); */
+				stroke: rgb(44, 44, 44);
+				stroke-dasharray: 302;
+				stroke-dashoffset: -302;
+				animation: stroke .6s both 2.1s;
+			}
+			.dot {
+				fill: #000;
+				stroke: none;
+			}
+			.lines {
+				fill: none;
+				stroke: #000;
+			}
+			.inner-horizontal {
+				/* line.x1 - line.x2 */
+				stroke-dasharray: 53;
+				stroke-dashoffset: -53;
+				animation: stroke .3s both 2.75s;
+			}
+			.inner-vertical {
+				/* line.y1 - line.y2 */
+				stroke-dasharray: 70;
+				stroke-dashoffset: -70;
+				animation: stroke .3s both 3.05s;
+			}
+			.boundary-top {
+				/* line.x1 - line.x2 */
+				stroke-dasharray: 53;
+				stroke-dashoffset: 53;
+				animation: stroke .3s .35s both;
+			}
+			.boundary-right {
+				/* line.y1 - line.y2 */
+				stroke-dasharray: 68;
+				stroke-dashoffset: -68;
+				animation: stroke-right 3.7s both;
+			}
+			.boundary-bottom {
+				/* line.x1 - line.x2 */
+				stroke-dasharray: 53;
+				stroke-dashoffset: -53;
+				animation: stroke-bottom 3.7s both;
+			}
+			.boundary-left {
+				/* line.y1 - line.y2 */
+				stroke-dasharray: 72;
+				stroke-dashoffset: 72;
+				animation: stroke .3s both;
+			}
+			.diagonal-right {
+				stroke-dasharray: 86;
+				stroke-dashoffset: -86;
+				animation: stroke .2s 1.35s both;
+			}
+			.diagonal-left {
+				stroke-dasharray: 86;
+				stroke-dashoffset: 86;
+				animation: stroke .2s 1.6s both;
+			}
+			.radius {
+				/* document.querySelector('.background').getTotalLength(); */
+				stroke-dasharray: 50;
+				stroke-dashoffset: 50;
+				animation: stroke .2s 1.9s both;
+			}
+			.center {
+				fill: rgb(66, 165, 245);
+				stroke: rgb(66, 165, 245);
+				stroke: none;
+				transform-origin: center;
+			}
+			.rough-p line {
+				stroke: rgb(44, 44, 44);
+				stroke-width: 0.2;
+				stroke-dasharray: 75;
+				stroke-dashoffset: -75;
+				animation: stroke .2s 4.25s both;
+			}
+			.p {
+				fill: transparent;
+				stroke-width: 0.3;
+				animation: p-fill .2s 4.7s both;
+			}
+			.p-fill path {
+				fill: none;
+				stroke: #fff;
+				stroke-linejoin: round;
+				stroke-width: 3;
+				stroke-dasharray: 130;
+				stroke-dashoffset: -130;
+				animation: stroke .2s 4.5s both;
+			}
+			.paint {
+				fill: none;
+				stroke: rgb(66, 165, 245);
+				stroke-width: 5;
+				stroke-linejoin: round;
+				stroke-dasharray: 2850;
+				stroke-dashoffset: 2850;
+				animation: stroke .75s both 3.5s;
+			}
+		]]></style>
+		<symbol id="perimeter">
+			<path d="M2,50a48,48 0 1,0 96,0a48,48 0 1,0 -96,0"/>
+		</symbol>
+		<symbol id="zero-zero">
+			<rect x="28" y="18" width="12" height="12" />
+		</symbol>
+		<symbol id="one-zero">
+			<rect x="45" y="18" width="12" height="12" />
+		</symbol>
+		<symbol id="two-zero">
+			<rect x="62" y="18" width="12" height="12" />
+		</symbol>
+		<symbol id="zero-one">
+			<rect x="28" y="35" width="12" height="12" />
+		</symbol>
+		<symbol id="two-one">
+			<rect x="62" y="35" width="12" height="12" />
+		</symbol>
+		<symbol id="zero-two">
+			<rect x="28" y="52" width="12" height="12" />
+		</symbol>
+		<symbol id="one-two">
+			<rect x="45" y="52" width="12" height="12" />
+		</symbol>
+		<symbol id="two-two">
+			<rect x="62" y="52" width="12" height="12" />
+		</symbol>
+		<symbol id="zero-three">
+			<rect x="28" y="69" width="12" height="12" />
+		</symbol>
+		<mask id="circle">
+			<use fill="#ffffff" xlink:href="#perimeter" />
+		</mask>
+		<mask id="zero-zero-mask">
+			<use fill="#ffffff" xlink:href="#zero-zero" />
+		</mask>
+		<mask id="one-zero-mask">
+			<use fill="#ffffff" xlink:href="#one-zero" />
+		</mask>
+		<mask id="two-zero-mask">
+			<use fill="#ffffff" xlink:href="#two-zero" />
+		</mask>
+		<mask id="zero-one-mask">
+			<use fill="#ffffff" xlink:href="#zero-one" />
+		</mask>
+		<mask id="two-one-mask">
+			<use fill="#ffffff" xlink:href="#two-one" />
+		</mask>
+		<mask id="zero-two-mask">
+			<use fill="#ffffff" xlink:href="#zero-two" />
+		</mask>
+		<mask id="one-two-mask">
+			<use fill="#ffffff" xlink:href="#one-two" />
+		</mask>
+		<mask id="two-two-mask">
+			<use fill="#ffffff" xlink:href="#two-two" />
+		</mask>
+		<mask id="zero-three-mask">
+			<use fill="#ffffff" xlink:href="#zero-three" />
+		</mask>
+	</defs>
+	<g class="logo blueprint">
+		<use class="background" xlink:href="#perimeter" />
+		<use class="fill-background" xlink:href="#perimeter" />
+		<path
+			class="paint"
+			mask="url(#circle)"
+			d="m1.33663,19.31819l28.08773,-17.30627l-26.65797,21.37667l46.02272,-22.63412l-47.78315,33.69969l35.96311,-20.11922l17.60431,-11.56855l9.05365,-4.52682l-63.62703,45.26824l73.68664,-44.26228l-61.8666,41.49589l46.02272,-28.16691l-55.07637,36.71758l77.96198,-44.01079l-80.97986,49.54357l90.78798,-53.81891l-90.53649,65.13598l98.58418,-65.89045l-93.80587,67.90237l92.04544,-58.59723l-95.81779,66.89641l76.45304,-47.02868l-73.93814,52.30997l94.56034,-59.10021l-96.57226,68.90833l100.09312,-58.59723l-94.56033,62.87257l87.77009,-54.07041l-70.92025,50.04656l64.88449,-37.97503l-37.22056,25.9035l36.96907,-22.88561l-52.56146,31.18479l51.05252,-25.65201l-41.49589,29.92734l45.51973,-23.89157l-26.65797,20.37071l29.17287,-14.58644l-28.66989,18.35879l25.9035,-11.82004l-7.29322,9.55663l9.55663,-4.27533l-9.80812,10.05961"/>
+		<g class="p">
+			<use xlink:href="#zero-zero" />
+			<use xlink:href="#one-zero" />
+			<use xlink:href="#two-zero" />
+			<use xlink:href="#zero-one" />
+			<use xlink:href="#two-one" />
+			<use xlink:href="#zero-two" />
+			<use xlink:href="#one-two" />
+			<use xlink:href="#two-two" />
+			<use xlink:href="#zero-three" />
+		</g>
+		<g class="p-fill">
+			<path mask="url(#zero-zero-mask)" d="m29.481802,29.296515l0.147005,-1.519049l0.196007,1.274041l-0.29401,-2.597084l1.911062,2.548082l-1.715056,-4.018129l3.724121,4.214136l-3.724121,-3.136101l4.900158,2.940095l-5.047163,-6.272203l7.938257,6.370206l-7.840253,-9.3103l8.96729,7.987258l-4.01813,-7.497242l3.773122,2.254072l-1.22504,-2.79309l1.666054,0.147004l-0.098003,0.588019"/>
+			<path mask="url(#one-zero-mask)" d="m44.819034,29.961439l0.193497,-1.999467l0.257995,1.676972l-0.386993,-3.418441l2.515457,3.353941l-2.257462,-5.288907l4.901915,5.546904l-4.901915,-4.127929l6.449888,3.869933l-6.643385,-8.255857l10.44882,8.384855l-10.319821,-12.254786l11.803294,10.513316l-5.288909,-9.868327l4.966414,2.966947l-1.612473,-3.676435l2.192962,0.193496l-0.128998,0.773987"/>
+			<path mask="url(#two-zero-mask)" d="m61.341338,31.103475l0.190256,-1.965974l0.253673,1.648882l-0.380511,-3.361179l2.473323,3.29776l-2.219649,-5.200315l4.819805,5.45399l-4.819805,-4.058783l6.341848,3.805108l-6.532104,-8.117566l10.273796,8.244403l-10.146957,-12.04951l11.605581,10.33721l-5.200316,-9.703025l4.883224,2.917248l-1.585464,-3.614852l2.156229,0.190254l-0.126836,0.761023"/>
+			<path mask="url(#zero-one-mask)" d="m28.880642,46.136971l0.16204,-1.674413l0.216053,1.404347l-0.32408,-2.862705l2.106519,2.808691l-1.890467,-4.42909l4.105011,4.645144l-4.105011,-3.456852l5.40133,3.240797l-5.56337,-6.913703l8.750156,7.02173l-8.642128,-10.262526l9.884433,8.804167l-4.429091,-8.264034l4.159024,2.484611l-1.350333,-3.078757l1.836452,0.162039l-0.108026,0.64816"/>
+			<path mask="url(#two-one-mask)" d="m62.427309,46.546832l0.17509,-1.809264l0.233453,1.517447l-0.35018,-3.093257l2.276171,3.034893l-2.042718,-4.785792l4.435614,5.019247l-4.435614,-3.735254l5.836333,3.501799l-6.011423,-7.470507l9.454861,7.587234l-9.338134,-11.089032l10.68049,9.513222l-4.785794,-8.929589l4.493977,2.684712l-1.459084,-3.326709l1.984354,0.17509l-0.116726,0.70036"/>
+			<path mask="url(#zero-two-mask)" d="m28.265856,63.159593l0.17509,-1.809264l0.233453,1.517448l-0.35018,-3.093257l2.276171,3.034893l-2.042718,-4.785792l4.435614,5.019247l-4.435614,-3.735254l5.836333,3.501799l-6.011424,-7.470507l9.454861,7.587234l-9.338134,-11.089032l10.680489,9.513222l-4.785793,-8.929589l4.493977,2.684712l-1.459084,-3.326709l1.984353,0.175089l-0.116726,0.70036"/>
+			<path mask="url(#one-two-mask)" d="m46.387042,63.340977l0.147005,-1.51905l0.196006,1.274042l-0.294009,-2.597084l1.911062,2.548082l-1.715056,-4.018129l3.72412,4.214136l-3.72412,-3.136102l4.900158,2.940095l-5.047163,-6.272203l7.938257,6.370206l-7.840253,-9.3103l8.967289,7.987257l-4.01813,-7.497241l3.773122,2.254072l-1.22504,-2.793089l1.666054,0.147004l-0.098003,0.588019"/>
+			<path mask="url(#two-two-mask)" d="m62.485804,63.86154l0.17509,-1.809264l0.233453,1.517447l-0.35018,-3.093257l2.276171,3.034893l-2.042718,-4.785792l4.435614,5.019247l-4.435614,-3.735254l5.836333,3.501799l-6.011423,-7.470507l9.454861,7.587234l-9.338134,-11.089032l10.68049,9.513222l-4.785794,-8.929589l4.493977,2.684712l-1.459084,-3.326709l1.984354,0.17509l-0.116726,0.70036"/>
+			<path mask="url(#zero-three-mask)" d="m28.265856,80.298815l0.17509,-1.809264l0.233453,1.517447l-0.35018,-3.093257l2.276171,3.034893l-2.042718,-4.785792l4.435614,5.019247l-4.435614,-3.735254l5.836333,3.501799l-6.011423,-7.470507l9.454861,7.587234l-9.338134,-11.089032l10.68049,9.513222l-4.785794,-8.929589l4.493977,2.684712l-1.459084,-3.326709l1.984354,0.17509l-0.116726,0.70036"/>
+		</g>
+		<g class="rough-p">
+			<line x1="25" y1="30" x2="75" y2="30"/>
+			<line x1="25" y1="52" x2="75" y2="52"/>
+			<line y2="69" x2="40" y1="69" x1="27"/>
+			<line y2="47" x2="40" y1="47" x1="27"/>
+			<line y2="35" x2="40" y1="35" x1="27"/>
+			<line y2="30" x2="45" y1="17" x1="45"/>
+			<line y2="31" x2="57" y1="17" x1="57"/>
+			<line y2="68" x2="62" y1="14" x1="62"/>
+			<line y2="64" x2="45" y1="51" x1="45"/>
+			<line y2="65" x2="57" y1="50" x1="57"/>
+			<line y2="35" x2="75" y1="35" x1="61"/>
+			<line y2="47" x2="74" y1="47" x1="61"/>
+		</g>
+		<g class="rough-construct">
+			<line class="lines diagonal-right" y2="85" x2="25" y1="16" x1="75"/>
+			<line class="lines diagonal-left" y2="84" x2="76" y1="15" x1="26"/>
+			<line class="lines radius" y2="49.5" x2="2" y1="49.5" x1="51"/>
+		</g>
+		<g class="construct">
+			<line class="lines boundary-top" y2="18" x2="78" y1="18" x1="25"/>
+			<line class="lines boundary-right" y2="84" x2="74" y1="16" x1="74"/>
+			<line class="lines boundary-bottom" y2="81" x2="77" y1="81" x1="24"/>
+			<line class="lines boundary-left" y2="86" x2="28" y1="14" x1="28"/>
+			<line class="lines inner-vertical" y2="82" x2="40" y1="12" x1="40"/>
+			<line class="lines inner-horizontal" y2="64" x2="77" y1="64" x1="24"/>
+		</g>
+		<path class="center" d="M50.5,49.5a0.5,0.5 0 1,0 1,0a0.5,0.5 0 1,0 -1,0"/>
+	</g>
+</svg>
