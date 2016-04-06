@@ -1,22 +1,31 @@
 import React from 'react';
-import {Component} from 'react';
+import {Component, PropTypes as types} from 'react';
 import deepEqual from 'deep-equal';
 
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
-class NavigationTree extends React.Component {
+class NavigationTree extends Component {
 	displayName = 'NavigationTree';
 
-	render () {
-		let { data, path, children, config } = this.props;
+	static propTypes = {
+		data: types.object,
+		path: types.string,
+		children: types.oneOfType([
+			types.node,
+			types.arrayOf(types.node)
+		]),
+		config: types.object
+	};
 
-		let { folders, patterns } = getAugmentedChildren(data, config.hierarchy);
+	render() {
+		const {data, path, children, config} = this.props;
+		const {folders, patterns} = getAugmentedChildren(data, config.hierarchy);
 
-		folders = folders.map(folder => {
-			let currentPath = path.split('/');
-			let folderPath = folder.id.split('/');
-			let active = deepEqual(currentPath.slice(2, 2 + folderPath.length), folderPath);
+		const nested = folders.map(folder => {
+			const currentPath = path.split('/');
+			const folderPath = folder.id.split('/');
+			const active = deepEqual(currentPath.slice(2, 2 + folderPath.length), folderPath);
 
 			return (
 				<NavigationItem name={folder.displayName} symbol={folder.icon} id={folder.id} key={folder.id} active={active}>
@@ -25,23 +34,23 @@ class NavigationTree extends React.Component {
 			);
 		});
 
-		patterns = patterns.map(pattern => {
+		const items = patterns.map(pattern => {
 			return (
 				<NavigationItem name={pattern.displayName} id={pattern.id} key={pattern.id} symbol={pattern.type} />
 			);
 		});
 
-		let external = Array.isArray(children) ? children : [children];
-		external = external.filter((item) => item);
-		external = external.map((child) => {
-			return React.cloneElement(child);
-		});
+		const external = (Array.isArray(children) ? children : [children])
+			.filter(item => item)
+			.map(child => {
+				return React.cloneElement(child);
+			});
 
 		return (
 			<ul className="navigation-tree">
 				{external}
-				{folders}
-				{patterns}
+				{nested}
+				{items}
 			</ul>
 		);
 	}

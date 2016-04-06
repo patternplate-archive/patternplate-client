@@ -1,28 +1,55 @@
-import React from 'react';
+import React, {PropTypes as types} from 'react';
 import classnames from 'classnames';
-
 import {Link} from 'react-router';
 
 import Icon from '../common/icon';
 
-class NavigationItem extends React.Component {
+export default class NavigationItem extends React.Component {
 	displayName = 'NavigationItem';
 
-	static defaultProps = {
-		'active': false,
-		'linkTo': 'pattern'
+	static propTypes = {
+		active: types.bool,
+		hidden: types.bool,
+		linkTo: types.string,
+		name: types.string.isRequired,
+		symbol: types.string,
+		id: types.oneOfType([
+			types.string,
+			types.number
+		]).isRequired,
+		children: types.oneOfType([
+			types.node,
+			types.arrayOf(types.node)
+		])
 	};
 
-	render () {
-		let { name, symbol, active } = this.props;
+	static defaultProps = {
+		active: false,
+		hidden: false,
+		linkTo: 'pattern'
+	};
 
-		let linkClassName = classnames('navigation-link', { 'child-active': active });
-		let itemClassName = classnames('navigation-item', { 'child-active': active });
+	render() {
+		const {name, symbol, active, id, hidden} = this.props;
+
+		const splat = {splat: id};
+		const modifiers = {
+			'child-active': active,
+			'child-hidden': hidden
+		};
+
+		const linkClassName = classnames('navigation-link', modifiers);
+		const itemClassName = classnames('navigation-item', modifiers);
 
 		return (
-			<li className={ itemClassName }>
-				<Link to={this.props.linkTo} params={{ 'splat': this.props.id }} title={name} className={ linkClassName }>
-					{symbol && <Icon symbol={symbol} />}
+			<li className={itemClassName}>
+				<Link
+					to={this.props.linkTo}
+					params={splat}
+					title={name}
+					className={linkClassName}
+					>
+					{symbol && <Icon symbol={symbol}/>}
 					{name}
 				</Link>
 				{this.props.children}
@@ -30,5 +57,3 @@ class NavigationItem extends React.Component {
 		);
 	}
 }
-
-export default NavigationItem;
