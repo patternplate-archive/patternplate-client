@@ -143,7 +143,14 @@ class PatternSection extends React.Component {
 			const {folders, patterns} = getAugmentedChildren(data.children, this.props.config.hierarchy);
 
 			const rows = Object.values(folders.concat(patterns)).map(child => {
-				const {type, displayName, id} = child;
+				const {type, displayName, id, manifest = {}} = child;
+				const {options = {}, tags = [], flag} = manifest;
+				const {hidden = false} = options;
+
+				if (hidden) {
+					return null;
+				}
+
 				const splat = id;
 				const link = `pattern`;
 
@@ -152,6 +159,17 @@ class PatternSection extends React.Component {
 						<tr key={id}>
 							<td><Icon symbol="pattern" /></td>
 							<td><Link to={link} params={{splat}}>{displayName}</Link></td>
+							<td>{child.manifest.version}</td>
+							<td>
+								{tags.map((tag, key) =>
+									<span key={key} className="pattern-tag">{tag}</span>
+								)}
+							</td>
+							<td>
+								<span className={`pattern__flag pattern__flag--${flag}`}>
+									{flag}
+								</span>
+							</td>
 							<td>{child.manifest.version}</td>
 							<td>
 								<Link to={link} params={{splat}} title="Show pattern">
@@ -176,6 +194,9 @@ class PatternSection extends React.Component {
 						</td>
 						<td />
 						<td />
+						<td />
+						<td />
+						<td />
 						<td>
 							<Icon symbol="folder" className="mobile-only" />
 						</td>
@@ -191,11 +212,14 @@ class PatternSection extends React.Component {
 				<table className="pattern-folder">
 					<thead>
 						<tr>
-							<th width={10} />
+							<th width={10}/>
 							<th>Title</th>
 							<th>Version</th>
-							<th width={50} />
-							<th width={50} />
+							<th>Tags</th>
+							<th>Flag</th>
+							<th/>
+							<th width={50}/>
+							<th width={50}/>
 						</tr>
 					</thead>
 					<tbody>
@@ -205,6 +229,8 @@ class PatternSection extends React.Component {
 								<td title="Folder up">
 									<Link to={link} params={{splat: up}}>..</Link>
 								</td>
+								<td />
+								<td />
 								<td />
 								<td />
 								<td>
