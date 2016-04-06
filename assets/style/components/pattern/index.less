@@ -18,6 +18,8 @@
 	}
 	.pattern-tools {
 		margin-left: auto;
+		flex-wrap: nowrap;
+		white-space: nowrap;
 	}
 	.pattern-control {
 		display: inline-block;
@@ -145,13 +147,28 @@
 .pattern-lastmodified,
 .pattern-version {
 	display: inline-block;
-	margin: 0 5px;
+	margin: 0 25px 0 5px;
 	padding: 3px 5px;
 	font-size: 0.6em;
 	vertical-align: baseline;
 	@media screen and (max-width: 500px) {
 		margin: 3px 10px 3px 0;
 	}
+}
+
+.pattern-tags {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+}
+
+.pattern-tag {
+	display: inline-block;
+	margin-right: 5px;
+	padding: 3px 4px;
+	font-size: 0.6em;
+	background: fade(@border-color, 30%);
+	border: 1px solid @border-color;
 }
 
 .pattern-fullscreen-message {

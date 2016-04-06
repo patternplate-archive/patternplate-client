@@ -125,6 +125,7 @@ class Pattern extends React.Component {
 				name,
 				patterns,
 				dependentPatterns,
+				tags = [],
 				version
 			},
 			config: {
@@ -200,6 +201,16 @@ class Pattern extends React.Component {
 				<Headline className="pattern-header" order={2}>
 					<span className="pattern-name">{displayName || name}</span>
 					<small className="pattern-version">v{version}</small>
+					{
+						tags.length > 0 &&
+							<ul className="pattern-tags">
+								{
+									tags.map((tag, key) =>
+										<small className="pattern-tag" key={key}>{tag}</small>
+									)
+								}
+							</ul>
+					}
 				</Headline>
 				{content}
 				<div className="pattern-toolbar">
