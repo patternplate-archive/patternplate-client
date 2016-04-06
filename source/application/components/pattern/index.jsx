@@ -215,12 +215,6 @@ class Pattern extends React.Component {
 				{content}
 				<div className="pattern-toolbar">
 					{controls}
-					<button className="pattern-control pattern-tool" type="button"
-						onClick={this.handleClick}
-						disabled={this.state.active.length === 0}
-						>
-							Close all
-					</button>
 					<div className="pattern-tools">
 						{
 							hasRelations &&
