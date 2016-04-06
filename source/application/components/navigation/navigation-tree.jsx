@@ -28,15 +28,42 @@ class NavigationTree extends Component {
 			const active = deepEqual(currentPath.slice(2, 2 + folderPath.length), folderPath);
 
 			return (
-				<NavigationItem name={folder.displayName} symbol={folder.icon} id={folder.id} key={folder.id} active={active}>
-					<NavigationTree path={path} config={config} data={folder.children} id={folder.id} />
+				<NavigationItem
+					name={folder.displayName}
+					symbol={folder.icon}
+					id={folder.id}
+					key={folder.id}
+					active={active}
+					>
+					<NavigationTree
+						path={path}
+						config={config}
+						data={folder.children}
+						id={folder.id}
+						/>
 				</NavigationItem>
 			);
 		});
 
 		const items = patterns.map(pattern => {
+			const {
+				displayName,
+				id,
+				type,
+				manifest
+			} = pattern;
+
+			const {options = {}} = manifest;
+			const {hidden = false} = options;
+
 			return (
-				<NavigationItem name={pattern.displayName} id={pattern.id} key={pattern.id} symbol={pattern.type} />
+				<NavigationItem
+					name={displayName}
+					hidden={hidden}
+					id={id}
+					key={id}
+					symbol={type}
+					/>
 			);
 		});
 

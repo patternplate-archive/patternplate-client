@@ -90,6 +90,9 @@
 		text-decoration: none;
 		text-overflow: ellipsis;
 		transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		&.hidden:not(.active) {
+			display: none;
+		}
 		&.active, &:hover {
 			background-color: @sidebar-bg-hl;
 			color: @hover-color;

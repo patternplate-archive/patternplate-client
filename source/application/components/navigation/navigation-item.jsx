@@ -35,7 +35,7 @@ export default class NavigationItem extends React.Component {
 		const splat = {splat: id};
 		const modifiers = {
 			'child-active': active,
-			'child-hidden': hidden
+			'hidden': hidden
 		};
 
 		const linkClassName = classnames('navigation-link', modifiers);
