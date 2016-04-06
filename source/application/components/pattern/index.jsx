@@ -1,5 +1,6 @@
 import React, {PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
+import cx from 'classnames';
 
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
@@ -126,6 +127,7 @@ class Pattern extends React.Component {
 				patterns,
 				dependentPatterns,
 				tags = [],
+				flag,
 				version
 			},
 			config: {
@@ -133,7 +135,7 @@ class Pattern extends React.Component {
 			}
 		} = this.props;
 
-		const hasRelations = patterns.length > 0 ||
+		const hasRelations = Object.keys(patterns).length > 0 ||
 			Object.keys(dependentPatterns).length > 0;
 
 		const results = [];
@@ -196,11 +198,21 @@ class Pattern extends React.Component {
 			);
 		}
 
+		const flagClassName = cx(`pattern__flag`, {
+			[`pattern__flag--${flag}`]: flag
+		});
+
 		return (
 			<div className="pattern">
 				<Headline className="pattern-header" order={2}>
 					<span className="pattern-name">{displayName || name}</span>
 					<small className="pattern-version">v{version}</small>
+					{
+						flag &&
+							<small className={flagClassName}>
+								{flag}
+							</small>
+					}
 					{
 						tags.length > 0 &&
 							<ul className="pattern-tags">
