@@ -34,7 +34,7 @@ class PatternSection extends React.Component {
 		const last = splits.pop();
 
 		const folder = splits.reduce((folder, pathItem) => folder[pathItem].children, navigation);
-		const type = (folder && folder[last].type) || 'pattern';
+		const type = (folder && folder[last] && folder[last].type) || 'pattern';
 
 		if (type === 'folder' && config.useFolderTable) {
 			this.setState({

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {PropTypes as types} from 'react';
+import autobind from 'autobind-decorator';
 
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
@@ -10,21 +11,28 @@ import Headline from '../common/headline';
 import Icon from '../common/icon';
 
 const formatMap = {
-	'source': 'in',
-	'buffer': 'out',
-	'demoSource': 'in',
-	'demoBuffer': 'out'
+	source: 'in',
+	buffer: 'out',
+	demoSource: 'in',
+	demoBuffer: 'out'
 };
 
 class Pattern extends React.Component {
 	displayName = 'Pattern';
 
+	static propTypes = {
+		id: types.string.isRequired,
+		config: types.object.isRequired,
+		manifest: types.object.isRequired,
+		results: types.object.isRequired
+	};
+
 	state = {
-		'active': []
+		active: []
 	};
 
 	comprehend(results, id) {
-		let items = [];
+		const items = [];
 
 		if (!results) {
 			return [];
@@ -34,89 +42,107 @@ class Pattern extends React.Component {
 			return [];
 		}
 
-		for (let resultName of Object.keys(results.index)) {
-			let resultConfig = this.props.config.results[resultName];
+		for (const resultName of Object.keys(results.index)) {
+			const resultConfig = this.props.config.results[resultName];
 
 			if (!resultConfig) {
 				continue;
 			}
 
-			let result = results.index[resultName];
-			let name = resultConfig.name || resultName;
-			let keys = resultConfig.use;
-			keys = Array.isArray(keys) ? keys : [keys];
-			let contentKey = keys.filter((key) => result[key])[0];
+			const result = results.index[resultName];
+			const name = resultConfig.name || resultName;
+			const keys = Array.isArray(resultConfig.use) ?
+				resultConfig.use :
+				[resultConfig.use];
 
-			let formatKey = formatMap[contentKey];
+			const [contentKey] = keys.filter(key => result[key]);
 
-			if ( typeof result !== 'object' || typeof contentKey === 'undefined' ) {
+			const formatKey = formatMap[contentKey];
+
+			if (typeof result !== 'object' || typeof contentKey === 'undefined') {
 				continue;
 			}
 
 			items.push({
-				'name': name,
-				'key': [id, name].join('/'),
-				'controlKey': [id, name, 'control'].join('/'),
-				'id': [id, name].join('/'),
-				'format': result[formatKey] || 'html',
-				'content': result[contentKey]
+				name,
+				key: [id, name].join('/'),
+				controlKey: [id, name, 'control'].join('/'),
+				id: [id, name].join('/'),
+				format: result[formatKey] || 'html',
+				content: result[contentKey]
 			});
 		}
 
 		return items;
 	}
 
-	componentWillMount () {
+	componentWillMount() {
 		this.items = this.comprehend(this.props.results, this.props.id);
 	}
 
-	componentWillReceiveProps (props) {
+	componentWillReceiveProps(props) {
 		this.items = this.comprehend(props.results, props.id);
 	}
 
-	updateControls (id, checked) {
-		let active = this.state.active.slice(0);
-		let index = active.indexOf(id);
+	updateControls(id, checked) {
+		const active = this.state.active.slice(0);
+		const index = active.indexOf(id);
 
-		if (checked && index === - 1) {
+		if (checked && index === -1) {
 			active.push(id);
-		} else if ( index !== -1 ) {
+		} else if (index !== -1) {
 			active.splice(index, 1);
 		}
 
 		this.setState({
-			'active': active
+			active
 		});
 	}
 
-	closeControls ( ids = this.state.active ) {
-		let diff = this.state.active.filter((id) => ids.indexOf(id) === -1);
+	closeControls(ids = this.state.active) {
+		const diff = this.state.active.filter(id => ids.indexOf(id) === -1);
 
 		this.setState({
-			'active': diff
+			active: diff
 		});
 	}
 
-	onControlChange (e) {
+	@autobind
+	handleChange(e) {
 		this.updateControls(e.target.id, e.target.checked);
 	}
 
-	onCloseClick () {
+	@autobind
+	handleClick() {
 		this.closeControls();
 	}
 
-	render () {
-		const hasRelations = Object.keys(this.props.manifest.patterns).length > 0 ||
-			Object.keys(this.props.manifest.dependentPatterns).length > 0;
+	render() {
+		const {
+			id,
+			manifest: {
+				displayName,
+				name,
+				patterns,
+				dependentPatterns,
+				version
+			},
+			config: {
+				fullscreenPatterns
+			}
+		} = this.props;
 
-		let results = [];
-		let controls = [];
+		const hasRelations = patterns.length > 0 ||
+			Object.keys(dependentPatterns).length > 0;
 
-		let fullscreen = `/demo/${this.props.id}`;
+		const results = [];
+		const controls = [];
 
-		for (let item of this.items) {
-			let isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
-			let isActive = this.state.active.indexOf(item.id) > -1;
+		const fullscreen = `/demo/${id}`;
+
+		for (const item of this.items) {
+			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
+			const isActive = this.state.active.indexOf(item.id) > -1;
 
 			if (item.content.length === 0) {
 				continue;
@@ -129,7 +155,8 @@ class Pattern extends React.Component {
 					id={item.id}
 					key={item.controlKey}
 					checked={isActive}
-					onChange={(e) => this.onControlChange(e)} />
+					onChange={this.handleChange}
+					/>
 				);
 			results.push(isDoc ?
 				<PatternDocumentation {...item}>
@@ -150,14 +177,14 @@ class Pattern extends React.Component {
 				);
 		}
 
-		let allowFullscreen = this.props.config.fullscreenPatterns.every(rule => {
-			return !this.props.id.match(new RegExp(rule));
+		const allowFullscreen = fullscreenPatterns.every(rule => {
+			return !id.match(new RegExp(rule));
 		});
 
 		let content;
 
 		if (allowFullscreen) {
-			content = <PatternDemo target={this.props.id} />;
+			content = <PatternDemo target={id} />;
 		} else {
 			content = (
 				<div className="pattern-fullscreen-message">
@@ -171,26 +198,29 @@ class Pattern extends React.Component {
 		return (
 			<div className="pattern">
 				<Headline className="pattern-header" order={2}>
-					<span className="pattern-name">{this.props.manifest.displayName || this.props.manifest.name}</span>
-					<small className="pattern-version">v{this.props.manifest.version}</small>
+					<span className="pattern-name">{displayName || name}</span>
+					<small className="pattern-version">v{version}</small>
 				</Headline>
 				{content}
 				<div className="pattern-toolbar">
 					{controls}
 					<button className="pattern-control pattern-tool" type="button"
-						onClick={(e) => this.onCloseClick(e)}
-						disabled={this.state.active.length === 0}>Close all</button>
+						onClick={this.handleClick}
+						disabled={this.state.active.length === 0}
+						>
+							Close all
+					</button>
 					<div className="pattern-tools">
 						{
 							hasRelations &&
-							<PatternControl
-								className="pattern-tool"
-								id={`${this.props.id}/dependencies-control`}
-								key={`${this.props.id}/dependencies-control`}
-								target={`${this.props.id}/dependencies-state`}
-								active={this.state.active.indexOf(`${this.props.id}/dependencies-state`) > -1}
-								name={<Icon symbol="dependencies" />}
-								/>
+								<PatternControl
+									className="pattern-tool"
+									id={`${id}/dependencies-control`}
+									key={`${id}/dependencies-control`}
+									target={`${id}/dependencies-state`}
+									active={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
+									name={<Icon symbol="dependencies" />}
+									/>
 						}
 						<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
 							<Icon symbol="fullscreen" />
@@ -205,14 +235,16 @@ class Pattern extends React.Component {
 								<input
 									className="pattern-state"
 									type="checkbox"
-									id={`${this.props.id}/dependencies-state`}
-									key={`${this.props.id}/dependencies-state`}
-									checked={this.state.active.indexOf(`${this.props.id}/dependencies-state`) > -1}
-									onChange={(e) => this.onControlChange(e)} />,
+									id={`${id}/dependencies-state`}
+									key={`${id}/dependencies-state`}
+									checked={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
+									onChange={this.handleChange}
+									/>,
 								<PatternCode
 									name="Dependencies"
 									highlight={false}
-									key={`${this.props.id}/dependencies`}>
+									key={`${id}/dependencies`}
+									>
 									<PatternDependencies
 										className="hljs"
 										data={this.props}
