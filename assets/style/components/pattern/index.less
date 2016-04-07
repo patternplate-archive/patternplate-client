@@ -233,10 +233,10 @@
 
 .pattern-loader {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: -4px;
+	right: -30px;
 	bottom: 0;
-	left: 0;
+	left: -30px;
 	display: flex;
 	width: 100%;
 	height: 100%;
@@ -342,7 +342,36 @@ table.pattern-folder {
 	}
 
 	th {
-		border-bottom-width: 2px;
 		text-align: left;
+	}
+}
+
+.pattern-breadcrumbs {
+	display: flex;
+	width: ~'calc(100% + 60px)';
+	min-height: 50px;
+	margin: 0 -30px 0 -30px;
+	padding: 0 30px;
+	list-style-type: none;
+	
+	@media (min-width: 500px) {
+		margin-top: -4px;
+	}
+}
+
+.pattern-breadcrumb {
+	display: inline-flex;
+	flex-grow: 0;
+	align-items: center;
+	justify-content: center;
+	vertical-align: middle;
+	padding: 0;
+	&:not(:first-child) {
+		&::before {
+			content: '/';
+			display: inline-block;
+			margin: 0 10px;
+			color: @border-color;
+		}
 	}
 }

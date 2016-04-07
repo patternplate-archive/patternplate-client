@@ -106,6 +106,8 @@
     "eslint-config-xo-react": "^0.4.0",
     "eslint-plugin-babel": "^3.1.0",
     "eslint-plugin-react": "^3.16.1",
-    "jsonlint": "^1.6.2"
+    "jsonlint": "^1.6.2",
+    "react": "^0.14.8",
+    "react-dom": "^0.14.8"
   }
 }

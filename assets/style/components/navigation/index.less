@@ -1,16 +1,15 @@
 .navigation {
 	position: relative;
-	background-color: @sidebar-bg;
+	// background-color: @sidebar-bg;
 	> .navigation-tree {
 		position: fixed;
 		z-index: 1;
-		top: 55px;
+		top: 60px;
 		bottom: 0;
 		margin-bottom: 40px;
 		overflow: auto;
 		width: inherit;
-		border-bottom: 1px solid @border-color;
-
+		// border-bottom: 1px solid @border-color;
 		-webkit-overflow-scrolling: touch;
 		@media screen and (min-width: 500px) {
 			border-right: 1px solid @border-color;
@@ -18,6 +17,16 @@
 		> .navigation-item {
 			&:first-child {
 				border-top: none;
+			}
+		}
+		.navigation-tree {
+			.navigation-tree {
+				border-left: 4px solid fadeout(@active-color, 50%);
+			}
+			.navigation-link {
+				&.child-active:not(.active) {
+					border-left: 4px solid fadeout(@active-color, 50%);
+				}
 			}
 		}
 	}
@@ -29,12 +38,10 @@
 		width: 40px;
 		height: 40px;
 		color: @active-color;
-		border: solid @border-color;
-		border-width: 0 1px;
+		border: none;
 		outline: 0;
 		background-color: inherit;
 		font-size: 1.25em;
-
 		appearance: none;
 		@media screen and (min-width: 500px) {
 			left: @navWidthMedium;
@@ -65,17 +72,32 @@
 .navigation-item {
 	position: relative;
 	margin: 0;
-	border-top: 1px solid @border-color;
+	// border-top: 1px solid @border-color;
 	font-weight: bold;
+	&.anchored {
+		position: fixed;
+		z-index: 1;
+		top: 60px;
+		width: 100%;
+		@media screen and (min-width: 900px) {
+			width: @navWidthWide;
+		}
+		.navigation-link {
+			border-right: 1px solid @border-color;
+			border-bottom: 1px solid @border-color;
+			background-color: @sidebar-bg-hl;
+			box-shadow: 0 0 2px;
+		}
+	}
 	&.child-active {
 		background-color: @sidebar-bg-sub;
 	}
 	.navigation-item {
-		padding-left: 40px;
+		// padding-left: 40px;
 		border-top-width: 0;
 		font-weight: normal;
 	}
-	a {
+	.navigation-link {
 		display: block;
 		display: flex;
 		flex-direction: row;
@@ -90,12 +112,16 @@
 		text-decoration: none;
 		text-overflow: ellipsis;
 		transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+		&.child-active {
+			border-color: fadeout(@active-color, 50%);
+		}
 		&.hidden:not(.active) {
 			display: none;
 		}
-		&.active, &:hover {
+		&.active, &:hover, &:focus {
 			background-color: @sidebar-bg-hl;
 			color: @hover-color;
+			outline: none;
 		}
 		&.active {
 			border-left-color: currentcolor;
@@ -149,12 +175,5 @@
 	.slim > .navigation-tree .navigation-item:hover > .navigation-tree {
 		overflow: visible;
 		height: auto;
-	}
-}
-
-.navigation:not(.slim) {
-	.navigation-item a.active + .navigation-tree,
-	.navigation-item.child-active > .navigation-tree {
-		padding-bottom: 15px;
 	}
 }

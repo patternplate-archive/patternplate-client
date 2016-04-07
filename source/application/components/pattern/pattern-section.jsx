@@ -76,7 +76,7 @@ class PatternSection extends React.Component {
 				// Try to get a meaningfull error message
 				let message;
 				try {
-					const data = await response.json();
+					data = await response.json();
 					message = data.message || response.statusText;
 				} catch (error) {
 					message = `${response.statusText} ${url}`;
@@ -139,8 +139,37 @@ class PatternSection extends React.Component {
 		const {type} = this.state;
 		let {data} = this.state;
 
+		const fragments = this.props.id.split('/');
+		const paths = fragments
+			.map((fragment, index) => {
+				return {
+					name: fragment,
+					path: fragments.slice(0, index + 1).join('/')
+				};
+			});
+
+		const breadcrumbs = paths.length > 1 ? (
+			<ul className="pattern-breadcrumbs">
+				{paths.map(path => {
+					return (
+						<li className="pattern-breadcrumb" key={path.name}>
+							<Link
+								to="pattern"
+								params={{splat: path.path}}
+								>
+								<span>{path.name}</span>
+							</Link>
+						</li>
+					);
+				})}
+			</ul>
+		) : null;
+
 		if (type === 'folder') {
-			const {folders, patterns} = getAugmentedChildren(data.children, this.props.config.hierarchy);
+			const {folders, patterns} = getAugmentedChildren(
+				data.children,
+				this.props.config.hierarchy
+			);
 
 			const rows = Object.values(folders.concat(patterns)).map(child => {
 				const {type, displayName, id, manifest = {}} = child;
@@ -170,7 +199,6 @@ class PatternSection extends React.Component {
 									{flag}
 								</span>
 							</td>
-							<td>{child.manifest.version}</td>
 							<td>
 								<Link to={link} params={{splat}} title="Show pattern">
 									<Icon symbol="arrow-double-right" />
@@ -192,11 +220,10 @@ class PatternSection extends React.Component {
 						<td>
 							<Link to={link} params={{splat}}>{displayName}</Link>
 						</td>
-						<td />
-						<td />
-						<td />
-						<td />
-						<td />
+						<td/>
+						<td/>
+						<td/>
+						<td/>
 						<td>
 							<Icon symbol="folder" className="mobile-only" />
 						</td>
@@ -209,38 +236,40 @@ class PatternSection extends React.Component {
 			const nested = up.split('/').filter(Boolean).length > 0;
 
 			return (
-				<table className="pattern-folder">
-					<thead>
-						<tr>
-							<th width={10}/>
-							<th>Title</th>
-							<th>Version</th>
-							<th>Tags</th>
-							<th>Flag</th>
-							<th/>
-							<th width={50}/>
-							<th width={50}/>
-						</tr>
-					</thead>
-					<tbody>
-						{nested &&
-							<tr id="up!">
-								<td><Icon symbol="folder" /></td>
-								<td title="Folder up">
-									<Link to={link} params={{splat: up}}>..</Link>
-								</td>
-								<td />
-								<td />
-								<td />
-								<td />
-								<td>
-									<Icon symbol="folder" className="mobile-only" />
-								</td>
+				<section className="pattern-section">
+					{breadcrumbs}
+					<table className="pattern-folder">
+						<thead>
+							<tr>
+								<th width={10}/>
+								<th>Title</th>
+								<th>Version</th>
+								<th>Tags</th>
+								<th>Flag</th>
+								<th width={50}/>
+								<th width={50}/>
 							</tr>
-						}
-						{rows}
-					</tbody>
-				</table>
+						</thead>
+						<tbody>
+							{nested &&
+								<tr id="up!">
+									<td><Icon symbol="folder" /></td>
+									<td title="Folder up">
+										<Link to={link} params={{splat: up}}>..</Link>
+									</td>
+									<td/>
+									<td/>
+									<td/>
+									<td/>
+									<td>
+										<Icon symbol="folder" className="mobile-only" />
+									</td>
+								</tr>
+							}
+							{rows}
+						</tbody>
+					</table>
+				</section>
 			);
 		} else if (type === 'pattern') {
 			let content;
@@ -252,13 +281,19 @@ class PatternSection extends React.Component {
 			if (data) {
 				data = Array.isArray(data) ? data : [data];
 				content = data.map(item => {
-					return <Pattern {...item} key={item.id} config={this.props.config} />;
+					return <Pattern {...item} key={item.id} config={this.props.config}/>;
 				});
 			}
 
 			return (
 				<section className="pattern-section">
-					<CSSTransitionGroup component="div" transitionName="pattern-content-transition" transitionEnter={false}>
+					{breadcrumbs}
+					<CSSTransitionGroup
+						component="div"
+						transitionName="pattern-content-transition"
+						transitionLeaveTimeout={500}
+						transitionEnter={false}
+						>
 						{loader}
 					</CSSTransitionGroup>
 					{content}
