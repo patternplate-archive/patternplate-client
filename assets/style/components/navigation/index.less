@@ -20,13 +20,11 @@
 			}
 		}
 		.navigation-tree {
-			.navigation-tree {
+			border-left: 4px solid fadeout(@active-color, 50%);
+		}
+		.navigation-link {
+			&.child-active:not(.active) {
 				border-left: 4px solid fadeout(@active-color, 50%);
-			}
-			.navigation-link {
-				&.child-active:not(.active) {
-					border-left: 4px solid fadeout(@active-color, 50%);
-				}
 			}
 		}
 	}
