@@ -1,5 +1,5 @@
-import React from 'react';
-import {PropTypes, findDOMNode} from 'react';
+import React, {PropTypes as types} from 'react';
+import {findDOMNode} from 'react-dom';
 import highlight from 'highlight.js';
 import {pd as prettyData} from 'pretty-data';
 
@@ -12,16 +12,16 @@ class PatternCode extends React.Component {
 		copy: true
 	};
 
-	static propTypes = {
-		children: PropTypes.oneOfType([
-			PropTypes.string,
-			PropTypes.node,
-			PropTypes.element
+	static types = {
+		children: types.oneOfType([
+			types.string,
+			types.node,
+			types.element
 		]).isRequired,
-		format: PropTypes.string,
-		name: PropTypes.string.isRequired,
-		highlight: PropTypes.bool,
-		copy: PropTypes.bool
+		format: types.string,
+		name: types.string.isRequired,
+		copy: types.bool,
+		highlight: types.bool
 	};
 
 	static highlight(component, selector = 'pre > code') {
@@ -54,29 +54,37 @@ class PatternCode extends React.Component {
 	}
 
 	render() {
-		const pretty = this.props.highlight && this.props.format === 'html' ?
-			prettyData.xml(this.props.children) :
-			this.props.children;
+		const {
+			children,
+			highlight,
+			format,
+			name,
+			copy
+		} = this.props;
+
+		const pretty = highlight && format === 'html' ?
+			prettyData.xml(children) :
+			children;
 
 		return (
 			<div className="pattern-code">
 				<div className="pattern-code-toolbar">
-					<div className="pattern-code-name">{this.props.name}</div>
+					<div className="pattern-code-name">{name}</div>
 					<div className="pattern-code-tools">
 						{
-							this.props.copy &&
-								<button type="button" onClick={(e) => this.onCopyClick(e)}>
+							copy &&
+								<button type="button" onClick={this.handleCopyClick}>
 									Copy
 								</button>
 						}
 					</div>
 				</div>
 				<pre>
-					<code className={this.props.format}>
+					<code className={format}>
 						{pretty}
 					</code>
 				</pre>
-				<textarea className="clipboard" value={pretty} readOnly />
+				<textarea className="clipboard" value={pretty} readOnly/>
 			</div>
 		);
 	}

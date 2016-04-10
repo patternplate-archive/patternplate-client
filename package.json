@@ -75,6 +75,7 @@
     "deep-equal": "^1.0.0",
     "es6-promise": "^2.1.1",
     "find-root": "^0.1.1",
+    "fuse.js": "^2.2.0",
     "highlight.js": "^8.5.0",
     "isomorphic-fetch": "^2.0.2",
     "koa-proxy": "^0.2.0",
@@ -90,6 +91,7 @@
     "q-io": "^1.12.0",
     "rc": "^1.0.1",
     "react": "^0.14.8",
+    "react-addons-shallow-compare": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-router": "^0.13.3",
     "rubber-band": "^0.1.3",
@@ -99,14 +101,14 @@
   },
   "devDependencies": {
     "babel": "^5.2.17",
-    "babel-eslint": "^3.1.30",
+    "babel-eslint": "^6.0.2",
     "babelify": "^6.3.0",
     "chokidar-cli": "^0.3.0",
-    "eslint": "^2.1.0",
-    "eslint-config-xo": "^0.10.1",
-    "eslint-config-xo-react": "^0.4.0",
-    "eslint-plugin-babel": "^3.1.0",
-    "eslint-plugin-react": "^3.16.1",
+    "eslint": "^2.7.0",
+    "eslint-config-xo": "^0.13.0",
+    "eslint-config-xo-react": "^0.5.0",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-react": "^4.3.0",
     "jsonlint": "^1.6.2"
   }
 }

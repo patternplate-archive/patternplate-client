@@ -1,6 +1,7 @@
 import React from 'react';
-import {DefaultRoute, NotFoundRoute, Route} from 'react-router';
-import Router from 'react-router';
+import ReactDOM from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
+import Router, {DefaultRoute, Route} from 'react-router';
 import {EventEmitter} from 'events';
 
 import Application from '../components';
@@ -9,29 +10,29 @@ import Home from '../components/content/home';
 
 const routes = (
 	<Route name="root" path="/" handler={Application}>
-		<DefaultRoute handler={Home} />
-		<Route name="pattern" path="/pattern/*" handler={Content} />
+		<DefaultRoute handler={Home}/>
+		<Route name="pattern" path="/pattern/*" handler={Content}/>
 	</Route>
 );
 
 function router(path = '/', data) {
-	return new Promise(function(resolve){
-		let eventEmitter = new EventEmitter();
+	return new Promise(resolve => {
+		const eventEmitter = new EventEmitter();
 
-		Router.run(routes, path, function(Handler, state){
-			let appData = Object.assign({}, data, state, { eventEmitter });
-			resolve(React.renderToString(<Handler {...appData}/>));
+		Router.run(routes, path, (Handler, state) => {
+			const appData = {...data, ...state, eventEmitter};
+			resolve(ReactDOMServer.renderToString(<Handler {...appData}/>));
 		});
 	});
 }
 
 function client(data, el) {
-	return new Promise(function(resolve){
-		let eventEmitter = new EventEmitter();
+	return new Promise(resolve => {
+		const eventEmitter = new EventEmitter();
 
-		Router.run(routes, Router.HistoryLocation, function(Handler, state){
-			let appData = Object.assign({}, data, state, { eventEmitter });
-			resolve(React.render(<Handler {...appData}/>, el));
+		Router.run(routes, Router.HistoryLocation, (Handler, state) => {
+			const appData = {...data, ...state, eventEmitter};
+			resolve(ReactDOM.render(<Handler {...appData}/>, el));
 		});
 	});
 }

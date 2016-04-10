@@ -1,7 +1,8 @@
 const middlewares = {
-	'enabled': {
-		'basicauth': {
-			'enabled': true
+	etags: false,
+	enabled: {
+		basicauth: {
+			enabled: true
 		}
 	}
 };

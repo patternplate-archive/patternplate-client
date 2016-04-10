@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Component, PropTypes as types} from 'react';
+import {findDOMNode} from 'react-dom';
 import {host} from 'rubber-band';
-import {Component, findDOMNode, PropTypes} from 'react';
 
 import iframeWindow from '../../utils/iframe-window';
 
@@ -8,17 +8,19 @@ class Frame extends Component {
 	static displayName = 'Frame';
 
 	static propTypes = {
-		'src': PropTypes.string.isRequired,
-		'id': PropTypes.string.isRequired
+		src: types.string.isRequired,
+		id: types.string.isRequired
 	};
 
 	state = {
-		'height': 0
+		height: 0
 	};
 
 	componentDidMount() {
-		let frame = findDOMNode(this);
-		this.frame = host(frame, { 'callback': (frame, height) => this.onFrameResize(height) });
+		const frame = findDOMNode(this);
+		this.frame = host(frame, {
+			callback: (frame, height) => this.onFrameResize(height)
+		});
 		this.frame.request();
 		iframeWindow(frame);
 	}
@@ -29,13 +31,21 @@ class Frame extends Component {
 
 	onFrameResize(height) {
 		this.setState({
-			'height': height
+			height
 		});
 	}
 
-	render () {
+	render() {
+		const {height} = this.state;
+		const {id, ...props} = this.props;
+		const style = {height};
+
 		return (
-			<iframe {...this.props} key={this.props.id} style={{ height: this.state.height }} />
+			<iframe
+				{...props}
+				key={id}
+				style={style}
+				/>
 		);
 	}
 }

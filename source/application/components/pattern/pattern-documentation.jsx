@@ -1,18 +1,16 @@
-import React from 'react';
-import {PropTypes, findDOMNode} from 'react';
+import React, {PropTypes} from 'react';
+import {findDOMNode} from 'react-dom';
 import highlight from 'highlight.js';
-
-import Headline from '../common/headline';
 
 class PatternDocumentation extends React.Component {
 	displayName = 'PatternDocumentation';
 
 	static propTypes = {
-		'children': PropTypes.string.isRequired
+		children: PropTypes.string.isRequired
 	};
 
 	static highlight(component, selector = 'pre > code') {
-		for (let node of findDOMNode(component).querySelectorAll(selector)) {
+		for (const node of findDOMNode(component).querySelectorAll(selector)) {
 			highlight.highlightBlock(node);
 		}
 	}
@@ -25,10 +23,13 @@ class PatternDocumentation extends React.Component {
 		PatternDocumentation.highlight(this);
 	}
 
-	render () {
+	render() {
 		return (
 			<div className="pattern-documentation">
-				<div className="markdown" dangerouslySetInnerHTML={{'__html': this.props.children}}></div>
+				<div
+					className="markdown"
+					dangerouslySetInnerHTML={{__html: this.props.children}} // eslint-disable-line react/no-danger
+					/>
 			</div>
 		);
 	}
