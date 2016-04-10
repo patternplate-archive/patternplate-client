@@ -102,7 +102,7 @@
 		align-items: center;
 		overflow: hidden;
 		padding: 0 20px 0 10px;
-		height: 50px;
+		height: 40px;
 		color: inherit;
 		border-left: 4px solid transparent;
 		line-height: 30px;
@@ -142,6 +142,60 @@
 	.icon {
 		margin-right: 10px;
 		flex-shrink: 0;
+		.svg-icon {
+			height: 25px;
+			width: 25px;
+		}
+	}
+}
+
+.navigation__search-field {
+	font-weight: bold;
+	height: 40px;
+	input {
+		height: 100%;
+		width: 100%;
+		border: 0;
+	}
+}
+
+::-webkit-input-placeholder {
+   color: inherit;
+}
+::-moz-placeholder {  /* Firefox 19+ */
+	color: inherit;
+}
+:-ms-input-placeholder {
+	color: inherit;
+}
+
+.slim {
+	.search-field {
+		display: none;
+	}
+}
+
+.search-field {
+	&__container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		padding-left: 15px;
+		cursor: text;
+	}
+	&__icon {
+		flex-shrink: 0;
+		width: 25px;
+		height: 25px;
+		margin-right: 8px;
+	}
+	&__input {
+		background: transparent;
+		padding-right: 20px;
+		&:focus {
+			outline: none;
+		}
 	}
 }
 
@@ -161,8 +215,15 @@
 		}
 		> .navigation-tree {
 			overflow: visible;
+			overflow-y: auto;
 			> .navigation-item > .navigation-tree {
 				margin-left: 2px;
+			}
+		}
+		.icon {
+			.svg-icon {
+				width: 30px;
+				height: 30px;
 			}
 		}
 	}

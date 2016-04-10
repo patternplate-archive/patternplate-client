@@ -5,6 +5,7 @@ import React from 'react';
 import {PropTypes} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
+import shallowCompare from 'react-addons-shallow-compare';
 
 import 'isomorphic-fetch';
 
@@ -25,6 +26,10 @@ class PatternSection extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired
 	};
+
+	shouldComponentUpdate(nextProps, nextState) {
+		return shallowCompare(this, nextProps, nextState);
+	}
 
 	async get(props) {
 		const {navigation, id, config} = props;
@@ -128,11 +133,13 @@ class PatternSection extends React.Component {
 	}
 
 	componentWillReceiveProps(props) {
-		this.setState({
-			data: null,
-			type: 'pattern'
-		});
-		this.get(props);
+		if (props.id !== this.props.id) {
+			this.setState({
+				data: null,
+				type: 'pattern'
+			});
+			this.get(props);
+		}
 	}
 
 	render() {

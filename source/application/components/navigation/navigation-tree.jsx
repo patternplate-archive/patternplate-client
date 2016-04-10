@@ -26,6 +26,7 @@ class NavigationTree extends Component {
 	static propTypes = {
 		data: types.object,
 		path: types.string,
+		query: types.object,
 		children: types.oneOfType([
 			types.node,
 			types.arrayOf(types.node)
@@ -107,7 +108,7 @@ class NavigationTree extends Component {
 	}
 
 	render() {
-		const {data, path, children, config} = this.props;
+		const {data, path, children, config, query} = this.props;
 		const {anchored} = this.state;
 		const {folders, patterns} = getAugmentedChildren(data, config.hierarchy);
 		const searched = path.split('/').slice(2).join('/');
@@ -126,6 +127,7 @@ class NavigationTree extends Component {
 					name={folder.displayName}
 					symbol={folder.icon}
 					id={folder.id}
+					query={query}
 					key={folder.id}
 					active={active}
 					ref={ref}
@@ -140,6 +142,7 @@ class NavigationTree extends Component {
 							key={`${folder.id}-anchored`}
 							active={active}
 							anchored={isAnchored}
+							query={query}
 							onClick={this.handleAnchoredClick}
 							/>
 					}
@@ -148,6 +151,7 @@ class NavigationTree extends Component {
 						config={config}
 						data={folder.children}
 						id={folder.id}
+						query={query}
 						/>
 				</NavigationItem>
 			);
@@ -174,22 +178,17 @@ class NavigationTree extends Component {
 					symbol={type}
 					active={active}
 					ref={this.getActiveReference}
+					query={query}
 					/>
 			);
 		});
-
-		const external = (Array.isArray(children) ? children : [children])
-			.filter(item => item)
-			.map(child => {
-				return React.cloneElement(child);
-			});
 
 		return (
 			<ul
 				onScroll={this.handleScroll}
 				className="navigation-tree"
 				>
-				{external}
+				{children}
 				{nested}
 				{items}
 			</ul>
