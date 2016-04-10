@@ -1,22 +1,30 @@
-import React from 'react';
-import {findDOMNode} from 'react';
+import React, {PropTypes as types} from 'react';
 
 import Frame from '../common/frame';
 
 class PatternDemo extends React.Component {
 	static displayName = 'PatternDemo';
 
-	static defaultProps = {
-		'base': '/demo'
+	static propTypes = {
+		base: types.string,
+		target: types.string
 	};
 
-	render () {
-		let source = `${this.props.base}/${this.props.target}`;
-		let id = `${source}-demo`;
+	static defaultProps = {
+		base: '/demo'
+	};
+
+	render() {
+		const source = `${this.props.base}/${this.props.target}`;
 
 		return (
 			<div className="pattern-demo-container">
-				<Frame className="pattern-demo" src={source} id={source} sandbox="allow-same-origin allow-scripts allow-forms allow-scripts" />
+				<Frame
+					className="pattern-demo"
+					src={source}
+					id={source}
+					sandbox="allow-same-origin allow-scripts allow-forms allow-scripts"
+					/>
 			</div>
 		);
 	}

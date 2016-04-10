@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {Component, PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
-import {Component, PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
 import deepEqual from 'deep-equal';
 
