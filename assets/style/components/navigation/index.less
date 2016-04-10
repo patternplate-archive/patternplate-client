@@ -156,6 +156,7 @@
 		height: 100%;
 		width: 100%;
 		border: 0;
+		color: inherit;
 	}
 }
 
@@ -186,15 +187,21 @@
 	}
 	&__icon {
 		flex-shrink: 0;
-		width: 25px;
-		height: 25px;
+		order: -1;
 		margin-right: 8px;
+		.svg-icon {
+			height: 25px;
+			width: 25px;
+		}
 	}
 	&__input {
 		background: transparent;
 		padding-right: 20px;
 		&:focus {
 			outline: none;
+			+ .search-field__icon {
+				color: @active-color;
+			}
 		}
 	}
 }

@@ -47,7 +47,6 @@ export default class SearchField extends Component {
 		return (
 			<Component {...props} className={className}>
 				<label className={containerClassName}>
-					<Icon className={iconClassName} symbol="search"/>
 					<input
 						className={inputClassName}
 						value={value}
@@ -58,6 +57,7 @@ export default class SearchField extends Component {
 						onChange={onChange}
 						onFocus={onFocus}
 						/>
+					<Icon className={iconClassName} symbol="search"/>
 				</label>
 			</Component>
 		);
