@@ -1,6 +1,8 @@
 import React from 'react';
 import classnames from 'classnames';
+import pure from 'pure-render-decorator';
 
+@pure
 class PatternControl extends React.Component {
 	displayName = 'PatternControl';
 

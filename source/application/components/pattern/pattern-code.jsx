@@ -2,7 +2,9 @@ import React, {PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
 import highlight from 'highlight.js';
 import {pd as prettyData} from 'pretty-data';
+import pure from 'pure-render-decorator';
 
+@pure
 class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 

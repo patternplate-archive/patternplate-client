@@ -1,7 +1,9 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import highlight from 'highlight.js';
+import pure from 'pure-render-decorator';
 
+@pure
 class PatternDocumentation extends React.Component {
 	displayName = 'PatternDocumentation';
 

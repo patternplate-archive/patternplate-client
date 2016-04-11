@@ -2,6 +2,7 @@ import React, {Component, PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
 import autobind from 'autobind-decorator';
 import deepEqual from 'deep-equal';
+import pure from 'pure-render-decorator';
 
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
@@ -19,6 +20,7 @@ function scrollIntoView(element, options) {
 	}
 }
 
+@pure
 class NavigationTree extends Component {
 	displayName = 'NavigationTree';
 

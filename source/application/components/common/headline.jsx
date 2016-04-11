@@ -1,24 +1,26 @@
-import React from 'react';
+import React, {Component, PropTypes as types} from 'react';
 import classnames from 'classnames';
-import {PropTypes,DOM} from 'react';
+import pure from 'pure-render-decorator';
 
-class Headline extends React.Component {
+@pure
+class Headline extends Component {
 	displayName = 'Headline';
 
-	static defaultProps = {
-		'children': 'Headline',
-		'order': 1
-	};
-
 	static propTypes = {
-		'children': PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.array]).isRequired,
-		'order': PropTypes.oneOf([1, 2, 3, 4, 5, 6]).isRequired,
-		'display': PropTypes.oneOf([1, 2, 3, 4, 5, 6])
+		children: types.node.isRequired,
+		order: types.oneOf([1, 2, 3, 4, 5, 6]).isRequired,
+		display: types.oneOf([1, 2, 3, 4, 5, 6]),
+		className: types.string
 	};
 
-	render () {
-		let TagName = `h${this.props.order}`;
-		let className = classnames('h', `h${this.props.display || this.props.order}`, this.props.className);
+	static defaultProps = {
+		children: 'Headline',
+		order: 1
+	};
+
+	render() {
+		const TagName = `h${this.props.order}`;
+		const className = classnames('h', `h${this.props.display || this.props.order}`, this.props.className);
 
 		return (
 			<TagName className={className}>

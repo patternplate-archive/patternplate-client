@@ -2,9 +2,11 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
+import pure from 'pure-render-decorator';
 
 import Icon from '../common/icon';
 
+@pure
 export default class NavigationItem extends React.Component {
 	displayName = 'NavigationItem';
 

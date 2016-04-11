@@ -1,6 +1,8 @@
 import React, {PropTypes as types, Component} from 'react';
 import autobind from 'autobind-decorator';
+import pure from 'pure-render-decorator';
 
+@pure
 class Message extends Component {
 	static propTypes = {
 		type: types.oneOf(['info', 'error', 'success', 'warn']),

@@ -1,8 +1,10 @@
 import React, {Component, PropTypes as types} from 'react';
 import cx from 'classnames';
+import pure from 'pure-render-decorator';
 
 import Icon from './icon';
 
+@pure
 export default class SearchField extends Component {
 	static displayName = 'search-field';
 

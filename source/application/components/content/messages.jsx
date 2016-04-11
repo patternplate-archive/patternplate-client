@@ -3,7 +3,9 @@ import {PropTypes, Component} from 'react';
 import btoa from 'btoa';
 
 import Message from './message';
+import pure from 'pure-render-decorator';
 
+@pure
 class Messages extends Component {
 	static displayName = 'Messages';
 

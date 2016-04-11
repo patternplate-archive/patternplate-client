@@ -1,10 +1,14 @@
 import {parse} from 'url';
 
-import React, {PropTypes as types} from 'react';
+import React, {Component, PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
+import pure from 'pure-render-decorator';
+
 import cx from 'classnames';
 import fetch from 'isomorphic-fetch';
 import {memoize} from 'lodash';
+
+let supportsExternalFragments = null;
 
 function isURI(input) {
 	const {host, hostname} = parse(input);
@@ -20,10 +24,15 @@ const injectSVGSprite = memoize(async uri => {
 	const text = await response.text();
 	const container = document.createElement('div');
 	container.innerHTML = text;
-	document.body.insertBefore(container.firstChild, document.body.firstChild);
+	container.style.height = 0;
+	container.style.width = 0;
+	container.style.visibility = 'hidden';
+	container.style.overflow = 'hidden';
+	document.body.insertBefore(container, document.body.firstChild);
 });
 
-class Icon extends React.Component {
+@pure
+class Icon extends Component {
 	displayName = 'Icon';
 
 	static propTypes = {
@@ -48,18 +57,24 @@ class Icon extends React.Component {
 	useReference = null;
 
 	state = {
-		supportsExternalFragments: true
+		supportsExternalFragments: supportsExternalFragments === null ? true : supportsExternalFragments
 	};
+
+	shouldComponentUpdate() {
+		
+	}
 
 	componentDidMount() {
 		const {useReference} = this;
 		const {inline, uri} = this.props;
 
-		if (useReference && uri && !inline) {
+		// Determine support only once
+		if (supportsExternalFragments === null && useReference && uri && !inline) {
 			this.usePolyfilling = setTimeout(() => {
 				const {width} = useReference.getBoundingClientRect();
+				supportsExternalFragments = width > 0;
 				this.setState({
-					supportsExternalFragments: width > 0
+					supportsExternalFragments
 				});
 			}, 0);
 		}
@@ -70,10 +85,8 @@ class Icon extends React.Component {
 	}
 
 	componentWillUpdate(nextProps, nextState) {
-		const {supportsExternalFragments} = nextState;
-		const {uri, symbol, inline} = this.props;
-		if (!supportsExternalFragments && uri && !inline) {
-			console.log(`Downloading ${uri} for fragment ${symbol}`);
+		const {uri, inline} = this.props;
+		if (!nextState.supportsExternalFragments && uri && !inline) {
 			injectSVGSprite(uri);
 		}
 	}
