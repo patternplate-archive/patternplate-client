@@ -60,6 +60,10 @@ class Icon extends Component {
 		supportsExternalFragments: supportsExternalFragments === null ? true : supportsExternalFragments
 	};
 
+	shouldComponentUpdate() {
+		
+	}
+
 	componentDidMount() {
 		const {useReference} = this;
 		const {inline, uri} = this.props;

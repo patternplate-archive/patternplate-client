@@ -95,10 +95,7 @@
     "normalize.less": "^1.0.0",
     "path-exists": "^2.1.0",
     "pretty-data": "^0.40.0",
-<<<<<<< 7549cdc946e5e7f045226c0192af36a134936c2a
     "pure-render-decorator": "^1.0.0",
-=======
->>>>>>> perf: cut lots of download slack
     "rc": "^1.0.1",
     "react": "^0.14.8",
     "react-addons-css-transition-group": "^15.0.1",
@@ -132,10 +129,7 @@
     "eslint-plugin-react": "^4.3.0",
     "jsonlint": "^1.6.2",
     "minifyify": "^7.3.3",
-<<<<<<< 7549cdc946e5e7f045226c0192af36a134936c2a
     "parallelshell": "^2.0.0",
-=======
->>>>>>> perf: cut lots of download slack
     "path-exists": "^2.1.0"
   }
 }
