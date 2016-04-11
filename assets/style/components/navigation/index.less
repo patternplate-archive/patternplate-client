@@ -7,7 +7,8 @@
 		top: 60px;
 		bottom: 0;
 		margin-bottom: 40px;
-		overflow: auto;
+		overflow-x: hidden;
+		overflow-y: auto;
 		width: inherit;
 		// border-bottom: 1px solid @border-color;
 		-webkit-overflow-scrolling: touch;
@@ -72,6 +73,7 @@
 	margin: 0;
 	// border-top: 1px solid @border-color;
 	font-weight: bold;
+	width: 100%;
 	&.anchored {
 		position: fixed;
 		z-index: 1;
