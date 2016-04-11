@@ -1,36 +1,46 @@
-import {resolve} from 'path';
+import {dirname, resolve} from 'path';
+import {readFile as fsReadFile, createReadStream} from 'fs';
 
+import denodeify from 'denodeify';
+import exists from 'path-exists';
 import less from 'less';
 import Autoprefix from 'less-plugin-autoprefix';
 import Cleancss from 'less-plugin-clean-css';
 import NpmImport from 'less-plugin-npm-import';
 
-import qio from 'q-io/fs';
+const autoprefix = new Autoprefix({browser: ['IE 8', 'last 2 versions']});
+const cleancss = new Cleancss({advanced: true});
+const npmimport = new NpmImport();
 
-function styleRouteFactory (application) {
+const readFile = denodeify(fsReadFile);
 
-	return async function scriptRoute () {
-		let name = (this.params.path || '').replace('.css', '.less');
-		let path = resolve(application.runtime.cwd, 'assets', 'style', name);
+function styleRouteFactory(application) {
+	return async function scriptRoute() {
+		const staticPath = resolve(application.runtime.cwd, 'assets', 'style', this.params.path);
 
-		if (!await qio.exists(path)) {
+		if (await exists(staticPath)) {
+			this.type = 'css';
+			this.body = createReadStream(staticPath);
 			return;
 		}
 
-		let autoprefix = new Autoprefix({'browser': ['IE 8', 'last 2 versions']});
-		let cleancss = new Cleancss({'advanced': true});
-		let npmimport = new NpmImport();
+		const name = (this.params.path || '').replace('.css', '.less');
+		const path = resolve(application.runtime.cwd, 'assets', 'style', name);
+
+		if (!await exists(path)) {
+			return;
+		}
 
 		try {
-			let source = await qio.read(path);
-			let results = await less.render(source, {
-				'paths': [qio.directory(path)],
-				'plugins': [npmimport, autoprefix, cleancss]
+			const buffer = await readFile(path);
+			const results = await less.render(buffer.toString(), {
+				paths: [dirname(path)],
+				plugins: [npmimport, autoprefix, cleancss]
 			});
 
 			this.type = 'css';
 			this.body = results.css;
-		} catch(err) {
+		} catch (err) {
 			application.log.error(err);
 			this.throw(err, 500);
 		}

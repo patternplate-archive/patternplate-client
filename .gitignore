@@ -37,4 +37,5 @@ dist
 /binary
 /library
 /assets/script
+/assets/style/*.css
 .settings

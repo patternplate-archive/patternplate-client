@@ -1,10 +1,9 @@
 import {polyfill} from 'es6-promise';
 polyfill();
 
-import React from 'react';
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import CSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import shallowCompare from 'react-addons-shallow-compare';
 
 import 'isomorphic-fetch';

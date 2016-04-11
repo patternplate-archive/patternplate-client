@@ -1,5 +1,13 @@
 {
-	"stage": 0,
-	"optional": ["asyncToGenerator"],
+	"presets": [
+		"es2015-node5",
+		"stage-0",
+		"react"
+	],
+	"plugins": [
+		"transform-decorators-legacy",
+		"transform-runtime",
+		"add-module-exports"
+	],
 	"sourceMaps": "inline"
 }
