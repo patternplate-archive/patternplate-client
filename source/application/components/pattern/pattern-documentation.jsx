@@ -1,6 +1,4 @@
 import React, {PropTypes} from 'react';
-import {findDOMNode} from 'react-dom';
-import highlight from 'highlight.js';
 import pure from 'pure-render-decorator';
 
 @pure
@@ -11,19 +9,20 @@ class PatternDocumentation extends React.Component {
 		children: PropTypes.string.isRequired
 	};
 
-	static highlight(component, selector = 'pre > code') {
+	/* static highlight(component, selector = 'pre > code') {
 		for (const node of findDOMNode(component).querySelectorAll(selector)) {
 			highlight.highlightBlock(node);
 		}
-	}
+	} */
 
-	componentDidMount() {
+/* componentDidMount() {
 		PatternDocumentation.highlight(this);
 	}
 
 	componentDidUpdate() {
 		PatternDocumentation.highlight(this);
 	}
+*/
 
 	render() {
 		return (
