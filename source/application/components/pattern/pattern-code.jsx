@@ -1,10 +1,27 @@
 import React, {PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
-import highlight from 'highlight.js';
-import {pd as prettyData} from 'pretty-data';
 
+import cx from 'classnames';
+import pure from 'pure-render-decorator';
+
+function clipboard(component) {
+	const el = findDOMNode(component).querySelector('.clipboard');
+	el.focus();
+	el.select();
+	global.document.execCommand('copy');
+}
+
+@pure
 class PatternCode extends React.Component {
 	displayName = 'PatternCode';
+
+	static propTypes = {
+		children: types.string.isRequired,
+		format: types.string,
+		name: types.string.isRequired,
+		copy: types.bool,
+		highlight: types.bool
+	};
 
 	static defaultProps = {
 		format: 'html',
@@ -12,59 +29,56 @@ class PatternCode extends React.Component {
 		copy: true
 	};
 
-	static types = {
-		children: types.oneOfType([
-			types.string,
-			types.node,
-			types.element
-		]).isRequired,
-		format: types.string,
-		name: types.string.isRequired,
-		copy: types.bool,
-		highlight: types.bool
+	state = {
+		code: ''
 	};
-
-	static highlight(component, selector = 'pre > code') {
-		for (const node of findDOMNode(component).querySelectorAll(selector)) {
-			highlight.highlightBlock(node);
-		}
-	}
-
-	static clipboard(component) {
-		const el = findDOMNode(component).querySelector('.clipboard');
-		el.focus();
-		el.select();
-		global.document.execCommand('copy');
-	}
 
 	componentDidMount() {
 		if (this.props.highlight) {
-			PatternCode.highlight(this);
+			const {Worker} = global;
+			this.worker = new Worker('/script/highlight.bundle.js');
+
+			this.worker.onmessage = e => {
+				this.setState({
+					code: e.data
+				});
+			};
+
+			this.worker.postMessage(this.props.children);
 		}
 	}
 
-	componentDidUpdate() {
-		if (this.props.highlight) {
-			PatternCode.highlight(this);
+	componentWillUnmount() {
+		if (this.worker) {
+			this.worker.terminate();
 		}
 	}
 
-	onCopyClick() {
-		PatternCode.clipboard(this);
+	componentWillUpdate(nextProps) {
+		const {children} = this.props;
+		if (this.worker && nextProps.children !== children) {
+			this.worker.postMessage(nextProps.children);
+		}
+	}
+
+	handleCopyClick() {
+		clipboard(this);
 	}
 
 	render() {
 		const {
-			children,
-			highlight,
 			format,
 			name,
-			copy
+			copy,
+			highlight,
+			children
 		} = this.props;
 
-		const pretty = highlight && format === 'html' ?
-			prettyData.xml(children) :
-			children;
+		const {
+			code
+		} = this.state;
+
+		const formatClassName = cx(`hljs`, format);
 
 		return (
 			<div className="pattern-code">
@@ -80,11 +94,18 @@ class PatternCode extends React.Component {
 					</div>
 				</div>
 				<pre>
-					<code className={format}>
-						{pretty}
-					</code>
+					{
+						highlight ?
+							<code
+								className={formatClassName}
+								dangerouslySetInnerHTML={{__html: code}}
+								/> :
+							<code className="hljs">
+								{children}
+							</code>
+					}
 				</pre>
-				<textarea className="clipboard" value={pretty} readOnly/>
+				<textarea className="clipboard" value={code} readOnly/>
 			</div>
 		);
 	}

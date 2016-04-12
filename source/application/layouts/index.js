@@ -1,4 +1,4 @@
-function layout (props) {
+function layout(props) {
 	return `<!doctype html>
 	<html>
 		<head>
@@ -12,6 +12,7 @@ function layout (props) {
 			<div class="inline-svg" data-application-icons="data-application-icons">${props.icons}</div>
 			<div data-application="data-application">${props.content}</div>
 			<script data-application-state="data-application-state" type="application/json">${props.data}</script>
+			<script src="/script/vendors.js"></script>
 			<script src="${props.script}"></script>
 		</body>
 	</html>

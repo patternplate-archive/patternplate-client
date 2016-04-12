@@ -1,6 +1,7 @@
 import React, {PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
 import cx from 'classnames';
+import pure from 'pure-render-decorator';
 
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
@@ -18,6 +19,7 @@ const formatMap = {
 	demoBuffer: 'out'
 };
 
+@pure
 class Pattern extends React.Component {
 	displayName = 'Pattern';
 

@@ -1,11 +1,10 @@
 import {polyfill} from 'es6-promise';
 polyfill();
 
-import React from 'react';
-import {PropTypes} from 'react';
+import React, {PropTypes} from 'react';
 import {Link} from 'react-router';
-import CSSTransitionGroup from 'react/lib/ReactCSSTransitionGroup';
-import shallowCompare from 'react-addons-shallow-compare';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import pure from 'pure-render-decorator';
 
 import 'isomorphic-fetch';
 
@@ -15,6 +14,7 @@ import Icon from '../common/icon';
 
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
+@pure
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
 	state = {
@@ -26,10 +26,6 @@ class PatternSection extends React.Component {
 	static propTypes = {
 		id: PropTypes.string.isRequired
 	};
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return shallowCompare(this, nextProps, nextState);
-	}
 
 	async get(props) {
 		const {navigation, id, config} = props;

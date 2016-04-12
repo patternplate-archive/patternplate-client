@@ -1,7 +1,9 @@
 import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import classnames from 'classnames';
+import pure from 'pure-render-decorator';
 
+@pure
 export default class PatternDependencies extends React.Component {
 	static defaultProps = {
 		data: types.shape({

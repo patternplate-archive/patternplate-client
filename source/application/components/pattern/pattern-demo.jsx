@@ -1,7 +1,9 @@
 import React, {PropTypes as types} from 'react';
+import pure from 'pure-render-decorator';
 
 import Frame from '../common/frame';
 
+@pure
 class PatternDemo extends React.Component {
 	static displayName = 'PatternDemo';
 

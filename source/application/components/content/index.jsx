@@ -3,7 +3,9 @@ import {RouteHandler} from 'react-router';
 
 import Messages from './messages';
 import PatternSection from '../pattern/pattern-section';
+import pure from 'pure-render-decorator';
 
+@pure
 class Content extends React.Component {
 	render () {
 		return (

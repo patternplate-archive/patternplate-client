@@ -2,11 +2,13 @@ import React from 'react';
 import classnames from 'classnames';
 import cookie from 'cookie';
 import {Link} from 'react-router';
+import pure from 'pure-render-decorator';
 
 import Icon from '../common/icon';
 
 const document = global.document;
 
+@pure
 class Toolbar extends React.Component {
 	displayName = 'Toolbar';
 

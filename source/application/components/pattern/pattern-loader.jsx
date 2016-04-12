@@ -1,9 +1,11 @@
 import React from 'react';
 import {PropTypes} from 'react';
 import classnames from 'classnames';
+import pure from 'pure-render-decorator';
 
 import Icon from '../common/icon';
 
+@pure
 class PatternLoader extends React.Component {
 	displayName = 'PatternLoader';
 

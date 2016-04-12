@@ -1,25 +1,40 @@
-import React from 'react';
-import {PropTypes, Component} from 'react';
+import React, {PropTypes as types, Component} from 'react';
+import autobind from 'autobind-decorator';
+import pure from 'pure-render-decorator';
 
+@pure
 class Message extends Component {
 	static propTypes = {
-		'type': PropTypes.oneOf(['info', 'error', 'success'])
+		type: types.oneOf(['info', 'error', 'success', 'warn']),
+		manager: types.object,
+		index: types.number,
+		children: types.oneOfType([
+			types.node,
+			types.arrayOf(types.node)
+		])
 	};
 
-	onButtonClick = () => {
+	@autobind
+	handleButtonClick() {
 		this.props.manager.pull(this.props.index);
 	}
 
 	render = () => {
-		let style = {
-			bottom: `${this.props.index*50}px`
+		const style = {
+			bottom: `${this.props.index * 50}px`
 		};
 
 		return (
 			<div className={`message ${this.props.type}`} style={style}>
 				<div className="message-container" key="single">
 					<div className="message-content">{this.props.children}</div>
-					<button onClick={this.onButtonClick} className="message-close" type="button">Close</button>
+					<button
+						onClick={this.handleButtonClick}
+						className="message-close"
+						type="button"
+						>
+							Close
+					</button>
 				</div>
 			</div>
 		);

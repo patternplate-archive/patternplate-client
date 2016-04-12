@@ -1,12 +1,14 @@
 import React, {PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
+import pure from 'pure-render-decorator';
 
 import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
 import Icon from '../common/icon';
 import SearchField from '../common/search-field';
 
+@pure
 class Navigation extends React.Component {
 	displayName = 'Navigation';
 

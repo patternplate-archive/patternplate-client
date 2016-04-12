@@ -1,9 +1,11 @@
 import React, {Component, PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
 import {host} from 'rubber-band';
+import pure from 'pure-render-decorator';
 
 import iframeWindow from '../../utils/iframe-window';
 
+@pure
 class Frame extends Component {
 	static displayName = 'Frame';
 
