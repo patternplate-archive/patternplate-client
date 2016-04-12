@@ -48,7 +48,7 @@ class Icon extends Component {
 	};
 
 	static defaultProps = {
-		uri: '/static/images/icons.svg',
+		uri: '/static/images/patternplate-icons.svg',
 		fallback: true,
 		inline: false
 	};

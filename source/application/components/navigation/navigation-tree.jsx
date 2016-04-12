@@ -7,6 +7,8 @@ import pure from 'pure-render-decorator';
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
+const {window} = global;
+
 function scrollIntoView(element, options) {
 	const {top, bottom} = element.getBoundingClientRect();
 	const upper = top < 60;
@@ -17,6 +19,19 @@ function scrollIntoView(element, options) {
 			block: lower ? 'end' : 'start',
 			...options
 		});
+	}
+}
+
+function loop(predicate = () => {}, container = {}) {
+	container.loop = window.requestAnimationFrame(e => {
+		predicate(e);
+		container.loo = loop(predicate);
+	});
+}
+
+function unloop({loop}) {
+	if (loop) {
+		window.cancelAnimationFrame(loop);
 	}
 }
 
@@ -45,9 +60,21 @@ class NavigationTree extends Component {
 		anchored: null
 	};
 
-	@autobind
-	handleScroll() {
-		this.updateAnchoredItem();
+	componentDidMount() {
+		this.loop = loop(() => {
+			const {activeFolderElement, activeFolderReference} = this;
+			if (activeFolderElement && activeFolderReference) {
+				const {top} = activeFolderElement.getBoundingClientRect();
+				const anchored = top <= 54;
+				this.setState({
+					anchored: anchored ? activeFolderReference.props.id : null
+				});
+			}
+		}, this);
+	}
+
+	componentWillUnmount() {
+		unloop(this);
 	}
 
 	@autobind
@@ -58,19 +85,6 @@ class NavigationTree extends Component {
 	@autobind
 	handleFolderClick(e, component) {
 		this.getActiceFolderReference(component);
-		this.updateAnchoredItem();
-	}
-
-	@autobind
-	updateAnchoredItem() {
-		const {activeFolderElement, activeFolderReference} = this;
-		if (activeFolderElement) {
-			const {top} = activeFolderElement.getBoundingClientRect();
-			const anchored = top <= 54;
-			this.setState({
-				anchored: anchored ? activeFolderReference.props.id : null
-			});
-		}
 	}
 
 	@autobind
@@ -97,14 +111,6 @@ class NavigationTree extends Component {
 		if (reference.props.active) {
 			this.activeReference = reference;
 			this.activeElement = element;
-		}
-	}
-
-	@autobind
-	scrollToActive(options = {}) {
-		const {activeElement} = this;
-		if (activeElement) {
-			// scrollIntoView(activeElement, options);
 		}
 	}
 
@@ -186,7 +192,6 @@ class NavigationTree extends Component {
 
 		return (
 			<ul
-				onScroll={this.handleScroll}
 				className="navigation-tree"
 				>
 				{children}

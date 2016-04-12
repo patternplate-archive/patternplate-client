@@ -67,7 +67,8 @@ class Toolbar extends React.Component {
 					<Icon
 						symbol={icon}
 						fallback={false}
-						inline={true}>
+						inline
+						>
 						{title}
 					</Icon>
 				</Link>

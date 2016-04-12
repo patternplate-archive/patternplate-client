@@ -108,11 +108,13 @@ class PatternSection extends React.Component {
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
 		}
 
-		this.setState({
-			data,
-			error: false,
-			type: 'pattern'
-		});
+		if (data[0].id === this.props.id) {
+			this.setState({
+				data,
+				error: false,
+				type: 'pattern'
+			});
+		}
 	}
 
 	componentWillMount() {

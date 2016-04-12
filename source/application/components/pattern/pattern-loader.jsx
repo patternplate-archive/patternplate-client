@@ -1,32 +1,31 @@
-import React from 'react';
-import {PropTypes} from 'react';
+import React, {PropTypes as types} from 'react';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
-
-import Icon from '../common/icon';
 
 @pure
 class PatternLoader extends React.Component {
 	displayName = 'PatternLoader';
 
 	static defaultProps = {
-		'error': false
+		error: false
 	};
 
 	static propTypes = {
-		'error': PropTypes.bool.isRequired
+		error: types.bool.isRequired
 	};
 
-	render () {
-		let className = classnames('pattern-loader', {
+	render() {
+		const className = classnames('pattern-loader', {
 			'pattern-error': this.props.error
 		});
 
-		let symbol = this.props.error ?  'patternplate' : 'patternplate-loading';
-
 		return (
 			<div className={className}>
-				<Icon inline={true} symbol={symbol}>Loading ...</Icon>
+				<img
+					width="120"
+					height="120"
+					src="/static/images/patternplate-logo-animated.svg"
+					/>
 			</div>
 		);
 	}

@@ -18,7 +18,7 @@
 	display: flex;
 	flex-direction: column;
 	vertical-align: top;
-	padding-top: 50px;
+	padding-top: 60px;
 	transition: transform .3s ease-in-out;
 	@media screen and (max-width: 500px) {
 		display: block;
@@ -46,7 +46,6 @@
 }
 
 .content {
-	padding: 65px 15px 10px 30px;
 	min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 	flex: 1;
 	@media screen and (max-width: 900px) {
@@ -58,6 +57,11 @@
 		transform: translateX(-100%);
 		padding: 60px 15px 15px 15px;
 	}
+}
+
+.home {
+	padding-right: 30px;
+	padding-left: 30px;
 }
 
 .home > .markdown {
