@@ -129,6 +129,7 @@
     "eslint-plugin-react": "^4.3.0",
     "jsonlint": "^1.6.2",
     "minifyify": "^7.3.3",
+    "parallelshell": "^2.0.0",
     "path-exists": "^2.1.0"
   }
 }
