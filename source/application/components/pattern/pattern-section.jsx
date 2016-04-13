@@ -1,7 +1,4 @@
-import {polyfill} from 'es6-promise';
-polyfill();
-
-import React, {PropTypes} from 'react';
+import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
@@ -14,6 +11,147 @@ import Icon from '../common/icon';
 
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
+function getPatternContent(type, data, properties, state) {
+	if (type === 'pattern') {
+		const patternData = Array.isArray(data) ?
+			data[0] :
+			data;
+
+		return [
+			patternData && <Pattern {...patternData} key={patternData.id} config={properties.config}/>,
+			<PatternLoader hidden={Boolean(data)} {...state} key="loader"/>
+		].filter(Boolean);
+	}
+
+	if (type === 'folder') {
+		const {folders, patterns} = getAugmentedChildren(
+			data.children,
+			properties.config.hierarchy
+		);
+
+		const rows = Object.values(folders.concat(patterns)).map(child => {
+			const {type, displayName, id, manifest = {}} = child;
+			const {options = {}, tags = [], flag} = manifest;
+			const {hidden = false} = options;
+
+			if (hidden) {
+				return null;
+			}
+
+			const splat = id;
+			const link = `pattern`;
+
+			if (type === 'pattern') {
+				return (
+					<tr key={id}>
+						<td>
+							<Icon symbol="pattern"/>
+							<Link to={link} params={{splat}}>{displayName}</Link>
+						</td>
+						<td>{child.manifest.version}</td>
+						<td>
+							{tags.map((tag, key) =>
+								<Link
+									to="pattern"
+									params={{splat: properties.id}}
+									query={{search: `tag:${tag}`}}
+									title={`Search patterns with tag ${tag}`}
+									key={key}
+									className="pattern-tag"
+									>
+									{tag}
+								</Link>
+							)}
+						</td>
+						<td>
+							<Link
+								to="pattern"
+								params={{splat: properties.id}}
+								query={{search: `flag:${flag}`}}
+								title={`Search patterns with flag ${flag}`}
+								className={`pattern__flag pattern__flag--${flag}`}
+								>
+								{flag}
+							</Link>
+						</td>
+						<td>
+							<Link to={link} params={{splat}} title="Show pattern">
+								<Icon symbol="arrow-double-right"/>
+								<span>Show pattern</span>
+							</Link>
+						</td>
+						<td>
+							<a href={`/demo/${id}`} target="_blank" title="Fullscreen">
+								<Icon symbol="fullscreen"/>
+								<span>Fullscreen</span>
+							</a>
+						</td>
+					</tr>
+				);
+			}
+			return (
+				<tr key={id}>
+					<td>
+						<Icon symbol="folder"/>
+						<Link to={link} params={{splat}}>{displayName}</Link>
+					</td>
+					<td/>
+					<td/>
+					<td/>
+					<td/>
+					<td>
+						<Icon symbol="folder" className="mobile-only"/>
+					</td>
+				</tr>
+			);
+		});
+
+		const link = `pattern`;
+		const up = data.id.split('/').slice(0, -1).join('/');
+		const nested = up.split('/').filter(Boolean).length > 0;
+
+		return (
+			<table className="pattern-folder">
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Version</th>
+						<th>Tags</th>
+						<th>Flag</th>
+						<th/>
+						<th/>
+					</tr>
+				</thead>
+				<CSSTransitionGroup
+					component="tbody"
+					transitionName="pattern-content-transition"
+					transitionEnterTimeout={300}
+					transitionLeaveTimeout={300}
+					>
+					{nested &&
+						<tr key="up" id="up!">
+							<td title="Folder up">
+								<Icon symbol="folder"/>
+								<Link to={link} params={{splat: up}}>..</Link>
+							</td>
+							<td/>
+							<td/>
+							<td/>
+							<td/>
+							<td>
+								<Icon symbol="folder" className="mobile-only"/>
+							</td>
+						</tr>
+					}
+					{rows}
+				</CSSTransitionGroup>
+			</table>
+		);
+	}
+
+	return null;
+}
+
 @pure
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
@@ -24,7 +162,10 @@ class PatternSection extends React.Component {
 	};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: types.string.isRequired,
+		eventEmitter: types.object.isRequired,
+		data: types.object.isRequired,
+		config: types.object.isRequired
 	};
 
 	async get(props) {
@@ -108,11 +249,13 @@ class PatternSection extends React.Component {
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
 		}
 
-		this.setState({
-			data,
-			error: false,
-			type: 'pattern'
-		});
+		if (data[0].id === this.props.id) {
+			this.setState({
+				data,
+				error: false,
+				type: 'pattern'
+			});
+		}
 	}
 
 	componentWillMount() {
@@ -139,8 +282,7 @@ class PatternSection extends React.Component {
 	}
 
 	render() {
-		const {type} = this.state;
-		let {data} = this.state;
+		const {type, data} = this.state;
 
 		const fragments = this.props.id.split('/');
 		const paths = fragments
@@ -151,160 +293,35 @@ class PatternSection extends React.Component {
 				};
 			});
 
-		const breadcrumbs = paths.length > 1 ? (
-			<ul className="pattern-breadcrumbs">
-				{paths.map(path => {
-					return (
-						<li className="pattern-breadcrumb" key={path.name}>
-							<Link
-								to="pattern"
-								params={{splat: path.path}}
-								>
-								<span>{path.name}</span>
-							</Link>
-						</li>
-					);
-				})}
-			</ul>
-		) : null;
+		const content = getPatternContent(type, data, this.props, this.state);
 
-		if (type === 'folder') {
-			const {folders, patterns} = getAugmentedChildren(
-				data.children,
-				this.props.config.hierarchy
-			);
-
-			const rows = Object.values(folders.concat(patterns)).map(child => {
-				const {type, displayName, id, manifest = {}} = child;
-				const {options = {}, tags = [], flag} = manifest;
-				const {hidden = false} = options;
-
-				if (hidden) {
-					return null;
-				}
-
-				const splat = id;
-				const link = `pattern`;
-
-				if (type === 'pattern') {
-					return (
-						<tr key={id}>
-							<td><Icon symbol="pattern" /></td>
-							<td><Link to={link} params={{splat}}>{displayName}</Link></td>
-							<td>{child.manifest.version}</td>
-							<td>
-								{tags.map((tag, key) =>
-									<span key={key} className="pattern-tag">{tag}</span>
-								)}
-							</td>
-							<td>
-								<span className={`pattern__flag pattern__flag--${flag}`}>
-									{flag}
-								</span>
-							</td>
-							<td>
-								<Link to={link} params={{splat}} title="Show pattern">
-									<Icon symbol="arrow-double-right" />
-									<span>Show pattern</span>
+		return (
+			<section className="pattern-section">
+				<CSSTransitionGroup
+					component="ul"
+					transitionName="pattern-content-transition"
+					key="breadcrumbs"
+					className="pattern-breadcrumbs"
+					transitionEnterTimeout={300}
+					transitionLeaveTimeout={300}
+					transitionLeave={false}
+					>
+					{paths.map(path => {
+						return (
+							<li className="pattern-breadcrumb" key={path.name}>
+								<Link
+									to="pattern"
+									params={{splat: path.path}}
+									>
+									<span>{path.name}</span>
 								</Link>
-							</td>
-							<td>
-								<a href={`/demo/${id}`} target="_blank" title="Fullscreen">
-									<Icon symbol="fullscreen" />
-									<span>Fullscreen</span>
-								</a>
-							</td>
-						</tr>
-					);
-				}
-				return (
-					<tr key={id}>
-						<td><Icon symbol="folder" /></td>
-						<td>
-							<Link to={link} params={{splat}}>{displayName}</Link>
-						</td>
-						<td/>
-						<td/>
-						<td/>
-						<td/>
-						<td>
-							<Icon symbol="folder" className="mobile-only" />
-						</td>
-					</tr>
-				);
-			});
-
-			const link = `pattern`;
-			const up = data.id.split('/').slice(0, -1).join('/');
-			const nested = up.split('/').filter(Boolean).length > 0;
-
-			return (
-				<section className="pattern-section">
-					{breadcrumbs}
-					<table className="pattern-folder">
-						<thead>
-							<tr>
-								<th width={10}/>
-								<th>Title</th>
-								<th>Version</th>
-								<th>Tags</th>
-								<th>Flag</th>
-								<th width={50}/>
-								<th width={50}/>
-							</tr>
-						</thead>
-						<tbody>
-							{nested &&
-								<tr id="up!">
-									<td><Icon symbol="folder" /></td>
-									<td title="Folder up">
-										<Link to={link} params={{splat: up}}>..</Link>
-									</td>
-									<td/>
-									<td/>
-									<td/>
-									<td/>
-									<td>
-										<Icon symbol="folder" className="mobile-only" />
-									</td>
-								</tr>
-							}
-							{rows}
-						</tbody>
-					</table>
-				</section>
-			);
-		} else if (type === 'pattern') {
-			let content;
-			let frags = this.props.id ? this.props.id.split('/') : [];
-			frags = frags.length > 1 ? frags.slice(0, frags.length - 1) : frags;
-
-			const loader = data ? '' : <PatternLoader {...this.state} key="loader" />;
-
-			if (data) {
-				data = Array.isArray(data) ? data : [data];
-				content = data.map(item => {
-					return <Pattern {...item} key={item.id} config={this.props.config}/>;
-				});
-			}
-
-			return (
-				<section className="pattern-section">
-					{breadcrumbs}
-					<CSSTransitionGroup
-						component="div"
-						transitionName="pattern-content-transition"
-						transitionLeaveTimeout={500}
-						transitionEnter={false}
-						>
-						{loader}
-					</CSSTransitionGroup>
-					{content}
-				</section>
-			);
-		}
-
-		return <span>No type: {type}</span>;
+							</li>
+						);
+					})}
+				</CSSTransitionGroup>
+				{content}
+			</section>
+		);
 	}
 }
 

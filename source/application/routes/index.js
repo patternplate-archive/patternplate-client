@@ -110,14 +110,17 @@ function indexRouteFactory(application) {
 		data.messages = (data.messages || []).concat(messages);
 
 		const iconsResponse = fetch(
-			`${self}static/images/inline-icons.svg`, {headers: selfHeaders}
+			`${self}static/images/patternplate-inline-icons.svg`, {headers: selfHeaders}
 		);
 
 		const content = await router(this.request.url, data);
 		const icons = await (await iconsResponse).text();
+		const title = application.configuration.ui.title ||
+			data.schema.name ||
+			'patternplate-client';
 
 		this.body = layout({
-			title: data.schema.name || 'patternplate-client',
+			title,
 			data: JSON.stringify(data),
 			content,
 			script: '/script/index.bundle.js',

@@ -3,6 +3,9 @@ import autobind from 'autobind-decorator';
 import cx from 'classnames';
 import pure from 'pure-render-decorator';
 
+import CSSTransitionGroup from 'react-addons-css-transition-group';
+import {Link} from 'react-router';
+
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
 import PatternDocumentation from './pattern-documentation';
@@ -189,7 +192,7 @@ class Pattern extends React.Component {
 		let content;
 
 		if (allowFullscreen) {
-			content = <PatternDemo target={id} />;
+			content = <PatternDemo target={id}/>;
 		} else {
 			content = (
 				<div className="pattern-fullscreen-message">
@@ -212,7 +215,14 @@ class Pattern extends React.Component {
 					{
 						flag &&
 							<small className={flagClassName}>
-								{flag}
+								<Link
+									to="pattern"
+									params={{splat: id}}
+									query={{search: `flag:${flag}`}}
+									title={`Search patterns with flag ${flag}`}
+									>
+									{flag}
+								</Link>
 							</small>
 					}
 					{
@@ -220,32 +230,49 @@ class Pattern extends React.Component {
 							<ul className="pattern-tags">
 								{
 									tags.map((tag, key) =>
-										<small className="pattern-tag" key={key}>{tag}</small>
+										<small className="pattern-tag" key={key}>
+											<Link
+												to="pattern"
+												params={{splat: id}}
+												query={{search: `tag:${tag}`}}
+												title={`Search patterns with tag ${tag}`}
+												>
+												{tag}
+											</Link>
+										</small>
 									)
 								}
 							</ul>
 					}
 				</Headline>
 				{content}
-				<div className="pattern-toolbar">
-					{controls}
-					<div className="pattern-tools">
-						{
-							hasRelations &&
-								<PatternControl
-									className="pattern-tool"
-									id={`${id}/dependencies-control`}
-									key={`${id}/dependencies-control`}
-									target={`${id}/dependencies-state`}
-									active={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
-									name={<Icon symbol="dependencies" />}
-									/>
-						}
-						<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
-							<Icon symbol="fullscreen" />
-						</a>
+				<CSSTransitionGroup
+					component="div"
+					className="pattern-toolbar"
+					transitionName="pattern-toolbar"
+					transitionEnterTimeout={300}
+					transitionLeaveTimeout={300}
+					>
+					<div className="pattern-toolbar-container" key="toolbar">
+						{controls}
+						<div className="pattern-tools">
+							{
+								hasRelations &&
+									<PatternControl
+										className="pattern-tool"
+										id={`${id}/dependencies-control`}
+										key={`${id}/dependencies-control`}
+										target={`${id}/dependencies-state`}
+										active={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
+										name={<Icon symbol="dependencies"/>}
+										/>
+							}
+							<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
+								<Icon symbol="fullscreen"/>
+							</a>
+						</div>
 					</div>
-				</div>
+				</CSSTransitionGroup>
 				<div className="pattern-content">
 					{results}
 					{

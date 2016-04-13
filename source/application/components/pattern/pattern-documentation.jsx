@@ -9,21 +9,6 @@ class PatternDocumentation extends React.Component {
 		children: PropTypes.string.isRequired
 	};
 
-	/* static highlight(component, selector = 'pre > code') {
-		for (const node of findDOMNode(component).querySelectorAll(selector)) {
-			highlight.highlightBlock(node);
-		}
-	} */
-
-/* componentDidMount() {
-		PatternDocumentation.highlight(this);
-	}
-
-	componentDidUpdate() {
-		PatternDocumentation.highlight(this);
-	}
-*/
-
 	render() {
 		return (
 			<div className="pattern-documentation">

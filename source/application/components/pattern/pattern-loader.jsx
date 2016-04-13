@@ -1,32 +1,48 @@
-import React from 'react';
-import {PropTypes} from 'react';
+import React, {PropTypes as types} from 'react';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
-
-import Icon from '../common/icon';
 
 @pure
 class PatternLoader extends React.Component {
 	displayName = 'PatternLoader';
 
 	static defaultProps = {
-		'error': false
+		error: false
 	};
 
 	static propTypes = {
-		'error': PropTypes.bool.isRequired
+		error: types.bool.isRequired,
+		hidden: types.bool
 	};
 
-	render () {
-		let className = classnames('pattern-loader', {
-			'pattern-error': this.props.error
-		});
+	state = {
+		isHidden: true
+	};
 
-		let symbol = this.props.error ?  'patternplate' : 'patternplate-loading';
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.hidden && !this.props.hidden && !this.state.isHidden) {
+			setTimeout(() => {
+				this.setState({
+					isHidden: true
+				});
+			}, 300);
+		} else if (!nextProps.hidden) {
+			this.setState({
+				isHidden: false
+			});
+		}
+	}
+
+	render() {
+		const className = classnames('pattern-loader', {
+			'pattern-error': this.props.error,
+			'pattern-loader--hidden': this.props.hidden,
+			'pattern-loader--is-hidden': this.state.isHidden
+		});
 
 		return (
 			<div className={className}>
-				<Icon inline={true} symbol={symbol}>Loading ...</Icon>
+				<div className="pattern-loader-icon"/>
 			</div>
 		);
 	}
