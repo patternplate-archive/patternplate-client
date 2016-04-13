@@ -11,21 +11,38 @@ class PatternLoader extends React.Component {
 	};
 
 	static propTypes = {
-		error: types.bool.isRequired
+		error: types.bool.isRequired,
+		hidden: types.bool
 	};
+
+	state = {
+		isHidden: true
+	};
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.hidden && !this.props.hidden && !this.state.isHidden) {
+			setTimeout(() => {
+				this.setState({
+					isHidden: true
+				});
+			}, 300);
+		} else if (!nextProps.hidden) {
+			this.setState({
+				isHidden: false
+			});
+		}
+	}
 
 	render() {
 		const className = classnames('pattern-loader', {
-			'pattern-error': this.props.error
+			'pattern-error': this.props.error,
+			'pattern-loader--hidden': this.props.hidden,
+			'pattern-loader--is-hidden': this.state.isHidden
 		});
 
 		return (
 			<div className={className}>
-				<img
-					width="120"
-					height="120"
-					src="/static/images/patternplate-logo-animated.svg"
-					/>
+				<div className="pattern-loader-icon"/>
 			</div>
 		);
 	}

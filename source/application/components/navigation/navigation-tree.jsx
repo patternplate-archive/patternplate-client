@@ -3,6 +3,7 @@ import {findDOMNode} from 'react-dom';
 import autobind from 'autobind-decorator';
 import deepEqual from 'deep-equal';
 import pure from 'pure-render-decorator';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
@@ -191,13 +192,17 @@ class NavigationTree extends Component {
 		});
 
 		return (
-			<ul
+			<CSSTransitionGroup
+				component="ul"
 				className="navigation-tree"
+				transitionName="pattern-content-transition"
+				transitionEnterTimeout={300}
+				transitionLeaveTimeout={300}
 				>
 				{children}
 				{nested}
 				{items}
-			</ul>
+			</CSSTransitionGroup>
 		);
 	}
 }
