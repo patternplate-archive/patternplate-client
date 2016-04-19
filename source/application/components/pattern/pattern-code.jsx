@@ -1,8 +1,16 @@
 import React, {PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
 
+import autobind from 'autobind-decorator';
 import cx from 'classnames';
+import {memoize} from 'lodash';
 import pure from 'pure-render-decorator';
+import uuid from 'uuid';
+
+const startWorker = memoize(url => {
+	const {Worker} = global;
+	return new Worker(url);
+});
 
 function clipboard(component) {
 	const el = findDOMNode(component).querySelector('.clipboard');
@@ -35,29 +43,41 @@ class PatternCode extends React.Component {
 
 	componentDidMount() {
 		if (this.props.highlight) {
-			const {Worker} = global;
-			this.worker = new Worker('/script/highlight.bundle.js');
-
-			this.worker.onmessage = e => {
-				this.setState({
-					code: e.data
-				});
-			};
-
-			this.worker.postMessage(this.props.children);
+			const {children: payload} = this.props;
+			const id = uuid.v4();
+			const worker = startWorker('/script/highlight.bundle.js');
+			worker.addEventListener('message', this.onWorkerMessage);
+			worker.postMessage(JSON.stringify({id, payload}));
+			console.log('sending:', {id, payload});
+			this.worker = worker;
+			this.id = id;
 		}
 	}
 
 	componentWillUnmount() {
 		if (this.worker) {
-			this.worker.terminate();
+			this.worker.removeEventListener('message', this.onWorkerMessage);
+		}
+	}
+
+	@autobind
+	onWorkerMessage(e) {
+		const {data} = e;
+		const {payload: code, id} = JSON.parse(data);
+		console.log('receiving:', {code, id, componentId: this.id});
+		if (id === this.id) {
+			console.log('render!');
+			this.setState({code});
 		}
 	}
 
 	componentWillUpdate(nextProps) {
 		const {children} = this.props;
 		if (this.worker && nextProps.children !== children) {
-			this.worker.postMessage(nextProps.children);
+			this.worker.postMessage(JSON.stringify({
+				id: this.id,
+				payload: nextProps.children
+			}));
 		}
 	}
 
@@ -98,7 +118,7 @@ class PatternCode extends React.Component {
 						highlight ?
 							<code
 								className={formatClassName}
-								dangerouslySetInnerHTML={{__html: code}}
+								dangerouslySetInnerHTML={{__html: code}} // eslint-disable-line react/no-danger
 								/> :
 							<code className="hljs">
 								{children}

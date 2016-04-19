@@ -20,12 +20,13 @@ highlight.configure({
 
 global.onmessage = event => {
 	const {data} = event;
-	const {value, language} = highlight.highlightAuto(data);
+	const {payload: code, id} = JSON.parse(data);
+	const {value, language} = highlight.highlightAuto(code);
 
 	// If html is detected, reformat it
-	const code = language === 'html' ?
-		highlight.highlight('html', pretty.xml(data)).value :
+	const payload = language === 'html' ?
+		highlight.highlight('html', pretty.xml(code)).value :
 		value;
 
-	global.postMessage(code);
+	global.postMessage(JSON.stringify({id, payload}));
 };
