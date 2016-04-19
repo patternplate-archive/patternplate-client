@@ -1,8 +1,13 @@
 @import './pattern-dependencies';
 
-.slim + .content {
-	.pattern-toolbar {
-		left: @navWidthSlim;
+@media screen and (min-width: 500px) {
+	.slim + .content {
+		.pattern-toolbar {
+			left: @navWidthSlim;
+		}
+		.pattern-code {
+			left: @navWidthSlim;
+		}
 	}
 }
 
@@ -96,12 +101,13 @@
 		left: 0;
 		right: 0;
 		margin: 0;
-		bottom: 60px;
+		bottom: 35px;
 		max-height: ~'calc(90vh - 120px)';
 		transform: translateY(100%);
 		overflow: auto;
 		@media screen and (min-width: 500px) {
 			left: 30%;
+			bottom: 60px;
 		}
 		@media screen and (min-width: 900px) {
 			left: @navWidthWide;
