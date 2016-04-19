@@ -8,9 +8,7 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
-const {window} = global;
-
-function scrollIntoView(element, options) {
+/* function scrollIntoView(element, options) {
 	const {top, bottom} = element.getBoundingClientRect();
 	const upper = top < 60;
 	const lower = bottom > global.window.innerHeight - 60;
@@ -21,20 +19,7 @@ function scrollIntoView(element, options) {
 			...options
 		});
 	}
-}
-
-function loop(predicate = () => {}, container = {}) {
-	container.loop = window.requestAnimationFrame(e => {
-		predicate(e);
-		container.loo = loop(predicate);
-	});
-}
-
-function unloop({loop}) {
-	if (loop) {
-		window.cancelAnimationFrame(loop);
-	}
-}
+} */
 
 @pure
 class NavigationTree extends Component {
@@ -56,32 +41,6 @@ class NavigationTree extends Component {
 
 	activeFolderReference = null;
 	activeFolderElement = null;
-
-	state = {
-		anchored: null
-	};
-
-	componentDidMount() {
-		this.loop = loop(() => {
-			const {activeFolderElement, activeFolderReference} = this;
-			if (activeFolderElement && activeFolderReference) {
-				const {top} = activeFolderElement.getBoundingClientRect();
-				const anchored = top <= 54;
-				this.setState({
-					anchored: anchored ? activeFolderReference.props.id : null
-				});
-			}
-		}, this);
-	}
-
-	componentWillUnmount() {
-		unloop(this);
-	}
-
-	@autobind
-	handleAnchoredClick(e) {
-		scrollIntoView(e.target.parentNode.parentNode);
-	}
 
 	@autobind
 	handleFolderClick(e, component) {
@@ -117,7 +76,6 @@ class NavigationTree extends Component {
 
 	render() {
 		const {data, path, children, config, query} = this.props;
-		const {anchored} = this.state;
 		const {folders, patterns} = getAugmentedChildren(data, config.hierarchy);
 		const searched = path.split('/').slice(2).join('/');
 
@@ -128,7 +86,6 @@ class NavigationTree extends Component {
 			const folderPath = folder.id.split('/');
 			const active = deepEqual(currentPath.slice(2, 2 + folderPath.length), folderPath);
 			const ref = active ? this.getActiceFolderReference : null;
-			const isAnchored = anchored === folder.id;
 
 			return (
 				<NavigationItem
@@ -141,19 +98,6 @@ class NavigationTree extends Component {
 					ref={ref}
 					onClick={this.handleFolderClick}
 					>
-					{isAnchored &&
-						<NavigationItem
-							component="div"
-							name={folder.displayName}
-							symbol={folder.icon}
-							id={folder.id}
-							key={`${folder.id}-anchored`}
-							active={active}
-							anchored={isAnchored}
-							query={query}
-							onClick={this.handleAnchoredClick}
-							/>
-					}
 					<NavigationTree
 						path={path}
 						config={config}
