@@ -48,7 +48,6 @@ class PatternCode extends React.Component {
 			const worker = startWorker('/script/highlight.bundle.js');
 			worker.addEventListener('message', this.onWorkerMessage);
 			worker.postMessage(JSON.stringify({id, payload}));
-			console.log('sending:', {id, payload});
 			this.worker = worker;
 			this.id = id;
 		}
@@ -64,7 +63,6 @@ class PatternCode extends React.Component {
 	onWorkerMessage(e) {
 		const {data} = e;
 		const {payload: code, id} = JSON.parse(data);
-		console.log('receiving:', {code, id, componentId: this.id});
 		if (id === this.id) {
 			console.log('render!');
 			this.setState({code});
