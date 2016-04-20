@@ -64,7 +64,6 @@ class PatternCode extends React.Component {
 		const {data} = e;
 		const {payload: code, id} = JSON.parse(data);
 		if (id === this.id) {
-			console.log('render!');
 			this.setState({code});
 		}
 	}
