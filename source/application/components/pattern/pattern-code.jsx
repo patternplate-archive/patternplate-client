@@ -24,7 +24,7 @@ class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
 	static propTypes = {
-		children: types.string.isRequired,
+		children: types.node.isRequired,
 		format: types.string,
 		name: types.string.isRequired,
 		copy: types.bool,

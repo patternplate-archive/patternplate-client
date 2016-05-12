@@ -169,7 +169,7 @@ class PatternSection extends React.Component {
 	static propTypes = {
 		id: types.string.isRequired,
 		eventEmitter: types.object.isRequired,
-		data: types.object.isRequired,
+		data: types.object,
 		config: types.object.isRequired
 	};
 
