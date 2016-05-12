@@ -5,7 +5,7 @@ import {HistoryLocation, Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import cx from 'classnames';
 import pure from 'pure-render-decorator';
-import {omit, merge} from 'lodash';
+import {merge} from 'lodash';
 
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -150,7 +150,7 @@ class Pattern extends React.Component {
 			id,
 			environment,
 			manifest: {
-				availableEnvironments = [],
+				demoEnvironments = [],
 				displayName,
 				name,
 				patterns,
@@ -284,23 +284,26 @@ class Pattern extends React.Component {
 						{controls}
 						<div className="pattern-tools">
 							{
-								availableEnvironments.length > 1 &&
+								demoEnvironments.length > 1 &&
 									<label className="pattern-selection">
 										<select
 											className="native"
 											onChange={this.handleEnvironmentChange}
 											value={environment}
 											>
-											{availableEnvironments.map(env => {
-												return (
-													<option
-														key={env.name}
-														value={env.name}
-														>
-														{env.displayName || env.name}
-													</option>
-												);
-											})}
+											{
+												demoEnvironments
+													.map(env => {
+														return (
+															<option
+																key={env.name}
+																value={env.name}
+																>
+																{env.displayName || env.name}
+															</option>
+														);
+													})
+											}
 										</select>
 										<Icon symbol="environment"/>
 									</label>
