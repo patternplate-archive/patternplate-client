@@ -50,6 +50,36 @@
 		flex-wrap: nowrap;
 		white-space: nowrap;
 	}
+	.pattern-selection {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+		height: 60px;
+		padding: 10px 15px;
+		color: inherit;
+		border: 5px solid transparent;
+		border-right: 1px solid @border-color;
+		cursor: pointer;
+		overflow: hidden;
+		.native {
+			order: 2;
+			appearance: none;
+			border: 0;
+			background: transparent;
+			padding: 10px 15px 10px 5px;
+			+ .icon {
+				order: 1;
+			}
+			&:focus {
+				outline: none;
+				color: @active-color;
+				+ .icon {
+					color: @active-color;
+				}
+			}
+		}
+	}
 	.pattern-control {
 		display: inline-block;
 		display: inline-flex;

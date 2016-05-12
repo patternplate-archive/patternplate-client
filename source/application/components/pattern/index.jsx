@@ -1,10 +1,13 @@
+import querystring from 'querystring';
+
 import React, {PropTypes as types} from 'react';
+import {HistoryLocation, Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import cx from 'classnames';
 import pure from 'pure-render-decorator';
+import {omit, merge} from 'lodash';
 
 import CSSTransitionGroup from 'react-addons-css-transition-group';
-import {Link} from 'react-router';
 
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
@@ -30,7 +33,12 @@ class Pattern extends React.Component {
 		id: types.string.isRequired,
 		config: types.object.isRequired,
 		manifest: types.object.isRequired,
-		results: types.object.isRequired
+		results: types.object.isRequired,
+		environment: types.string.isRequired
+	};
+
+	static defaultProps = {
+		environment: 'index'
 	};
 
 	state = {
@@ -123,10 +131,26 @@ class Pattern extends React.Component {
 		this.closeControls();
 	}
 
+	@autobind
+	handleEnvironmentChange({target: {value}}) {
+		const {location: {search = ''}} = global;
+		const current = querystring.parse(search.slice(1));
+		const result = merge({}, current, {environment: value});
+
+		const query = querystring.stringify(result);
+		const searchstring = query.length > 0 ?
+			`?${query}` :
+			'';
+
+		HistoryLocation.push(searchstring);
+	}
+
 	render() {
 		const {
 			id,
+			environment,
 			manifest: {
+				availableEnvironments = [],
 				displayName,
 				name,
 				patterns,
@@ -146,7 +170,10 @@ class Pattern extends React.Component {
 		const results = [];
 		const controls = [];
 
-		const fullscreen = `/demo/${id}`;
+		const fullscreen = [
+			`/demo/${id}`,
+			querystring.stringify({environment})
+		].join('?');
 
 		for (const item of this.items) {
 			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
@@ -192,7 +219,7 @@ class Pattern extends React.Component {
 		let content;
 
 		if (allowFullscreen) {
-			content = <PatternDemo target={id}/>;
+			content = <PatternDemo environment={environment} target={id}/>;
 		} else {
 			content = (
 				<div className="pattern-fullscreen-message">
@@ -256,6 +283,28 @@ class Pattern extends React.Component {
 					<div className="pattern-toolbar-container" key="toolbar">
 						{controls}
 						<div className="pattern-tools">
+							{
+								availableEnvironments.length > 1 &&
+									<label className="pattern-selection">
+										<select
+											className="native"
+											onChange={this.handleEnvironmentChange}
+											value={environment}
+											>
+											{availableEnvironments.map(env => {
+												return (
+													<option
+														key={env.name}
+														value={env.name}
+														>
+														{env.displayName || env.name}
+													</option>
+												);
+											})}
+										</select>
+										<Icon symbol="environment"/>
+									</label>
+							}
 							{
 								hasRelations &&
 									<PatternControl

@@ -2,6 +2,7 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
+import {pick} from 'lodash';
 
 import Icon from '../common/icon';
 
@@ -55,13 +56,15 @@ export default class NavigationItem extends React.Component {
 		const itemClassName = classnames('navigation-item', modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
 
+		const persistentQuery = pick(query, ['search']);
+
 		return (
 			<Component className={itemClassName}>
 				<Link
 					onClick={this.handleClick}
 					to={this.props.linkTo}
 					params={splat}
-					query={query}
+					query={persistentQuery}
 					title={name}
 					className={linkClassName}
 					>

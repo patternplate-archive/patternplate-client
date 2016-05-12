@@ -1,5 +1,6 @@
 import React, {PropTypes as types} from 'react';
 import pure from 'pure-render-decorator';
+import {stringify} from 'querystring';
 
 import Frame from '../common/frame';
 
@@ -9,7 +10,8 @@ class PatternDemo extends React.Component {
 
 	static propTypes = {
 		base: types.string,
-		target: types.string
+		target: types.string,
+		environment: types.string
 	};
 
 	static defaultProps = {
@@ -17,7 +19,8 @@ class PatternDemo extends React.Component {
 	};
 
 	render() {
-		const source = `${this.props.base}/${this.props.target}`;
+		const {base, target, environment} = this.props;
+		const source = `${base}/${target}?${stringify({environment})}`;
 
 		return (
 			<div className="pattern-demo-container">
@@ -25,7 +28,6 @@ class PatternDemo extends React.Component {
 					className="pattern-demo"
 					src={source}
 					id={source}
-					sandbox="allow-same-origin allow-scripts allow-forms allow-scripts"
 					/>
 			</div>
 		);

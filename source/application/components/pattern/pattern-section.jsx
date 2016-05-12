@@ -18,7 +18,12 @@ function getPatternContent(type, data, properties, state) {
 			data;
 
 		return [
-			patternData && <Pattern {...patternData} key={patternData.id} config={properties.config}/>,
+			patternData && <Pattern
+				{...patternData}
+				environment={properties.query.environment}
+				key={patternData.id}
+				config={properties.config}
+				/>,
 			<PatternLoader hidden={Boolean(data)} {...state} key="loader"/>
 		].filter(Boolean);
 	}
