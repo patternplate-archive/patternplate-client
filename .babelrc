@@ -1,13 +1,14 @@
 {
 	"presets": [
-		"es2015-node5",
-		"stage-0",
-		"react"
+		"async-to-bluebird",
+		"es2015",
+		"react",
+		"stage-0"
 	],
 	"plugins": [
+		"add-module-exports",
 		"transform-decorators-legacy",
-		"transform-runtime",
-		"add-module-exports"
+		"transform-runtime"
 	],
 	"sourceMaps": "inline"
 }
