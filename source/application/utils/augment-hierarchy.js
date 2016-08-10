@@ -41,6 +41,8 @@ export default function getAugmentedChildren (data, hierarchy) {
 	Object.keys(data).forEach(childKey => {
 		let child = data[childKey];
 
+		console.log(child)
+
 		if (child.type == 'pattern') {
 			patterns.push(child);
 		} else if (child.type == 'folder') {
