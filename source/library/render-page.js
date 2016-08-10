@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import {merge} from 'lodash';
 import {sync as resolveSync} from 'resolve';
+import {minify} from 'html-minifier';
 
 import router from '../application/react-routes';
 import layout from '../application/layouts';
@@ -37,12 +38,26 @@ export default async function renderPage(application, url) {
 	const data = merge(defaultData, options.data, serverData, {config: options.config});
 	const content = await router(options.url, data);
 
-	return layout({
+	return minify(layout({
 		title: options.title,
 		data: JSON.stringify(data),
 		content,
 		script: '/script/index.bundle.js',
 		stylesheet: `/style/${options.theme}.css`,
 		icons
+	}), {
+		collapseBooleanAttributes: true,
+		collapseInlineTagWhitespace: true,
+		collapseWhitespace: true,
+		decodeEntities: true,
+		removeAttributeQuotes: true,
+		removeComments: true,
+		removeEmptyAttributes: true,
+		removeRedundantAttributes: true,
+		removeScriptTypeAttributes: true,
+		removeStyleLinkTypeAttributes: true,
+		sortAttributes: true,
+		sortClassName: true,
+		useShortDoctype: true
 	});
 }

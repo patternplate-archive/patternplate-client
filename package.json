@@ -79,6 +79,7 @@
     "find-root": "^0.1.1",
     "fuse.js": "^2.2.0",
     "highlight.js": "^8.9.1",
+    "html-minifier": "^3.0.2",
     "isomorphic-fetch": "^2.0.2",
     "koa-proxy": "^0.2.0",
     "less": "^2.5.0",

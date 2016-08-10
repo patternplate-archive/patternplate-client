@@ -157,6 +157,28 @@ function getPatternContent(type, data, properties, state) {
 	return null;
 }
 
+function getFolder(navigation, id) {
+	return id.split('/')
+		.filter(Boolean)
+		.reduce((registry, fragment) => {
+			if (!registry) {
+				return registry;
+			}
+
+			const item = registry.children ? registry.children[fragment] : registry[fragment];
+
+			if (!item) {
+				return null;
+			}
+
+			if (item.type !== 'folder') {
+				return null;
+			}
+
+			return item;
+		}, navigation);
+}
+
 @pure
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
@@ -174,25 +196,23 @@ class PatternSection extends React.Component {
 	};
 
 	async get(props) {
-		const {navigation, id, config} = props;
+		const {navigation, config} = props;
 
 		// check if this is a pattern or folder
-		const splits = id.split('/');
-		const last = splits.pop();
-
-		const folder = splits.reduce((folder, pathItem) => folder[pathItem].children, navigation);
-		const type = (folder && folder[last] && folder[last].type) || 'pattern';
+		const id = props.id.split('/').filter(Boolean).join('/');
+		const folder = getFolder(navigation, id);
+		const type = folder ? 'folder' : 'pattern';
 
 		if (type === 'folder' && config.useFolderTable) {
 			this.setState({
-				data: folder[last],
+				data: folder,
 				error: false,
 				type: 'folder'
 			});
 			return;
 		}
 
-		const url = `/api/pattern/${id}`;
+		const url = `/api/pattern/${id}.json`;
 
 		let response;
 		let data;
@@ -241,10 +261,15 @@ class PatternSection extends React.Component {
 		}
 
 		try {
-			data = await response.json();
-			if (!Array.isArray(data)) {
-				data = [data];
+			const data = await response.json();
+			if (data.id !== id) {
+				return;
 			}
+			this.setState({
+				data,
+				error: false,
+				type: 'pattern'
+			});
 		} catch (err) {
 			this.setState({
 				data: null,
@@ -252,14 +277,6 @@ class PatternSection extends React.Component {
 				type: null
 			});
 			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
-		}
-
-		if (data[0].id === this.props.id) {
-			this.setState({
-				data,
-				error: false,
-				type: 'pattern'
-			});
 		}
 	}
 

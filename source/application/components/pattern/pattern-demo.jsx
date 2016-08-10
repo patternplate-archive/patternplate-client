@@ -20,7 +20,7 @@ class PatternDemo extends React.Component {
 
 	render() {
 		const {base, target, environment} = this.props;
-		const source = `${base}/${target}?${stringify({environment})}`;
+		const source = `${base}/${target}/index.html?${stringify({environment})}`;
 
 		return (
 			<div className="pattern-demo-container">

@@ -8,19 +8,6 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
-/* function scrollIntoView(element, options) {
-	const {top, bottom} = element.getBoundingClientRect();
-	const upper = top < 60;
-	const lower = bottom > global.window.innerHeight - 60;
-	const needed = upper || lower;
-	if (needed) {
-		element.scrollIntoView({
-			block: lower ? 'end' : 'start',
-			...options
-		});
-	}
-} */
-
 @pure
 class NavigationTree extends Component {
 	displayName = 'NavigationTree';
@@ -77,14 +64,20 @@ class NavigationTree extends Component {
 	render() {
 		const {data, path, children, config, query} = this.props;
 		const {folders, patterns} = getAugmentedChildren(data, config.hierarchy);
-		const searched = path.split('/').slice(2).join('/');
+		const searched = path.split('/').filter(Boolean).slice(1).join('/');
 
 		const [activePattern] = patterns.filter(pattern => searched === pattern.id);
 
 		const nested = folders.map(folder => {
-			const currentPath = path.split('/');
-			const folderPath = folder.id.split('/');
-			const active = deepEqual(currentPath.slice(2, 2 + folderPath.length), folderPath);
+			const currentFragments = path.split('/').filter(Boolean);
+			const currentPath = currentFragments.slice(1);
+			const folderPath = folder.id.split('/').filter(Boolean);
+			const active = deepEqual(currentPath.slice(0, folderPath.length), folderPath);
+			console.log({
+				currentPath,
+				folderPath,
+				active
+			});
 			const ref = active ? this.getActiceFolderReference : null;
 
 			return (
@@ -117,9 +110,16 @@ class NavigationTree extends Component {
 				manifest
 			} = pattern;
 
-			const active = pattern === activePattern;
+			const active = activePattern && pattern.id === activePattern.id;
 			const {options = {}} = manifest;
 			const {hidden = false} = options;
+
+			console.log({
+				pattern,
+				activePattern,
+				active,
+				id: pattern.id
+			});
 
 			return (
 				<NavigationItem

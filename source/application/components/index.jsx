@@ -181,7 +181,7 @@ class Application extends Component {
 					navigation={navigation}
 					onSearch={this.handleSearch}
 					/>
-				<RouteHandler {...this.props}/>
+				<RouteHandler {...{...this.props, navigation}}/>
 			</div>
 		);
 	}

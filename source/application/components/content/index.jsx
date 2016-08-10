@@ -17,6 +17,7 @@ class Content extends React.Component {
 	};
 
 	render() {
+		console.log({splat: this.props.params.splat});
 		return (
 			<main className="content">
 				<PatternSection
