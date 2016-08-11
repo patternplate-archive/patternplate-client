@@ -35,11 +35,13 @@ class Pattern extends React.Component {
 		config: types.object.isRequired,
 		manifest: types.object.isRequired,
 		results: types.object.isRequired,
-		environment: types.string.isRequired
+		environment: types.string.isRequired,
+		onEnvironmentChange: types.func.isRequired
 	};
 
 	static defaultProps = {
-		environment: 'index'
+		environment: 'index',
+		onEnvironmentChange: () => {}
 	};
 
 	state = {
@@ -143,6 +145,8 @@ class Pattern extends React.Component {
 			search: global.location.search
 		}));
 
+		console.log(this.props.onEnvironmentChange.toString());
+		this.props.onEnvironmentChange(value);
 		HistoryLocation.push(formatted);
 	}
 

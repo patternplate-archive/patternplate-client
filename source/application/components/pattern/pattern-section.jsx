@@ -2,6 +2,9 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
+import autobind from 'autobind-decorator';
+import {merge} from 'lodash';
+import urlQuery from '../../utils/url-query';
 
 import 'isomorphic-fetch';
 
@@ -21,6 +24,7 @@ function getPatternContent(type, data, properties, state) {
 			patternData && <Pattern
 				{...patternData}
 				environment={properties.environment}
+				onEnvironmentChange={properties.onEnvironmentChange}
 				key={patternData.id}
 				config={properties.config}
 				/>,
@@ -192,7 +196,12 @@ class PatternSection extends React.Component {
 		id: types.string.isRequired,
 		eventEmitter: types.object.isRequired,
 		data: types.object,
-		config: types.object.isRequired
+		config: types.object.isRequired,
+		environment: types.string.isRequired
+	};
+
+	static defaultProps = {
+		environment: 'index'
 	};
 
 	async get(props) {
@@ -212,7 +221,10 @@ class PatternSection extends React.Component {
 			return;
 		}
 
-		const url = `/api/pattern/${id}.json`;
+		const url = urlQuery.format({
+			pathname: `/api/pattern/${id}.json`,
+			query: {environment: props.environment}
+		});
 
 		let response;
 		let data;
@@ -234,13 +246,9 @@ class PatternSection extends React.Component {
 			return;
 		}
 
-		if (this.state.data !== null) {
-			return;
-		}
-
 		try {
 			if (response.status >= 400) {
-				// Try to get a meaningfull error message
+				// Try to get a meaningful error message
 				let message;
 				try {
 					data = await response.json();
@@ -300,6 +308,19 @@ class PatternSection extends React.Component {
 				type: 'pattern'
 			});
 			this.get(props);
+			return;
+		}
+
+		if (props.environment !== this.props.environment) {
+			this.get(props);
+			return;
+		}
+	}
+
+	@autobind
+	handleEnvironmentChange(environment) {
+		if (environment !== this.props.environment) {
+			this.get(merge({}, this.props, {environment}));
 		}
 	}
 
@@ -315,7 +336,11 @@ class PatternSection extends React.Component {
 				};
 			});
 
-		const content = getPatternContent(type, data, this.props, this.state);
+		const props = merge({}, this.props, {
+			onEnvironmentChange: this.handleEnvironmentChange
+		});
+
+		const content = getPatternContent(type, data, props, this.state);
 
 		return (
 			<section className="pattern-section">
