@@ -1,4 +1,4 @@
-// import querystring from 'querystring';
+import url from 'url';
 
 import React, {PropTypes as types} from 'react';
 import {HistoryLocation, Link} from 'react-router';
@@ -136,7 +136,13 @@ class Pattern extends React.Component {
 	handleEnvironmentChange({target: {value}}) {
 		const parsed = urlQuery.parse(global.location.pathname);
 		const result = merge({}, parsed, {query: {environment: value}});
-		const formatted = urlQuery.format(result);
+		const pathname = urlQuery.format(result);
+
+		const formatted = url.format(merge({}, parsed, {
+			pathname,
+			search: global.location.search
+		}));
+
 		HistoryLocation.push(formatted);
 	}
 
