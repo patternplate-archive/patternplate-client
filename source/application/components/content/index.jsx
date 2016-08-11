@@ -12,21 +12,20 @@ class Content extends React.Component {
 		eventEmitter: types.object,
 		messages: types.array,
 		patterns: types.object,
-		params: types.object,
-		query: types.object
+		environment: types.string.isRequired,
+		pathname: types.string.isRequired
 	};
 
 	render() {
-		console.log({splat: this.props.params.splat});
 		return (
 			<main className="content">
 				<PatternSection
-					id={this.props.params.splat}
-					query={this.props.query}
+					id={this.props.pathname}
 					data={this.props.patterns}
 					navigation={this.props.navigation}
 					config={this.props.config}
 					eventEmitter={this.props.eventEmitter}
+					environment={this.props.environment}
 					/>
 				<Messages
 					eventEmitter={this.props.eventEmitter}

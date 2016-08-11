@@ -1,7 +1,6 @@
 import React, {PropTypes as types} from 'react';
 import pure from 'pure-render-decorator';
-import {stringify} from 'querystring';
-
+import urlQuery from '../../utils/url-query';
 import Frame from '../common/frame';
 
 @pure
@@ -20,7 +19,10 @@ class PatternDemo extends React.Component {
 
 	render() {
 		const {base, target, environment} = this.props;
-		const source = `${base}/${target}/index.html?${stringify({environment})}`;
+		const source = urlQuery.format({
+			pathname: `${base}/${target}/index.html`,
+			query: {environment}
+		});
 
 		return (
 			<div className="pattern-demo-container">

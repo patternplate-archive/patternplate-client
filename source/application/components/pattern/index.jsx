@@ -1,4 +1,4 @@
-import querystring from 'querystring';
+// import querystring from 'querystring';
 
 import React, {PropTypes as types} from 'react';
 import {HistoryLocation, Link} from 'react-router';
@@ -17,6 +17,7 @@ import PatternDemo from './pattern-demo';
 
 import Headline from '../common/headline';
 import Icon from '../common/icon';
+import urlQuery from '../../utils/url-query';
 
 const formatMap = {
 	source: 'in',
@@ -133,16 +134,10 @@ class Pattern extends React.Component {
 
 	@autobind
 	handleEnvironmentChange({target: {value}}) {
-		const {location: {search = ''}} = global;
-		const current = querystring.parse(search.slice(1));
-		const result = merge({}, current, {environment: value});
-
-		const query = querystring.stringify(result);
-		const searchstring = query.length > 0 ?
-			`?${query}` :
-			'';
-
-		HistoryLocation.push(searchstring);
+		const parsed = urlQuery.parse(global.location.pathname);
+		const result = merge({}, parsed, {query: {environment: value}});
+		const formatted = urlQuery.format(result);
+		HistoryLocation.push(formatted);
 	}
 
 	render() {
@@ -170,10 +165,7 @@ class Pattern extends React.Component {
 		const results = [];
 		const controls = [];
 
-		const fullscreen = [
-			`/demo/${id}`,
-			querystring.stringify({environment})
-		].join('?');
+		const fullscreen = `/demo/${id}/environment:${environment}`;
 
 		for (const item of this.items) {
 			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');

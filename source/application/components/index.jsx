@@ -1,3 +1,4 @@
+import querystring from 'querystring';
 import React, {Component, PropTypes as types} from 'react';
 import {HistoryLocation, RouteHandler} from 'react-router';
 import autobind from 'autobind-decorator';
@@ -6,6 +7,7 @@ import Fuse from 'fuse.js';
 
 import Toolbar from './navigation/toolbar';
 import Navigation from './navigation/index';
+import urlQuery from '../utils/url-query';
 
 function matchPattern(pattern, criteria = {}) {
 	if (Object.keys(criteria).length === 0) {
@@ -110,7 +112,10 @@ class Application extends Component {
 
 	static propTypes = {
 		navigation: types.object.isRequired,
-		query: types.object
+		query: types.object.isRequired,
+		params: types.shape({
+			splat: types.string
+		}).isRequired
 	};
 
 	state = {
@@ -167,21 +172,32 @@ class Application extends Component {
 	}
 
 	render() {
-		const {query: {search}} = this.props;
-		const navigation = search ?
-			this.searchPatterns(search) :
+		const {props} = this;
+		const {params} = props;
+
+		const navigation = props.query.search ?
+			this.searchPatterns(props.query.search) :
 			this.props.navigation;
+
+		const {query, pathname} = urlQuery.parse(params.splat);
 
 		return (
 			<div className="application">
 				<input type="checkbox" id="menu-state" className="menu-state"/>
 				<Toolbar {...this.props}/>
 				<Navigation {...this.props}
-					searchValue={search}
 					navigation={navigation}
 					onSearch={this.handleSearch}
+					pathname={pathname}
+					query={query}
+					searchQuery={props.query.search}
+					searchValue={props.query.search}
 					/>
-				<RouteHandler {...{...this.props, navigation}}/>
+				<RouteHandler {...this.props}
+					navigation={navigation}
+					pathname={pathname}
+					environment={query.environment}
+					/>
 			</div>
 		);
 	}

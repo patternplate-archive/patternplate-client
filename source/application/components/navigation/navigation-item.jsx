@@ -17,7 +17,7 @@ export default class NavigationItem extends React.Component {
 		linkTo: types.string,
 		name: types.string.isRequired,
 		symbol: types.string,
-		query: types.object,
+		searchQuery: types.string,
 		id: types.oneOfType([
 			types.string,
 			types.number
@@ -43,7 +43,7 @@ export default class NavigationItem extends React.Component {
 	}
 
 	render() {
-		const {anchored, name, symbol, active, id, hidden, query} = this.props;
+		const {anchored, name, symbol, active, id, hidden, searchQuery} = this.props;
 		const {component: Component} = this.props;
 
 		const splat = {splat: id};
@@ -56,15 +56,13 @@ export default class NavigationItem extends React.Component {
 		const itemClassName = classnames('navigation-item', modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
 
-		const persistentQuery = pick(query, ['search']);
-
 		return (
 			<Component className={itemClassName}>
 				<Link
 					onClick={this.handleClick}
 					to={this.props.linkTo}
 					params={splat}
-					query={persistentQuery}
+					query={{search: searchQuery}}
 					title={name}
 					className={linkClassName}
 					>

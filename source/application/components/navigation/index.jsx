@@ -19,7 +19,7 @@ class Navigation extends React.Component {
 		onSearch: types.func,
 		onSearchBlur: types.func,
 		searchValue: types.string,
-		query: types.object
+		searchQuery: types.string
 	};
 
 	static defaultProps = {
@@ -79,7 +79,7 @@ class Navigation extends React.Component {
 			path,
 			config,
 			navigation,
-			query
+			searchQuery
 		} = this.props;
 
 		const {
@@ -96,13 +96,13 @@ class Navigation extends React.Component {
 					data={navigation}
 					path={path}
 					config={config}
-					query={query}
+					searchQuery={searchQuery}
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
 							linkTo="/search"
 							className="navigation__search-field"
-							value={query.search}
+							value={searchQuery}
 							name="search"
 							placeholder={searchPlaceholder}
 							onFocus={this.handleSearchFocus}
@@ -111,7 +111,7 @@ class Navigation extends React.Component {
 							/>
 					</form>
 					{
-						!query.search &&
+						!searchQuery &&
 							<NavigationItem
 								name="Documentation"
 								symbol="documentation"

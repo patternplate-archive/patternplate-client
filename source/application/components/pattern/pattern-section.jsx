@@ -20,7 +20,7 @@ function getPatternContent(type, data, properties, state) {
 		return [
 			patternData && <Pattern
 				{...patternData}
-				environment={properties.query.environment}
+				environment={properties.environment}
 				key={patternData.id}
 				config={properties.config}
 				/>,
