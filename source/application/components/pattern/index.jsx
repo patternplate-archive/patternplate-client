@@ -165,7 +165,10 @@ class Pattern extends React.Component {
 		const results = [];
 		const controls = [];
 
-		const fullscreen = `/demo/${id}/environment:${environment}`;
+		const fullscreen = urlQuery.format({
+			pathname: `/demo/${id}/index.html`,
+			query: {environment}
+		});
 
 		for (const item of this.items) {
 			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
