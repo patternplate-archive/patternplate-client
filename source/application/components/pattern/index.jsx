@@ -187,11 +187,11 @@ class Pattern extends React.Component {
 			);
 			controls.push(
 				<PatternControl
-					{...item}
-					id={item.controlKey}
 					key={item.controlKey}
-					target={item.key}
 					active={isActive}
+					name={item.name}
+					shortid={item.shortid}
+					location={location}
 					/>
 				);
 		}
@@ -223,38 +223,6 @@ class Pattern extends React.Component {
 				<Headline className="pattern-header" order={2}>
 					<span className="pattern-name">{displayName || name}</span>
 					<small className="pattern-version">v{version}</small>
-					{
-						flag &&
-							<small className={flagClassName}>
-								<Link
-									to="pattern"
-									params={{splat: id}}
-									query={{search: `flag:${flag}`}}
-									title={`Search patterns with flag ${flag}`}
-									>
-									{flag}
-								</Link>
-							</small>
-					}
-					{
-						tags.length > 0 &&
-							<ul className="pattern-tags">
-								{
-									tags.map((tag, key) =>
-										<small className="pattern-tag" key={key}>
-											<Link
-												to="pattern"
-												params={{splat: id}}
-												query={{search: `tag:${tag}`}}
-												title={`Search patterns with tag ${tag}`}
-												>
-												{tag}
-											</Link>
-										</small>
-									)
-								}
-							</ul>
-					}
 				</Headline>
 				{content}
 				<CSSTransitionGroup
@@ -274,6 +242,7 @@ class Pattern extends React.Component {
 											className="native"
 											onChange={this.handleEnvironmentChange}
 											value={environment}
+											title={`Change environment for pattern ${id}`}
 											>
 											{
 												demoEnvironments
@@ -296,14 +265,20 @@ class Pattern extends React.Component {
 								hasRelations &&
 									<PatternControl
 										className="pattern-tool"
-										id={`${id}/dependencies-control`}
-										key={`${id}/dependencies-control`}
-										target={`${id}/dependencies-state`}
+										shortid="dependencies-state"
 										active={location.query.source === 'dependencies-state'}
 										name={<Icon symbol="dependencies"/>}
+										title={`Show dependencies for pattern ${id}`}
+										location={location}
 										/>
 							}
-							<a className="pattern-control pattern-tool" href={fullscreen} target="_blank">
+							<a
+								className="pattern-control pattern-tool"
+								href={fullscreen}
+								target="_blank"
+								title={`Show fullscreen demo for pattern ${id}`}
+								rel="nofollow"
+								>
 								<Icon symbol="fullscreen"/>
 							</a>
 						</div>

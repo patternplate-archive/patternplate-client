@@ -1,4 +1,5 @@
 import React, {PropTypes as types} from 'react';
+import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
@@ -28,42 +29,6 @@ class Navigation extends React.Component {
 		onSearchBlur: () => {}
 	}
 
-	state = {
-		expanded: true,
-		searchPlaceholder: 'Search'
-	}
-
-	componentWillMount() {
-		if (this.props.searchValue) {
-			this.setState({
-				searchValue: this.props.searchValue
-			});
-		}
-	}
-
-	@autobind
-	handleToggleClick(e) {
-		e.preventDefault();
-		this.setState({
-			...this.state,
-			expanded: !this.state.expanded
-		});
-	}
-
-	@autobind
-	handleSearchFocus() {
-		this.setState({
-			searchPlaceholder: null
-		});
-	}
-
-	@autobind
-	handleSearchBlur() {
-		this.setState({
-			searchPlaceholder: 'Search'
-		});
-	}
-
 	@autobind
 	handleSearchSubmit(e) {
 		e.preventDefault();
@@ -83,10 +48,9 @@ class Navigation extends React.Component {
 			searchValue
 		} = this.props;
 
-		const {
-			expanded,
-			searchPlaceholder
-		} = this.state;
+		const expanded = typeof location.query.expanded === 'undefined' ?
+			true :
+			location.query.expanded !== 'false';
 
 		const className = classnames('navigation', {slim: !expanded});
 		const expandIcon = expanded ? 'arrow-double-left' : 'arrow-double-right';
@@ -105,10 +69,10 @@ class Navigation extends React.Component {
 							name="search"
 							className="navigation__search-field"
 							value={searchValue}
-							placeholder={searchPlaceholder}
 							onFocus={this.handleSearchFocus}
 							onBlur={this.handleSearchBlur}
 							onChange={this.handleSearchChange}
+							placeholder="Search"
 							title="Click to search for patterns"
 							/>
 					</form>
@@ -122,13 +86,17 @@ class Navigation extends React.Component {
 						type="page"
 						/>
 				</NavigationTree>
-				<button
+				<Link
+					to={{
+						pathname: location.pathname,
+						query: {...location.query, ...{expanded: !expanded}}
+					}}
 					className="toggleMode"
 					onClick={this.handleToggleClick}
 					title={expanded ? 'Collapse navigation' : 'Expand navigation'}
 					>
 					<Icon symbol={expandIcon}/>
-				</button>
+				</Link>
 			</nav>
 		);
 	}

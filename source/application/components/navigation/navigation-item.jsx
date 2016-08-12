@@ -58,22 +58,19 @@ export default class NavigationItem extends React.Component {
 		const linkClassName = classnames('navigation-link', modifiers);
 		const joined = [linkTo, id || ''].filter(Boolean).join('/');
 		const pathname = joined[0] === '/' ? joined : `/${joined}`;
-
+		const to = {pathname, query: location.query};
 		const title = `Navigate to ${name} ${type}`;
 
 		return (
 			<Component className={itemClassName}>
 				<Link
 					onClick={this.handleClick}
-					to={{
-						pathname,
-						query: location.query
-					}}
+					to={to}
 					title={title}
 					className={linkClassName}
 					>
-					{symbol && <Icon symbol={symbol}/>}
-					{name}
+					<Icon symbol={symbol}/>
+					<span>{name}</span>
 				</Link>
 				{this.props.children}
 			</Component>

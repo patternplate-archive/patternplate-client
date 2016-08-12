@@ -37,6 +37,7 @@ export default class SearchField extends Component {
 			onFocus,
 			onBlur,
 			placeholder,
+			linkTo,
 			...props
 		} = this.props;
 
@@ -47,7 +48,7 @@ export default class SearchField extends Component {
 		const inputClassName = `${displayName}__input`;
 
 		return (
-			<Component {...props} className={className}>
+			<Component className={className}>
 				<label className={containerClassName}>
 					<input
 						className={inputClassName}

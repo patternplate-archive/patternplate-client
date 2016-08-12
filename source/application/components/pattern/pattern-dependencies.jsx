@@ -17,7 +17,7 @@ export default class PatternDependencies extends React.Component {
 	};
 
 	render() {
-		const {manifest} = this.props.data;
+		const {manifest, location} = this.props.data;
 		const dependencies = Object.values(this.props.data.dependencies);
 		const dependents = Object.values(this.props.data.manifest.dependentPatterns);
 		const className = classnames(this.props.className, 'pattern-dependencies');
@@ -32,7 +32,7 @@ export default class PatternDependencies extends React.Component {
 							const name = dependency.manifest.displayName || dependency.manifest.name;
 							return (
 								<li key={splat}>
-									<Link to="pattern" params={{splat}} title={name}>
+									<Link to={{...location, pathname: `/pattern/${dependency.id}`}} title={`Navigate to depdendency ${dependency.id}`}>
 										{name}
 									</Link>
 								</li>
@@ -54,7 +54,7 @@ export default class PatternDependencies extends React.Component {
 							const name = dependent.displayName || dependent.name;
 							return (
 								<li key={splat}>
-									<Link to="pattern" params={{splat}} title={name}>
+									<Link to={{...location, pathname: `/pattern/${dependent.id}`}} title={`Navigate to dependent ${dependent.id}`}>
 										{name}
 									</Link>
 								</li>

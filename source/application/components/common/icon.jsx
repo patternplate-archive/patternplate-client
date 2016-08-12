@@ -60,10 +60,6 @@ class Icon extends Component {
 		supportsExternalFragments: supportsExternalFragments === null ? true : supportsExternalFragments
 	};
 
-	shouldComponentUpdate() {
-		
-	}
-
 	componentDidMount() {
 		const {useReference} = this;
 		const {inline, uri} = this.props;
@@ -128,9 +124,11 @@ class Icon extends Component {
 		return (
 			<div className={className}>
 				<div className="svg-icon">
+				{
 					<svg className="svg">
 						<use ref={this.getUseReference} xlinkHref={href}/>
 					</svg>
+				}
 				</div>
 				{
 					children &&
