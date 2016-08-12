@@ -1,5 +1,4 @@
 import React, {PropTypes as types} from 'react';
-import {findDOMNode} from 'react-dom';
 
 import autobind from 'autobind-decorator';
 import cx from 'classnames';
@@ -12,14 +11,8 @@ const startWorker = memoize(url => {
 	return new Worker(url);
 });
 
-function clipboard(component) {
-	const el = findDOMNode(component).querySelector('.clipboard');
-	el.focus();
-	el.select();
-	global.document.execCommand('copy');
-}
-
 @pure
+@autobind
 class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
@@ -59,7 +52,6 @@ class PatternCode extends React.Component {
 		}
 	}
 
-	@autobind
 	onWorkerMessage(e) {
 		const {data} = e;
 		const {payload: code, id} = JSON.parse(data);
@@ -78,8 +70,16 @@ class PatternCode extends React.Component {
 		}
 	}
 
+	saveReference(ref) {
+		this.ref = ref;
+	}
+
 	handleCopyClick() {
-		clipboard(this);
+		if (this.ref) {
+			this.ref.focus();
+			this.ref.select();
+			global.document.execCommand('copy');
+		}
 	}
 
 	render() {
@@ -91,9 +91,7 @@ class PatternCode extends React.Component {
 			children
 		} = this.props;
 
-		const {
-			code
-		} = this.state;
+		const {code} = this.state;
 
 		const formatClassName = cx(`hljs`, format);
 
@@ -110,19 +108,26 @@ class PatternCode extends React.Component {
 						}
 					</div>
 				</div>
-				<pre>
-					{
-						highlight ?
-							<code
-								className={formatClassName}
-								dangerouslySetInnerHTML={{__html: code}} // eslint-disable-line react/no-danger
-								/> :
-							<code className="hljs">
-								{children}
-							</code>
-					}
-				</pre>
-				<textarea className="clipboard" value={code} readOnly/>
+				<div className="pattern-code-content">
+					<pre>
+						{
+							highlight ?
+								<code
+									className={formatClassName}
+									dangerouslySetInnerHTML={{__html: code}} // eslint-disable-line react/no-danger
+									/> :
+								<code className="hljs">
+									{children}
+								</code>
+						}
+					</pre>
+					<textarea
+						className="clipboard"
+						value={children}
+						ref={this.saveReference}
+						readOnly
+						/>
+				</div>
 			</div>
 		);
 	}

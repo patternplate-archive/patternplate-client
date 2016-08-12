@@ -27,6 +27,7 @@ function getPatternContent(type, data, properties, state) {
 				onEnvironmentChange={properties.onEnvironmentChange}
 				key={patternData.id}
 				config={properties.config}
+				location={properties.location}
 				/>,
 			<PatternLoader hidden={Boolean(data)} {...state} key="loader"/>
 		].filter(Boolean);
@@ -194,10 +195,10 @@ class PatternSection extends React.Component {
 
 	static propTypes = {
 		id: types.string.isRequired,
-		eventEmitter: types.object.isRequired,
 		data: types.object,
 		config: types.object.isRequired,
-		environment: types.string.isRequired
+		environment: types.string.isRequired,
+		location: types.object.isRequired
 	};
 
 	static defaultProps = {
@@ -242,7 +243,7 @@ class PatternSection extends React.Component {
 				error: true,
 				type: null
 			});
-			this.props.eventEmitter.emit('error', `${err.message} ${url}`);
+			// this.props.eventEmitter.emit('error', `${err.message} ${url}`);
 			return;
 		}
 
@@ -264,7 +265,7 @@ class PatternSection extends React.Component {
 				error: true,
 				type: null
 			});
-			this.props.eventEmitter.emit('error', `${error.message}`);
+			// this.props.eventEmitter.emit('error', `${error.message}`);
 			return;
 		}
 
@@ -284,7 +285,7 @@ class PatternSection extends React.Component {
 				error: true,
 				type: null
 			});
-			this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
+			// this.props.eventEmitter.emit('error', `Could not parse data for ${url}`);
 		}
 	}
 
@@ -325,6 +326,7 @@ class PatternSection extends React.Component {
 	}
 
 	render() {
+		const {location} = this.props;
 		const {type, data} = this.state;
 
 		const fragments = this.props.id.split('/');
@@ -357,8 +359,11 @@ class PatternSection extends React.Component {
 						return (
 							<li className="pattern-breadcrumb" key={path.name}>
 								<Link
-									to="pattern"
-									params={{splat: path.path}}
+									to={{
+										pathname: ['/pattern', path.path].join('/'),
+										query: location.query
+									}}
+									title={`Navigate to ${path.path}`}
 									>
 									<span>{path.name}</span>
 								</Link>

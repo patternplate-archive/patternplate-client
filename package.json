@@ -15,9 +15,9 @@
     "build-assets:production": "export NODE_ENV=production && browserify -x react-dom -x react-router -x react-addons-shallow-compare -x react-addons-css-transition-group -x lodash --extension=.js --extension=.jsx --debug -p [ minifyify --map './index.bundle.map' --output 'assets/script/index.bundle.map' ] -t envify -t [babelify --presets [es2015 stage-0 react] --plugins [transform-decorators-legacy transform-runtime add-module-exports] ] assets/script/index.js > assets/script/index.bundle.js",
     "build-worker": "browserify --debug -p [ minifyify --map './highlight.bundle.map' --output 'assets/script/highlight.bundle.map' ] -t envify -t [babelify --presets [es2015 stage-0 react] --plugins [transform-decorators-legacy transform-runtime add-module-exports] ] assets/script/highlight.js > assets/script/highlight.bundle.js",
     "build-styles": "parallelshell 'lessc --npm-import --autoprefix=\"ie 10,last 2 versions\" --clean-css assets/style/light.less > assets/style/light.css' 'lessc --npm-import --autoprefix=\"ie 10, last 2 versions\" --clean-css assets/style/dark.less > assets/style/dark.css'",
-    "watch": "npm run watch-server & npm run watch-assets",
+    "watch": "concurrently \"npm run watch-assets\" \"npm run watch-server\"",
     "watch-server": "npm run babel -- --watch",
-    "watch-assets": "chokidar 'assets/script/index.js' 'application/components' 'application/react-routes' -c 'npm run build-assets'",
+    "watch-assets": "watchify -v -x react-dom -x react-router -x react-addons-shallow-compare -x react-addons-css-transition-group -x lodash --extension=.js --extension=.jsx --debug -t [ babelify --presets [es2015 stage-0 react] --plugins [transform-decorators-legacy transform-runtime add-module-exports] ] source/assets/script/index.js -o assets/script/index.bundle.js",
     "babel": "npm run clean && babel source --out-dir ./ --source-maps inline",
     "clean": "rm -rf application configuration binary library assets/script",
     "prepublish": "not-in-install && (npm run clean && npm run build:production) || echo ''"
@@ -78,6 +78,7 @@
     "denodeify": "^1.2.1",
     "find-root": "^0.1.1",
     "fuse.js": "^2.2.0",
+    "github-markdown-css": "^2.4.0",
     "highlight.js": "^8.9.1",
     "html-minifier": "^3.0.2",
     "isomorphic-fetch": "^2.0.2",
@@ -88,7 +89,9 @@
     "less-plugin-npm-import": "^2.0.0",
     "lodash": "^4.11.1",
     "markdown-css-themes": "^1.0.1",
+    "md5": "^2.1.0",
     "minimist": "^1.1.1",
+    "node-emoji": "^1.3.1",
     "normalize.less": "^1.0.0",
     "path-exists": "^2.1.0",
     "pretty-data": "^0.40.0",
@@ -97,7 +100,8 @@
     "react-addons-css-transition-group": "^0.14.8",
     "react-addons-shallow-compare": "^0.14.8",
     "react-dom": "^0.14.8",
-    "react-router": "^0.13.3",
+    "react-remarkable": "^1.1.1",
+    "react-router": "^2.6.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
@@ -123,6 +127,7 @@
     "in-publish": "^2.0.0",
     "jsonlint": "^1.6.2",
     "minifyify": "^7.3.3",
-    "parallelshell": "^2.0.0"
+    "parallelshell": "^2.0.0",
+    "watchify": "^3.7.0"
   }
 }

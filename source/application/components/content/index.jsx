@@ -7,29 +7,27 @@ import pure from 'pure-render-decorator';
 @pure
 class Content extends React.Component {
 	static propTypes = {
-		navigation: types.object,
-		config: types.object,
-		eventEmitter: types.object,
-		messages: types.array,
-		patterns: types.object,
-		environment: types.string.isRequired,
-		pathname: types.string.isRequired
+		location: types.shape({
+			pathname: types.string.isRequired
+		}).isRequired,
+		config: types.object.isRequired
 	};
 
 	render() {
+		const {props} = this;
+
+		const id = props.location.pathname
+			.split('/').filter(Boolean).slice(1).join('/');
+
 		return (
 			<main className="content">
 				<PatternSection
-					id={this.props.pathname}
-					data={this.props.patterns}
-					navigation={this.props.navigation}
-					config={this.props.config}
-					eventEmitter={this.props.eventEmitter}
-					environment={this.props.environment}
-					/>
-				<Messages
-					eventEmitter={this.props.eventEmitter}
-					messages={this.props.messages}
+					id={id}
+					data={props.patterns}
+					navigation={props.navigation}
+					config={props.config}
+					environment={props.environment}
+					location={props.location}
 					/>
 			</main>
 		);

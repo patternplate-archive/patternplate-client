@@ -124,6 +124,12 @@
 			text-shadow: 0 0 4px fadeout(@active-color, 90%);
 		}
 	}
+	.pattern-documentation {
+		border-top: 1px solid @border-color;
+		.markdown {
+			padding: 20px 30px;
+		}
+	}
 	.pattern-code,
 	.pattern-documentation {
 		display: flex;
@@ -135,7 +141,7 @@
 		bottom: 35px;
 		max-height: ~'calc(90vh - 120px)';
 		transform: translateY(100%);
-		overflow: auto;
+		background: @root-background;
 		@media screen and (min-width: 500px) {
 			left: 30%;
 			bottom: 60px;
@@ -150,14 +156,16 @@
 			}
 		}
 		.pattern-code-toolbar {
-			display: table;
+			display: flex;
+			flex-shrink: 0;
 			width: 100%;
-			border-top: 1px solid @border-color;
+			border: 1px solid @border-color;
+			border-width: 1px 0;
 			background: @root-background;
 		}
 		.pattern-code-name,
 		.pattern-code-tools {
-			display: table-cell;
+			flex-grow: 1;
 			padding: 3px 6px;
 			vertical-align: middle;
 		}
@@ -170,6 +178,8 @@
 				padding: 0 3px;
 				border: none;
 				background: none;
+				cursor: pointer;
+				color: inherit;
 				&:focus,
 				&:hover {
 					color: @active-color;
@@ -178,12 +188,12 @@
 				}
 			}
 		}
+		.pattern-code-content {
+			overflow: auto;
+		}
 		.hljs,
 		.markdown {
 			border: 0;
-		}
-		.markdown {
-			border-top: 1px solid @border-color;
 		}
 	}
 	.pattern-state {

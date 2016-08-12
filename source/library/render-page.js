@@ -1,10 +1,13 @@
 import fs from 'fs';
 import path from 'path';
+import url from 'url';
+import querystring from 'querystring';
+
 import {merge} from 'lodash';
 import {sync as resolveSync} from 'resolve';
 import {minify} from 'html-minifier';
 
-import router from '../application/react-routes';
+import router from '../application/react-routes/server';
 import layout from '../application/layouts';
 
 const cwd = process.cwd();
@@ -23,19 +26,26 @@ const defaultData = {
 	messages: []
 };
 
-export default async function renderPage(application, url) {
-	const schema = await getSchema(application.parent.server);
-	const navigation = await getNavigation(application.parent.server);
+export default async function renderPage(application, pageUrl) {
+	const schema = application.parent ? await getSchema(application.parent.server) : {};
+	const navigation = application.parent ? await getNavigation(application.parent.server) : {};
+
+	const parsed = url.parse(pageUrl);
+	const depth = parsed.pathname.split('/').filter(Boolean).length;
+	const query = querystring.parse(parsed.query);
+	const base = depth > 0 ? Array(depth).fill('..').join('/') : '.';
 
 	const options = {
-		url,
+		url: pageUrl,
 		title: application.configuration.ui.title || 'patternplate-client',
-		theme: application.configuration.ui.theme,
+		theme: query.theme || application.configuration.ui.theme,
 		config: application.configuration.ui
 	};
 
 	const serverData = {schema, navigation};
-	const data = merge(defaultData, options.data, serverData, {config: options.config});
+	const data = merge(defaultData, options.data, serverData, {
+		config: options.config, base, depth
+	});
 	const content = await router(options.url, data);
 
 	return minify(layout({
@@ -44,11 +54,13 @@ export default async function renderPage(application, url) {
 		content,
 		script: '/script/index.bundle.js',
 		stylesheet: `/style/${options.theme}.css`,
+		base,
 		icons
 	}), {
 		collapseBooleanAttributes: true,
 		collapseInlineTagWhitespace: true,
 		collapseWhitespace: true,
+		conservativeCollapse: true,
 		decodeEntities: true,
 		removeAttributeQuotes: true,
 		removeComments: true,

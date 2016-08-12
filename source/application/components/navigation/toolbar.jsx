@@ -1,69 +1,89 @@
-import React from 'react';
+import url from 'url';
+import path from 'path';
+import React, {Component, PropTypes as t} from 'react';
 import classnames from 'classnames';
-import cookie from 'cookie';
-import {Link} from 'react-router';
+import {IndexLink} from 'react-router';
+
 import pure from 'pure-render-decorator';
+import autobind from 'autobind-decorator';
 
 import Icon from '../common/icon';
 
-const document = global.document;
+function getTheme(location) {
+	const passed = location.query.theme;
+	return passed === 'dark' ? 'dark' : 'light';
+}
+
+function getOtherTheme(location) {
+	const theme = getTheme(location);
+	return theme === 'dark' ? 'light' : 'dark';
+}
+
+function getThemeUrl(old, theme) {
+	const href = url.parse(old);
+	const fragments = href.pathname.split('/');
+	const basePathname = fragments.slice(0, fragments.length - 1);
+	const fileName = `${theme}${path.extname(href.pathname)}`;
+	return [...basePathname, fileName].join('/');
+}
 
 @pure
-class Toolbar extends React.Component {
-	displayName = 'Toolbar';
+@autobind
+class Toolbar extends Component {
+	static propTypes = {
+		icon: t.string.isRequired,
+		title: t.string.isRequired,
+		theme: t.string.isRequired,
+		location: t.object.isRequired
+	};
 
-	componentWillMount() {
-		this.setState({
-			theme: this.props.config.theme,
-			themeTarget: this.props.config.themeTarget
-		});
+	static defaultProps = {
+		theme: 'light',
+		icon: 'patternplate'
+	};
+
+	static contextTypes = {
+		router: t.any
+	};
+
+	handleThemeButtonClick() {
+		const passedQuery = this.props.location.query;
+		const pathname = this.props.location.pathname;
+		const theme = this.props.theme === 'dark' ? 'light' : 'dark';
+		const query = {...passedQuery, theme};
+		this.context.router.push({pathname, query});
+	}
+
+	setTheme(theme) {
+		if (this.link) {
+			const href = this.link.href;
+			const themeUrl = getThemeUrl(href, theme);
+			if (href !== themeUrl) {
+				this.link.href = themeUrl;
+			}
+		}
 	}
 
 	componentDidMount() {
-		this.link = document.querySelector('[data-application-theme]');
+		this.link = global.document.head.querySelector('link[data-application-theme]');
+		this.setTheme(this.props.theme);
 	}
 
-	toggleTheme() {
-		const state = {
-			theme: this.state.themeTarget,
-			themeTarget: this.state.theme
-		};
-
-		this.setState(state);
-
-		if (document) {
-			try {
-				const cookieData = JSON.parse(cookie.parse(document.cookie)['patternplate-client'] || {});
-				document.cookie = cookie.serialize('patternplate-client', JSON.stringify(Object.assign({}, cookieData, state)));
-			} catch (err) {
-				console.warn('Failed to read data from "patternplate-client" cookie');
-			}
+	componentDidUpdate(previous) {
+		const {props} = this;
+		if (previous.theme !== props.theme) {
+			this.setTheme(this.props.theme);
 		}
-
-		const link = document.createElement('link');
-		link.rel = 'stylesheet';
-		link.href = this.link.href.replace(this.state.theme, this.state.themeTarget);
-
-		link.onload = () => {
-			document.head.removeChild(this.link);
-			this.link = link;
-		};
-
-		document.head.appendChild(link);
-	}
-
-	onThemeButtonClick = () => {
-		this.toggleTheme();
 	}
 
 	render() {
-		const themeClassName = classnames('button', this.state.themeTarget);
-		const title = this.props.config.title || this.props.schema.name;
-		const icon = this.props.config.icon || 'patternplate';
+		const {icon, title, location} = this.props;
+		const theme = getOtherTheme(location);
+		const themeClassName = classnames('button', theme);
 
 		return (
 			<header className="main-header">
-				<Link className="logo" to="root">
+				<IndexLink className="logo" to="/" title="Navigate to start page">
 					<Icon
 						symbol={icon}
 						fallback={false}
@@ -71,16 +91,22 @@ class Toolbar extends React.Component {
 						>
 						{title}
 					</Icon>
-				</Link>
+				</IndexLink>
 				<div className="toolbar">
 					<label className="button menu" htmlFor="menu-state">
-						<Icon uri="" symbol="patternplate">Menu</Icon>
+						<Icon symbol="patternplate">
+							Menu
+						</Icon>
 					</label>
 					<button
 						className={themeClassName}
 						type="button"
-						onClick={e => this.onThemeButtonClick(e)}>
-						<Icon symbol={this.state.themeTarget}>{this.state.themeTarget}</Icon>
+						onClick={this.handleThemeButtonClick}
+						title={`Switch to ${theme} theme`}
+						>
+						<Icon symbol={theme}>
+							{theme}
+						</Icon>
 					</button>
 				</div>
 			</header>

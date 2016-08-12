@@ -6,6 +6,8 @@ import css from 'highlight.js/lib/languages/css.js';
 import js from 'highlight.js/lib/languages/javascript.js';
 import xml from 'highlight.js/lib/languages/xml.js';
 
+const languages = ['less', 'css', 'html', 'js'];
+
 highlight.registerLanguage('less', less);
 highlight.registerLanguage('css', css);
 highlight.registerLanguage('js', js);
@@ -15,13 +17,16 @@ highlight.registerLanguage('xml', xml);
 
 highlight.configure({
 	tabReplace: '  ',
-	languages: ['less', 'css', 'html', 'js']
+	languages
 });
 
 global.onmessage = event => {
 	const {data} = event;
-	const {payload: code, id} = JSON.parse(data);
-	const {value, language} = highlight.highlightAuto(code);
+	const {payload: code, id, language: passedLanguage} = JSON.parse(data);
+
+	const {value, language} = languages.includes(passedLanguage) ?
+		{value: highlight.highlight(passedLanguage, code).value, language: passedLanguage} :
+		highlight.highlightAuto(code);
 
 	// If html is detected, reformat it
 	const payload = language === 'html' ?

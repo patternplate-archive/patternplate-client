@@ -1,18 +1,13 @@
 import 'babel-polyfill';
-import {client} from '../../source/application/react-routes';
+import router from '../../application/react-routes/client';
 
-const document = global.document;
+const select = global.document.querySelector.bind(global.document);
 
-async function start() {
-	const supportsSVG = document.implementation.hasFeature('http://www.w3.org/TR/SVG11/feature#BasicStructure', '1.1');
-	document.documentElement.classList.toggle('supports-svg', supportsSVG);
-
-	const data = JSON.parse(document.querySelector('[data-application-state]').textContent);
-	await client(data, document.querySelector('[data-application]'));
+function main() {
+	const vault = select('[data-application-state]');
+	const slot = select('[data-application]');
+	const data = JSON.parse(vault.textContent);
+	router(data, slot);
 }
 
-start()
-	.catch(error => {
-		console.error(error);
-		console.trace(error.stack);
-	});
+main();

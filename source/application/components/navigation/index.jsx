@@ -15,15 +15,15 @@ class Navigation extends React.Component {
 	static propTypes = {
 		navigation: types.object.isRequired,
 		path: types.string.isRequired,
-		config: types.object.isRequired,
 		onSearch: types.func,
 		onSearchBlur: types.func,
 		searchValue: types.string,
-		searchQuery: types.string
+		searchQuery: types.string,
+		hierarchy: types.object,
+		location: types.object
 	};
 
 	static defaultProps = {
-		searchValue: 'Search',
 		onSearch: () => {},
 		onSearchBlur: () => {}
 	}
@@ -77,9 +77,10 @@ class Navigation extends React.Component {
 	render() {
 		const {
 			path,
-			config,
 			navigation,
-			searchQuery
+			hierarchy,
+			location,
+			searchValue
 		} = this.props;
 
 		const {
@@ -95,33 +96,37 @@ class Navigation extends React.Component {
 				<NavigationTree
 					data={navigation}
 					path={path}
-					config={config}
-					searchQuery={searchQuery}
+					hierarchy={hierarchy}
+					location={location}
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
 							linkTo="/search"
-							className="navigation__search-field"
-							value={searchQuery}
 							name="search"
+							className="navigation__search-field"
+							value={searchValue}
 							placeholder={searchPlaceholder}
 							onFocus={this.handleSearchFocus}
 							onBlur={this.handleSearchBlur}
 							onChange={this.handleSearchChange}
+							title="Click to search for patterns"
 							/>
 					</form>
-					{
-						!searchQuery &&
-							<NavigationItem
-								name="Documentation"
-								symbol="documentation"
-								id={0}
-								key="root"
-								linkTo="/"
-								/>
-					}
+					<NavigationItem
+						name="Documentation"
+						symbol="documentation"
+						key="root"
+						location={location}
+						linkTo="/"
+						active={path === '/'}
+						type="page"
+						/>
 				</NavigationTree>
-				<button className="toggleMode" onClick={this.handleToggleClick}>
+				<button
+					className="toggleMode"
+					onClick={this.handleToggleClick}
+					title={expanded ? 'Collapse navigation' : 'Expand navigation'}
+					>
 					<Icon symbol={expandIcon}/>
 				</button>
 			</nav>

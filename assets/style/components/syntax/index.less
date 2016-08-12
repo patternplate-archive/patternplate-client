@@ -1,41 +1,42 @@
 @import (inline) ~'npm://highlight.js/styles/@{syntax-theme}.css';
+@import (less) 'npm://github-markdown-css/github-markdown.css';
 
-.markdown{
-	@import (less) ~'npm://markdown-css-themes/@{markdown-theme}.css';
+.inverted-markdown() when (@theme-dark) {
+	h1, h2, h3, h4, h5, h6, p, ol, ul {
+		color: @root-color;
+	}
+
+	h1, h2 {
+		border-bottom-color: #373c40;
+	}
+
+	hr {
+		border-bottom-color: #373c40;
+		background-color: #373c40;
+	}
+
+	blockquote {
+		color: #999;
+		border-left-color: #777;
+		p {
+			color: inherit;
+		}
+	}
+
+	code {
+		background-color: rgba(255,255,255,.04);
+	}
+
+	pre {
+		background: @code-background;
+		color: @root-color;
+	}
 }
 
 .markdown {
-	&:extend(.markdown body all);
-	width: 100%;
-	max-width: initial;
-	margin: 0;
-	padding: 6px 10px;
-	border: 1px solid @border-color;
-	background: @code-background;
-	code {
-		border: none;
+	&:extend(.markdown-body all);
+	img {
+		background-color: transparent;
 	}
-	pre {
-		border: 1px solid @border-color;
-		border-radius: 0;
-		background: @code-background;
-		transition: background .3s, border-color .3s;
-	}
-	table {
-		width: 100%;
-		max-width: 100%;
-		border: 1px solid @border-color;
-		tr {
-			border: 1px solid @border-color;
-		}
-		th, td {
-			padding: 6px 13px;
-			border: 1px solid @border-color;
-		}
-	}
-}
-
-.hljs {
-	&:extend(.markdown pre all);
-	margin: 0;
+	.inverted-markdown();
 }

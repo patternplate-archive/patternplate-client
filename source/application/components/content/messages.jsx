@@ -1,5 +1,5 @@
-import React from 'react';
-import {PropTypes, Component} from 'react';
+import {EventEmitter} from 'events';
+import React, {PropTypes as t, Component} from 'react';
 import btoa from 'btoa';
 
 import Message from './message';
@@ -10,16 +10,18 @@ class Messages extends Component {
 	static displayName = 'Messages';
 
 	static defaultProps = {
-		'max': 3,
-		'messages': []
+		max: 3,
+		messages: []
 	};
 
 	static propTypes = {
-		'max': PropTypes.number.isRequired
+		max: t.number.isRequired,
+		messages: t.array.isRequired,
+		eventEmitter: t.instanceOf(EventEmitter)
 	};
 
 	state = {
-		'messages': []
+		messages: []
 	}
 
 	constructor() {
@@ -28,7 +30,7 @@ class Messages extends Component {
 	}
 
 	componentWillMount() {
-		this.props.messages.forEach((message) => {
+		this.props.messages.forEach(message => {
 			this.push(message.content, message.type);
 		});
 
@@ -41,43 +43,49 @@ class Messages extends Component {
 		this.props.eventEmitter.removeListener('message', this.push);
 	}
 
-	pushError = (message) => {
+	pushError = message => {
 		return this.push(message, 'error');
 	}
 
-	push(message, type='info') {
+	push(message, type = 'info') {
 		let messages = this.state.messages.slice(0);
 		messages.push({
-			'content': message,
-			'type': type,
-			'date': Date.now(),
-			'hash': btoa(`${message.message}${Date.now()}`)
+			content: message,
+			type,
+			date: Date.now(),
+			hash: btoa(`${message.message}${Date.now()}`)
 		});
 		messages = messages.slice(this.props.max * -1);
-
-		this.setState({
-			'messages': messages
-		});
+		this.setState({messages});
 	}
 
 	pull(index) {
-		let messages = this.state.messages.slice(0);
+		const messages = this.state.messages.slice(0);
 		messages.splice(index, 1);
-
-		this.setState({
-			'messages': messages
-		});
+		this.setState({messages});
 	}
 
-	render () {
-		let children = this.state.messages
+	render() {
+		const children = this.state.messages
 			.sort((a, b) => a.date - b.date)
 			.map((message, index) => {
-				return <Message key={message.hash} index={index} date={message.date} type={message.type} manager={this}>{message.content}</Message>
+				return (
+					<Message
+						key={message.hash}
+						index={index}
+						date={message.date}
+						type={message.type}
+						manager={this}
+						>
+						{message.content}
+					</Message>
+				);
 			});
 
 		return (
-			<div className="messages">{children}</div>
+			<div className="messages">
+				{children}
+			</div>
 		);
 	}
 }

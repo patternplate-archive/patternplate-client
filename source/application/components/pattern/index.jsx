@@ -1,7 +1,5 @@
-import url from 'url';
-
 import React, {PropTypes as types} from 'react';
-import {HistoryLocation, Link} from 'react-router';
+import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import cx from 'classnames';
 import pure from 'pure-render-decorator';
@@ -36,7 +34,8 @@ class Pattern extends React.Component {
 		manifest: types.object.isRequired,
 		results: types.object.isRequired,
 		environment: types.string.isRequired,
-		onEnvironmentChange: types.func.isRequired
+		onEnvironmentChange: types.func.isRequired,
+		location: types.object.isRequired
 	};
 
 	static defaultProps = {
@@ -44,8 +43,8 @@ class Pattern extends React.Component {
 		onEnvironmentChange: () => {}
 	};
 
-	state = {
-		active: []
+	static contextTypes = {
+		router: types.any
 	};
 
 	comprehend(results, id) {
@@ -85,8 +84,10 @@ class Pattern extends React.Component {
 				key: [id, name].join('/'),
 				controlKey: [id, name, 'control'].join('/'),
 				id: [id, name].join('/'),
+				shortid: name.toLowerCase(),
 				format: result[formatKey] || 'html',
-				content: result[contentKey]
+				content: result[contentKey],
+				source: result.source
 			});
 		}
 
@@ -102,25 +103,12 @@ class Pattern extends React.Component {
 	}
 
 	updateControls(id, checked) {
-		const active = this.state.active.slice(0);
-		const index = active.indexOf(id);
-
-		if (checked && index === -1) {
-			active.push(id);
-		} else if (index !== -1) {
-			active.splice(index, 1);
-		}
-
-		this.setState({
-			active
-		});
-	}
-
-	closeControls(ids = this.state.active) {
-		const diff = this.state.active.filter(id => ids.indexOf(id) === -1);
-
-		this.setState({
-			active: diff
+		const {location} = this.props;
+		const fragments = id.split('/').filter(Boolean);
+		const shortid = fragments[fragments.length - 1].toLowerCase();
+		this.context.router.push({
+			pathname: location.pathname,
+			query: {...location.query, source: checked ? shortid : null}
 		});
 	}
 
@@ -130,24 +118,13 @@ class Pattern extends React.Component {
 	}
 
 	@autobind
-	handleClick() {
-		this.closeControls();
-	}
-
-	@autobind
 	handleEnvironmentChange({target: {value}}) {
-		const parsed = urlQuery.parse(global.location.pathname);
+		const {location} = this.props;
+		const {query} = location;
+		const parsed = urlQuery.parse(location.pathname);
 		const result = merge({}, parsed, {query: {environment: value}});
 		const pathname = urlQuery.format(result);
-
-		const formatted = url.format(merge({}, parsed, {
-			pathname,
-			search: global.location.search
-		}));
-
-		console.log(this.props.onEnvironmentChange.toString());
-		this.props.onEnvironmentChange(value);
-		HistoryLocation.push(formatted);
+		this.context.router.push({pathname, query});
 	}
 
 	render() {
@@ -166,7 +143,8 @@ class Pattern extends React.Component {
 			},
 			config: {
 				fullscreenPatterns
-			}
+			},
+			location
 		} = this.props;
 
 		const hasRelations = Object.keys(patterns).length > 0 ||
@@ -182,7 +160,7 @@ class Pattern extends React.Component {
 
 		for (const item of this.items) {
 			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
-			const isActive = this.state.active.indexOf(item.id) > -1;
+			const isActive = item.shortid === location.query.source;
 
 			if (item.content.length === 0) {
 				continue;
@@ -192,6 +170,7 @@ class Pattern extends React.Component {
 				<input
 					className="pattern-state"
 					type="checkbox"
+					name="pattern-content"
 					id={item.id}
 					key={item.controlKey}
 					checked={isActive}
@@ -200,7 +179,7 @@ class Pattern extends React.Component {
 				);
 			results.push(isDoc ?
 				<PatternDocumentation {...item}>
-					{item.content}
+					{item.source}
 				</PatternDocumentation> :
 				<PatternCode {...item}>
 					{item.content}
@@ -320,7 +299,7 @@ class Pattern extends React.Component {
 										id={`${id}/dependencies-control`}
 										key={`${id}/dependencies-control`}
 										target={`${id}/dependencies-state`}
-										active={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
+										active={location.query.source === 'dependencies-state'}
 										name={<Icon symbol="dependencies"/>}
 										/>
 							}
@@ -340,7 +319,7 @@ class Pattern extends React.Component {
 									type="checkbox"
 									id={`${id}/dependencies-state`}
 									key={`${id}/dependencies-state`}
-									checked={this.state.active.indexOf(`${id}/dependencies-state`) > -1}
+									checked={location.query.source === 'dependencies-state'}
 									onChange={this.handleChange}
 									/>,
 								<PatternCode

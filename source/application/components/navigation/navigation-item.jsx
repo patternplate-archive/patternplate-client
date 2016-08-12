@@ -2,8 +2,6 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
-import {pick} from 'lodash';
-
 import Icon from '../common/icon';
 
 export default class NavigationItem extends React.Component {
@@ -21,12 +19,14 @@ export default class NavigationItem extends React.Component {
 		id: types.oneOfType([
 			types.string,
 			types.number
-		]).isRequired,
+		]),
 		children: types.oneOfType([
 			types.node,
 			types.arrayOf(types.node)
 		]),
-		onClick: types.func
+		onClick: types.func,
+		location: types.object,
+		type: types.string
 	};
 
 	static defaultProps = {
@@ -43,10 +43,11 @@ export default class NavigationItem extends React.Component {
 	}
 
 	render() {
-		const {anchored, name, symbol, active, id, hidden, searchQuery} = this.props;
+		const {
+			anchored, name, id, symbol, active, hidden, linkTo, location, type
+		} = this.props;
 		const {component: Component} = this.props;
 
-		const splat = {splat: id};
 		const modifiers = {
 			'child-active': active,
 			hidden,
@@ -55,15 +56,20 @@ export default class NavigationItem extends React.Component {
 
 		const itemClassName = classnames('navigation-item', modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
+		const joined = [linkTo, id || ''].filter(Boolean).join('/');
+		const pathname = joined[0] === '/' ? joined : `/${joined}`;
+
+		const title = `Navigate to ${name} ${type}`;
 
 		return (
 			<Component className={itemClassName}>
 				<Link
 					onClick={this.handleClick}
-					to={this.props.linkTo}
-					params={splat}
-					query={{search: searchQuery}}
-					title={name}
+					to={{
+						pathname,
+						query: location.query
+					}}
+					title={title}
 					className={linkClassName}
 					>
 					{symbol && <Icon symbol={symbol}/>}

@@ -22,7 +22,9 @@ class NavigationTree extends Component {
 			types.node,
 			types.arrayOf(types.node)
 		]),
-		config: types.object
+		config: types.object,
+		hierarchy: types.object,
+		location: types.object
 	};
 
 	activeReference = null;
@@ -64,8 +66,8 @@ class NavigationTree extends Component {
 	}
 
 	render() {
-		const {data, path, children, config, searchQuery} = this.props;
-		const {folders, patterns} = getAugmentedChildren(data, config.hierarchy);
+		const {data, children, path, searchQuery, hierarchy, location} = this.props;
+		const {folders, patterns} = getAugmentedChildren(data, hierarchy);
 		const searched = urlQuery.parse(path).pathname.split('/').filter(Boolean).join('/');
 		const [activePattern] = patterns.filter(pattern => searched === `pattern/${pattern.id}`);
 
@@ -86,13 +88,16 @@ class NavigationTree extends Component {
 					active={active}
 					ref={ref}
 					onClick={this.handleFolderClick}
+					location={location}
+					type="directory"
 					>
 					<NavigationTree
-						path={path}
-						config={config}
-						data={folder.children}
 						id={folder.id}
+						path={path}
+						data={folder.children}
 						searchQuery={searchQuery}
+						hierarchy={hierarchy}
+						location={location}
 						/>
 				</NavigationItem>
 			);
@@ -120,6 +125,8 @@ class NavigationTree extends Component {
 					active={active}
 					ref={this.getActiveReference}
 					searchQuery={searchQuery}
+					location={location}
+					type={type}
 					/>
 			);
 		});
