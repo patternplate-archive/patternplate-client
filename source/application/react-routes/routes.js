@@ -15,7 +15,8 @@ export default function (data = {}) {
 	};
 
 	const patternData = {
-		config: data.config
+		config: data.config,
+		navigation: data.navigation
 	};
 
 	return (
