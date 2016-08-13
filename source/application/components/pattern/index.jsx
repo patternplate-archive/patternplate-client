@@ -223,6 +223,34 @@ class Pattern extends React.Component {
 				<Headline className="pattern-header" order={2}>
 					<span className="pattern-name">{displayName || name}</span>
 					<small className="pattern-version">v{version}</small>
+					{
+						flag &&
+							<small className={flagClassName}>
+								<Link
+									title={`Search patterns with flag ${flag}`}
+									to={{
+										pathname: location.pathname,
+										query: {...location.query, search: `flag:${flag}`}
+									}}
+									>
+									{flag}
+								</Link>
+							</small>
+					}
+					{tags.map((tag, key) =>
+						<small key={key} className="pattern-tag">
+							<Link
+								title={`Search patterns with tag ${tag}`}
+								to={{
+									pathname: location.pathname,
+									query: {...location.query, search: `tag:${flag}`}
+								}}
+								key={key}
+								>
+								{tag}
+							</Link>
+						</small>
+					)}
 				</Headline>
 				{content}
 				<CSSTransitionGroup

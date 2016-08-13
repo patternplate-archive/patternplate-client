@@ -75,10 +75,11 @@ function getPatternContent(type, data, properties, state) {
 								<Link
 									to={{
 										pathname: location.pathname,
-										query: {...location.query, search: `tag:${flag}`}
+										query: {...location.query, search: `tag:${tag}`}
 									}}
 									key={key}
 									className="pattern-tag"
+									title={`Search patterns with tag ${tag}`}
 									>
 									{tag}
 								</Link>
