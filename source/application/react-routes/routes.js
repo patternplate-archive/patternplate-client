@@ -1,28 +1,29 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
+import {connect} from 'react-redux';
 
 import Application from '../components';
 import Content from '../components/content';
 import Home from '../components/content/home';
 
-function withData(Component, data) {
-	return props => (<Component {...data} {...props}/>);
-}
+const ConnectedApplication = connect(state => state)(Application);
 
-export default function (data = {}) {
-	const homeData = {
-		readme: data.schema.readme
+const ConnectedHome = connect(state => {
+	return {readme: state.schema.readme};
+})(Home);
+
+const ConnectedContent = connect(state => {
+	return {
+		config: state.config,
+		navigation: state.navigation
 	};
+})(Content);
 
-	const patternData = {
-		config: data.config,
-		navigation: data.navigation
-	};
-
+export default function () {
 	return (
-		<Route path="/" component={withData(Application, data)}>
-			<IndexRoute component={withData(Home, homeData)}/>
-			<Route path="/pattern/*" component={withData(Content, patternData)}/>
+		<Route path="/" component={ConnectedApplication}>
+			<IndexRoute component={ConnectedHome}/>
+			<Route path="/pattern/*" component={ConnectedContent}/>
 		</Route>
 	);
 }
