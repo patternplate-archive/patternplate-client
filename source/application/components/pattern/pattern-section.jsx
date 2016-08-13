@@ -2,8 +2,8 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
-import autobind from 'autobind-decorator';
-import {merge} from 'lodash';
+// import autobind from 'autobind-decorator';
+// import {merge} from 'lodash';
 import urlQuery from '../../utils/url-query';
 
 import 'isomorphic-fetch';
@@ -15,6 +15,8 @@ import Icon from '../common/icon';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
 function getPatternContent(type, data, properties, state) {
+	const {location} = properties;
+
 	if (type === 'pattern') {
 		const patternData = Array.isArray(data) ?
 			data[0] :
@@ -24,7 +26,6 @@ function getPatternContent(type, data, properties, state) {
 			patternData && <Pattern
 				{...patternData}
 				environment={properties.environment}
-				onEnvironmentChange={properties.onEnvironmentChange}
 				key={patternData.id}
 				config={properties.config}
 				location={properties.location}
@@ -49,23 +50,33 @@ function getPatternContent(type, data, properties, state) {
 			}
 
 			const splat = id;
-			const link = `pattern`;
+			const patternLink = ['/pattern', splat].join('/');
 
 			if (type === 'pattern') {
 				return (
 					<tr key={id}>
 						<td>
-							<Icon symbol="pattern"/>
-							<Link to={link} params={{splat}}>{displayName}</Link>
+							<Link
+								to={{
+									pathname: patternLink,
+									query: location.query
+								}}
+								title={`Navigate to pattern ${splat}`}
+								>
+								<Icon symbol="pattern"/>
+								{displayName}
+							</Link>
 						</td>
-						<td>{child.manifest.version}</td>
+						<td>
+							{child.manifest.version}
+						</td>
 						<td>
 							{tags.map((tag, key) =>
 								<Link
-									to="pattern"
-									params={{splat: properties.id}}
-									query={{search: `tag:${tag}`}}
-									title={`Search patterns with tag ${tag}`}
+									to={{
+										pathname: location.pathname,
+										query: {...location.query, search: `tag:${flag}`}
+									}}
 									key={key}
 									className="pattern-tag"
 									>
@@ -74,24 +85,27 @@ function getPatternContent(type, data, properties, state) {
 							)}
 						</td>
 						<td>
-							<Link
-								to="pattern"
-								params={{splat: properties.id}}
-								query={{search: `flag:${flag}`}}
-								title={`Search patterns with flag ${flag}`}
-								className={`pattern__flag pattern__flag--${flag}`}
+							{
+								flag &&
+									<Link
+										to={{
+											pathname: location.pathname,
+											query: {...location.query, search: `flag:${flag}`}
+										}}
+										title={`Search patterns with flag ${flag}`}
+										className={`pattern__flag pattern__flag--${flag}`}
+										>
+										{flag}
+									</Link>
+							}
+						</td>
+						<td>
+							<a
+								href={`/demo/${id}`}
+								target="_blank"
+								title={`Show pattern ${id} in fullscreen`}
+								rel="nofollow"
 								>
-								{flag}
-							</Link>
-						</td>
-						<td>
-							<Link to={link} params={{splat}} title="Show pattern">
-								<Icon symbol="arrow-double-right"/>
-								<span>Show pattern</span>
-							</Link>
-						</td>
-						<td>
-							<a href={`/demo/${id}`} target="_blank" title="Fullscreen">
 								<Icon symbol="fullscreen"/>
 								<span>Fullscreen</span>
 							</a>
@@ -101,60 +115,47 @@ function getPatternContent(type, data, properties, state) {
 			}
 			return (
 				<tr key={id}>
-					<td>
-						<Icon symbol="folder"/>
-						<Link to={link} params={{splat}}>{displayName}</Link>
-					</td>
-					<td/>
-					<td/>
-					<td/>
-					<td/>
-					<td>
-						<Icon symbol="folder" className="mobile-only"/>
+					<td colSpan={5}>
+						<Link
+							to={{
+								pathname: patternLink,
+								query: location.query
+							}}
+							title={`Navigate to folder ${id}`}
+							>
+							<Icon symbol="folder"/>
+							{displayName}
+						</Link>
 					</td>
 				</tr>
 			);
 		});
 
-		const link = `pattern`;
 		const up = data.id.split('/').slice(0, -1).join('/');
+		const upLink = [`/pattern`, up].join('/');
 		const nested = up.split('/').filter(Boolean).length > 0;
 
 		return (
 			<table className="pattern-folder">
-				<thead>
-					<tr>
-						<th>Title</th>
-						<th>Version</th>
-						<th>Tags</th>
-						<th>Flag</th>
-						<th/>
-						<th/>
-					</tr>
-				</thead>
-				<CSSTransitionGroup
-					component="tbody"
-					transitionName="pattern-content-transition"
-					transitionEnterTimeout={300}
-					transitionLeaveTimeout={300}
-					>
+				<tbody>
 					{nested &&
-						<tr key="up" id="up!">
-							<td title="Folder up">
-								<Icon symbol="folder"/>
-								<Link to={link} params={{splat: up}}>..</Link>
-							</td>
-							<td/>
-							<td/>
-							<td/>
-							<td/>
-							<td>
-								<Icon symbol="folder" className="mobile-only"/>
+						<tr key="up">
+							<td colSpan={5}>
+								<Link
+									to={{
+										pathname: upLink,
+										query: location.query
+									}}
+									title={`Navigate up to ${upLink}`}
+									>
+									<Icon symbol="folder"/>
+									..
+								</Link>
 							</td>
 						</tr>
 					}
 					{rows}
-				</CSSTransitionGroup>
+				</tbody>
 			</table>
 		);
 	}
@@ -318,12 +319,12 @@ class PatternSection extends React.Component {
 		}
 	}
 
-	@autobind
+	/* @autobind
 	handleEnvironmentChange(environment) {
 		if (environment !== this.props.environment) {
 			this.get(merge({}, this.props, {environment}));
 		}
-	}
+	} */
 
 	render() {
 		const {location} = this.props;
@@ -338,11 +339,7 @@ class PatternSection extends React.Component {
 				};
 			});
 
-		const props = merge({}, this.props, {
-			onEnvironmentChange: this.handleEnvironmentChange
-		});
-
-		const content = getPatternContent(type, data, props, this.state);
+		const content = getPatternContent(type, data, this.props, this.state);
 
 		return (
 			<section className="pattern-section">
