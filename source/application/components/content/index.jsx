@@ -1,8 +1,10 @@
 import React, {PropTypes as types} from 'react';
 
-import Messages from './messages';
+// import Messages from './messages';
 import PatternSection from '../pattern/pattern-section';
 import pure from 'pure-render-decorator';
+
+import urlQuery from '../../utils/url-query';
 
 @pure
 class Content extends React.Component {
@@ -16,7 +18,7 @@ class Content extends React.Component {
 	render() {
 		const {props} = this;
 
-		const id = props.location.pathname
+		const id = urlQuery.parse(props.location.pathname).pathname
 			.split('/').filter(Boolean).slice(1).join('/');
 
 		return (

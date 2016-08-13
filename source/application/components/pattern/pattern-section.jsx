@@ -16,6 +16,7 @@ import getAugmentedChildren from '../../utils/augment-hierarchy';
 
 function getPatternContent(type, data, properties, state) {
 	const {location} = properties;
+	const environment = urlQuery.parse(location.pathname).query.environment;
 
 	if (type === 'pattern') {
 		const patternData = Array.isArray(data) ?
@@ -25,7 +26,7 @@ function getPatternContent(type, data, properties, state) {
 		return [
 			patternData && <Pattern
 				{...patternData}
-				environment={properties.environment}
+				environment={environment}
 				key={patternData.id}
 				config={properties.config}
 				location={properties.location}
