@@ -295,7 +295,7 @@ class Pattern extends React.Component {
 										className="pattern-tool"
 										shortid="dependencies-state"
 										active={location.query.source === 'dependencies-state'}
-										name={<Icon symbol="dependencies"/>}
+										name={<Icon symbol="dependencies" description="Dependencies"/>}
 										title={`Show dependencies for pattern ${id}`}
 										location={location}
 										/>
@@ -307,7 +307,7 @@ class Pattern extends React.Component {
 								title={`Show fullscreen demo for pattern ${id}`}
 								rel="nofollow"
 								>
-								<Icon symbol="fullscreen"/>
+								<Icon symbol="fullscreen" description="Fullscreen"/>
 							</a>
 						</div>
 					</div>

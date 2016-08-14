@@ -2,9 +2,14 @@
 	display: inline-block;
 	vertical-align: middle;
 	color: currentcolor;
+	&.icon--has-description {
+		display: inline-flex;
+		flex-direction: column;
+	}
 	.svg-icon{
 		width: 30px;
 		height: 30px;
+		margin: auto;
 	}
 	.svg {
 		width: 100%;
@@ -20,6 +25,15 @@
 	.svg-fallback {
 		display: none;
 	}
+}
+
+.icon__description {
+	display: block;
+	text-align: center;
+	color: inherit;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	width: 100%;
 }
 
 .not-supports-svg {

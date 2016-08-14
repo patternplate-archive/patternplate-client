@@ -12,7 +12,8 @@ class PatternControl extends Component {
 		name: t.any.isRequired,
 		location: t.object.isRequired,
 		shortid: t.string.isRequired,
-		title: t.string
+		title: t.string,
+		iconDescription: t.string
 	}
 
 	static contextTypes = {

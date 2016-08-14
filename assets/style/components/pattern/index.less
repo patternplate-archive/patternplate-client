@@ -26,12 +26,6 @@
 		right: 0;
 		user-select: none;
 		transform: translateY(-100%);
-		a {
-			transition: color 0.3s ease-in-out;
-			&:hover {
-				color: @hover-color;
-			}
-		}
 		@media screen and (min-width: 500px) {
 			left: 30%;
 		}
@@ -41,9 +35,12 @@
 	}
 	.pattern-toolbar-container {
 		display: flex;
+		align-items: center;
 		width: 100%;
 		border-top: 1px solid @border-color;
 		background: @root-background;
+		max-height: 65px;
+		overflow: hidden;
 	}
 	.pattern-tools {
 		margin-left: auto;
@@ -86,6 +83,7 @@
 		display: inline-flex;
 		overflow: hidden;
 		padding: 10px 15px;
+		height: 65px;
 		color: inherit;
 		border: 5px solid transparent;
 		border-width: 5px 0;
@@ -216,10 +214,6 @@
 .pattern-name {
 	display: inline-block;
 	margin: 0 30px 0 0;
-	@media screen and (max-width: 500px) {
-		display: block;
-		margin: 0 0 10px 0;
-	}
 }
 
 .pattern-lastmodified,
@@ -300,23 +294,32 @@
 }
 
 .pattern-demo-container {
+	@checker: fadeout(@border-color, 25%);
 	position: relative;
 	flex-grow: 1;
 	border-bottom: none;
+	background-image:
+		linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker),
+		linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker);
+	background-size: 60px 60px;
+	background-position: 0 0, 30px 30px;
 }
 
 .pattern-demo {
 	position: absolute;
 	top: 0;
 	right: 0;
-	left: 0;
-	width: 100%;
+	left: 15px;
 	border: 0;
-	height: 100%;
-	bottom: 50px;
+	width: ~'calc(100% - 15px)';
+	height: ~'calc(100% - 25px)';
 	background: transparent;
 	transition: height 0.3s ease-in-out;
 	overflow: auto;
+	@media screen and (min-width: 500px) {
+		left: 30px;
+		width: ~'calc(100% - 30px)';
+	}
 }
 
 .clipboard {
@@ -332,9 +335,17 @@
 	position: relative;
 	overflow: auto;
 	padding: 0;
+	margin: 0 -15px;
 	height: ~'calc(100vh - 100px)';
 	@media screen and (min-width: 500px) {
-		padding: 15px 30px;
+		margin: 0;
+	}
+}
+
+.pattern-header {
+	padding: 10px 15px 0 15px;
+	@media screen and (min-width: 500px) {
+		padding: 10px 30px 0 30px;
 	}
 }
 

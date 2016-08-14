@@ -44,7 +44,8 @@ class Icon extends Component {
 		children: types.oneOfType([
 			types.node,
 			types.arrayOf(types.node)
-		])
+		]),
+		description: types.string
 	};
 
 	static defaultProps = {
@@ -99,14 +100,17 @@ class Icon extends Component {
 			fallback,
 			symbol,
 			inline,
-			children
+			children,
+			description
 		} = this.props;
 
 		const {
 			supportsExternalFragments
 		} = this.state;
 
-		const className = cx('icon', userClassName);
+		const className = cx('icon', userClassName, {
+			'icon--has-description': description
+		});
 		const textClassName = cx(
 			'svg-text',
 			{
@@ -135,6 +139,12 @@ class Icon extends Component {
 						<div className={textClassName}>
 							{children}
 						</div>
+				}
+				{
+					description &&
+						<small className="icon__description">
+							{description}
+						</small>
 				}
 			</div>
 		);
