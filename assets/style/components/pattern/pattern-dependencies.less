@@ -1,4 +1,67 @@
 .pattern-dependencies {
+	&__stage {
+		width: 100%;
+		max-width: 1000px;
+		margin: 0 auto;
+	}
+	&__block,
+	&__root {
+		fill: transparent;
+		stroke: @border-color;
+		stroke-width: 0.3;
+	}
+	&__root {
+		fill: @border-color;
+	}
+	&__root,
+	&__root ~ .block-name {
+		// transform: translate(-50%, 0);
+	}
+	.connection-group {
+		pointer-events: none;
+	}
+	.connection {
+		stroke: @border-color;
+		stroke-width: 0.4;
+		fill: transparent;
+		transition: .3s stroke ease-in-out;
+	}
+	.connector {
+		fill: @border-color;
+		transition: .3s fill ease-in-out;
+	}
+	.block-name {
+		font-family: Helvetica, sans-serif;
+		font-size: 1.75px;
+		fill: @root-color;
+		pointer-events: none;
+	}
+	.pattern-dependencies__block {
+		cursor: pointer;
+		transition: .3s stroke ease-in-out;
+		&:hover {
+			stroke: @hover-color;
+			~ .connection-group {
+				.connection {
+					stroke: @hover-color;
+				}
+				.connector {
+					fill: @hover-color;
+				}
+			}
+		}
+	}
+	.column-description {
+		font-family: Helvetica, sans-serif;
+		font-size: 1.75px;
+		fill: @root-background;
+		pointer-events: none;
+	}
+	.column-description-container {
+		fill: @root-color;
+	}
+}
+/* .pattern-dependencies {
 	display: flex;
 	position: relative;
 	z-index: 1;
@@ -35,4 +98,4 @@
 		background-color: @active-color;
 		color: @root-background;
 	}
-}
+} */

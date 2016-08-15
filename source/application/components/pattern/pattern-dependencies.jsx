@@ -1,67 +1,93 @@
-import React, {PropTypes as types} from 'react';
-import {Link} from 'react-router';
-import classnames from 'classnames';
-import pure from 'pure-render-decorator';
+import React, {PropTypes as t, Component} from 'react';
+import join from 'classnames';
+import autobind from 'autobind-decorator';
 
-@pure
-export default class PatternDependencies extends React.Component {
-	static defaultProps = {
-		data: types.shape({
-			manifest: types.shape({
-				name: types.string,
-				displayName: types.string,
-				dependentPatterns: types.object
-			}),
-			dependencies: types.object
+import Block from './block';
+import BlockColumn from './block-column';
+
+@autobind
+export default class PatternDependencies extends Component {
+	static propTypes = {
+		className: t.string,
+		id: t.string.isRequired,
+		name: t.string.isRequired,
+		dependencies: t.arrayOf(t.shape({
+			name: t.string.isRequired,
+			id: t.string.isRequired
+		})).isRequired,
+		dependents: t.arrayOf(t.shape({
+			name: t.string.isRequired,
+			id: t.string.isRequired
+		})).isRequired,
+		location: t.shape({
+			pathname: t.string,
+			query: t.any
 		})
 	};
 
+	static contextTypes = {
+		router: t.any
+	};
+
+	handleClick(props) {
+		const {id} = props;
+		const {location} = this.props;
+		const {router} = this.context;
+		router.push({
+			pathname: `/pattern/${id}`,
+			query: location.query
+		});
+	}
+
 	render() {
-		const {manifest, location} = this.props.data;
-		const dependencies = Object.values(this.props.data.dependencies);
-		const dependents = Object.values(this.props.data.manifest.dependentPatterns);
-		const className = classnames(this.props.className, 'pattern-dependencies');
+		const {
+			className: passedClassName,
+			dependencies,
+			dependents,
+			id,
+			name,
+			location
+		} = this.props;
+
+		const className = join('pattern-dependencies', passedClassName);
+		const y = Math.max(Math.max(dependencies.length, dependents.length) * 10, 20);
+
+		const center = 50;
+		const rootWidth = Math.max(5, name.length * 1.25);
 
 		return (
 			<div className={className}>
-				<div className="pattern-dependencies-column">
-					<div className="pattern-dependencies-column-headline">Dependencies</div>
-					<ul className="pattern-dependencies-column-content">
-						{dependencies.map(dependency => {
-							const splat = dependency.id;
-							const name = dependency.manifest.displayName || dependency.manifest.name;
-							return (
-								<li key={splat}>
-									<Link to={{...location, pathname: `/pattern/${dependency.id}`}} title={`Navigate to depdendency ${dependency.id}`}>
-										{name}
-									</Link>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
-				<div className="pattern-dependencies-column">
-					<div className="pattern-dependencies-column-headline">Pattern</div>
-					<div className="pattern-dependencies-column-content center-pattern">
-						{manifest.displayName || manifest.name}
-					</div>
-				</div>
-				<div className="pattern-dependencies-column">
-					<div className="pattern-dependencies-column-headline">Dependent</div>
-					<ul className="pattern-dependencies-column-content">
-						{dependents.map(dependent => {
-							const splat = dependent.id;
-							const name = dependent.displayName || dependent.name;
-							return (
-								<li key={splat}>
-									<Link to={{...location, pathname: `/pattern/${dependent.id}`}} title={`Navigate to dependent ${dependent.id}`}>
-										{name}
-									</Link>
-								</li>
-							);
-						})}
-					</ul>
-				</div>
+				<svg viewBox={`0 0 100 ${y}`} className="pattern-dependencies__stage">
+					<BlockColumn
+						items={dependencies}
+						y={5}
+						x={10}
+						onClick={this.handleClick}
+						description="provides for"
+						location={location}
+						connect={{x: center - rootWidth / 2, y: 12.5}}
+						/>
+					<BlockColumn
+						items={dependents}
+						y={5}
+						x={80}
+						onClick={this.handleClick}
+						align="right"
+						description="provides for"
+						location={location}
+						connect={{x: center + rootWidth / 2, y: 12.5}}
+						/>
+					<Block
+						type="root"
+						name={name}
+						id={id}
+						x={50 - rootWidth / 2}
+						y={10}
+						height={5}
+						width={rootWidth}
+						location={location}
+						/>
+				</svg>
 			</div>
 		);
 	}

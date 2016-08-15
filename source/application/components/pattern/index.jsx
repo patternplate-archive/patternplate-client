@@ -136,7 +136,7 @@ class Pattern extends React.Component {
 				displayName,
 				name,
 				patterns,
-				dependentPatterns,
+				dependentPatterns = {},
 				tags = [],
 				flag,
 				version
@@ -147,8 +147,22 @@ class Pattern extends React.Component {
 			location
 		} = this.props;
 
-		const hasRelations = Object.keys(patterns).length > 0 ||
-			Object.keys(dependentPatterns).length > 0;
+		const dependencies = Object.entries(patterns)
+			.filter(entry => entry[1] !== id)
+			.map(entry => {
+				const [name, id] = entry;
+				return {name, id};
+			});
+
+		const dependents = Object.values(dependentPatterns)
+			.map(dependentPattern => {
+				const name = dependentPattern.displayName || dependentPattern.name;
+				const {id} = dependentPattern;
+				return {name, id};
+			});
+
+		const hasRelations = Object.keys(dependencies).length > 0 ||
+			Object.keys(dependents).length > 0;
 
 		const results = [];
 		const controls = [];
@@ -295,8 +309,8 @@ class Pattern extends React.Component {
 										className="pattern-tool"
 										shortid="dependencies-state"
 										active={location.query.source === 'dependencies-state'}
-										name={<Icon symbol="dependencies" description="Dependencies"/>}
-										title={`Show dependencies for pattern ${id}`}
+										name={<Icon symbol="dependencies" description="Relations"/>}
+										title={`Show relations for pattern ${id}`}
 										location={location}
 										/>
 							}
@@ -326,13 +340,16 @@ class Pattern extends React.Component {
 									onChange={this.handleChange}
 									/>,
 								<PatternCode
-									name="Dependencies"
+									name="Relations"
 									highlight={false}
 									key={`${id}/dependencies`}
 									>
 									<PatternDependencies
-										className="hljs"
-										data={this.props}
+										id={id}
+										name={displayName || name}
+										dependents={dependents}
+										dependencies={dependencies}
+										location={location}
 										/>
 								</PatternCode>
 							]
