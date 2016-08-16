@@ -50,11 +50,15 @@
 			left: @navWidthMedium;
 			display: block;
 			margin-left: -40px;
+			transition-duration: .3s;
+			transition-timing-function: ease-in-out;
+			transition-property: left, width, margin;
 			.slim& {
 				left: 0;
 				width: @navWidthSlim;
 				margin-left: 0;
 				border-left: 0;
+				text-align: center;
 			}
 		}
 		@media screen and (min-width: 900px) {
@@ -182,11 +186,18 @@
 
 .slim {
 	.search-field {
-		display: none;
+		// display: none;
+		height: 0;
+		&__icon {
+			opacity: 0;
+		}
+		// transform: translate(0, -200%);
 	}
 }
 
 .search-field {
+	overflow: hidden;
+	transition: height .3s ease-in-out;
 	&__container {
 		display: flex;
 		align-items: center;
@@ -199,6 +210,7 @@
 		flex-shrink: 0;
 		order: -1;
 		margin-right: 8px;
+		transition: opacity .3s ease-in-out;
 		.svg-icon {
 			height: 25px;
 			width: 25px;
@@ -219,6 +231,9 @@
 // Slim is only for wide(r) screens
 @media screen and (min-width: 500px) {
 	.slim {
+		.navigation-item {
+			margin: 0;
+		}
 		.navigation-tree .navigation-tree {
 			position: absolute;
 			z-index: 1;
@@ -226,16 +241,18 @@
 			left: 100%;
 			padding-bottom: 0;
 			box-shadow: 0 0 7px rgba(0,0,0,0.1);
+			border-left: none;
+			width: auto !important;
 			.navigation-item {
 				padding-left: 0;
 			}
 		}
 		> .navigation-tree {
 			overflow: visible;
-			overflow-y: auto;
+			// overflow-y: auto;
 			> .navigation-item > .navigation-tree {
-				margin-left: 2px;
-				width: ~'calc(100% - 2px)';
+				// margin-left: 2px;
+				width: 100%;
 			}
 		}
 		.icon {

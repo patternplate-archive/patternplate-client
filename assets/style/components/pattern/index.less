@@ -1,11 +1,17 @@
 @import './pattern-dependencies';
 
 @media screen and (min-width: 500px) {
-	.slim + .content {
-		.pattern-toolbar {
-			left: @navWidthSlim;
+	.content {
+		.pattern-code,
+		.pattern-toolbar,
+		.pattern-documentation {
+			transition: all .3s ease-in-out !important;
 		}
-		.pattern-code {
+	}
+	.slim + .content {
+		.pattern-code,
+		.pattern-toolbar,
+		.pattern-documentation {
 			left: @navWidthSlim;
 		}
 	}
