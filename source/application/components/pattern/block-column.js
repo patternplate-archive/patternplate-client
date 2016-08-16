@@ -22,14 +22,14 @@ export default function BlockColumn(props) {
 			{
 				items.map(({name, id}, index) => {
 					const width = Math.max(5, name.length * 1.25);
-					const offset = align === 'right' ? 19 - width : 0;
+					const offset = align === 'right' ? width + 1 : 0;
 					const n = (50 - width) / 3;
 					return (
 						<Block
 							type="block"
 							id={id}
 							name={name}
-							x={x + offset}
+							x={x - offset}
 							key={[id, name].join(':')}
 							y={y + index * (height + 1)}
 							width={width}

@@ -54,19 +54,22 @@ export default class PatternDependencies extends Component {
 		const blockHeight = 4;
 		const center = 50;
 		const rootWidth = Math.max(5, name.length * 1.25);
+		const paddingX = 1;
 		const rootY = 1;
+		const columnY = 2;
+		const offsetY = Math.max(rootY, columnY);
 		const rootHeight = blockHeight;
 		const rootYCenter = rootY + rootHeight / 2;
 		const blockSpace = blockHeight + 1;
-		const y = Math.max(Math.max(dependencies.length, dependents.length) * blockSpace, blockSpace);
+		const viewBoxHeight = Math.max(Math.max(dependencies.length, dependents.length) * blockSpace + offsetY + 1, blockSpace + offsetY + 1);
 
 		return (
 			<div className={className}>
-				<svg viewBox={`0 0 100 ${y}`} className="pattern-dependencies__stage">
+				<svg viewBox={`0 0 100 ${viewBoxHeight}`} className="pattern-dependencies__stage">
 					<BlockColumn
 						items={dependencies}
-						y={1}
-						x={10}
+						y={columnY}
+						x={paddingX}
 						height={blockHeight}
 						onClick={this.handleClick}
 						description="provides for"
@@ -75,8 +78,8 @@ export default class PatternDependencies extends Component {
 						/>
 					<BlockColumn
 						items={dependents}
-						y={1}
-						x={80}
+						y={columnY}
+						x={100}
 						height={blockHeight}
 						onClick={this.handleClick}
 						align="right"
