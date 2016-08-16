@@ -81,6 +81,11 @@ class Toolbar extends Component {
 		const theme = getOtherTheme(location);
 		const themeClassName = classnames('button', theme);
 
+		const styles = {
+			light: {display: theme === 'light' ? 'block' : 'none'},
+			dark: {display: theme === 'dark' ? 'block' : 'none'}
+		};
+
 		return (
 			<header className="main-header">
 				<IndexLink className="logo" to="/" title="Navigate to start page">
@@ -104,8 +109,11 @@ class Toolbar extends Component {
 						onClick={this.handleThemeButtonClick}
 						title={`Switch to ${theme} theme`}
 						>
-						<Icon symbol={theme}>
-							{theme}
+						<Icon symbol="light" style={styles.light}>
+							Light
+						</Icon>
+						<Icon symbol="dark" style={styles.dark}>
+							Dark
 						</Icon>
 					</button>
 				</div>

@@ -50,40 +50,47 @@ export default class PatternDependencies extends Component {
 		} = this.props;
 
 		const className = join('pattern-dependencies', passedClassName);
-		const y = Math.max(Math.max(dependencies.length, dependents.length) * 10, 20);
 
+		const blockHeight = 4;
 		const center = 50;
 		const rootWidth = Math.max(5, name.length * 1.25);
+		const rootY = 1;
+		const rootHeight = blockHeight;
+		const rootYCenter = rootY + rootHeight / 2;
+		const blockSpace = blockHeight + 1;
+		const y = Math.max(Math.max(dependencies.length, dependents.length) * blockSpace, blockSpace);
 
 		return (
 			<div className={className}>
 				<svg viewBox={`0 0 100 ${y}`} className="pattern-dependencies__stage">
 					<BlockColumn
 						items={dependencies}
-						y={5}
+						y={1}
 						x={10}
+						height={blockHeight}
 						onClick={this.handleClick}
 						description="provides for"
 						location={location}
-						connect={{x: center - rootWidth / 2, y: 12.5}}
+						connect={{x: center - rootWidth / 2, y: rootYCenter}}
 						/>
 					<BlockColumn
 						items={dependents}
-						y={5}
+						y={1}
 						x={80}
+						height={blockHeight}
 						onClick={this.handleClick}
 						align="right"
 						description="provides for"
 						location={location}
-						connect={{x: center + rootWidth / 2, y: 12.5}}
+						connect={{x: center + rootWidth / 2, y: rootYCenter}}
 						/>
 					<Block
 						type="root"
 						name={name}
 						id={id}
 						x={50 - rootWidth / 2}
-						y={10}
-						height={5}
+						y={rootY}
+						height={rootHeight}
 						width={rootWidth}
 						location={location}
 						/>

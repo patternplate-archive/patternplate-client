@@ -53,7 +53,6 @@ class Navigation extends React.Component {
 			location.query.expanded !== 'false';
 
 		const className = classnames('navigation', {slim: !expanded});
-		const expandIcon = expanded ? 'arrow-double-left' : 'arrow-double-right';
 
 		return (
 			<nav className={className}>
@@ -95,7 +94,8 @@ class Navigation extends React.Component {
 					onClick={this.handleToggleClick}
 					title={expanded ? 'Collapse navigation' : 'Expand navigation'}
 					>
-					<Icon symbol={expandIcon}/>
+					<Icon symbol="arrow-double-left" style={{display: expanded ? 'block' : 'none'}}/>
+					<Icon symbol="arrow-double-right" style={{display: expanded ? 'none' : 'block'}}/>
 				</Link>
 			</nav>
 		);

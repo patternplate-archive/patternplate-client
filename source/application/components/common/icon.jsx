@@ -45,7 +45,8 @@ class Icon extends Component {
 			types.node,
 			types.arrayOf(types.node)
 		]),
-		description: types.string
+		description: types.string,
+		style: types.object
 	};
 
 	static defaultProps = {
@@ -101,7 +102,8 @@ class Icon extends Component {
 			symbol,
 			inline,
 			children,
-			description
+			description,
+			style
 		} = this.props;
 
 		const {
@@ -126,7 +128,7 @@ class Icon extends Component {
 			fragment;
 
 		return (
-			<div className={className}>
+			<div className={className} style={style}>
 				<div className="svg-icon">
 				{
 					<svg className="svg">

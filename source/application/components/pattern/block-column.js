@@ -9,18 +9,13 @@ export default function BlockColumn(props) {
 		y,
 		location,
 		connect,
-		description,
+		height,
 		onClick
 	} = props;
 
 	if (items.length === 0) {
 		return null;
 	}
-
-	const center = {
-		y: y + items.length * 7.5 / 2,
-		x: x < 50 ? 25 : 65
-	};
 
 	return (
 		<g>
@@ -36,9 +31,9 @@ export default function BlockColumn(props) {
 							name={name}
 							x={x + offset}
 							key={[id, name].join(':')}
-							y={y + index * 7.5}
+							y={y + index * (height + 1)}
 							width={width}
-							height={5}
+							height={height}
 							connect={{...connect, n}}
 							onClick={onClick}
 							location={location}
@@ -83,7 +78,8 @@ BlockColumn.propTypes = {
 		x: t.oneOfType([t.string, t.number]).isRequired,
 		y: t.oneOfType([t.string, t.number]).isRequired
 	}).isRequired,
-	description: t.string
+	description: t.string,
+	height: t.number
 };
 
 BlockColumn.defaultProps = {
