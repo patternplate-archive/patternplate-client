@@ -18,8 +18,9 @@ class Content extends React.Component {
 	render() {
 		const {props} = this;
 
-		const id = urlQuery.parse(props.location.pathname).pathname
-			.split('/').filter(Boolean).slice(1).join('/');
+		const {pathname, query} = urlQuery.parse(props.location.pathname);
+		const id = pathname.split('/').filter(Boolean).slice(1).join('/');
+		const environment = props.environment || query.environment;
 
 		return (
 			<main className="content">
@@ -28,7 +29,7 @@ class Content extends React.Component {
 					data={props.patterns}
 					navigation={props.navigation}
 					config={props.config}
-					environment={props.environment}
+					environment={environment}
 					location={props.location}
 					/>
 			</main>

@@ -2,7 +2,7 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
-// import autobind from 'autobind-decorator';
+import autobind from 'autobind-decorator';
 // import {merge} from 'lodash';
 import urlQuery from '../../utils/url-query';
 
@@ -188,6 +188,7 @@ function getFolder(navigation, id) {
 }
 
 @pure
+@autobind
 class PatternSection extends React.Component {
 	displayName = 'PatternSection';
 	state = {
@@ -300,7 +301,7 @@ class PatternSection extends React.Component {
 	}
 
 	componentDidMount() {
-		if (!this.state.data) {
+		if (!this.props.data) {
 			this.get(this.props);
 		}
 	}

@@ -61,7 +61,7 @@ export default class PatternDependencies extends Component {
 		const rootHeight = blockHeight;
 		const rootYCenter = rootY + rootHeight / 2;
 		const blockSpace = blockHeight + 1;
-		const viewBoxHeight = Math.max(Math.max(dependencies.length, dependents.length) * blockSpace + offsetY + 1, blockSpace + offsetY + 1);
+		const viewBoxHeight = Math.max(Math.max(dependencies.length, dependents.length) * blockSpace + offsetY + 2, blockSpace + offsetY + 2);
 
 		return (
 			<div className={className}>
