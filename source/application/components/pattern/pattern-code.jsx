@@ -31,7 +31,8 @@ class PatternCode extends React.Component {
 	};
 
 	state = {
-		code: ''
+		code: '',
+		copying: false
 	};
 
 	componentDidMount() {
@@ -79,6 +80,16 @@ class PatternCode extends React.Component {
 			this.ref.focus();
 			this.ref.select();
 			global.document.execCommand('copy');
+			this.setState({
+				...this.state,
+				copying: true
+			});
+			setTimeout(() => {
+				this.setState({
+					...this.state,
+					copying: false
+				});
+			}, 3000);
 		}
 	}
 
@@ -91,7 +102,7 @@ class PatternCode extends React.Component {
 			children
 		} = this.props;
 
-		const {code} = this.state;
+		const {code, copying} = this.state;
 
 		const formatClassName = cx(`hljs`, format);
 
@@ -103,7 +114,7 @@ class PatternCode extends React.Component {
 						{
 							copy &&
 								<button type="button" onClick={this.handleCopyClick}>
-									Copy
+									{copying ? 'Copied!' : 'Copy to clipboard'}
 								</button>
 						}
 					</div>

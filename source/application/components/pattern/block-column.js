@@ -21,14 +21,19 @@ export default function BlockColumn(props) {
 		<g>
 			{
 				items.map(({name, id}, index) => {
-					const width = Math.max(5, name.length * 1.25);
+					const raw = [name, name !== id && `(${id})`]
+						.filter(Boolean)
+						.join(' ');
+					const label = raw.length > 40 ? `${raw.slice(0, 37)}...` : raw;
+
+					const width = Math.max(5, label.length);
 					const offset = align === 'right' ? width + 1 : 0;
 					const n = (50 - width) / 3;
 					return (
 						<Block
 							type="block"
 							id={id}
-							name={name}
+							name={label}
 							x={x - offset}
 							key={[id, name].join(':')}
 							y={y + index * (height + 1)}

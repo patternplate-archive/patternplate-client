@@ -343,6 +343,7 @@ class Pattern extends React.Component {
 									name="Relations"
 									highlight={false}
 									key={`${id}/dependencies`}
+									copy={false}
 									>
 									<PatternDependencies
 										id={id}
