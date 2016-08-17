@@ -2,6 +2,8 @@ import React, {PropTypes as types} from 'react';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
 
+import PatternLoaderIcon from './pattern-loader-icon';
+
 @pure
 class PatternLoader extends React.Component {
 	displayName = 'PatternLoader';
@@ -12,37 +14,23 @@ class PatternLoader extends React.Component {
 
 	static propTypes = {
 		error: types.bool.isRequired,
+		inverted: types.bool,
 		hidden: types.bool
 	};
-
-	state = {
-		isHidden: true
-	};
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.hidden && !this.props.hidden && !this.state.isHidden) {
-			setTimeout(() => {
-				this.setState({
-					isHidden: true
-				});
-			}, 300);
-		} else if (!nextProps.hidden) {
-			this.setState({
-				isHidden: false
-			});
-		}
-	}
 
 	render() {
 		const className = classnames('pattern-loader', {
 			'pattern-error': this.props.error,
-			'pattern-loader--hidden': this.props.hidden,
-			'pattern-loader--is-hidden': this.state.isHidden
+			'pattern-loader--hidden': this.props.hidden
 		});
 
 		return (
 			<div className={className}>
-				<div className="pattern-loader-icon"/>
+				<PatternLoaderIcon
+					width={200}
+					height={200}
+					inverted={this.props.inverted}
+					/>
 			</div>
 		);
 	}

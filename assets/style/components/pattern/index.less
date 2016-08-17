@@ -24,6 +24,7 @@
 	flex-grow: 1;
 	overflow: hidden;
 	width: 100%;
+	height: 100%;
 	.pattern-toolbar {
 		position: fixed;
 		z-index: 2;
@@ -346,6 +347,9 @@
 	@media screen and (min-width: 500px) {
 		margin: 0;
 	}
+	&--loading {
+		overflow: hidden;
+	}
 }
 
 .pattern-header {
@@ -355,7 +359,18 @@
 	}
 }
 
+.pattern-loader-container {
+}
+
 .pattern-loader {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+/* .pattern-loader {
 	position: absolute;
 	top: 1px;
 	right: -30px;
@@ -384,7 +399,7 @@
 			background-image: none;
 		}
 	}
-}
+}*/
 .pattern-error {
 	.svg {
 		color: @error-color;
@@ -418,7 +433,71 @@
 	}
 }
 
-table.pattern-folder {
+.pattern-folder {
+	display: table;
+	max-width: 1000px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	list-style-type: none;
+	margin-left: -15px;
+	@media (min-width: 500px) {
+		margin-left: 0;
+	}
+}
+
+.pattern-item,
+.pattern-folder-head {
+	display: table-row;
+	padding: 5px 10px;
+	min-height: 60px;
+	border-bottom: 1px solid @border-color;
+	background-color: @root-background;
+	transition: background-color .3s ease-in-out;
+}
+
+.pattern-item {
+	cursor: pointer;
+	&:hover {
+		background: fadeout(@border-color, 50%);
+	}
+}
+
+.pattern-folder-head__cell {
+	font-weight: bold;
+}
+
+.pattern-field,
+.pattern-folder-head__cell {
+	display: table-cell;
+	vertical-align: middle;
+	text-align: center;
+	padding: 5px;
+	height: 60px;
+	border-bottom: 1px solid @border-color;
+	&:first-child,
+	&:last-child {
+		white-space: nowrap;
+	}
+	&:first-child {
+		padding-left: 10px;
+		text-align: left;
+	}
+	&:last-child {
+		padding-right: 10px;
+		text-align: right;
+	}
+}
+
+.pattern-field {
+	&.pattern-field--name {
+		.icon {
+			margin-right: 10px;
+		}
+	}
+}
+
+/* table.pattern-folder {
 	table-layout: fixed;
 	font: inherit;
 	color: inherit;
@@ -459,7 +538,7 @@ table.pattern-folder {
 			}
 		}
 	}
-}
+}*/
 
 .pattern-breadcrumbs {
 	position: fixed;
@@ -514,4 +593,17 @@ table.pattern-folder {
 		transform: translateY(100%);
 		transition: transform .2s ease-in-out;
 	}
+}
+
+.pattern-loader-transition-leave {
+	opacity: 0;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity 300ms ease-in;
+}
+
+.pattern-container {
+	height: ~'calc(100vh - 125px)';
 }
