@@ -70,9 +70,10 @@ class PatternSection extends React.Component {
 
 		const theme = location.query.theme || 'light';
 
+		console.log({loading});
 		const content = loading ?
 			<PatternLoader key="pattern-loader" inverted={theme === 'dark'}/> :
-			getPatternContent(type, data, this.props);
+			data && data.manifest ? getPatternContent(type, data, this.props) : null;
 
 		const className = join('pattern-section', {
 			[`pattern-section--loading`]: loading

@@ -112,6 +112,8 @@
     "redux-logger": "^2.6.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
+    "s-ago": "^1.1.0",
+    "strip-ansi": "^3.0.1",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
@@ -136,9 +138,11 @@
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-react": "^4.3.0",
     "in-publish": "^2.0.0",
+    "insert-css": "^0.2.0",
     "jsonlint": "^1.6.2",
     "minifyify": "^7.3.3",
     "parallelshell": "^2.0.0",
+    "sheetify": "^5.0.5",
     "watchify": "^3.7.0"
   }
 }

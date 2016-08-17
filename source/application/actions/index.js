@@ -1,10 +1,25 @@
 import 'isomorphic-fetch';
 import {merge} from 'lodash';
+import {createAction} from 'redux-actions';
 
 import {createPromiseThunkAction} from './promise-thunk-action';
 import urlQuery from '../utils/url-query';
 
 const headers = {headers: {accept: 'application/json'}, credentials: 'include'};
+
+async function getError(response) {
+	try {
+		const json = await response.json();
+		const error = new Error(json.message);
+		return merge(error, json);
+	} catch (error) {
+		error.message = [
+			`Request for ${response.uri} failed with code ${response.status}: ${response.statusText}`,
+			error.message
+		].join('\n');
+		return error;
+	}
+}
 
 export const getPatternData = createPromiseThunkAction('GET_PATTERN_DATA', async payload => {
 	const {id, query} = payload;
@@ -15,15 +30,12 @@ export const getPatternData = createPromiseThunkAction('GET_PATTERN_DATA', async
 	const response = await global.fetch(uri, headers);
 
 	if (response.status >= 400) {
-		try {
-			const jsonError = await response.json();
-			const dataError = new Error(jsonError.message);
-			merge(dataError, jsonError);
-			throw dataError;
-		} catch (error) {
-			throw new Error(`Request for ${uri} failed with code ${response.status}: ${response.statusText}`);
-		}
+		throw await getError(response);
 	}
 
 	return response.json();
 });
+
+export const getTime = createAction('GET_TIME');
+
+export const dismissMessage = createAction('DISMISS_MESSAGE');

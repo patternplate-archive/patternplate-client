@@ -1,4 +1,119 @@
 .messages {
+	display: flex;
+	flex-direction: column;
+	position: fixed;
+	top: 75px;
+	right: 15px;
+	left: 15px;
+	/* width: 35vw;
+	min-width: 200px; */
+	width: ~'calc(100vw - 30px)';
+	max-height: ~'calc(100vh - 75px - 15px)';
+	z-index: 4;
+	@media (min-width: 500px) {
+		left: auto;
+		width: ~'calc(75vw - 15px)';
+		min-width: 200px;
+		max-width: 400px;
+	}
+}
+
+.message {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	border-radius: 2px;
+	min-height: 160px;
+	max-height: 50vh;
+	margin-bottom: 15px;
+	box-shadow: 0 0 7px rgba(0,0,0,0.1);
+	&.message--error {
+		color: #fff;
+		background: @error-color;
+	}
+	.message__button {
+		background: transparent;
+		border: 1px solid #fff;
+		color: #fff;
+		transition: .3s background ease-in-out;
+		&:focus {
+			outline: none;
+		}
+		&:hover {
+			background: fadeout(#fff, 75%);
+		}
+	}
+	.message__header {
+		display: flex;
+		align-items: center;
+		flex-grow: 0;
+		flex-shrink: 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+	}
+	.message__body {
+		padding: 10px;
+		overflow: auto;
+		flex-grow: 1;
+		flex-shrink: 1;
+	}
+	.message__meta {
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+	.message__button {
+		flex-shrink: 0;
+		flex-grow: 0;
+	}
+	.message__title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding: 10px;
+		max-height: 80px;
+		align-items: center;
+		font-weight: bold;
+	}
+	.message__action {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+	}
+	.message__preformatted {
+		margin: 0;
+		font-size: .9em;
+	}
+	.message__meta {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px;
+		font-size: .75em;
+		border-top: 1px solid rgba(255, 255, 255, 0.25);
+		.svg-icon {
+			width: 2em;
+			height: 2em;
+		}
+	}
+	.message__field {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		flex-grow: 1;
+		flex-shrink: 1;
+		&:first-child,
+		&:last-child {
+			flex-grow: 0;
+			flex-shrink: 0;
+		}
+		&:not(:last-child) {
+			padding-right: 10px;
+		}
+	}
+}
+
+
+
+/* .messages {
 	position: fixed;
 	right: 0;
 	bottom: 0;
@@ -44,7 +159,6 @@
 			color: @error-color;
 		}
 	}
-	/* message types */
 	.error .message-container {
 		background: @error-color;
 		color: #fff;
@@ -70,4 +184,4 @@
 	&.message-leave-active{
 		height: 0;
 	}
-}
+} */

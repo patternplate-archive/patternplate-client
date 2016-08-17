@@ -10,14 +10,14 @@ export function createPromiseThunkAction(name, rawCreator) {
 			dispatch(createAction(`${name}_START`)(payload));
 			const delayedTimer = global.setTimeout(() => {
 				dispatch(createAction(`${name}_DELAYED`)(payload));
-			}, 300);
+			}, 1000);
 			try {
 				const result = await creator(payload);
 				global.clearTimeout(delayedTimer);
 				dispatch(createAction(`${name}_SUCCESS`)(result));
 			} catch (error) {
 				global.clearTimeout(delayedTimer);
-				dispatch(createAction(`${name}_THROW`)(error));
+				dispatch(createAction(`${name}_THROWS`)(error));
 			}
 		};
 	};
@@ -31,7 +31,7 @@ export function handlePromiseThunkAction(rawName, handler, defaults) {
 		[`${name}_START`]: handler.start || ident,
 		[`${name}_DELAYED`]: handler.delayed || ident,
 		[`${name}_SUCCESS`]: handler.success || ident,
-		[`${name}_THROW`]: handler.throw || ident
+		[`${name}_THROWS`]: handler.throws || ident
 	}, defaults);
 	return reducer;
 }

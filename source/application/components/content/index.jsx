@@ -2,13 +2,15 @@ import React, {PropTypes as types} from 'react';
 import {sortBy} from 'lodash';
 
 // import Messages from './messages';
-import {getPatternData} from '../../actions';
-import PatternFolder from '../pattern/pattern-folder';
-import PatternSection from '../pattern/pattern-section';
+
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 
+import Message from '../common/message';
 import urlQuery from '../../utils/url-query';
+import {getPatternData, getTime, dismissMessage} from '../../actions';
+import PatternFolder from '../pattern/pattern-folder';
+import PatternSection from '../pattern/pattern-section';
 
 function navigate(id, navigation) {
 	let scope = navigation;
@@ -79,6 +81,17 @@ class Content extends React.Component {
 		dispatch(getPatternData({id, query, options}));
 	}
 
+	handleTimeRequest() {
+		const {dispatch} = this.props;
+		dispatch(getTime());
+	}
+
+	hadleMessageDismiss(id) {
+		const {dispatch} = this.props;
+		console.log({id});
+		dispatch(dismissMessage(id));
+	}
+
 	render() {
 		const {props} = this;
 		const {hierarchy} = props.config;
@@ -116,6 +129,27 @@ class Content extends React.Component {
 							onDataRequest={this.handleDataRequest}
 							/>
 				}
+				<aside className="messages">
+					{
+						props.messages.map(message => {
+							return (
+								<Message
+									id={message.id}
+									key={message.id}
+									type={message.type}
+									title={message.subject}
+									body={message.body || message.stack}
+									pattern={message.pattern}
+									file={message.file}
+									timestamp={message.timestamp}
+									time={props.time}
+									onTimeRequest={this.handleTimeRequest}
+									onDismiss={this.hadleMessageDismiss}
+									/>
+							);
+						})
+					}
+				</aside>
 			</main>
 		);
 	}

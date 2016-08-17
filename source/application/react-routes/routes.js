@@ -12,8 +12,9 @@ const ConnectedHome = connect(state => {
 	return {readme: state.schema.readme};
 })(Home);
 
-const ConnectedContent = connect(({config, navigation, patterns}) => {
-	return {config, navigation, patterns};
+const ConnectedContent = connect(state => {
+	const {config, navigation, patterns, messages, time} = state;
+	return {config, navigation, patterns, messages, time};
 })(Content);
 
 export default function () {
