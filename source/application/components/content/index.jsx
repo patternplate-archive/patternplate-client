@@ -1,7 +1,6 @@
 import React, {PropTypes as types} from 'react';
 import {sortBy} from 'lodash';
-
-// import Messages from './messages';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
@@ -86,10 +85,15 @@ class Content extends React.Component {
 		dispatch(getTime());
 	}
 
-	hadleMessageDismiss(id) {
+	handleMessageDismiss(id) {
 		const {dispatch} = this.props;
-		console.log({id});
 		dispatch(dismissMessage(id));
+	}
+
+	handleMessageRetry(payload) {
+		const {dispatch} = this.props;
+		console.log(payload);
+		dispatch(getPatternData(payload));
 	}
 
 	render() {
@@ -129,7 +133,13 @@ class Content extends React.Component {
 							onDataRequest={this.handleDataRequest}
 							/>
 				}
-				<aside className="messages">
+				<CSSTransitionGroup
+					component="aside"
+					transitionName="pattern-content-transition"
+					className="messages"
+					transitionEnterTimeout={300}
+					transitionLeaveTimeout={300}
+					>
 					{
 						props.messages.map(message => {
 							return (
@@ -140,16 +150,20 @@ class Content extends React.Component {
 									title={message.subject}
 									body={message.body || message.stack}
 									pattern={message.pattern}
+									payload={message.payload}
+									retry={message.retry}
 									file={message.file}
 									timestamp={message.timestamp}
 									time={props.time}
 									onTimeRequest={this.handleTimeRequest}
-									onDismiss={this.hadleMessageDismiss}
+									onDismiss={this.handleMessageDismiss}
+									onRetry={this.handleMessageRetry}
+									location={props.location}
 									/>
 							);
 						})
 					}
-				</aside>
+				</CSSTransitionGroup>
 			</main>
 		);
 	}

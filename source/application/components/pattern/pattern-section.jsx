@@ -1,4 +1,4 @@
-import React, {PropTypes as types} from 'react';
+import React, {PropTypes as t} from 'react';
 import {Link} from 'react-router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
@@ -9,28 +9,19 @@ import {pick, isEqual} from 'lodash';
 import 'isomorphic-fetch';
 
 import PatternLoader from './pattern-loader';
-import getPatternContent from './util/get-pattern-content';
-// import getFolder from './util/get-folder';
-// import urlQuery from '../../utils/url-query';
+import PatternContent from './pattern-content';
 
 @pure
 @autobind
 class PatternSection extends React.Component {
-	displayName = 'PatternSection';
-	state = {
-		data: null,
-		error: false,
-		type: null
-	};
-
 	static propTypes = {
-		id: types.string.isRequired,
-		data: types.object,
-		config: types.object.isRequired,
-		environment: types.string.isRequired,
-		location: types.object.isRequired,
-		onDataRequest: types.func.isRequired,
-		type: types.string.isRequired
+		id: t.string.isRequired,
+		data: t.object,
+		config: t.object.isRequired,
+		environment: t.string.isRequired,
+		location: t.object.isRequired,
+		onDataRequest: t.func.isRequired,
+		type: t.string.isRequired
 	};
 
 	static defaultProps = {
@@ -55,8 +46,13 @@ class PatternSection extends React.Component {
 		}
 	}
 
+	handleDataRequest(id, query, options) {
+		this.props.onDataRequest(id, query, options);
+	}
+
 	render() {
-		const {location, type, data = {}} = this.props;
+		const {props} = this;
+		const {location, data, config} = props;
 		const loading = data && data.loading;
 
 		const fragments = this.props.id.split('/');
@@ -69,11 +65,7 @@ class PatternSection extends React.Component {
 			});
 
 		const theme = location.query.theme || 'light';
-
-		console.log({loading});
-		const content = loading ?
-			<PatternLoader key="pattern-loader" inverted={theme === 'dark'}/> :
-			data && data.manifest ? getPatternContent(type, data, this.props) : null;
+		const inverted = theme === 'dark';
 
 		const className = join('pattern-section', {
 			[`pattern-section--loading`]: loading
@@ -112,7 +104,21 @@ class PatternSection extends React.Component {
 					transitionEnterTimeout={300}
 					transitionLeave={false}
 					>
-					{content}
+					{
+						loading ?
+							<PatternLoader
+								key="pattern-loader"
+								inverted={inverted}
+								/> :
+							<PatternContent
+								id={props.id}
+								data={data}
+								config={config}
+								location={location}
+								loading={loading}
+								onDataRequest={this.handleDataRequest}
+								/>
+					}
 				</CSSTransitionGroup>
 			</section>
 		);

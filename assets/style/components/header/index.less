@@ -32,6 +32,9 @@
 	.toolbar {
 		display: inline-block;
 		width: 82.5%;
+		.button {
+			margin: 0 8px;
+		}
 		@media screen and (max-width: 900px) {
 			width: 70%;
 		}
@@ -51,22 +54,6 @@
 .toolbar {
 	text-align: right;
 	padding: 7px 5px;
-	.button {
-		margin: 0 8px;
-		padding: 4px;
-		background: transparent;
-		border: none;
-		vertical-align: middle;
-		border: 1px solid @border-color;
-		color: @active-color;
-		cursor: pointer;
-		&:focus {
-			outline: none;
-		}
-		.icon {
-			margin: 0;
-		}
-	}
 	@media screen and (max-width: 500px) {
 		.button,
 		.menu{

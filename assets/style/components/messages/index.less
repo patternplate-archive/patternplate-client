@@ -14,7 +14,7 @@
 		left: auto;
 		width: ~'calc(75vw - 15px)';
 		min-width: 200px;
-		max-width: 400px;
+		max-width: 600px;
 	}
 }
 
@@ -36,11 +36,15 @@
 		border: 1px solid #fff;
 		color: #fff;
 		transition: .3s background ease-in-out;
+		cursor: pointer;
 		&:focus {
 			outline: none;
 		}
 		&:hover {
 			background: fadeout(#fff, 75%);
+		}
+		&:not(:last-child) {
+			margin-right: 5px;
 		}
 	}
 	.message__header {
@@ -100,6 +104,7 @@
 		text-overflow: ellipsis;
 		flex-grow: 1;
 		flex-shrink: 1;
+		color: #fff;
 		&:first-child,
 		&:last-child {
 			flex-grow: 0;
@@ -108,6 +113,9 @@
 		&:not(:last-child) {
 			padding-right: 10px;
 		}
+	}
+	a.message__field:hover {
+		color: fadeout(#fff, 25%);
 	}
 }
 

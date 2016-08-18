@@ -32,7 +32,8 @@
 	background: transparent;
 	overflow: visible;
 	width: 4px;
-	background-color: @border-color;
+	height: 4px;
+	background-color: fadeout(#999, 50%);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -45,7 +46,7 @@
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-	height: 4px;
+	min-height: 4px;
 }
 
 ::-webkit-scrollbar-track-piece {

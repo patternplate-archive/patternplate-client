@@ -37,3 +37,20 @@ a {
 		color: lighten(@active-color, 15%);
 	}
 }
+
+.button {
+	//margin: 0 8px;
+	padding: 4px;
+	background: transparent;
+	border: none;
+	vertical-align: middle;
+	border: 1px solid @border-color;
+	color: @active-color;
+	cursor: pointer;
+	&:focus {
+		outline: none;
+	}
+	.icon {
+		margin: 0;
+	}
+}

@@ -352,14 +352,22 @@
 	}
 }
 
-.pattern-header {
-	padding: 10px 15px 0 15px;
+.pattern-header-container {
+	display: flex;
+	align-items: center;
+	padding: 10px 15px;
 	@media screen and (min-width: 500px) {
-		padding: 10px 30px 0 30px;
+		padding: 10px 13px 10px 30px;
 	}
 }
 
-.pattern-loader-container {
+.pattern-header {
+	width: 100%;
+}
+
+.pattern-header__actions {
+	flex-grow: 0;
+	flex-shrink: 0;
 }
 
 .pattern-loader {

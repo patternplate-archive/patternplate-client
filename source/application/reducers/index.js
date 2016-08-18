@@ -1,3 +1,4 @@
+import path from 'path';
 import strip from 'strip-ansi';
 import md5 from 'md5';
 
@@ -13,16 +14,19 @@ function compose(...args) {
 	};
 }
 
-function createMessage(payload, seed = 1) {
-	const lines = payload.message.split('\n');
+function createMessage(error, seed = 1) {
+	error.cwd = '/Users/marneb/projects/patternplate/patternplate/patterns/';
+	const lines = error.message.split('\n');
 	return {
 		type: 'error',
 		id: md5([Date.now(), seed, ...lines].join('-')),
 		subject: lines[0],
 		body: strip(lines.slice(1, lines.length).join('\n')),
-		stack: strip(payload.stack),
-		pattern: payload.pattern,
-		file: payload.file
+		stack: strip(error.stack),
+		pattern: error.pattern,
+		payload: error.payload,
+		retry: error.pattern && error.payload,
+		file: error.cwd && error.file ? path.relative(error.cwd, error.file).slice(-25) : null
 	};
 }
 
@@ -32,28 +36,36 @@ export default {
 	patterns: handlePromiseThunkAction(getPatternData, {
 		start(state, {payload}) {
 			const loading = payload.options.loading;
+			const reloading = payload.options.reloading;
 			const amend = loading ? {} : state;
 
 			return {
 				...amend,
-				loading
+				loading,
+				reloading
 			};
 		},
 		success(state, {payload}) {
 			const {id, manifest, results, dependencies, environments} = payload;
-			return {id, manifest, results, dependencies, environments, loading: false};
+			return {
+				id, manifest, results, dependencies, environments, loading: false,
+				reloading: false
+			};
 		},
 		throws() {
-			return {loading: false};
+			return {loading: false, reloading: false};
 		}
 	}, []),
 	messages: compose(
 		handlePromiseThunkAction(getPatternData, {
+			/* start() {
+				return [];
+			}, */
 			success() {
 				return [];
 			},
-			throws(state, {payload}) {
-				const message = createMessage(payload);
+			throws(state, {payload: error}) {
+				const message = createMessage(error);
 				return [message, ...state.slice(0, 2)];
 			}
 		}, []),

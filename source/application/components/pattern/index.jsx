@@ -1,19 +1,17 @@
-import React, {PropTypes as types} from 'react';
-import {Link} from 'react-router';
-import autobind from 'autobind-decorator';
-import cx from 'classnames';
-import pure from 'pure-render-decorator';
+import React, {PropTypes as t} from 'react';
 import {merge} from 'lodash';
-
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+import autobind from 'autobind-decorator';
+import pure from 'pure-render-decorator';
 
+
+import PatternHeader from './pattern-header';
 import PatternCode from './pattern-code';
 import PatternDependencies from './pattern-dependencies';
 import PatternDocumentation from './pattern-documentation';
 import PatternControl from './pattern-control';
 import PatternDemo from './pattern-demo';
 
-import Headline from '../common/headline';
 import Icon from '../common/icon';
 import urlQuery from '../../utils/url-query';
 
@@ -29,22 +27,26 @@ class Pattern extends React.Component {
 	displayName = 'Pattern';
 
 	static propTypes = {
-		id: types.string.isRequired,
-		config: types.object.isRequired,
-		manifest: types.object.isRequired,
-		results: types.object.isRequired,
-		environment: types.string.isRequired,
-		onEnvironmentChange: types.func.isRequired,
-		location: types.object.isRequired
+		id: t.string.isRequired,
+		config: t.object.isRequired,
+		manifest: t.object.isRequired,
+		results: t.object.isRequired,
+		environment: t.string.isRequired,
+		onEnvironmentChange: t.func.isRequired,
+		onDataRequest: t.func.isRequired,
+		location: t.object.isRequired,
+		loading: t.bool.isRequired,
+		reloading: t.bool.isRequired
 	};
 
 	static defaultProps = {
 		environment: 'index',
-		onEnvironmentChange: () => {}
+		onEnvironmentChange: () => {},
+		onDataRequest: () => {}
 	};
 
 	static contextTypes = {
-		router: types.any
+		router: t.any
 	};
 
 	comprehend(results, id) {
@@ -127,10 +129,19 @@ class Pattern extends React.Component {
 		this.context.router.push({pathname, query});
 	}
 
+	@autobind
+	handleReloadClick() {
+		const {id} = this.props;
+		const query = {environment: this.props.environment};
+		this.props.onDataRequest(id, query, {reloading: true, loading: false});
+	}
+
 	render() {
 		const {
 			id,
 			environment,
+			reloading,
+			loading,
 			manifest: {
 				demoEnvironments = [],
 				displayName,
@@ -140,9 +151,6 @@ class Pattern extends React.Component {
 				tags = [],
 				flag,
 				version
-			},
-			config: {
-				fullscreenPatterns
 			},
 			location
 		} = this.props;
@@ -210,63 +218,20 @@ class Pattern extends React.Component {
 				);
 		}
 
-		const allowFullscreen = fullscreenPatterns.every(rule => {
-			return !id.match(new RegExp(rule));
-		});
-
-		let content;
-
-		if (allowFullscreen) {
-			content = <PatternDemo environment={environment} target={id}/>;
-		} else {
-			content = (
-				<div className="pattern-fullscreen-message">
-					{"This pattern is disabled in embedded view. Please open the "}
-					<a href={fullscreen} target="_blank">fullscreen view</a>
-					{" to display it."}
-				</div>
-			);
-		}
-
-		const flagClassName = cx(`pattern__flag`, {
-			[`pattern__flag--${flag}`]: flag
-		});
-
 		return (
 			<div className="pattern">
-				<Headline className="pattern-header" order={2}>
-					<span className="pattern-name">{displayName || name}</span>
-					<small className="pattern-version">v{version}</small>
-					{
-						flag &&
-							<small className={flagClassName}>
-								<Link
-									title={`Search patterns with flag ${flag}`}
-									to={{
-										pathname: location.pathname,
-										query: {...location.query, search: `flag:${flag}`}
-									}}
-									>
-									{flag}
-								</Link>
-							</small>
-					}
-					{tags.map((tag, key) =>
-						<small key={key} className="pattern-tag">
-							<Link
-								title={`Search patterns with tag ${tag}`}
-								to={{
-									pathname: location.pathname,
-									query: {...location.query, search: `tag:${flag}`}
-								}}
-								key={key}
-								>
-								{tag}
-							</Link>
-						</small>
-					)}
-				</Headline>
-				{content}
+				<PatternHeader
+					id={id}
+					name={displayName || name || id}
+					version={version}
+					flag={flag}
+					tags={tags}
+					location={location}
+					loading={loading}
+					reloading={reloading}
+					onReloadClick={this.handleReloadClick}
+					/>
+				<PatternDemo environment={environment} target={id}/>
 				<CSSTransitionGroup
 					component="div"
 					className="pattern-toolbar"
