@@ -26,14 +26,14 @@ function styleRouteFactory(application) {
 		}
 
 		if (process.env.NODE_ENV === 'production') {
-			this.throws(404);
+			this.throw(404);
 		}
 
 		const name = (this.params.path || '').replace('.css', '.less');
 		const path = resolve(application.runtime.cwd, 'assets', 'style', name);
 
 		if (!await exists(path)) {
-			this.throws(404);
+			this.throw(404);
 		}
 
 		try {

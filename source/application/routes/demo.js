@@ -29,7 +29,7 @@ function demoRouteFactory(application) {
 			application.server;
 
 		if (!server) {
-			this.throws(500, new Error('patternplate-server is unavailable, are you running patternplate?'));
+			this.throw(500, new Error('patternplate-server is unavailable, are you running patternplate?'));
 			return;
 		}
 
