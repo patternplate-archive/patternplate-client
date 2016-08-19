@@ -1,36 +1,32 @@
 const routes = {
-	'path': [
+	path: [
 		'application/routes',
 		'application/patternplate-client/routes'
 	],
-	'enabled': {
-		'index': {
-			'enabled': true,
-			'path': '/'
+	enabled: {
+		index: {
+			enabled: true,
+			path: '/'
 		},
-		'pattern': {
-			'enabled': true,
-			'path': '/pattern/:path+'
+		pattern: {
+			enabled: true,
+			path: '/pattern/:path+'
 		},
-		'demo': {
-			'enabled': true,
-			'path': '/demo/:path+'
+		demo: {
+			enabled: true,
+			path: '/demo/:id+'
 		},
-		'script': {
-			'enabled': true,
-			'path': '/script/:path+'
+		script: {
+			enabled: true,
+			path: '/script/:path+'
 		},
-		'style': {
-			'enabled': true,
-			'path': '/style/:path+'
+		style: {
+			enabled: true,
+			path: '/style/:path+'
 		},
-		'api': {
-			'enabled': true,
-			'path': '/api/:path?*'
-		},
-		'static': {
-			'enabled': true,
-			'path': '/static/:path+'
+		static: {
+			enabled: true,
+			path: '/static/:path+'
 		}
 	}
 };

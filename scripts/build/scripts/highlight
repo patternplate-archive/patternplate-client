@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+./scripts/build/scripts/bundle \
+	source/assets/script/highlight.js \
+	assets/script/highlight.bundle.js \
+	-x \
+	./highlight.bundle.map \
+	./assets/script/highlight.bundle.map \
+	"$@"

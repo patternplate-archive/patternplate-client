@@ -1,28 +1,49 @@
-import {normalize} from 'path';
-import proxy from 'koa-proxy';
-import btoa from 'btoa';
+import path from 'path';
+import {sync as resolveSync} from 'resolve';
+const resolve = id => resolveSync(id, {basedir: process.cwd()});
 
-function apiRouteFactory (application) {
-	return function * apiRoute (next) {
-		let config = application.configuration.client;
-		let serverConfig = application.configuration.server;
+import urlQuery from '../utils/url-query';
 
-		let serverHost = `${serverConfig.host}:${serverConfig.port}`;
-		let clientHost = `${config.host}:${config.port}`;
+function requireServer(id) {
+	return require(resolve(`patternplate-server/library/${id}`));
+}
 
-		let proxied = clientHost === serverHost;
-		let path = proxied ? '/api/pattern/' : '/pattern/';
-		let host = `${this.protocol}://${config.host}:${config.port}${path}`;
-		this.path = this.path.split('/').slice(2).join('/');
+function getPatternId(raw) {
+	const parsed = path.parse(raw);
+	const base = path.basename(raw, path.extname(raw));
 
-		Object.assign(this.headers, config.headers || {});
+	if (base === 'index' && path.extname(raw) !== '.json') {
+		return path.dirname(raw);
+	}
 
-		if (config.credentials) {
-			this.headers.authorization = 'Basic ' + btoa(`${config.credentials.name}:${config.credentials.pass}`);
+	return `${path.dirname(raw)}/${path.basename(parsed.base, path.extname(parsed.base))}`;
+}
+
+const getPatternDemo = requireServer('get-pattern-demo');
+
+function demoRouteFactory(application) {
+	return async function demoRoute() {
+		this.type = 'html';
+
+		const server = (application.parent && application.parent.server) ||
+			application.server;
+
+		if (!server) {
+			this.throws(500, new Error('patternplate-server is unavailable, are you running patternplate?'));
+			return;
 		}
 
-		yield proxy({host}).call(this, next);
+		const parsed = urlQuery.parse(this.params.id);
+		const id = getPatternId(parsed.pathname);
+		const {environment = 'index'} = parsed.query;
+
+		const filters = {
+			outFormats: ['html'],
+			environments: [environment].filter(Boolean)
+		};
+
+		this.body = await getPatternDemo(server, id, filters, environment);
 	};
 }
 
-export default apiRouteFactory;
+export default demoRouteFactory;

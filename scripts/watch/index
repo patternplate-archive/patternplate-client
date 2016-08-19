@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+concurrently -k\
+	"./scripts/watch/styles" \
+	"./scripts/watch/scripts/index"

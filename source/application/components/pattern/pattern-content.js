@@ -16,7 +16,7 @@ export default function PatternContent(props) {
 	const environment = urlQuery.parse(location.pathname).query.environment;
 
 	if (!data || !data.manifest) {
-		return null;
+		return <div/>;
 	}
 
 	return (

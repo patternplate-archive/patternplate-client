@@ -12,6 +12,7 @@ class Home extends Component {
 	render() {
 		return (
 			<main className="content home">
+				Hello?
 				<Markdown source={this.props.readme}/>
 			</main>
 		);
