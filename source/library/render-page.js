@@ -27,8 +27,12 @@ const defaultData = {
 };
 
 export default async function renderPage(application, pageUrl) {
-	const schema = application.parent ? await getSchema(application.parent.server) : {};
-	const navigation = application.parent ? await getNavigation(application.parent.server) : {};
+	const app = application.parent;
+	const client = application;
+	const server = app.server;
+
+	const schema = app ? await getSchema(app, client, server) : {};
+	const navigation = app ? await getNavigation(app, client, server) : {};
 
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
