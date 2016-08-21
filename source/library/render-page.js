@@ -42,7 +42,7 @@ export default async function renderPage(application, pageUrl) {
 	const config = application.configuration.ui;
 	const options = {
 		url: pageUrl,
-		title: application.configuration.ui.title || 'patternplate-client',
+		title: application.configuration.ui.title || schema.name,
 		theme: query.theme || application.configuration.ui.theme,
 		config
 	};
