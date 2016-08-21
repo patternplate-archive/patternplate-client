@@ -1,49 +1,80 @@
 import path from 'path';
-import {sync as resolveSync} from 'resolve';
-const resolve = id => resolveSync(id, {basedir: process.cwd()});
 
 import urlQuery from '../utils/url-query';
 
-function requireServer(id) {
-	return require(resolve(`patternplate-server/library/${id}`));
+const getPatternDemo = require('patternplate-server/library/get-pattern-demo');
+const getPatternFile = require('patternplate-server/library/get-pattern-file');
+
+function withErrorHandling(fn) {
+	return async function(...args) {
+		const [, id] = args;
+		try {
+			const result = await fn(...args);
+			if (!result) {
+				const error = new Error(`Could not find pattern with id ${id}`);
+				error.fileName = id;
+				error.file = id;
+				error.status = 404;
+				throw error;
+			}
+			return [null, result];
+		} catch (error) {
+			return [error];
+		}
+	};
 }
 
 function getPatternId(raw) {
 	const parsed = path.parse(raw);
+	const extension = getPatternExtension(raw);
 	const base = path.basename(raw, path.extname(raw));
 
-	if (base === 'index' && path.extname(raw) !== '.json') {
+	if (base === 'index' && extension !== 'json') {
 		return path.dirname(raw);
 	}
 
 	return `${path.dirname(raw)}/${path.basename(parsed.base, path.extname(parsed.base))}`;
 }
 
-const getPatternDemo = requireServer('get-pattern-demo');
+function getPatternExtension(raw) {
+	return path.extname(raw).slice(1) || 'html';
+}
 
-function demoRouteFactory(application) {
-	return async function demoRoute() {
-		this.type = 'html';
+const getPatternDemoOrError = withErrorHandling(getPatternDemo);
+const getPatternFileOrError = withErrorHandling(getPatternFile);
 
-		const server = (application.parent && application.parent.server) ||
-			application.server;
-
-		if (!server) {
-			this.throw(500, new Error('patternplate-server is unavailable, are you running patternplate?'));
-			return;
-		}
-
+export default function patternRouteFactory(application) {
+	return async function patternRoute() {
 		const parsed = urlQuery.parse(this.params.id);
 		const id = getPatternId(parsed.pathname);
+		const extension = getPatternExtension(parsed.pathname);
+		const type = this.accepts('text', 'html', 'json') || extension;
 		const {environment = 'index'} = parsed.query;
 
 		const filters = {
-			outFormats: ['html'],
+			outFormats: [extension],
 			environments: [environment].filter(Boolean)
 		};
 
-		this.body = await getPatternDemo(server, id, filters, environment);
+		if (type === 'html' && extension === 'html') {
+			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, environment);
+
+			if (error) {
+				this.throw(error);
+			}
+
+			this.type = 'html';
+			this.body = demo;
+			return;
+		}
+
+		const [error, file] = await getPatternFileOrError(application.parent.server, id, filters, extension, environment);
+
+		if (error) {
+			this.throw(error);
+		}
+
+		this.type = extension;
+		this.body = file;
 	};
 }
-
-export default demoRouteFactory;
