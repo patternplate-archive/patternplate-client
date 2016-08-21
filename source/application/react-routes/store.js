@@ -5,9 +5,17 @@ import promise from 'redux-promise';
 
 import reducers from '../reducers';
 
-const logger = process.env.NODE_ENV === 'production' ?
-	null :
+const reduxLogger = require.main ?
+	require('redux-cli-logger').default :
 	require('redux-logger');
+
+function logger() {
+	if (process.env.NODE_ENV === 'production') {
+		return null;
+	}
+
+	return reduxLogger({});
+}
 
 export default function configureStore(history, initial) {
 	const reducer = combineReducers({routing, ...reducers});

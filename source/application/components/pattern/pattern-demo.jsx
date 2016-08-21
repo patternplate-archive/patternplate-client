@@ -13,14 +13,10 @@ class PatternDemo extends React.Component {
 		environment: types.string
 	};
 
-	static defaultProps = {
-		base: '/demo'
-	};
-
 	render() {
 		const {base, target, environment} = this.props;
 		const source = urlQuery.format({
-			pathname: `${base}/${target}/index.html`,
+			pathname: `${base}demo/${target}/index.html`,
 			query: {environment}
 		});
 

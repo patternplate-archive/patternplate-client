@@ -8,6 +8,7 @@ import autobind from 'autobind-decorator';
 @autobind
 class PatternControl extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		active: t.bool.isRequired,
 		name: t.any.isRequired,
 		location: t.object.isRequired,

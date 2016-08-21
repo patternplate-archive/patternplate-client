@@ -13,6 +13,7 @@ class PatternLoader extends React.Component {
 	};
 
 	static propTypes = {
+		base: types.string.isRequired,
 		error: types.bool.isRequired,
 		inverted: types.bool,
 		hidden: types.bool
@@ -27,6 +28,7 @@ class PatternLoader extends React.Component {
 		return (
 			<div className={className}>
 				<PatternLoaderIcon
+					base={this.props.base}
 					width={200}
 					height={200}
 					inverted={this.props.inverted}

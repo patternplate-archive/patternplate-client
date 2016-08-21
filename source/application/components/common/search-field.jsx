@@ -9,6 +9,7 @@ export default class SearchField extends Component {
 	static displayName = 'search-field';
 
 	static propTypes = {
+		base: types.string.isRequired,
 		component: types.node,
 		className: types.string,
 		value: types.string,
@@ -29,6 +30,7 @@ export default class SearchField extends Component {
 
 	render() {
 		const {
+			base,
 			component: Component,
 			className: userClassName,
 			value,
@@ -36,9 +38,7 @@ export default class SearchField extends Component {
 			onChange,
 			onFocus,
 			onBlur,
-			placeholder,
-			linkTo,
-			...props
+			placeholder
 		} = this.props;
 
 		const {displayName} = SearchField;
@@ -60,7 +60,7 @@ export default class SearchField extends Component {
 						onChange={onChange}
 						onFocus={onFocus}
 						/>
-					<Icon className={iconClassName} symbol="search"/>
+					<Icon base={base} className={iconClassName} symbol="search"/>
 				</label>
 			</Component>
 		);

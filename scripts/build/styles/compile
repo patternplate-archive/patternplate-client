@@ -1,18 +1,10 @@
 #!/usr/bin/env sh
-compile() {
-	INPUT_PATH="$1"
-	RESULT_PATH="$2.css"
-	MAP_PATH="$RESULT_PATH.map"
+INPUT_PATH="$1"
+RESULT_PATH="$2.css"
+MAP_PATH="$RESULT_PATH.map"
 
-	echo "$RESULT_PATH $MAP_PATH"
+echo "lessc $INPUT_PATH --npm-import --autoprefix --source-map=$MAP_PATH > $RESULT_PATH"
 
-	mkdir -p $(dirname $RESULT_PATH) && \
-	lessc \
-		$INPUT_PATH \
-		--npm-import \
-		--autoprefix \
-		--source-map=$MAP_PATH \
-		> $RESULT_PATH
-}
-
-compile $1 $2
+mkdir -p $(dirname $RESULT_PATH) && \
+mkdir -p $(dirname $MAP_PATH) && \
+lessc $INPUT_PATH --npm-import --autoprefix > $RESULT_PATH

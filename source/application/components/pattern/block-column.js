@@ -2,16 +2,7 @@ import React, {PropTypes as t} from 'react';
 import Block from './block';
 
 export default function BlockColumn(props) {
-	const {
-		align,
-		items,
-		x,
-		y,
-		location,
-		connect,
-		height,
-		onClick
-	} = props;
+	const {align, base, items, x, y, location, connect, height, onClick} = props;
 
 	if (items.length === 0) {
 		return null;
@@ -32,6 +23,7 @@ export default function BlockColumn(props) {
 					return (
 						<Block
 							type="block"
+							base={base}
 							id={id}
 							name={label}
 							x={x - offset}
@@ -66,6 +58,7 @@ export default function BlockColumn(props) {
 }
 
 BlockColumn.propTypes = {
+	base: t.string.isRequired,
 	items: t.arrayOf(t.shape({
 		name: t.string.isRequired,
 		id: t.string.isRequired

@@ -12,7 +12,7 @@ const defaultManifest = {
 };
 
 export default function PatternContent(props) {
-	const {data, config, location} = props;
+	const {base, data, config, location} = props;
 	const environment = urlQuery.parse(location.pathname).query.environment;
 
 	if (!data || !data.manifest) {
@@ -21,6 +21,7 @@ export default function PatternContent(props) {
 
 	return (
 		<Pattern
+			base={base}
 			id={data.id || props.id}
 			manifest={data.manifest || defaultManifest}
 			loading={data.loading}
@@ -36,8 +37,9 @@ export default function PatternContent(props) {
 }
 
 PatternContent.propTypes = {
+	base: t.string.isRequired,
 	id: t.string.isRequired,
-	data: t.object.isRequired,
+	data: t.object,
 	config: t.object.isRequired,
 	location: t.shape({
 		query: t.object.isRequired
@@ -46,5 +48,6 @@ PatternContent.propTypes = {
 };
 
 PatternContent.defaultProps = {
-	onDataRequest: () => {}
+	onDataRequest: () => {},
+	data: {}
 };

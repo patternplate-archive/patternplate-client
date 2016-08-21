@@ -12,9 +12,11 @@ import Icon from '../common/icon';
 @autobind
 export default class Message extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		onTimeRequest: t.func.isRequired,
 		onDismiss: t.func.isRequired,
-		onRetry: t.func.isRequired
+		onRetry: t.func.isRequired,
+		payload: t.object
 	};
 
 	static defaultProps = {
@@ -83,19 +85,19 @@ export default class Message extends Component {
 						props.pattern &&
 							<Link
 								to={{
-									pathname: `/pattern/${props.payload.id}`,
+									pathname: `${props.base}pattern/${props.payload.id}`,
 									query: {...props.location.query, ...props.payload.query}
 								}}
 								className="message__field"
 								>
-								<Icon symbol="pattern"/>
+								<Icon base={props.base} symbol="pattern"/>
 								{props.pattern}
 							</Link>
 					}
 					{
 						props.file &&
 							<div className="message__field">
-								<Icon symbol="documentation"/>
+								<Icon base={props.base} symbol="documentation"/>
 								{props.file.slice(-50)}
 							</div>
 					}

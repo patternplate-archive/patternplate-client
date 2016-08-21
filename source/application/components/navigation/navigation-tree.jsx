@@ -8,13 +8,12 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
-import urlQuery from '../../utils/url-query';
-
 @pure
 class NavigationTree extends Component {
 	displayName = 'NavigationTree';
 
 	static propTypes = {
+		base: types.string.isRequired,
 		data: types.object,
 		path: types.string,
 		searchQuery: types.string,
@@ -66,16 +65,15 @@ class NavigationTree extends Component {
 	}
 
 	render() {
-		const {data, children, path, searchQuery, hierarchy, location} = this.props;
+		const {base, data, children, path, searchQuery, hierarchy, location} = this.props;
 		const {folders, patterns} = getAugmentedChildren(data, hierarchy);
-		const searched = urlQuery.parse(path).pathname.split('/').filter(Boolean).join('/');
-		const [activePattern] = patterns.filter(pattern => searched === `pattern/${pattern.id}`);
+		const matcher = new RegExp(`^${base}pattern`);
+		const currentPathFragments = path.replace(matcher, '').split('/').filter(Boolean);
+		const currentPath = currentPathFragments.join('/');
 
 		const nested = folders.map(folder => {
-			const currentFragments = path.split('/').filter(Boolean);
-			const currentPath = currentFragments.slice(1);
 			const folderPath = folder.id.split('/').filter(Boolean);
-			const active = deepEqual(currentPath.slice(0, folderPath.length), folderPath);
+			const active = deepEqual(currentPathFragments.slice(0, folderPath.length), folderPath);
 			const ref = active ? this.getActiceFolderReference : null;
 
 			return (
@@ -89,6 +87,7 @@ class NavigationTree extends Component {
 					ref={ref}
 					onClick={this.handleFolderClick}
 					location={location}
+					base={base}
 					type="directory"
 					>
 					<NavigationTree
@@ -98,6 +97,7 @@ class NavigationTree extends Component {
 						searchQuery={searchQuery}
 						hierarchy={hierarchy}
 						location={location}
+						base={base}
 						/>
 				</NavigationItem>
 			);
@@ -111,22 +111,22 @@ class NavigationTree extends Component {
 				manifest
 			} = pattern;
 
-			const active = activePattern && pattern.id === activePattern.id;
 			const {options = {}} = manifest;
 			const {hidden = false} = options;
 
 			return (
 				<NavigationItem
+					base={base}
 					name={displayName}
 					hidden={hidden}
 					id={id}
 					key={id}
 					symbol={type}
-					active={active}
 					ref={this.getActiveReference}
 					searchQuery={searchQuery}
 					location={location}
 					type={type}
+					active={currentPath === id}
 					/>
 			);
 		});

@@ -8,6 +8,7 @@ import BlockColumn from './block-column';
 @autobind
 export default class PatternDependencies extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		className: t.string,
 		id: t.string.isRequired,
 		name: t.string.isRequired,
@@ -30,11 +31,11 @@ export default class PatternDependencies extends Component {
 	};
 
 	handleClick(props) {
-		const {id} = props;
+		const {id, base} = props;
 		const {location} = this.props;
 		const {router} = this.context;
 		router.push({
-			pathname: `/pattern/${id}`,
+			pathname: `${base}pattern/${id}`,
 			query: location.query
 		});
 	}
@@ -45,6 +46,7 @@ export default class PatternDependencies extends Component {
 			dependencies,
 			dependents,
 			id,
+			base,
 			name,
 			location
 		} = this.props;
@@ -68,6 +70,7 @@ export default class PatternDependencies extends Component {
 				<svg viewBox={`0 0 100 ${viewBoxHeight}`} className="pattern-dependencies__stage">
 					<BlockColumn
 						items={dependencies}
+						base={base}
 						y={columnY}
 						x={paddingX}
 						height={blockHeight}
@@ -78,6 +81,7 @@ export default class PatternDependencies extends Component {
 						/>
 					<BlockColumn
 						items={dependents}
+						base={base}
 						y={columnY}
 						x={100}
 						height={blockHeight}
@@ -96,6 +100,7 @@ export default class PatternDependencies extends Component {
 						height={rootHeight}
 						width={rootWidth}
 						location={location}
+						base={base}
 						/>
 				</svg>
 			</div>

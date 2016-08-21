@@ -17,6 +17,7 @@ class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
 	static propTypes = {
+		base: types.string.isRequired,
 		children: types.node.isRequired,
 		format: types.string,
 		name: types.string.isRequired,
@@ -37,7 +38,7 @@ class PatternCode extends React.Component {
 
 	componentDidMount() {
 		if (this.props.highlight) {
-			const {children: payload} = this.props;
+			const {children: payload, base} = this.props;
 			const id = uuid.v4();
 			const worker = startWorker('/script/highlight.bundle.js');
 			worker.addEventListener('message', this.onWorkerMessage);

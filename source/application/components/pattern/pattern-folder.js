@@ -30,20 +30,20 @@ ItemField.defaultProps = {
 };
 
 function PatternFolderItem(props) {
-	const {name, type, id, location} = props;
+	const {name, type, id, location, base} = props;
 	const to = {
-		pathname: `/pattern/${id}`,
+		pathname: `${base}pattern/${id}`,
 		query: location.query
 	};
 
 	const title = `Navigate to ${type} "${name}" at ${id}`;
-	const href = `/demo/${id}`;
+	const href = `${base}demo/${id}`;
 
 	return (
 		<li className="pattern-item">
 			<ItemField valueKey="name" value={props.name}>
 				<Link to={to} title={title}>
-					<Icon symbol={type}>{name}</Icon>
+					<Icon base={base} symbol={type}>{name}</Icon>
 					<span>{props.name}</span>
 				</Link>
 			</ItemField>
@@ -59,7 +59,7 @@ function PatternFolderItem(props) {
 						className="pattern-field"
 						title={`Open ${type} "${name}" at ${id} in fullscreen`}
 						>
-						<Icon symbol="fullscreen" description="Fullscreen">
+						<Icon base={base} symbol="fullscreen" description="Fullscreen">
 							{`${id} in fullscreen`}
 						</Icon>
 					</a> :
@@ -70,6 +70,7 @@ function PatternFolderItem(props) {
 }
 
 PatternFolderItem.propTypes = {
+	base: t.string.isRequired,
 	id: t.string.isRequired,
 	name: t.string.isRequired,
 	type: t.string.isRequired,
@@ -82,7 +83,7 @@ PatternFolderItem.propTypes = {
 	}).isRequired
 };
 
-export default function PatternFolder({items, location, up}) {
+export default function PatternFolder({items, location, up, base}) {
 	return (
 		<ul className="pattern-folder">
 			<li className="pattern-folder-head">
@@ -99,6 +100,7 @@ export default function PatternFolder({items, location, up}) {
 						name=".."
 						type="folder"
 						location={location}
+						base={base}
 						/>
 			}
 			{
@@ -107,6 +109,7 @@ export default function PatternFolder({items, location, up}) {
 						{...item}
 						location={location}
 						key={item.id}
+						base={base}
 						/>
 				))
 			}
@@ -115,6 +118,7 @@ export default function PatternFolder({items, location, up}) {
 }
 
 PatternFolder.propTypes = {
+	base: t.string.isRequired,
 	items: t.arrayOf(t.shape(PatternFolderItem.propTypes)).isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,

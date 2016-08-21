@@ -11,9 +11,8 @@ import SearchField from '../common/search-field';
 
 @pure
 class Navigation extends React.Component {
-	displayName = 'Navigation';
-
 	static propTypes = {
+		base: types.string.isRequired,
 		navigation: types.object.isRequired,
 		path: types.string.isRequired,
 		onSearch: types.func,
@@ -41,6 +40,7 @@ class Navigation extends React.Component {
 
 	render() {
 		const {
+			base,
 			path,
 			navigation,
 			hierarchy,
@@ -57,6 +57,7 @@ class Navigation extends React.Component {
 		return (
 			<nav className={className}>
 				<NavigationTree
+					base={base}
 					data={navigation}
 					path={path}
 					hierarchy={hierarchy}
@@ -73,6 +74,7 @@ class Navigation extends React.Component {
 							onChange={this.handleSearchChange}
 							placeholder="Search"
 							title="Click to search for patterns"
+							base={base}
 							/>
 					</form>
 					<NavigationItem
@@ -81,8 +83,9 @@ class Navigation extends React.Component {
 						key="root"
 						location={location}
 						linkTo="/"
-						active={path === '/'}
+						active={path === base}
 						type="page"
+						base={base}
 						/>
 				</NavigationTree>
 				<Link
@@ -94,8 +97,8 @@ class Navigation extends React.Component {
 					onClick={this.handleToggleClick}
 					title={expanded ? 'Collapse navigation' : 'Expand navigation'}
 					>
-					<Icon symbol="arrow-double-left" style={{display: expanded ? 'block' : 'none'}}/>
-					<Icon symbol="arrow-double-right" style={{display: expanded ? 'none' : 'block'}}/>
+					<Icon base={base} symbol="arrow-double-left" style={{display: expanded ? 'block' : 'none'}}/>
+					<Icon base={base} symbol="arrow-double-right" style={{display: expanded ? 'none' : 'block'}}/>
 				</Link>
 			</nav>
 		);

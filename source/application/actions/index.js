@@ -24,9 +24,9 @@ async function getError(response, payload) {
 }
 
 export const getPatternData = createPromiseThunkAction('GET_PATTERN_DATA', async payload => {
-	const {id, query} = payload;
+	const {id, query, options: {base}} = payload;
 	const uri = urlQuery.format({
-		pathname: `/api/pattern/${id}.json`, query
+		pathname: `${base}api/pattern/${id}.json`, query
 	});
 
 	const response = await global.fetch(uri, headers);

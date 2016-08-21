@@ -407,7 +407,8 @@ export default class PatternLoaderIcon extends Component {
 	static propTypes = {
 		width: t.number.isRequired,
 		height: t.number.isRequired,
-		inverted: t.bool.isRequired
+		inverted: t.bool.isRequired,
+		base: t.string.isRequired
 	};
 
 	state = {

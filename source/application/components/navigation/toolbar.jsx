@@ -31,6 +31,7 @@ function getThemeUrl(old, theme) {
 @autobind
 class Toolbar extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		icon: t.string.isRequired,
 		title: t.string.isRequired,
 		theme: t.string.isRequired,
@@ -77,7 +78,7 @@ class Toolbar extends Component {
 	}
 
 	render() {
-		const {icon, title, location} = this.props;
+		const {base, icon, title, location} = this.props;
 		const theme = getOtherTheme(location);
 		const themeClassName = classnames('button', theme);
 
@@ -88,8 +89,9 @@ class Toolbar extends Component {
 
 		return (
 			<header className="main-header">
-				<IndexLink className="logo" to="/" title="Navigate to start page">
+				<IndexLink className="logo" to={base} title="Navigate to start page">
 					<Icon
+						base={base}
 						symbol={icon}
 						fallback={false}
 						inline
@@ -99,7 +101,7 @@ class Toolbar extends Component {
 				</IndexLink>
 				<div className="toolbar">
 					<label className="button menu" htmlFor="menu-state">
-						<Icon symbol="patternplate">
+						<Icon base={base} symbol="patternplate">
 							Menu
 						</Icon>
 					</label>
@@ -109,10 +111,10 @@ class Toolbar extends Component {
 						onClick={this.handleThemeButtonClick}
 						title={`Switch to ${theme} theme`}
 						>
-						<Icon symbol="light" style={styles.light}>
+						<Icon base={base} symbol="light" style={styles.light}>
 							Light
 						</Icon>
-						<Icon symbol="dark" style={styles.dark}>
+						<Icon base={base} symbol="dark" style={styles.dark}>
 							Dark
 						</Icon>
 					</button>

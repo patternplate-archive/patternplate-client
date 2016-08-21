@@ -4,10 +4,23 @@ import autobind from 'autobind-decorator';
 import classnames from 'classnames';
 import Icon from '../common/icon';
 
+function getPathName(...fragments) {
+	const raw = fragments
+		.join('/')
+		.split('/')
+		.filter(Boolean)
+		.map(fragment => fragment === '/' ? '' : fragment)
+		.filter(Boolean)
+		.join('/');
+	const correction = raw[0] === '/' ? '' : '/';
+	return `${correction}${raw}`;
+}
+
 export default class NavigationItem extends React.Component {
 	displayName = 'NavigationItem';
 
 	static propTypes = {
+		base: types.string.isRequired,
 		component: types.node,
 		active: types.bool,
 		hidden: types.bool,
@@ -44,7 +57,7 @@ export default class NavigationItem extends React.Component {
 
 	render() {
 		const {
-			anchored, name, id, symbol, active, hidden, linkTo, location, type
+			anchored, base, name, id, symbol, active, hidden, linkTo, location, type
 		} = this.props;
 		const {component: Component} = this.props;
 
@@ -56,8 +69,7 @@ export default class NavigationItem extends React.Component {
 
 		const itemClassName = classnames('navigation-item', modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
-		const joined = [linkTo, id || ''].filter(Boolean).join('/');
-		const pathname = joined[0] === '/' ? joined : `/${joined}`;
+		const pathname = getPathName(base, linkTo, id);
 		const to = {pathname, query: location.query};
 		const title = `Navigate to ${name} ${type}`;
 
@@ -69,7 +81,7 @@ export default class NavigationItem extends React.Component {
 					title={title}
 					className={linkClassName}
 					>
-					<Icon symbol={symbol}/>
+					<Icon base={base} symbol={symbol}/>
 					<span>{name}</span>
 				</Link>
 				{this.props.children}

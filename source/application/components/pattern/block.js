@@ -6,6 +6,7 @@ import Connection from './connection';
 @autobind
 export default class Block extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		name: t.string.isRequired,
 		id: t.string.isRequired,
 		type: t.string.isRequired,
@@ -39,7 +40,7 @@ export default class Block extends Component {
 
 	render() {
 		const {props} = this;
-		const {location} = props;
+		const {location, base} = props;
 		const className = `pattern-dependencies__${props.type}`;
 		const orientation = props.x < 50 ? 1 : 0;
 
@@ -57,7 +58,7 @@ export default class Block extends Component {
 		const textY = props.y + props.height / 2;
 
 		const href = [
-			`/pattern/${props.id}`,
+			`${base}pattern/${props.id}`,
 			querystring.stringify(location.query)
 		].join('?');
 

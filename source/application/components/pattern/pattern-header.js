@@ -83,6 +83,7 @@ export default function PatternHeader(props) {
 }
 
 PatternHeader.propTypes = {
+	base: t.string.isRequired,
 	id: t.string.isRequired,
 	name: t.string.isRequired,
 	version: t.string.isRequired,

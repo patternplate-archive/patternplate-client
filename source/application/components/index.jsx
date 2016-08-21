@@ -15,8 +15,12 @@ class Application extends Component {
 	static displayName = 'Application';
 
 	static propTypes = {
+		base: types.string.isRequired,
 		navigation: types.object.isRequired,
-		location: types.object.isRequired
+		location: types.object.isRequired,
+		config: types.object.isRequired,
+		schema: types.object.isRequired,
+		children: types.any
 	};
 
 	static contextTypes = {
@@ -77,7 +81,7 @@ class Application extends Component {
 
 	render() {
 		const {props} = this;
-		const {location, config, schema} = props;
+		const {base, location, config, schema} = props;
 
 		const navigation = location.query.search ?
 			this.searchPatterns(location.query.search) :
@@ -91,9 +95,11 @@ class Application extends Component {
 				<Toolbar
 					theme={location.query.theme || config.theme}
 					title={config.title || schema.name}
+					base={base}
 					location={location}
 					/>
 				<Navigation
+					base={base}
 					hierarchy={config.hierarchy}
 					navigation={navigation}
 					onSearch={this.handleSearch}

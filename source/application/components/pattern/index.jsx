@@ -27,6 +27,7 @@ class Pattern extends React.Component {
 	displayName = 'Pattern';
 
 	static propTypes = {
+		base: t.string.isRequired,
 		id: t.string.isRequired,
 		config: t.object.isRequired,
 		manifest: t.object.isRequired,
@@ -131,13 +132,14 @@ class Pattern extends React.Component {
 
 	@autobind
 	handleReloadClick() {
-		const {id} = this.props;
+		const {id, base} = this.props;
 		const query = {environment: this.props.environment};
-		this.props.onDataRequest(id, query, {reloading: true, loading: false});
+		this.props.onDataRequest(id, query, {reloading: true, loading: false, base});
 	}
 
 	render() {
 		const {
+			base,
 			id,
 			environment,
 			reloading,
@@ -176,7 +178,7 @@ class Pattern extends React.Component {
 		const controls = [];
 
 		const fullscreen = urlQuery.format({
-			pathname: `/demo/${id}/index.html`,
+			pathname: `${base}demo/${id}/index.html`,
 			query: {environment}
 		});
 
@@ -200,10 +202,10 @@ class Pattern extends React.Component {
 					/>
 				);
 			results.push(isDoc ?
-				<PatternDocumentation {...item}>
+				<PatternDocumentation {...item} base={base}>
 					{item.source}
 				</PatternDocumentation> :
-				<PatternCode {...item}>
+				<PatternCode {...item} base={base}>
 					{item.content}
 				</PatternCode>
 			);
@@ -214,6 +216,7 @@ class Pattern extends React.Component {
 					name={item.name}
 					shortid={item.shortid}
 					location={location}
+					base={base}
 					/>
 				);
 		}
@@ -230,8 +233,9 @@ class Pattern extends React.Component {
 					loading={loading}
 					reloading={reloading}
 					onReloadClick={this.handleReloadClick}
+					base={base}
 					/>
-				<PatternDemo environment={environment} target={id}/>
+				<PatternDemo environment={environment} target={id} base={base}/>
 				<CSSTransitionGroup
 					component="div"
 					className="pattern-toolbar"
@@ -265,7 +269,7 @@ class Pattern extends React.Component {
 													})
 											}
 										</select>
-										<Icon symbol="environment"/>
+										<Icon base={base} symbol="environment"/>
 									</label>
 							}
 							{
@@ -274,9 +278,10 @@ class Pattern extends React.Component {
 										className="pattern-tool"
 										shortid="dependencies-state"
 										active={location.query.source === 'dependencies-state'}
-										name={<Icon symbol="dependencies" description="Relations"/>}
+										name={<Icon base={base} symbol="dependencies" description="Relations"/>}
 										title={`Show relations for pattern ${id}`}
 										location={location}
+										base={base}
 										/>
 							}
 							<a
@@ -286,7 +291,12 @@ class Pattern extends React.Component {
 								title={`Show fullscreen demo for pattern ${id}`}
 								rel="nofollow"
 								>
-								<Icon symbol="fullscreen" description="Fullscreen"/>
+								<Icon
+									base={base}
+									inline={false}
+									symbol="fullscreen"
+									description="Fullscreen"
+									/>
 							</a>
 						</div>
 					</div>
@@ -309,6 +319,7 @@ class Pattern extends React.Component {
 									highlight={false}
 									key={`${id}/dependencies`}
 									copy={false}
+									base={base}
 									>
 									<PatternDependencies
 										id={id}
@@ -316,6 +327,7 @@ class Pattern extends React.Component {
 										dependents={dependents}
 										dependencies={dependencies}
 										location={location}
+										base={base}
 										/>
 								</PatternCode>
 							]

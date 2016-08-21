@@ -17,6 +17,12 @@ function bundle() {
 		COMMAND="browserify"
 	fi
 
+	if [ "$NODE_ENV" = "production" ]; then
+		MINIFY="-p [minifyify --map $MAP --output $MAPPATH]"
+	else
+		MINIFY="-p [minifyify --map $MAP --output $MAPPATH]"
+	fi
+
 	FLAGS="$FLAG react-dom \
 		$FLAG react \
 		$FLAG redux \
@@ -58,11 +64,7 @@ function bundle() {
 		--extension=.jsx \
 		--debug \
 		-v \
-		-p [ \
-		 minifyify \
-			--map $MAP \
-			--output $MAPPATH \
-		] \
+		$MINIFY \
 		-t [ \
 				babelify \
 					--presets [es2015 stage-0 react] \

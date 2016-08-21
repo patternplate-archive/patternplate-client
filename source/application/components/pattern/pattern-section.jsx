@@ -15,6 +15,7 @@ import PatternContent from './pattern-content';
 @autobind
 class PatternSection extends React.Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		id: t.string.isRequired,
 		data: t.object,
 		config: t.object.isRequired,
@@ -30,9 +31,9 @@ class PatternSection extends React.Component {
 	};
 
 	componentDidMount() {
-		const {id, environment, type} = this.props;
+		const {id, base, environment, type} = this.props;
 		if (type === 'pattern') {
-			this.props.onDataRequest(id, {environment}, {loading: true});
+			this.props.onDataRequest(id, {environment}, {loading: true, base});
 		}
 	}
 
@@ -40,7 +41,7 @@ class PatternSection extends React.Component {
 		const next = pick(nextProps, ['id', 'environment']);
 		const current = pick(this.props, ['id', 'environment']);
 		const query = {environment: next.environment};
-		const options = {loading: next.id !== current.id};
+		const options = {loading: next.id !== current.id, base: nextProps.base};
 		if (nextProps.type === 'pattern' && !isEqual(next, current)) {
 			this.props.onDataRequest(next.id, query, options);
 		}
@@ -52,7 +53,7 @@ class PatternSection extends React.Component {
 
 	render() {
 		const {props} = this;
-		const {location, data, config} = props;
+		const {base, location, data, config} = props;
 		const loading = data && data.loading;
 
 		const fragments = this.props.id.split('/');
@@ -86,7 +87,7 @@ class PatternSection extends React.Component {
 							<li className="pattern-breadcrumb" key={path.name}>
 								<Link
 									to={{
-										pathname: ['/pattern', path.path].join('/'),
+										pathname: [`${base}pattern`, path.path].join('/'),
 										query: location.query
 									}}
 									title={`Navigate to ${path.path}`}
@@ -109,8 +110,10 @@ class PatternSection extends React.Component {
 							<PatternLoader
 								key="pattern-loader"
 								inverted={inverted}
+								base={base}
 								/> :
 							<PatternContent
+								base={base}
 								id={props.id}
 								data={data}
 								config={config}

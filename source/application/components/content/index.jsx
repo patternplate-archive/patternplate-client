@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator';
 
 import Message from '../common/message';
 import urlQuery from '../../utils/url-query';
+import getIdByPathname from '../../utils/get-id-by-pathname';
 import {getPatternData, getTime, dismissMessage} from '../../actions';
 import PatternFolder from '../pattern/pattern-folder';
 import PatternSection from '../pattern/pattern-section';
@@ -14,6 +15,7 @@ import PatternSection from '../pattern/pattern-section';
 function navigate(id, navigation) {
 	let scope = navigation;
 	const fragments = id.split('/');
+
 	for (const fragment of fragments) {
 		if (fragment in scope) {
 			scope = scope[fragment];
@@ -38,7 +40,7 @@ function getItemName(item, hierarchy) {
 	return configured.displayName || item.id;
 }
 
-function getItems(root, hierarchy) {
+function getItems(root, hierarchy, defaults) {
 	if (root.type !== 'folder') {
 		return [];
 	}
@@ -53,6 +55,7 @@ function getItems(root, hierarchy) {
 			{};
 
 			return {
+				...defaults,
 				id: child.id,
 				name: getItemName(child, hierarchy),
 				type: child.type,
@@ -68,6 +71,7 @@ const rateType = item => sortTypes.indexOf(item.type);
 @autobind
 class Content extends React.Component {
 	static propTypes = {
+		base: types.string.isRequired,
 		location: types.shape({
 			pathname: types.string.isRequired
 		}).isRequired,
@@ -92,22 +96,24 @@ class Content extends React.Component {
 
 	handleMessageRetry(payload) {
 		const {dispatch} = this.props;
-		console.log(payload);
 		dispatch(getPatternData(payload));
 	}
 
 	render() {
 		const {props} = this;
-		const {hierarchy} = props.config;
+		const {base, config, location} = props;
+		const {hierarchy} = config;
 
-		const {pathname, query} = urlQuery.parse(props.location.pathname);
-		const id = pathname.split('/').filter(Boolean).slice(1).join('/');
+		const {pathname, query} = urlQuery.parse(location.pathname);
+		const id = getIdByPathname(pathname, props.base);
+
 		const fragments = id.split('/');
 		const depth = fragments.length - 1;
 		const up = depth > 0 ? fragments.slice(0, fragments.length - 1).join('/') : '';
 		const environment = props.environment || query.environment;
 		const item = navigate(id, props.navigation);
-		const items = sortBy(sortBy(getItems(item, hierarchy), 'name'), rateType);
+		const itemDefaults = {base, location};
+		const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults), 'name'), rateType);
 
 		return (
 			<main className="content">
@@ -115,9 +121,10 @@ class Content extends React.Component {
 					item.type === 'folder' &&
 						<PatternFolder
 							id={id}
-							location={props.location}
+							location={location}
 							items={items}
 							up={up}
+							base={base}
 							/>
 				}
 				{
@@ -128,9 +135,10 @@ class Content extends React.Component {
 							navigation={props.navigation}
 							config={props.config}
 							environment={environment}
-							location={props.location}
+							location={location}
 							type={item.type}
 							onDataRequest={this.handleDataRequest}
+							base={base}
 							/>
 				}
 				<CSSTransitionGroup
@@ -158,7 +166,8 @@ class Content extends React.Component {
 									onTimeRequest={this.handleTimeRequest}
 									onDismiss={this.handleMessageDismiss}
 									onRetry={this.handleMessageRetry}
-									location={props.location}
+									location={location}
+									base={base}
 									/>
 							);
 						})
