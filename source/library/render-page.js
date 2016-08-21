@@ -35,17 +35,16 @@ export default async function renderPage(application, pageUrl) {
 	const query = querystring.parse(parsed.query);
 	const base = depth > 0 ? Array(depth).fill('..').join('/') : '.';
 
+	const config = application.configuration.ui;
 	const options = {
 		url: pageUrl,
 		title: application.configuration.ui.title || 'patternplate-client',
 		theme: query.theme || application.configuration.ui.theme,
-		config: application.configuration.ui
+		config
 	};
 
 	const serverData = {schema, navigation};
-	const data = merge(defaultData, options.data, serverData, {
-		config: options.config, base, depth
-	});
+	const data = merge(defaultData, options.data, serverData, {config});
 	const content = await router(options.url, data);
 
 	return minify(layout({
