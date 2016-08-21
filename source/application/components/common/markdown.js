@@ -16,6 +16,7 @@ const startWorker = memoize(url => {
 @autobind
 class Markdown extends Component {
 	static propTypes = {
+		base: t.string.isRequired,
 		source: t.string.isRequired
 	};
 
@@ -26,7 +27,8 @@ class Markdown extends Component {
 	jobs = {};
 
 	componentDidMount() {
-		const worker = startWorker('/script/highlight.bundle.js');
+		const {base} = this.props;
+		const worker = startWorker(`${base}script/highlight.bundle.js`);
 		worker.addEventListener('message', this.onWorkerMessage);
 		this.worker = worker;
 

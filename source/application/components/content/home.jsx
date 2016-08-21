@@ -6,13 +6,15 @@ import Markdown from '../common/markdown';
 
 class Home extends Component {
 	static propTypes = {
-		readme: t.string.isRequired
+		readme: t.string.isRequired,
+		base: t.string.isRequired
 	};
 
 	render() {
+		const {readme, base} = this.props;
 		return (
 			<main className="content home">
-				<Markdown source={this.props.readme}/>
+				<Markdown source={readme} base={base}/>
 			</main>
 		);
 	}

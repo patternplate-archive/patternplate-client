@@ -40,7 +40,7 @@ class PatternCode extends React.Component {
 		if (this.props.highlight) {
 			const {children: payload, base} = this.props;
 			const id = uuid.v4();
-			const worker = startWorker('/script/highlight.bundle.js');
+			const worker = startWorker(`${base}script/highlight.bundle.js`);
 			worker.addEventListener('message', this.onWorkerMessage);
 			worker.postMessage(JSON.stringify({id, payload}));
 			this.worker = worker;
