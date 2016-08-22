@@ -249,6 +249,7 @@ class Pattern extends React.Component {
 							{
 								demoEnvironments.length > 1 &&
 									<label className="pattern-selection">
+										<span>Environment: </span>
 										<select
 											className="native"
 											onChange={this.handleEnvironmentChange}
@@ -269,7 +270,7 @@ class Pattern extends React.Component {
 													})
 											}
 										</select>
-										<Icon base={base} symbol="environment"/>
+										<Icon className="pattern-selection__arrow" base={base} symbol="arrow-right"/>
 									</label>
 							}
 							{

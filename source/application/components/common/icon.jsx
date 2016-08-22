@@ -1,16 +1,10 @@
-import {parse} from 'url';
+import {connect} from 'react-redux';
 
 import React, {Component, PropTypes as types} from 'react';
-import pure from 'pure-render-decorator';
-
 import cx from 'classnames';
 
-function isURI(input) {
-	const {host, hostname} = parse(input);
-	return [host, hostname].every(Boolean);
-}
+import isURI from '../../utils/is-uri';
 
-@pure
 class Icon extends Component {
 	displayName = 'Icon';
 
@@ -21,12 +15,10 @@ class Icon extends Component {
 		className: types.string,
 		fallback: types.bool.isRequired,
 		inline: types.bool.isRequired,
-		children: types.oneOfType([
-			types.node,
-			types.arrayOf(types.node)
-		]),
+		children: types.any,
 		description: types.string,
-		style: types.object
+		style: types.object,
+		dispatch: types.func.isRequired
 	};
 
 	static defaultProps = {
@@ -35,15 +27,18 @@ class Icon extends Component {
 		inline: false
 	};
 
-	usePolyfilling = null;
-	useReference = null;
+	static contextTypes = {
+		support: types.shape({
+			svg: types.bool.isRequired
+		})
+	};
 
 	render() {
 		const {
 			base,
 			className: userClassName,
-			uri,
 			fallback,
+			uri,
 			symbol,
 			inline,
 			children,
@@ -54,11 +49,9 @@ class Icon extends Component {
 		const className = cx('icon', userClassName, {
 			'icon--has-description': description
 		});
-		const textClassName = cx(
-			'svg-text',
-			{
-				'svg-fallback': fallback
-			});
+
+		const textClassName = cx('svg-text');
+		const textStyle = {display: fallback ? 'none' : null};
 
 		const fragment = inline ?
 			`#${symbol}` :
@@ -73,16 +66,13 @@ class Icon extends Component {
 				<div className="svg-icon">
 				{
 					<svg className="svg">
-						<use ref={this.getUseReference} xlinkHref={href}/>
+						<use xlinkHref={href}/>
 					</svg>
 				}
 				</div>
-				{
-					children &&
-						<div className={textClassName}>
-							{children}
-						</div>
-				}
+				<div className={textClassName} style={textStyle}>
+					{children}
+				</div>
 				{
 					description &&
 						<small className="icon__description">
@@ -94,4 +84,4 @@ class Icon extends Component {
 	}
 }
 
-export default Icon;
+export default connect()(Icon);

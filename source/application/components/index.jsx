@@ -1,6 +1,6 @@
 import React, {Component, PropTypes as types} from 'react';
 import autobind from 'autobind-decorator';
-import {flatten} from 'lodash';
+import {flatten, pick} from 'lodash';
 import Fuse from 'fuse.js';
 
 import Toolbar from './navigation/toolbar';
@@ -11,6 +11,7 @@ import {
 	isProvidesToken, getPatterns, filterPatterns
 } from './helpers';
 
+@autobind
 class Application extends Component {
 	static displayName = 'Application';
 
@@ -20,11 +21,10 @@ class Application extends Component {
 		location: types.object.isRequired,
 		config: types.object.isRequired,
 		schema: types.object.isRequired,
+		support: types.shape({
+			svg: types.bool.isRequired
+		}),
 		children: types.any
-	};
-
-	static contextTypes = {
-		router: types.any
 	};
 
 	state = {
@@ -72,7 +72,6 @@ class Application extends Component {
 			filterPatterns(patterns, ids);
 	}
 
-	@autobind
 	handleSearch(search) {
 		const {props: {location: {pathname, query: passedQuery}}} = this;
 		const query = {...passedQuery, search};
@@ -89,6 +88,12 @@ class Application extends Component {
 
 		const {query, pathname} = urlQuery.parse(location.pathname);
 
+		const metaKeys = [
+			'name', 'version', 'appName', 'appVersion', 'clientName', 'clientVersion',
+			'serverName', 'serverVersion'
+		];
+		const meta = pick(schema, metaKeys);
+
 		return (
 			<div className="application">
 				<input type="checkbox" id="menu-state" className="menu-state"/>
@@ -100,8 +105,10 @@ class Application extends Component {
 					/>
 				<Navigation
 					base={base}
+					data={meta}
 					hierarchy={config.hierarchy}
 					navigation={navigation}
+					meta={meta}
 					onSearch={this.handleSearch}
 					path={pathname}
 					pathname={pathname}

@@ -67,22 +67,22 @@
 		cursor: pointer;
 		overflow: hidden;
 		.native {
-			order: 2;
 			appearance: none;
 			border: 0;
 			background: transparent;
-			padding: 10px 15px 10px 5px;
 			color: inherit;
-			+ .icon {
-				order: 1;
-			}
+			padding-left: 10px;
+			cursor: pointer;
 			&:focus {
 				outline: none;
-				color: @active-color;
-				+ .icon {
-					color: @active-color;
-				}
 			}
+		}
+		> *:not(.native) {
+			pointer-events: none;
+			cursor: pointer;
+		}
+		&__arrow {
+			transform: rotate(90deg);
 		}
 	}
 	.pattern-control {

@@ -1,18 +1,18 @@
 import React, {PropTypes as types} from 'react';
-import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
 
 import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
-import Icon from '../common/icon';
+import NavigationToolbar from './navigation-toolbar';
 import SearchField from '../common/search-field';
 
 @pure
 class Navigation extends React.Component {
 	static propTypes = {
 		base: types.string.isRequired,
+		data: types.object.isRequired,
 		navigation: types.object.isRequired,
 		path: types.string.isRequired,
 		onSearch: types.func,
@@ -41,6 +41,7 @@ class Navigation extends React.Component {
 	render() {
 		const {
 			base,
+			data,
 			path,
 			navigation,
 			hierarchy,
@@ -88,18 +89,12 @@ class Navigation extends React.Component {
 						base={base}
 						/>
 				</NavigationTree>
-				<Link
-					to={{
-						pathname: location.pathname,
-						query: {...location.query, ...{expanded: !expanded}}
-					}}
-					className="toggleMode"
-					onClick={this.handleToggleClick}
-					title={expanded ? 'Collapse navigation' : 'Expand navigation'}
-					>
-					<Icon base={base} symbol="arrow-double-left" style={{display: expanded ? 'block' : 'none'}}/>
-					<Icon base={base} symbol="arrow-double-right" style={{display: expanded ? 'none' : 'block'}}/>
-				</Link>
+				<NavigationToolbar
+					base={base}
+					expanded={expanded}
+					location={location}
+					data={data}
+					/>
 			</nav>
 		);
 	}
