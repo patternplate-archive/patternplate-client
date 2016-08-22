@@ -1,15 +1,12 @@
 import React, {PropTypes as types} from 'react';
+import {connect} from 'react-redux';
+import join from 'classnames';
+import {pd as pretty} from 'pretty-data';
 
 import autobind from 'autobind-decorator';
-import cx from 'classnames';
-import {memoize} from 'lodash';
 import pure from 'pure-render-decorator';
-import uuid from 'uuid';
 
-const startWorker = memoize(url => {
-	const {Worker} = global;
-	return new Worker(url);
-});
+import highlightCode from '../../actions/highlight-code';
 
 @pure
 @autobind
@@ -17,12 +14,15 @@ class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
 	static propTypes = {
+		id: types.string,
 		base: types.string.isRequired,
 		children: types.node.isRequired,
 		format: types.string,
 		name: types.string.isRequired,
 		copy: types.bool,
-		highlight: types.bool
+		dispatch: types.func.isRequired,
+		highlight: types.bool,
+		highlights: types.object.isRequired
 	};
 
 	static defaultProps = {
@@ -32,43 +32,15 @@ class PatternCode extends React.Component {
 	};
 
 	state = {
-		code: '',
 		copying: false
 	};
 
 	componentDidMount() {
 		if (this.props.highlight) {
-			const {children: payload, base} = this.props;
-			const id = uuid.v4();
-			const worker = startWorker(`${base}script/highlight.bundle.js`);
-			worker.addEventListener('message', this.onWorkerMessage);
-			worker.postMessage(JSON.stringify({id, payload}));
-			this.worker = worker;
-			this.id = id;
-		}
-	}
-
-	componentWillUnmount() {
-		if (this.worker) {
-			this.worker.removeEventListener('message', this.onWorkerMessage);
-		}
-	}
-
-	onWorkerMessage(e) {
-		const {data} = e;
-		const {payload: code, id} = JSON.parse(data);
-		if (id === this.id) {
-			this.setState({code});
-		}
-	}
-
-	componentWillUpdate(nextProps) {
-		const {children} = this.props;
-		if (this.worker && nextProps.children !== children) {
-			this.worker.postMessage(JSON.stringify({
-				id: this.id,
-				payload: nextProps.children
-			}));
+			const {base, dispatch, id, children: payload} = this.props;
+			const worker = `${base}script/highlight.bundle.js`;
+			const options = {id, payload, worker};
+			dispatch(highlightCode(options));
 		}
 	}
 
@@ -96,16 +68,21 @@ class PatternCode extends React.Component {
 
 	render() {
 		const {
+			id,
 			format,
 			name,
 			copy,
 			highlight,
-			children
+			highlights,
+			children: passed
 		} = this.props;
 
-		const {code, copying} = this.state;
-
-		const formatClassName = cx(`hljs`, format);
+		const prettify = highlight && format === 'html';
+		const children = prettify ? pretty.xml(passed) : passed;
+		const code = highlights[id];
+		const {copying} = this.state;
+		const formatClassName = join(`hljs`, format);
+		const highlighted = highlight && code;
 
 		return (
 			<div className="pattern-code">
@@ -123,7 +100,7 @@ class PatternCode extends React.Component {
 				<div className="pattern-code-content">
 					<pre>
 						{
-							highlight ?
+							highlighted ?
 								<code
 									className={formatClassName}
 									dangerouslySetInnerHTML={{__html: code}} // eslint-disable-line react/no-danger
@@ -145,4 +122,6 @@ class PatternCode extends React.Component {
 	}
 }
 
-export default PatternCode;
+export default connect(state => {
+	return {highlights: state.highlights};
+})(PatternCode);

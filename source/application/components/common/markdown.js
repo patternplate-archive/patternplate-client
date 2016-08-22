@@ -1,76 +1,41 @@
 import React, {Component, PropTypes as t} from 'react';
+import {connect} from 'react-redux';
 import Remarkable from 'react-remarkable';
-import {memoize} from 'lodash';
 import {emojify} from 'node-emoji';
 import md5 from 'md5';
 
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 
-const startWorker = memoize(url => {
-	const {Worker} = global;
-	return new Worker(url);
-});
+import highlightCode from '../../actions/highlight-code';
 
 @pure
 @autobind
 class Markdown extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
-		source: t.string.isRequired
+		source: t.string.isRequired,
+		highlights: t.object.isRequired,
+		dispatch: t.func.isRequired
 	};
 
-	state = {
-		highlights: {}
-	};
-
-	jobs = {};
-
-	componentDidMount() {
-		const {base} = this.props;
-		const worker = startWorker(`${base}script/highlight.bundle.js`);
-		worker.addEventListener('message', this.onWorkerMessage);
-		this.worker = worker;
-
-		Object.entries(this.jobs).forEach(entry => {
-			const [id, job] = entry;
-			this.worker.postMessage(JSON.stringify({
-				id,
-				payload: job.code,
-				language: job.language
-			}));
-		});
-	}
-
-	componentWillUnmount() {
-		if (this.worker) {
-			this.worker.removeEventListener('message', this.onWorkerMessage);
-		}
-	}
-
-	onWorkerMessage(e) {
-		const {data} = e;
-		const {payload, id} = JSON.parse(data);
-		if (id in this.jobs) {
-			this.setState({
-				highlights: {
-					...this.state.highlights,
-					[id]: payload
-				}
-			});
-		}
-	}
-
-	onHighlight(code, language) {
-		const key = ['highlight', language, md5(code)].join(':');
-		const highlight = this.state.highlights[key];
+	onHighlight(payload, language) {
+		const {base, dispatch} = this.props;
+		const id = ['highlight', language, md5(payload)].join(':');
+		const highlight = this.props.highlights[id];
+		const worker = `${base}script/highlight.bundle.js`;
 
 		if (highlight) {
 			return highlight;
 		}
 
-		this.jobs[key] = {code, language};
-		return code;
+		const options = {
+			id, payload, language, worker
+		};
+
+		dispatch(highlightCode(options));
+
+		return payload;
 	}
 
 	render() {
@@ -91,4 +56,6 @@ class Markdown extends Component {
 	}
 }
 
-export default Markdown;
+export default connect(state => {
+	return {highlights: state.highlights};
+})(Markdown);

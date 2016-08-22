@@ -3,7 +3,7 @@ import {find, merge} from 'lodash';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
-
+import md5 from 'md5';
 
 import PatternHeader from './pattern-header';
 import PatternCode from './pattern-code';
@@ -209,7 +209,11 @@ class Pattern extends React.Component {
 				<PatternDocumentation {...item} base={base}>
 					{item.source}
 				</PatternDocumentation> :
-				<PatternCode {...item} base={base}>
+				<PatternCode
+					{...item}
+					id={md5(item.content)}
+					base={base}
+					>
 					{item.content}
 				</PatternCode>
 			);
