@@ -42,6 +42,7 @@ class Pattern extends React.Component {
 
 	static defaultProps = {
 		environment: 'index',
+		reloading: false,
 		onEnvironmentChange: () => {},
 		onDataRequest: () => {}
 	};
