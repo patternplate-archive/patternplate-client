@@ -60,26 +60,42 @@
 		align-items: center;
 		position: relative;
 		height: 60px;
-		padding: 10px 15px;
 		color: inherit;
 		border: 5px solid transparent;
 		border-right: 1px solid @border-color;
 		cursor: pointer;
 		overflow: hidden;
-		.native {
+		padding-right: 15px;
+		&__label {
+			padding: 10px 10px 10px 15px;
+		}
+		&__arrow {
+			padding: 0;
+		}
+		&__arrow,
+		&__label,
+		&__value {
+			position: relative;
+			z-index: 1;
+			background: @root-background;
+			pointer-events: none;
+		}
+		&__native {
+			position: absolute;
+			z-index: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
 			appearance: none;
 			border: 0;
 			background: transparent;
 			color: inherit;
-			padding-left: 10px;
 			cursor: pointer;
 			&:focus {
 				outline: none;
 			}
-		}
-		> *:not(.native) {
-			pointer-events: none;
-			cursor: pointer;
 		}
 		&__arrow {
 			transform: rotate(90deg);

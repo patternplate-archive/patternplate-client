@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import {merge} from 'lodash';
+import {find, merge} from 'lodash';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
@@ -183,6 +183,9 @@ class Pattern extends React.Component {
 			query: {environment}
 		});
 
+		const selectedEnv = find(demoEnvironments, {name: environment});
+		const selectedEnvironmentName = selectedEnv.displayName || selectedEnv.name;
+
 		for (const item of this.items) {
 			const isDoc = (item.name === 'Documentation' || item.name === 'Dependencies');
 			const isActive = item.shortid === location.query.source;
@@ -249,12 +252,13 @@ class Pattern extends React.Component {
 						<div className="pattern-tools">
 							{
 								demoEnvironments.length > 1 &&
-									<label className="pattern-selection">
-										<span>Environment: </span>
+									<div className="pattern-selection">
+										<span className="pattern-selection__label">Environment: </span>
+										<span className="pattern-selection__value">{selectedEnvironmentName}</span>
 										<select
-											className="native"
+											className="pattern-selection__native"
 											onChange={this.handleEnvironmentChange}
-											value={environment}
+											value={selectedEnv.name}
 											title={`Change environment for pattern ${id}`}
 											>
 											{
@@ -272,7 +276,7 @@ class Pattern extends React.Component {
 											}
 										</select>
 										<Icon className="pattern-selection__arrow" base={base} symbol="arrow-right"/>
-									</label>
+									</div>
 							}
 							{
 								hasRelations &&
