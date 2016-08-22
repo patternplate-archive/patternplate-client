@@ -12,9 +12,10 @@ function getPathName(...fragments) {
 		.map(fragment => fragment === '/' ? '' : fragment)
 		.filter(Boolean)
 		.join('/');
-	const pre = raw[0] === '/' ? '' : '/';
-	const post = raw[raw.length - 1] === '/' ? '' : '/';
-	return `${pre}${raw}${post}`;
+	const rawish = raw === '' ? '/' : raw;
+	const pre = rawish[0] === '/' ? '' : '/';
+	const post = rawish[rawish.length - 1] === '/' ? '' : '/';
+	return `${pre}${rawish}${post}`;
 }
 
 export default class NavigationItem extends React.Component {
