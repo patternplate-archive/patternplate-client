@@ -1,21 +1,6 @@
 @import './pattern-dependencies';
-
-@media screen and (min-width: 500px) {
-	.content {
-		.pattern-code,
-		.pattern-toolbar,
-		.pattern-documentation {
-			transition: all .3s ease-in-out !important;
-		}
-	}
-	.slim + .content {
-		.pattern-code,
-		.pattern-toolbar,
-		.pattern-documentation {
-			left: @navWidthSlim;
-		}
-	}
-}
+@import './pattern-environment-selection';
+@import './pattern-toolbar';
 
 .pattern {
 	position: relative;
@@ -25,213 +10,6 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
-	.pattern-toolbar {
-		position: fixed;
-		z-index: 2;
-		top: 100vh;
-		left: 0;
-		right: 0;
-		user-select: none;
-		transform: translateY(-100%);
-		@media screen and (min-width: 500px) {
-			left: 30%;
-		}
-		@media screen and (min-width: 900px) {
-			left: @navWidthWide;
-		}
-	}
-	.pattern-toolbar-container {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		border-top: 1px solid @border-color;
-		background: @root-background;
-		max-height: 65px;
-		overflow: hidden;
-	}
-	.pattern-tools {
-		margin-left: auto;
-		flex-wrap: nowrap;
-		white-space: nowrap;
-	}
-	.pattern-selection {
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
-		position: relative;
-		height: 60px;
-		color: inherit;
-		border: 5px solid transparent;
-		border-right: 1px solid @border-color;
-		cursor: pointer;
-		overflow: hidden;
-		padding-right: 15px;
-		&__label {
-			padding: 10px 10px 10px 15px;
-		}
-		&__arrow {
-			padding: 0;
-		}
-		&__arrow,
-		&__label,
-		&__value {
-			position: relative;
-			z-index: 1;
-			background: @root-background;
-			pointer-events: none;
-		}
-		&__native {
-			position: absolute;
-			z-index: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: 0;
-			width: 100%;
-			appearance: none;
-			border: 0;
-			background: transparent;
-			color: inherit;
-			cursor: pointer;
-			&:focus {
-				outline: none;
-			}
-		}
-		&__arrow {
-			transform: rotate(90deg);
-		}
-	}
-	.pattern-control {
-		display: inline-block;
-		display: inline-flex;
-		overflow: hidden;
-		padding: 10px 15px;
-		height: 65px;
-		color: inherit;
-		border: 5px solid transparent;
-		border-width: 5px 0;
-		white-space: nowrap;
-		text-decoration: none;
-		text-overflow: ellipsis;
-		cursor: pointer;
-
-		align-items: center;
-		&.pattern-tool {
-			overflow: hidden;
-			border-left: 1px solid @border-color;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			&:hover,
-			&:focus {
-				&:not(:disabled) {
-					color: @active-color;
-				}
-			}
-		}
-		&:focus {
-			outline: none;
-		}
-		&:hover {
-			color: @hover-color;
-		}
-		&:disabled {
-			color: fadeout(@hover-color, 50%);
-			cursor: not-allowed;
-		}
-		&.active {
-			color: @active-color;
-			border-bottom-color: currentcolor;
-			background-color: @sidebar-bg-sub;
-			text-shadow: 0 0 4px fadeout(@active-color, 90%);
-		}
-	}
-	.pattern-documentation {
-		border-top: 1px solid @border-color;
-		.markdown {
-			padding: 20px 30px;
-		}
-	}
-	.pattern-code,
-	.pattern-documentation {
-		display: flex;
-		flex-direction: column;
-		position: fixed;
-		left: 0;
-		right: 0;
-		margin: 0;
-		bottom: 35px;
-		max-height: ~'calc(90vh - 120px)';
-		transform: translateY(100%);
-		background: @root-background;
-		@media screen and (min-width: 500px) {
-			left: 30%;
-			bottom: 60px;
-		}
-		@media screen and (min-width: 900px) {
-			left: @navWidthWide;
-		}
-		pre {
-			margin: 0;
-			.hljs {
-				height: 100%;
-			}
-		}
-		.pattern-code-toolbar {
-			display: flex;
-			flex-shrink: 0;
-			width: 100%;
-			border: 1px solid @border-color;
-			border-width: 1px 0;
-			background: @root-background;
-		}
-		.pattern-code-name,
-		.pattern-code-tools {
-			flex-grow: 1;
-			padding: 3px 6px;
-			vertical-align: middle;
-		}
-		.pattern-code-name {
-			font-weight: bold;
-		}
-		.pattern-code-tools {
-			text-align: right;
-			button {
-				padding: 0 3px;
-				border: none;
-				background: none;
-				cursor: pointer;
-				color: inherit;
-				&:focus,
-				&:hover {
-					color: @active-color;
-					outline: none;
-					cursor: pointer;
-				}
-			}
-		}
-		.pattern-code-content {
-			overflow: auto;
-		}
-		.hljs,
-		.markdown {
-			border: 0;
-		}
-	}
-	.pattern-state {
-		position: fixed;
-		bottom: 0;
-		left: -10000px;
-		left: -100vw;
-		+ * {
-			transition: transform .3s ease-in-out;
-		}
-		&.checked,
-		&:checked {
-			+ * {
-				transform: none;
-			}
-		}
-	}
 }
 
 .pattern-name {
@@ -239,7 +17,6 @@
 	margin: 0 30px 0 0;
 }
 
-.pattern-lastmodified,
 .pattern-version {
 	display: inline-block;
 	margin: 0 25px 0 5px;
@@ -335,7 +112,7 @@
 	left: 15px;
 	border: 0;
 	width: ~'calc(100% - 15px)';
-	height: ~'calc(100% - 25px)';
+	height: 100%;
 	background: transparent;
 	transition: height 0.3s ease-in-out;
 	overflow: auto;
@@ -354,12 +131,13 @@
 
 .pattern-section {
 	display: flex;
+	flex-grow: 1;
 	flex-direction: column;
 	position: relative;
 	overflow: auto;
 	padding: 0;
 	margin: 0 -15px;
-	height: ~'calc(100vh - 100px)';
+	height: 100%;
 	@media screen and (min-width: 500px) {
 		margin: 0;
 	}
@@ -372,6 +150,7 @@
 	display: flex;
 	align-items: center;
 	padding: 10px 15px;
+	min-height: 85px;
 	@media screen and (min-width: 500px) {
 		padding: 10px 13px 10px 30px;
 	}

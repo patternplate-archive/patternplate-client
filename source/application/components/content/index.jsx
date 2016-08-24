@@ -11,26 +11,7 @@ import getIdByPathname from '../../utils/get-id-by-pathname';
 import {getPatternData, getTime, dismissMessage} from '../../actions';
 import PatternFolder from '../pattern/pattern-folder';
 import PatternSection from '../pattern/pattern-section';
-
-function navigate(id, navigation) {
-	let scope = navigation;
-	const fragments = id.split('/');
-
-	for (const fragment of fragments) {
-		if (fragment in scope) {
-			scope = scope[fragment];
-			continue;
-		}
-
-		if (fragment in scope.children) {
-			scope = scope.children[fragment];
-			continue;
-		}
-
-		return null;
-	}
-	return scope;
-}
+import navigate from '../../utils/navigate';
 
 function getItemName(item, hierarchy) {
 	if (item.type === 'pattern') {

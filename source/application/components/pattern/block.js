@@ -30,7 +30,9 @@ export default class Block extends Component {
 		type: 'block',
 		width: 8,
 		height: 8,
-		onClick: () => {}
+		onClick: () => {},
+		onMouseEnter: () => {},
+		onMouseLeave: () => {}
 	};
 
 	handleClick(e) {
@@ -43,6 +45,9 @@ export default class Block extends Component {
 		const {location, base} = props;
 		const className = `pattern-dependencies__${props.type}`;
 		const orientation = props.x < 50 ? 1 : 0;
+
+		const onMouseEnter = () => props.onMouseEnter(props.blockId);
+		const onMouseLeave = () => props.onMouseLeave(props.blockId);
 
 		const block = {
 			x: props.x + props.width * orientation,
@@ -63,7 +68,7 @@ export default class Block extends Component {
 		].join('?');
 
 		return (
-			<g className="block-group">
+			<g className="block-group" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
 				<a xlinkHref={href} className={className}>
 					<rect
 						className={className}
@@ -77,6 +82,7 @@ export default class Block extends Component {
 				{
 					props.connect &&
 						<Connection
+							labels={[props.id, props.localName]}
 							from={from}
 							to={to}
 							n={target.n || 20}
@@ -91,8 +97,6 @@ export default class Block extends Component {
 								width={props.width}
 								height={props.height}
 								className="block-name"
-								textAnchor="middle"
-								alignmentBaseline="central"
 								>
 								{props.name}
 							</text>

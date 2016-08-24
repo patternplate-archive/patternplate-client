@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import Remarkable from 'react-remarkable';
 import {emojify} from 'node-emoji';
 import md5 from 'md5';
+import toHtml from 'hast-util-to-html';
 
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
@@ -23,10 +24,10 @@ class Markdown extends Component {
 		const {base, dispatch} = this.props;
 		const id = ['highlight', language, md5(payload)].join(':');
 		const highlight = this.props.highlights[id];
-		const worker = `${base}script/highlight.bundle.js`;
+		const worker = `${base}script/lowlight.bundle.js`;
 
 		if (highlight) {
-			return highlight;
+			return toHtml(highlight);
 		}
 
 		const options = {
@@ -34,7 +35,6 @@ class Markdown extends Component {
 		};
 
 		dispatch(highlightCode(options));
-
 		return payload;
 	}
 

@@ -1,3 +1,34 @@
+import {flatten} from 'lodash';
+
+import navigate from '../../utils/navigate';
+
+export function searchFolder(search, navigation, merge = {}) {
+	if (!search) {
+		return;
+	}
+
+	const cut = search.slice(0, search.length - 1);
+	const match = navigate(cut, navigation);
+
+	if (!match || match && !match.type === 'folder') {
+		return;
+	}
+
+	return rewrap(cut, match, merge);
+}
+
+function rewrap(id, data, merge) {
+	const fragments = id.split('/').filter(Boolean);
+	const stack = [];
+
+	return fragments.reduce((registry, fragment, index) => {
+		const sub = stack.length > 0 ? navigate(stack.join('/'), registry) : registry;
+		sub[fragment] = fragments.length - 1 === index ? {...data, ...merge} : {...merge};
+		stack.push(fragment);
+		return registry;
+	}, {});
+}
+
 export function matchPattern(pattern, criteria = {}) {
 	if (Object.keys(criteria).length === 0) {
 		return true;
@@ -27,6 +58,25 @@ export function matchPattern(pattern, criteria = {}) {
 
 			return true;
 		});
+}
+
+export function createStems(search) {
+	return search.split(' ')
+		.filter(isStem)
+		.filter(Boolean);
+}
+
+export function createTokens(search) {
+	const fragments = search.split(' ');
+	const tokens = fragments.filter(isToken);
+	const tags = flatten(tokens.filter(isTagToken).map(getTokenValues));
+	const flags = flatten(tokens.filter(isFlagToken).map(getTokenValues));
+	const depends = flatten(tokens.filter(isDependsToken).map(getTokenValues));
+	const provides = flatten(tokens.filter(isProvidesToken).map(getTokenValues));
+
+	return {
+		tags, flags, depends, provides
+	};
 }
 
 export function getPatterns(haystack, criteria = {}) {

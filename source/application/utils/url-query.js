@@ -13,15 +13,28 @@ function not(fn) {
 	return (...args) => !fn(...args);
 }
 
+function sanitize(input) {
+	return input.split('/').filter(Boolean).join('/');
+}
+
+function shove(input) {
+	const index = input.length - 1;
+	if (input[index] === '/') {
+		return input.slice(0, index);
+	}
+	return input;
+}
+
 export function format(parsed = {}) {
 	const query = Object.entries(parsed.query || {})
 		.reduce((result, entry) => [...result, entry.join('--')], []);
 
 	const extension = path.extname(parsed.pathname || '');
 
-	const before = extension ? path.dirname(parsed.pathname) : parsed.pathname;
+	const before = extension ? path.dirname(parsed.pathname) : shove(parsed.pathname);
 	const after = extension ? path.basename(parsed.pathname) : '';
-	return [before, query, after].filter(Boolean).join('/');
+
+	return [before, ...query, after].filter(Boolean).join('/');
 }
 
 export function parse(urlPath = '') {

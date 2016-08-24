@@ -1,9 +1,10 @@
-import {createStore, combineReducers, compose, applyMiddleware} from 'redux';
+import {createStore, compose, applyMiddleware} from 'redux';
 import {routerReducer as routing, routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
+import topology from 'topologically-combine-reducers';
 import promise from 'redux-promise';
 
-import reducers from '../reducers';
+import reducers, {dependencies} from '../reducers';
 
 const reduxLogger = require.main ?
 	require('redux-cli-logger').default :
@@ -18,7 +19,7 @@ function logger() {
 }
 
 export default function configureStore(history, initial) {
-	const reducer = combineReducers({routing, ...reducers});
+	const reducer = topology({routing, ...reducers}, dependencies);
 
 	const middlewares = process.env.NODE_ENV === 'production' ?
 		[thunk, promise, routerMiddleware(history)] :

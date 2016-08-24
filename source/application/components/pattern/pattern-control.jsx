@@ -8,13 +8,15 @@ import autobind from 'autobind-decorator';
 @autobind
 class PatternControl extends Component {
 	static propTypes = {
-		base: t.string.isRequired,
 		active: t.bool.isRequired,
-		name: t.any.isRequired,
+		base: t.string.isRequired,
+		children: t.any,
+		expand: t.bool,
+		iconDescription: t.string,
 		location: t.object.isRequired,
+		name: t.any.isRequired,
 		shortid: t.string.isRequired,
-		title: t.string,
-		iconDescription: t.string
+		title: t.string
 	}
 
 	static contextTypes = {
@@ -23,25 +25,41 @@ class PatternControl extends Component {
 
 	handleClick(e) {
 		e.preventDefault();
-		const {active, location, shortid} = this.props;
+		const {active, expand, location, shortid} = this.props;
 		const source = active ? null : shortid;
-		const route = {pathname: location.pathname, query: {...location.query, source}};
+		const route = {
+			pathname: location.pathname,
+			query: {
+				...location.query,
+				source,
+				[`source-expanded`]: expand
+			}
+		};
 		this.context.router.replace(route);
 	}
 
 	render() {
-		const {active, name, location, shortid, title} = this.props;
+		const {active, expand, name, location, shortid, title} = this.props;
 		const className = classnames('pattern-control', {active});
 		const source = active ? null : shortid;
 
+		const to = {
+			pathname: location.pathname,
+			query: {
+				...location.query,
+				source,
+				[`source-expanded`]: expand
+			}
+		};
+
 		return (
 			<Link
-				to={{pathname: location.pathname, query: {...location.query, source}}}
+				to={to}
 				className={className}
 				onClick={this.handleClick}
 				title={title}
 				>
-				{name}
+				{this.props.children || name}
 			</Link>
 		);
 	}

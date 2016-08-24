@@ -4,6 +4,6 @@
 
 concurrently -k \
 	"./scripts/build/scripts/client" \
-	"./scripts/build/scripts/highlight" \
+	"./scripts/build/scripts/lowlight" \
 	"./scripts/build/scripts/vendors" \
 	"$@"

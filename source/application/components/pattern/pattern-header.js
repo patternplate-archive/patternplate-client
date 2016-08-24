@@ -26,20 +26,14 @@ export default function PatternHeader(props) {
 	return (
 		<div className="pattern-header-container">
 			<Headline className="pattern-header" order={2}>
+				<span className="pattern-name">
+					{name}
+				</span>
+				<small className="pattern-version">
+					{version ? `v${version}` : ''}
+				</small>
 				{
-					name &&
-						<span className="pattern-name">
-							{name}
-						</span>
-				}
-				{
-					version &&
-						<small className="pattern-version">
-							v{version}
-						</small>
-				}
-				{
-					flag &&
+					flag ?
 						<small className={flagClassName}>
 							<Link
 								title={`Search patterns with flag ${flag}`}
@@ -50,7 +44,8 @@ export default function PatternHeader(props) {
 								>
 								{flag}
 							</Link>
-						</small>
+						</small> :
+						null
 				}
 				{tags.map((tag, key) =>
 					<small key={key} className="pattern-tag">
@@ -58,7 +53,7 @@ export default function PatternHeader(props) {
 							title={`Search patterns with tag ${tag}`}
 							to={{
 								pathname: location.pathname,
-								query: {...location.query, search: `tag:${flag}`}
+								query: {...location.query, search: `tag:${tag}`}
 							}}
 							key={key}
 							>
@@ -72,7 +67,7 @@ export default function PatternHeader(props) {
 					type="button"
 					className="button"
 					title={reloadTitle}
-					disabled={loading || reloading}
+					disabled={reloading}
 					onClick={props.onReloadClick}
 					>
 					Reload

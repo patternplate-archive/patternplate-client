@@ -5,6 +5,7 @@ import {handleAction} from 'redux-actions';
 
 import {getPatternData, dismissMessage} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
+import composeReducers from '../utils/compose-reducers';
 
 function createMessage(error, seed = 1) {
 	error.cwd = '/Users/marneb/projects/patternplate/patternplate/patterns/';
@@ -22,13 +23,7 @@ function createMessage(error, seed = 1) {
 	};
 }
 
-function compose(...args) {
-	return (state, action) => {
-		return args.reduce((state, arg) => arg(state, action), state);
-	};
-}
-
-export default compose(
+export default composeReducers(
 	handlePromiseThunkAction(getPatternData, {
 		/* start() {
 			return [];

@@ -32,9 +32,38 @@
 	}
 	.block-name {
 		font-family: Helvetica, sans-serif;
-		font-size: 1.75px;
+		font-size: 1pt;
 		fill: @root-color;
 		pointer-events: none;
+		text-anchor: middle;
+		alignment-baseline: central;
+	}
+	.label__text {
+		font-family: Helvetica, sans-serif;
+		font-size: 0.8pt;
+		fill: @root-color;
+		pointer-events: none;
+		text-anchor: middle;
+		alignment-baseline: central;
+		transition: .3s all ease-in-out;
+	}
+	.label {
+		fill: @border-color;
+		opacity: 0;
+		transition: .3s all ease-in-out;
+		&.label--active {
+			opacity: 1;
+			fill: @hover-color;
+			.label__text {
+				fill: @root-background;
+			}
+		}
+	}
+	.label__container {
+		fill: inherit;
+	}
+	.label__circle {
+		fill: inherit;
 	}
 	.pattern-dependencies__block {
 		cursor: pointer;

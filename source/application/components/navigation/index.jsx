@@ -12,7 +12,6 @@ import SearchField from '../common/search-field';
 class Navigation extends React.Component {
 	static propTypes = {
 		base: types.string.isRequired,
-		data: types.object.isRequired,
 		navigation: types.object.isRequired,
 		path: types.string.isRequired,
 		onSearch: types.func,
@@ -41,7 +40,6 @@ class Navigation extends React.Component {
 	render() {
 		const {
 			base,
-			data,
 			path,
 			navigation,
 			hierarchy,
@@ -93,7 +91,6 @@ class Navigation extends React.Component {
 					base={base}
 					expanded={expanded}
 					location={location}
-					data={data}
 					/>
 			</nav>
 		);

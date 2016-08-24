@@ -1,3 +1,4 @@
+import ARSON from 'arson';
 import {createAction} from 'redux-actions';
 import {memoize} from 'lodash';
 
@@ -11,7 +12,7 @@ export default createAction('HIGHLIGHT_CODE', options => {
 		const worker = startWorker(options.worker);
 
 		const onWorkerMessage = e => {
-			const data = JSON.parse(e.data);
+			const data = ARSON.parse(e.data);
 			if (data.id === options.id) {
 				resolve(data);
 				unbind();
@@ -30,6 +31,6 @@ export default createAction('HIGHLIGHT_CODE', options => {
 
 		worker.addEventListener('message', onWorkerMessage);
 		worker.addEventListener('error', onWorkerError);
-		worker.postMessage(JSON.stringify(options));
+		worker.postMessage(ARSON.stringify(options));
 	});
 });

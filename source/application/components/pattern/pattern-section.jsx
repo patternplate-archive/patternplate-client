@@ -1,28 +1,22 @@
 import React, {PropTypes as t} from 'react';
-import {Link} from 'react-router';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
-import join from 'classnames';
 import {pick, isEqual} from 'lodash';
 
 import 'isomorphic-fetch';
 
-import PatternLoader from './pattern-loader';
-import PatternContent from './pattern-content';
+// import PatternLoader from './pattern-loader';
+import PatternContainer from '../../containers/pattern';
 
 @pure
 @autobind
 class PatternSection extends React.Component {
 	static propTypes = {
 		base: t.string.isRequired,
-		id: t.string.isRequired,
-		data: t.object,
-		config: t.object.isRequired,
 		environment: t.string.isRequired,
+		id: t.string.isRequired,
 		location: t.object.isRequired,
-		onDataRequest: t.func.isRequired,
-		type: t.string.isRequired
+		onDataRequest: t.func.isRequired
 	};
 
 	static defaultProps = {
@@ -31,10 +25,8 @@ class PatternSection extends React.Component {
 	};
 
 	componentDidMount() {
-		const {id, base, environment, type} = this.props;
-		if (type === 'pattern') {
-			this.props.onDataRequest(id, {environment}, {loading: true, base});
-		}
+		const {id, base, environment} = this.props;
+		this.props.onDataRequest(id, {environment}, {loading: true, base});
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -52,7 +44,7 @@ class PatternSection extends React.Component {
 	}
 
 	render() {
-		const {props} = this;
+		/* const {props} = this;
 		const {base, location, data, config} = props;
 		const loading = data && data.loading;
 
@@ -70,59 +62,13 @@ class PatternSection extends React.Component {
 
 		const className = join('pattern-section', {
 			[`pattern-section--loading`]: loading
-		});
+		}); */
 
 		return (
-			<section className={className}>
-				<CSSTransitionGroup
-					component="ul"
-					transitionName="pattern-content-transition"
-					key="breadcrumbs"
-					className="pattern-breadcrumbs"
-					transitionEnterTimeout={300}
-					transitionLeave={false}
-					>
-					{paths.map(path => {
-						return (
-							<li className="pattern-breadcrumb" key={path.name}>
-								<Link
-									to={{
-										pathname: [`${base}pattern`, path.path].join('/'),
-										query: location.query
-									}}
-									title={`Navigate to ${path.path}`}
-									>
-									<span>{path.name}</span>
-								</Link>
-							</li>
-						);
-					})}
-				</CSSTransitionGroup>
-				<CSSTransitionGroup
-					component="div"
-					className="pattern-container"
-					transitionName="pattern-content-transition"
-					transitionEnterTimeout={300}
-					transitionLeave={false}
-					>
-					{
-						loading ?
-							<PatternLoader
-								key="pattern-loader"
-								inverted={inverted}
-								base={base}
-								/> :
-							<PatternContent
-								base={base}
-								id={props.id}
-								data={data}
-								config={config}
-								location={location}
-								loading={loading}
-								onDataRequest={this.handleDataRequest}
-								/>
-					}
-				</CSSTransitionGroup>
+			<section className="pattern-section">
+				<PatternContainer
+					location={this.props.location}
+					/>
 			</section>
 		);
 	}

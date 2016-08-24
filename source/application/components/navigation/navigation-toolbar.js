@@ -2,23 +2,15 @@ import React, {PropTypes as t} from 'react';
 import NavigationToggle from './navigation-toggle';
 
 export default function NavigationToolbar(props) {
-	const {data} = props;
+	// const {data} = props;
 	return (
 		<div className="navigation-toolbar">
 			<div className="navigation-toolbar__container">
-				<div className="navigation-meta">
+				{/* <div className="navigation-meta">
 					<div className="navigation-meta__handle">
-						{/* <span className="navigation-meta__cruft">
-							About {data.name}
-						</span>*/}
-						<span> v{data.version}</span>
+						v{data.version}
 					</div>
-					{/* <div className="navigation-meta__data">
-						<div>{data.appName} v{data.appVersion}</div>
-						<div>{data.clientName} v{data.clientVersion}</div>
-						<div>{data.serverName} v{data.serverVersion}</div>
-					</di>*/}
-				</div>
+				</div>*/}
 			</div>
 			<div className="navigation-toolbar__action">
 				<NavigationToggle
@@ -36,7 +28,7 @@ NavigationToolbar.propTypes = {
 	location: t.object.isRequired,
 	expanded: t.bool.isRequired,
 	base: t.string.isRequired,
-	data: t.shape({
+	/* data: t.shape({
 		name: t.string.isRequired,
 		version: t.string.isRequired,
 		appName: t.string.isRequired,
@@ -45,5 +37,5 @@ NavigationToolbar.propTypes = {
 		clientVersion: t.string.isRequired,
 		serverName: t.string.isRequired,
 		serverVersion: t.string.isRequired
-	}).isRequired
+	}).isRequired */
 };

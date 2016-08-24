@@ -2,6 +2,7 @@ import React, {PropTypes as types} from 'react';
 import {connect} from 'react-redux';
 import join from 'classnames';
 import {pd as pretty} from 'pretty-data';
+import toh from 'hast-to-hyperscript';
 
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
@@ -14,15 +15,14 @@ class PatternCode extends React.Component {
 	displayName = 'PatternCode';
 
 	static propTypes = {
-		id: types.string,
 		base: types.string.isRequired,
-		children: types.node.isRequired,
-		format: types.string,
-		name: types.string.isRequired,
 		copy: types.bool,
 		dispatch: types.func.isRequired,
+		format: types.string.isRequired,
 		highlight: types.bool,
-		highlights: types.object.isRequired
+		highlights: types.object.isRequired,
+		id: types.string,
+		name: types.string.isRequired
 	};
 
 	static defaultProps = {
@@ -37,10 +37,16 @@ class PatternCode extends React.Component {
 
 	componentDidMount() {
 		if (this.props.highlight) {
-			const {base, dispatch, id, children: payload} = this.props;
-			const worker = `${base}script/highlight.bundle.js`;
-			const options = {id, payload, worker};
+			const {base, format: language, dispatch, id, source} = this.props;
+			const worker = `${base}script/lowlight.bundle.js`;
+			const options = {id, payload: source, worker, language};
 			dispatch(highlightCode(options));
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.timeout) {
+			global.clearTimeout(this.timeout);
 		}
 	}
 
@@ -49,7 +55,7 @@ class PatternCode extends React.Component {
 	}
 
 	handleCopyClick() {
-		if (this.ref) {
+		if (this.ref && !this.state.copying) {
 			this.ref.focus();
 			this.ref.select();
 			global.document.execCommand('copy');
@@ -57,7 +63,7 @@ class PatternCode extends React.Component {
 				...this.state,
 				copying: true
 			});
-			setTimeout(() => {
+			this.timeout = setTimeout(() => {
 				this.setState({
 					...this.state,
 					copying: false
@@ -74,21 +80,21 @@ class PatternCode extends React.Component {
 			copy,
 			highlight,
 			highlights,
-			children: passed
+			source: passed
 		} = this.props;
 
 		const prettify = highlight && format === 'html';
-		const children = prettify ? pretty.xml(passed) : passed;
-		const code = highlights[id];
+		const prettified = prettify ? pretty.xml(passed) : passed;
+		const highlighted = highlights[id];
+		const children = highlighted ? toh(React.createElement, highlighted) : prettified;
 		const {copying} = this.state;
 		const formatClassName = join(`hljs`, format);
-		const highlighted = highlight && code;
 
 		return (
 			<div className="pattern-code">
-				<div className="pattern-code-toolbar">
-					<div className="pattern-code-name">{name}</div>
-					<div className="pattern-code-tools">
+				<div className="pattern-code__toolbar">
+					<div className="pattern-code__name">{name}</div>
+					<div className="pattern-code__tools">
 						{
 							copy &&
 								<button type="button" onClick={this.handleCopyClick}>
@@ -97,22 +103,15 @@ class PatternCode extends React.Component {
 						}
 					</div>
 				</div>
-				<div className="pattern-code-content">
+				<div className="pattern-code__content">
 					<pre>
-						{
-							highlighted ?
-								<code
-									className={formatClassName}
-									dangerouslySetInnerHTML={{__html: code}} // eslint-disable-line react/no-danger
-									/> :
-								<code className="hljs">
-									{children}
-								</code>
-						}
+						<code className={formatClassName}>
+							{children}
+						</code>
 					</pre>
 					<textarea
 						className="clipboard"
-						value={children}
+						value={prettified}
 						ref={this.saveReference}
 						readOnly
 						/>

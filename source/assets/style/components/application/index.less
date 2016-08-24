@@ -25,6 +25,7 @@
 		position: absolute;
 		z-index: 1;
 		top: 0;
+		bottom: 0;
 	}
 }
 
@@ -69,9 +70,10 @@
 		width: @navWidthMedium;
 		border-right: 1px solid @border-color;
 		transform: none;
-		transition: .3s width ease-in-out;
+		transition: .3s .3s width ease-in-out;
 		&.slim {
 			width: @navWidthSlim;
+			transition: .3s width ease-in-out;
 		}
 	}
 	@media screen and (min-width: 900px) {
@@ -89,7 +91,7 @@
 		width: 100%;
 		left: 100%;
 		transform: translateX(-100%);
-		padding: 60px 15px 15px 15px;
+		padding: 60px 15px 0 15px;
 	}
 }
 

@@ -1,13 +1,16 @@
 import React, {PropTypes as t, Component} from 'react';
+import {connect} from 'react-redux';
 import join from 'classnames';
 import autobind from 'autobind-decorator';
 
+import markBlock from '../../actions/mark-block';
 import Block from './block';
 import BlockColumn from './block-column';
 
 @autobind
-export default class PatternDependencies extends Component {
+class PatternDependencies extends Component {
 	static propTypes = {
+		activeBlock: t.string,
 		base: t.string.isRequired,
 		className: t.string,
 		id: t.string.isRequired,
@@ -40,8 +43,19 @@ export default class PatternDependencies extends Component {
 		});
 	}
 
+	handleMouseEnter(id) {
+		const {dispatch} = this.props;
+		dispatch(markBlock({id, active: true}));
+	}
+
+	handleMouseLeave(id) {
+		const {dispatch} = this.props;
+		dispatch(markBlock({id, active: false}));
+	}
+
 	render() {
 		const {
+			activeBlock,
 			className: passedClassName,
 			dependencies,
 			dependents,
@@ -69,23 +83,29 @@ export default class PatternDependencies extends Component {
 			<div className={className}>
 				<svg viewBox={`0 0 100 ${viewBoxHeight}`} className="pattern-dependencies__stage">
 					<BlockColumn
+						activeBlock={activeBlock}
 						items={dependencies}
 						base={base}
 						y={columnY}
 						x={paddingX}
 						height={blockHeight}
 						onClick={this.handleClick}
+						onMouseEnter={this.handleMouseEnter}
+						onMouseLeave={this.handleMouseLeave}
 						description="provides for"
 						location={location}
 						connect={{x: center - rootWidth / 2, y: rootYCenter}}
 						/>
 					<BlockColumn
+						activeBlock={activeBlock}
 						items={dependents}
 						base={base}
 						y={columnY}
 						x={100}
 						height={blockHeight}
 						onClick={this.handleClick}
+						onMouseEnter={this.handleMouseEnter}
+						onMouseLeave={this.handleMouseLeave}
 						align="right"
 						description="provides for"
 						location={location}
@@ -107,3 +127,7 @@ export default class PatternDependencies extends Component {
 		);
 	}
 }
+
+export default connect(({activeBlock}) => {
+	return {activeBlock};
+})(PatternDependencies);

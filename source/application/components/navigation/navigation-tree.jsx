@@ -83,7 +83,7 @@ class NavigationTree extends Component {
 					id={folder.id}
 					searchQuery={searchQuery}
 					key={folder.id}
-					active={active}
+					active={active || folder.expanded}
 					ref={ref}
 					onClick={this.handleFolderClick}
 					location={location}
@@ -106,6 +106,7 @@ class NavigationTree extends Component {
 		const items = patterns.map(pattern => {
 			const {
 				displayName,
+				expanded,
 				id,
 				type,
 				manifest
@@ -126,7 +127,7 @@ class NavigationTree extends Component {
 					searchQuery={searchQuery}
 					location={location}
 					type={type}
-					active={currentPath === id}
+					active={currentPath === id || expanded}
 					/>
 			);
 		});
