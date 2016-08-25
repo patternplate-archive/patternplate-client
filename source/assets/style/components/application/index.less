@@ -27,6 +27,7 @@
 		flex-direction: column;
 		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 		flex: 1;
+		overflow-x: hidden;
 	}
 	&__content {
 		.markdown {
@@ -39,7 +40,7 @@
 			width: 100%;
 			left: 100%;
 			transform: translateX(-100%);
-			padding: 60px 15px 0 15px;
+			// padding: 60px 15px 0 15px;
 		}
 	}
 	&__navigation {
@@ -68,11 +69,17 @@
 	min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 	flex: 1;
 	max-height: 100vh;
-	overflow: auto;
+	overflow-x: hidden;
 	&--home {
 		padding: 15px;
 		@media screen and (min-width: 500px) {
 			padding: 15px 30px;
+		}
+	}
+	&--pattern {
+		padding: 0 15px;
+		@media screen and (min-width: 500px) {
+			padding: 0;
 		}
 	}
 }
