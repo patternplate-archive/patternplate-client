@@ -2,10 +2,12 @@
 	display: flex;
 	width: 100%;
 	width: 100%;
-	&--menu-enabled {
-		.application__content,
-		.application__navigation {
-			transform: translate(0);
+	@media screen and (max-width: 500px) {
+		&--menu-enabled {
+			.application__content,
+			.application__navigation {
+				transform: translate(0);
+			}
 		}
 	}
 	&__content,

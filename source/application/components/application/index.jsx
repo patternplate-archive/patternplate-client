@@ -1,6 +1,8 @@
 import React, {PropTypes as t} from 'react';
 import join from 'classnames';
 import Helmet from 'react-helmet';
+
+import BreadCrumbs from '../bread-crumbs';
 import Toolbar from '../toolbar';
 import Navigation from '../navigation';
 
@@ -57,6 +59,14 @@ function Application(props) {
 				searchValue={props.search}
 				/>
 			<main className="application__content">
+				{
+					breadcrumbs.length > 0 &&
+						<BreadCrumbs
+							base={props.base}
+							crumbs={props.breadcrumbs}
+							location={props.location}
+							/>
+				}
 				{props.children}
 			</main>
 		</div>
@@ -69,6 +79,14 @@ Application.propTypes = {
 		value: t.string
 	})).isRequired,
 	base: t.string.isRequired,
+	breadcrumbs: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		name: t.string.isRequired,
+		target: t.shape({
+			pathname: t.string.isRequired,
+			query: t.object.isRequired
+		}).isRequired
+	})),
 	children: t.any,
 	description: t.string.isRequired,
 	expanded: t.bool.isRequired,

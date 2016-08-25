@@ -1,0 +1,28 @@
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 10px 15px;
+	list-style-type: none;
+	@media screen and (min-width: 500px) {
+		padding: 10px 30px;
+	}
+}
+
+.breadcrumb {
+	display: inline-flex;
+	flex-grow: 0;
+	flex-shrink: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	&:not(:last-child) {
+		&::after {
+			content: '/';
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding: 0 5px;
+			font-size: 1.1em;
+			color: @border-color;
+		}
+	}
+}
