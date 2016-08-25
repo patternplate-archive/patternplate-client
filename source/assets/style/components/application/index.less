@@ -23,8 +23,12 @@
 		}
 	}
 	&__content {
+		display: flex;
+		flex-direction: column;
 		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 		flex: 1;
+	}
+	&__content {
 		.markdown {
 			max-width: 1000px;
 		}
@@ -58,17 +62,17 @@
 	}
 }
 
-.home {
+.application-container {
+	display: flex;
+	flex-direction: column;
+	min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
+	flex: 1;
 	max-height: 100vh;
 	overflow: auto;
-	@media screen and (min-width: 500px) {
-		padding-right: 30px;
-		padding-left: 30px;
+	&--home {
+		padding: 15px;
+		@media screen and (min-width: 500px) {
+			padding: 15px 30px;
+		}
 	}
-}
-
-.home > .markdown {
-	background: transparent;
-	border: none;
-	padding: 30px 0;
 }

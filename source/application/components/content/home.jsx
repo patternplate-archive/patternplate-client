@@ -13,9 +13,9 @@ class Home extends Component {
 	render() {
 		const {readme, base} = this.props;
 		return (
-			<main className="application__content content home">
-				<Markdown source={readme} base={base}/>
-			</main>
+			<div className="application-container application-container--home">
+				<Markdown source={readme} base={base} className="home"/>
+			</div>
 		);
 	}
 }

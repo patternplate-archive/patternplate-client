@@ -97,7 +97,7 @@ class Content extends React.Component {
 		const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults), 'name'), rateType);
 
 		return (
-			<main className="application__content content">
+			<div className="application-container application-container--pattern">
 				{
 					item.type === 'folder' &&
 						<PatternFolder
@@ -154,7 +154,7 @@ class Content extends React.Component {
 						})
 					}
 				</CSSTransitionGroup>
-			</main>
+			</div>
 		);
 	}
 }

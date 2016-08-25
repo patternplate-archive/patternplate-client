@@ -56,7 +56,9 @@ function Application(props) {
 				location={props.location}
 				searchValue={props.search}
 				/>
-			{props.children}
+			<main className="application__content">
+				{props.children}
+			</main>
 		</div>
 	);
 }
