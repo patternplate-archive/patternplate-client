@@ -183,13 +183,19 @@ function selectCode(state) {
 	return Object.values(envResults || {})
 		.map(result => {
 			const sourceId = md5(result.source);
+			const concern = result.concern || 'demo';
+			const type = result.type || 'source';
+			const typeName = type === 'source' ? 'Source' : 'Result';
+			const language = type === 'source' ? result.in : result.out;
+
 			return {
 				active: state.sourceId === sourceId,
 				id: sourceId,
 				name: result.name,
-				language: result.in,
-				source: result.source,
-				type: 'source'
+				language,
+				source: result[type],
+				type: typeName,
+				concern
 			};
 		});
 }

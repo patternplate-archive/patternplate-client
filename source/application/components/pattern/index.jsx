@@ -7,8 +7,7 @@ import PatternToolbar from './pattern-toolbar';
 export default Pattern;
 
 function Pattern(props) {
-	const onReloadClick = (e) => {
-		console.log(e);
+	const onReloadClick = () => {
 		return props.reload({
 			base: props.base,
 			id: props.id,

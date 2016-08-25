@@ -74,6 +74,12 @@
 	left: 0%;
 	background: @root-background;
 	overflow: hidden;
+	@media screen and (max-width: 500px) {
+		position: fixed;
+		top: 65px;
+		height: ~'calc(100vh - 170px)';
+		max-height: ~'calc(100vh - 170px)';
+	}
 	&.pattern-code--max {
 		height: 50vh;
 	}

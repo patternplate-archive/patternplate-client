@@ -77,10 +77,12 @@ class PatternCode extends React.Component {
 			id,
 			format,
 			name,
+			concern,
 			copy,
 			highlight,
 			highlights,
-			source: passed
+			source: passed,
+			type
 		} = this.props;
 
 		const prettify = highlight && format === 'html';
@@ -93,7 +95,12 @@ class PatternCode extends React.Component {
 		return (
 			<div className="pattern-code">
 				<div className="pattern-code__toolbar">
-					<div className="pattern-code__name">{name}</div>
+					<div className="pattern-code__name">
+						{name}:
+						<span className="pattern-code__concern"> {concern}</span>
+						<span className="pattern-code__language">.{format}</span>
+						<span className="pattern-code__type"> ({type})</span>
+					</div>
 					<div className="pattern-code__tools">
 						{
 							copy &&

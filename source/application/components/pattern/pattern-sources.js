@@ -16,6 +16,7 @@ function PatternSources(props) {
 						active={source.active}
 						base={props.base}
 						buffer={source.buffer}
+						concern={source.concern}
 						id={source.id}
 						key={source.id}
 						language={source.language}
@@ -23,6 +24,7 @@ function PatternSources(props) {
 						name={source.name}
 						shortid={source.id}
 						source={source.source}
+						type={source.type}
 						/>
 				))
 			}
@@ -54,12 +56,14 @@ function PatternSource(props) {
 				props.active && props.language !== 'md' &&
 					<PatternCode
 						base={props.base}
+						concern={props.concern}
 						copy
 						format={props.language}
 						highlight
 						id={props.id}
 						name={props.name}
 						source={props.source}
+						type={props.type}
 						/>
 			}
 		</div>
