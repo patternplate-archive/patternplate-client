@@ -1,19 +1,25 @@
 import React, {PropTypes as t} from 'react';
+import join from 'classnames';
 import Helmet from 'react-helmet';
-import Toolbar from './toolbar';
-import Navigation from './navigation';
+import Toolbar from '../toolbar';
+import Navigation from '../navigation';
 
 export default Application;
 
 function Application(props) {
 	const handleSearch = props.onSearch;
+
+	const className = join('application', {
+		'application--menu-enabled': props.menuEnabled
+	});
+
 	return (
-		<div className="application">
+		<div className={className}>
 			<Helmet
 				meta={[
 					{
 						name: 'description',
-						content: 'patternplate'
+						content: props.description
 					}
 				]}
 				link={[
@@ -29,7 +35,9 @@ function Application(props) {
 				base={props.base}
 				icon="patternplate"
 				location={props.location}
+				menuEnabled={props.menuEnabled}
 				onThemeChange={props.onThemeChange}
+				pathname={props.pathname}
 				query={props.query}
 				theme={props.theme}
 				title={props.title}
@@ -37,6 +45,8 @@ function Application(props) {
 				/>
 			<Navigation
 				base={props.base}
+				expanded={props.expanded}
+				enabled={props.menuEnabled}
 				hierarchy={props.hierarchy}
 				navigation={props.navigation}
 				onSearch={handleSearch}
@@ -58,11 +68,14 @@ Application.propTypes = {
 	})).isRequired,
 	base: t.string.isRequired,
 	children: t.any,
+	description: t.string.isRequired,
+	expanded: t.bool.isRequired,
 	hierarchy: t.object.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,
 		query: t.object.isRequired
 	}).isRequired,
+	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
 	onSearch: t.func.isRequired,
 	onThemeChange: t.func.isRequired,

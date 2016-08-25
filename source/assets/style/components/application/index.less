@@ -1,97 +1,60 @@
 .application {
-	display: table;
 	display: flex;
 	width: 100%;
-}
-
-.header {
-	position: fixed;
-	z-index: 3;
-	top: 0;
-	right: 0;
-	left: 0;
-}
-
-.navigation,
-.content {
-	display: table-cell;
-	display: flex;
-	flex-direction: column;
-	vertical-align: top;
-	padding-top: 60px;
-	transition: transform .3s ease-in-out;
-	@media screen and (max-width: 500px) {
-		display: block;
-		position: absolute;
-		z-index: 1;
-		top: 0;
-		bottom: 0;
-	}
-}
-
-::-webkit-scrollbar {
-	background: transparent;
-	overflow: visible;
-	width: 4px;
-	height: 4px;
-	background-color: fadeout(#999, 50%);
-}
-
-::-webkit-scrollbar-thumb {
-	background-color: fadeout(@active-color, 50%);
-	border: none;
-}
-
-::-webkit-scrollbar-thumb:horizontal {
-	min-width: 4px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-	min-height: 4px;
-}
-
-::-webkit-scrollbar-track-piece {
-	background-color: transparent;
-}
-
-::-webkit-scrollbar-corner {
-	background: transparent;
-}
-
-.content .markdown {
-	max-width: 1000px;
-}
-
-.navigation {
-	min-height: 100vh;
 	width: 100%;
-	transform: translateX(-100%);
-	@media screen and (min-width: 500px) {
-		width: @navWidthMedium;
-		border-right: 1px solid @border-color;
-		transform: none;
-		transition: .3s .3s width ease-in-out;
-		&.slim {
-			width: @navWidthSlim;
-			transition: .3s width ease-in-out;
+	&--menu-enabled {
+		.application__content,
+		.application__navigation {
+			transform: translate(0);
 		}
 	}
-	@media screen and (min-width: 900px) {
-		width: @navWidthWide;
+	&__content,
+	&__navigation {
+		display: flex;
+		flex-direction: column;
+		padding-top: 60px;
+		transition: transform .3s ease-in-out;
+		@media screen and (max-width: 500px) {
+			display: block;
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			bottom: 0;
+		}
 	}
-}
-
-.content {
-	min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
-	flex: 1;
-	@media screen and (max-width: 900px) {
-		width: 70%;
+	&__content {
+		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
+		flex: 1;
+		.markdown {
+			max-width: 1000px;
+		}
+		@media screen and (max-width: 900px) {
+			width: 70%;
+		}
+		@media screen and (max-width: 500px) {
+			width: 100%;
+			left: 100%;
+			transform: translateX(-100%);
+			padding: 60px 15px 0 15px;
+		}
 	}
-	@media screen and (max-width: 500px) {
+	&__navigation {
+		min-height: 100vh;
 		width: 100%;
-		left: 100%;
 		transform: translateX(-100%);
-		padding: 60px 15px 0 15px;
+		@media screen and (min-width: 500px) {
+			width: @navWidthMedium;
+			border-right: 1px solid @border-color;
+			transform: none;
+			transition: .3s .3s width ease-in-out;
+			&.slim {
+				width: @navWidthSlim;
+				transition: .3s width ease-in-out;
+			}
+		}
+		@media screen and (min-width: 900px) {
+			width: @navWidthWide;
+		}
 	}
 }
 
@@ -108,28 +71,4 @@
 	background: transparent;
 	border: none;
 	padding: 30px 0;
-}
-
-.menu-state {
-	position: fixed;
-	left: -10000px;
-	left: -100vh;
-	bottom: 0;
-	&:checked{
-		~ .navigation,
-		~ .content {
-			transform: translateX(0);
-		}
-		~ .header {
-			.toolbar {
-				.menu {
-					color: @active-color;
-				}
-			}
-		}
-	}
-}
-
-.inline-svg {
-	display: none;
 }

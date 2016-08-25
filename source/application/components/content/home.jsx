@@ -13,7 +13,7 @@ class Home extends Component {
 	render() {
 		const {readme, base} = this.props;
 		return (
-			<main className="content home">
+			<main className="application__content content home">
 				<Markdown source={readme} base={base}/>
 			</main>
 		);

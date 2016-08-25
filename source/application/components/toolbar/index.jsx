@@ -39,11 +39,28 @@ function Toolbar(props) {
 				</span>
 			</div>
 			<div className="toolbar">
-				<label className="button menu" htmlFor="menu-state">
-					<Icon base={props.base} symbol="patternplate">
-						Menu
+				<Link
+					className="menu"
+					to={{
+						pathname: props.pathname,
+						query: {
+							...props.query,
+							'menu-enabled': !props.menuEnabled
+						}
+					}}
+					>
+					<Icon
+						base={props.base}
+						symbol="patternplate"
+						fallback={false}
+						>
+						{
+							props.menuEnabled ?
+								'Disable Menu' :
+								'Enable Menu'
+						}
 					</Icon>
-				</label>
+				</Link>
 				<div className="toolbar-tools">
 					<button
 						className="button"
@@ -75,8 +92,11 @@ function Toolbar(props) {
 Toolbar.propTypes = {
 	base: t.string.isRequired,
 	icon: t.string.isRequired,
+	onThemeChange: t.func.isRequired,
+	menuEnabled: t.bool.isRequired,
+	pathname: t.string.isRequired,
+	query: t.object.isRequired,
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
-	onThemeChange: t.func.isRequired,
-	query: t.object.isRequired
+	version: t.string.isRequired
 };

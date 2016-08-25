@@ -2,6 +2,7 @@ import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
+import {omit} from 'lodash';
 import Icon from '../common/icon';
 
 function getPathName(...fragments) {
@@ -72,7 +73,7 @@ export default class NavigationItem extends React.Component {
 		const itemClassName = classnames('navigation-item', modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
 		const pathname = getPathName(base, linkTo, id);
-		const to = {pathname, query: location.query};
+		const to = {pathname, query: omit(location.query, ['menu-enabled'])};
 		const title = `Navigate to ${name} ${type}`;
 
 		return (

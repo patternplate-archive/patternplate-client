@@ -97,7 +97,7 @@ class Content extends React.Component {
 		const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults), 'name'), rateType);
 
 		return (
-			<main className="content">
+			<main className="application__content content">
 				{
 					item.type === 'folder' &&
 						<PatternFolder

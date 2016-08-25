@@ -5,6 +5,7 @@ import environment from './environment';
 import expanded from './expanded';
 import highlights from './highlights';
 import id from './id';
+import menuEnabled from './menu-enabled';
 import messages from './messages';
 import patterns from './patterns';
 import search from './search';
@@ -25,6 +26,7 @@ export default {
 	expanded,
 	highlights,
 	id,
+	menuEnabled,
 	messages,
 	navigation: ident,
 	patterns,

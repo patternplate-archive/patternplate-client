@@ -1,4 +1,4 @@
-import React, {PropTypes as types} from 'react';
+import React, {PropTypes as t} from 'react';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
@@ -11,15 +11,17 @@ import SearchField from '../common/search-field';
 @pure
 class Navigation extends React.Component {
 	static propTypes = {
-		base: types.string.isRequired,
-		navigation: types.object.isRequired,
-		path: types.string.isRequired,
-		onSearch: types.func,
-		onSearchBlur: types.func,
-		searchValue: types.string,
-		searchQuery: types.string,
-		hierarchy: types.object,
-		location: types.object
+		base: t.string.isRequired,
+		enabled: t.bool.isRequired,
+		expanded: t.bool.isRequired,
+		hierarchy: t.object,
+		location: t.object,
+		navigation: t.object.isRequired,
+		onSearch: t.func,
+		onSearchBlur: t.func,
+		path: t.string.isRequired,
+		searchQuery: t.string,
+		searchValue: t.string
 	};
 
 	static defaultProps = {
@@ -40,6 +42,7 @@ class Navigation extends React.Component {
 	render() {
 		const {
 			base,
+			expanded,
 			path,
 			navigation,
 			hierarchy,
@@ -47,11 +50,10 @@ class Navigation extends React.Component {
 			searchValue
 		} = this.props;
 
-		const expanded = typeof location.query.expanded === 'undefined' ?
-			true :
-			location.query.expanded !== 'false';
-
-		const className = classnames('navigation', {slim: !expanded});
+		const className = classnames('navigation application__navigation', {
+			'slim': !expanded,
+			'navigation--expanded': expanded
+		});
 
 		return (
 			<nav className={className}>

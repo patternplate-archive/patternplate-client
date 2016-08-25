@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {push, replace} from 'react-router-redux';
-import Application from '../components';
+import Application from '../components/application';
 
 export default connect(mapProps, mapDispatch)(Application);
 
@@ -8,8 +8,11 @@ function mapProps(state, own) {
 	return {
 		about: selectAbout(state),
 		base: state.base,
+		description: selectDescription(state),
+		expanded: state.expanded,
 		hierarchy: state.config.hierarchy,
 		location: own.location,
+		menuEnabled: state.menuEnabled,
 		navigation: state.search ? state.searchMatches : state.navigation,
 		path: own.location.pathname,
 		pathname: own.location.pathname,
@@ -63,6 +66,10 @@ function selectAbout(state) {
 		base,
 		...about
 	];
+}
+
+function selectDescription(state) {
+	return selectSchema(state).description || '';
 }
 
 function selectName(state) {

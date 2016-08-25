@@ -21,11 +21,6 @@ body {
 	overflow: hidden;
 }
 
-[data-application="data-application"] {
-	width: 100%;
-	overflow-x: hidden;
-}
-
 a {
 	text-decoration: none;
 
@@ -53,4 +48,33 @@ a {
 	.icon {
 		margin: 0;
 	}
+}
+
+::-webkit-scrollbar {
+	background: transparent;
+	overflow: visible;
+	width: 4px;
+	height: 4px;
+	background-color: fadeout(#999, 50%);
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: fadeout(@active-color, 50%);
+	border: none;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+	min-width: 4px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+	min-height: 4px;
+}
+
+::-webkit-scrollbar-track-piece {
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
 }
