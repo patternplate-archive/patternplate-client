@@ -1,6 +1,6 @@
 .navigation {
 	position: relative;
-	// background-color: @sidebar-bg;
+	z-index: 2;
 	> .navigation-tree {
 		position: fixed;
 		z-index: 1;
@@ -11,7 +11,6 @@
 		overflow-x: hidden;
 		overflow-y: auto;
 		width: inherit;
-		// border-bottom: 1px solid @border-color;
 		-webkit-overflow-scrolling: touch;
 		@media screen and (min-width: 500px) {
 			border-right: 1px solid @border-color;
@@ -33,38 +32,6 @@
 	button {
 		cursor: pointer;
 	}
-	/* .toggleMode {
-		position: fixed;
-		z-index: 3;
-		bottom: 0;
-		display: none;
-		width: 40px;
-		height: 40px;
-		color: @active-color;
-		border: none;
-		outline: 0;
-		background-color: inherit;
-		font-size: 1.25em;
-		appearance: none;
-		@media screen and (min-width: 500px) {
-			left: @navWidthMedium;
-			display: block;
-			margin-left: -40px;
-			transition-duration: .3s;
-			transition-timing-function: ease-in-out;
-			transition-property: left, width, margin;
-			.slim& {
-				left: 0;
-				width: @navWidthSlim;
-				margin-left: 0;
-				border-left: 0;
-				text-align: center;
-			}
-		}
-		@media screen and (min-width: 900px) {
-			left: @navWidthWide;
-		}
-	} */
 }
 
 .navigation-toolbar {

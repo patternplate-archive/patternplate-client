@@ -96,10 +96,12 @@
 }
 
 .home {
-	padding-right: 30px;
-	padding-left: 30px;
 	max-height: 100vh;
 	overflow: auto;
+	@media screen and (min-width: 500px) {
+		padding-right: 30px;
+		padding-left: 30px;
+	}
 }
 
 .home > .markdown {

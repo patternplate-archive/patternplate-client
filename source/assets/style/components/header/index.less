@@ -1,4 +1,75 @@
 .main-header {
+	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 3;
+	height: @headerHeight;
+	background-color: @root-background;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	.logo {
+		display: none;
+		align-items: center;
+		min-width: @navWidthMedium;
+		@media screen and (min-width: 900px) {
+			min-width: @navWidthWide;
+		}
+		.svg-icon {
+			width: 50px;
+			height: 50px;
+			margin-right: 5px;
+		}
+		a {
+			margin-right: 15px;
+		}
+		.version {
+			flex-grow: 0;
+			flex-shrink: 0;
+			border-radius: 3px;
+			padding: 5px;
+			margin-left: auto;
+			margin-right: 10px;
+			line-height: 1.45;
+			background: @code-background;
+			border: 1px solid @border-color;
+		}
+	}
+	.toolbar {
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
+		background-color: @root-background
+	}
+	.toolbar-tools {
+		margin-left: auto;
+	}
+	@media screen and (max-width: 500px) {
+		.button,
+		.menu {
+			margin: 0;
+			height: @headerHeight;
+			border: none;
+			vertical-align: middle;
+			.svg-icon {
+				width: 50px;
+				height: 50px;
+				padding: 5px;
+			}
+		}
+	}
+	@media screen and (min-width: 500px) {
+		padding: 0 15px 0 5px;
+		.menu {
+			display: none;
+		}
+		.logo {
+			display: flex;
+		}
+	}
+}
+
+/* .main-header {
 	height: @headerHeight;
 	background-color: @root-background;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -9,7 +80,8 @@
 	z-index: 2;
 
 	.logo {
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
 		width: 17.5%;
 		@media screen and (max-width: 900px) {
 			width: 30%;
@@ -17,12 +89,46 @@
 		@media screen and (max-width: 500px) {
 			display: none;
 		}
+		a {
+			flex-grow: 1;
+			flex-shrink: 1;
+			word-break: break-all;
+		}
 		.svg-icon {
-			display: inline-block;
+			flex-grow: 0;
+			flex-shrink: 0;
 			width: @headerHeight;
 			height: @headerHeight;
 			padding: 10px;
+			margin: 0;
 		}
+		.svg-text {
+			flex-grow: 1;
+			flex-shrink: 1;
+			word-break: break-all;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			color: @root-color;
+			&:hover {
+				color: @hover-color;
+			}
+		}
+		.icon {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
+		}
+	}
+
+	.version {
+		flex-grow: 0;
+		flex-shrink: 0;
+		border-radius: 3px;
+		padding: 5px;
+		margin-left: auto;
+		margin-right: 10px;
+		line-height: 1.45;
+		background: @code-background;
 	}
 
 	.menu {
@@ -135,3 +241,4 @@
 		display: none;
 	}
 }
+*/

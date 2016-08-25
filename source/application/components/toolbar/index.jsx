@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import {IndexLink} from 'react-router';
+import {Link, IndexLink} from 'react-router';
 
 import Icon from '../common/icon';
 
@@ -16,51 +16,57 @@ function Toolbar(props) {
 
 	return (
 		<header className="main-header">
-			<IndexLink
-				className="logo"
-				to={{
-					pathname: props.base,
-					query: {
-						...props.query
-					}
-				}}
-				title="Navigate to start page"
-				>
-				<Icon
-					base={props.base}
-					symbol={props.icon}
-					fallback={false}
+			<div className="logo">
+				<IndexLink
+					to={{
+						pathname: props.base,
+						query: {
+							...props.query
+						}
+					}}
+					title="Navigate to start page"
 					>
-					{props.title}
-				</Icon>
-			</IndexLink>
+					<Icon
+						base={props.base}
+						symbol={props.icon}
+						fallback={false}
+						>
+						{props.title}
+					</Icon>
+				</IndexLink>
+				<span className="version">
+					{props.version}
+				</span>
+			</div>
 			<div className="toolbar">
 				<label className="button menu" htmlFor="menu-state">
 					<Icon base={props.base} symbol="patternplate">
 						Menu
 					</Icon>
 				</label>
-				<button
-					className="button"
-					type="button"
-					onClick={handleThemeChange}
-					title={`Switch to ${targetTheme} theme`}
-					>
-					<Icon
-						base={props.base}
-						symbol="light"
-						style={styles.light}
+				<div className="toolbar-tools">
+					<button
+						className="button"
+						type="button"
+						onClick={handleThemeChange}
+						title={`Switch to ${targetTheme} theme`}
 						>
-						Light
-					</Icon>
-					<Icon
-						base={props.base}
-						symbol="dark"
-						style={styles.dark}
-						>
-						Dark
-					</Icon>
-				</button>
+						<Icon
+							base={props.base}
+							symbol="light"
+							style={styles.light}
+							>
+							Light
+						</Icon>
+						<Icon
+							base={props.base}
+							symbol="dark"
+							style={styles.dark}
+							>
+							Dark
+						</Icon>
+					</button>
+				</div>
 			</div>
 		</header>
 	);
