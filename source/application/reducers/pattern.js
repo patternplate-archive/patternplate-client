@@ -26,11 +26,12 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	success(state, {payload}) {
 		return {
 			...state,
-			id: payload.id,
-			manifest: payload.manifest,
 			dependencies: payload.dependencies,
-			formats: payload.outFormats,
+			environments: payload.environments,
+			files: payload.files,
+			id: payload.id,
 			loading: false,
+			manifest: payload.manifest,
 			reloading: false
 		};
 	},

@@ -1,7 +1,6 @@
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
-import md5 from 'md5';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
@@ -14,8 +13,7 @@ function mapState(state) {
 	return {
 		activeSource: state.sourceId || '',
 		base: state.base,
-		// code: selectCode(state),
-		code: [],
+		code: selectCode(state),
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
 		display: selectDisplay(state),
@@ -94,7 +92,7 @@ function selectName(state) {
 }
 
 function selectEnvironments(state) {
-	const environments = getManifestSelector('demoEnvironments', [])(state);
+	const environments = selectPattern(state).environments || [];
 	return environments.map(env => {
 		return {
 			id: env.name,
@@ -175,4 +173,9 @@ function selectReloading(state) {
 
 function selectLocation(state) {
 	return state.routing.locationBeforeTransitions;
+}
+
+function selectCode(state) {
+	console.log(state.files);
+	return [];
 }
