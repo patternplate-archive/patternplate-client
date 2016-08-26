@@ -12,7 +12,8 @@ function Application(props) {
 	const handleSearch = props.onSearch;
 
 	const className = join('application', {
-		'application--menu-enabled': props.menuEnabled
+		'application--menu-enabled': props.menuEnabled,
+		'application--theme-loading': props.themeLoading
 	});
 
 	return (
@@ -24,13 +25,9 @@ function Application(props) {
 						content: props.description
 					}
 				]}
-				link={[
-					{
-						rel: 'stylesheet',
-						href: `/style/${props.theme}.css`
-					}
-				]}
+				link={createLinks(props.styles, {base: props.base})}
 				title={props.title}
+				onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
 				/>
 			<Toolbar
 				about={props.about}
@@ -98,6 +95,7 @@ Application.propTypes = {
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
 	onSearch: t.func.isRequired,
+	onThemeLoaded: t.func.isRequired,
 	onThemeChange: t.func.isRequired,
 	path: t.string.isRequired,
 	pathname: t.string.isRequired,
@@ -105,5 +103,34 @@ Application.propTypes = {
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
-	search: t.string
+	search: t.string,
+	styles: t.arrayOf(t.string).isRequired,
+	themeLoading: t.bool.isRequired
 };
+
+function createLinks(styles, options) {
+	return styles.map(createStyle(options));
+}
+
+function createStyle(options) {
+	return style => {
+		return {
+			'rel': 'stylesheet',
+			'href': `${options.base}style/${style}.css`,
+			'data-style-id': style
+		};
+	};
+}
+
+function getThemeLoadedListener(fn) {
+	return (...args) => {
+		const [, {linkTags: added = []}] = args;
+		const tags = added.filter(tag => tag.rel === 'stylesheet');
+		const tag = tags[tags.length - 1];
+		if (tag) {
+			tag.onload = () => {
+				fn(tag.dataset.styleId);
+			};
+		}
+	};
+}

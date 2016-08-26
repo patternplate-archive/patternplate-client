@@ -1,23 +1,16 @@
 import Fuse from 'fuse.js';
-import {handleActions} from 'redux-actions';
 
 import * as helpers from './helpers';
+import handleDependentActions from '../../actions/handle-dependent-actions';
 
 const defaultValue = [];
+const dependencies = ['expanded', 'navigation'];
 
-function createFuse(patterns) {
-	return new Fuse(patterns, {
-		id: 'id',
-		threshold: 0.3,
-		keys: [
-			'id',
-			'manifest.name',
-			'manifest.displayName',
-			'manifest.tags',
-			'manifest.flag'
-		]
-	});
-}
+const searchMatchReducer = handleDependentActions({
+	'@@router/LOCATION_CHANGE': locationChangeHandler
+}, {defaultValue, dependencies});
+
+export default searchMatchReducer;
 
 function locationChangeHandler(state, action, dependencies) {
 	const {navigation, expanded} = dependencies;
@@ -50,8 +43,16 @@ function locationChangeHandler(state, action, dependencies) {
 	return helpers.filterPatterns(navigation, matches);
 }
 
-export default function (state, action, dependencies) {
-	return handleActions({
-		'@@router/LOCATION_CHANGE': (...args) => locationChangeHandler(...[...args, dependencies])
-	}, defaultValue)(state, action);
+function createFuse(patterns) {
+	return new Fuse(patterns, {
+		id: 'id',
+		threshold: 0.3,
+		keys: [
+			'id',
+			'manifest.name',
+			'manifest.displayName',
+			'manifest.tags',
+			'manifest.flag'
+		]
+	});
 }

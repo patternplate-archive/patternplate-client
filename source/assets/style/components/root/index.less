@@ -8,46 +8,12 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-	font: ~'@{root-font-size}/@{root-line-height} @{root-font-family}';
-	color: @root-color;
-	background: @root-background;
-	transition: background .3s ease-in, color .3s ease-in;
 }
 
 html,
 body {
 	width: 100%;
-	min-width: 320px;
 	overflow: hidden;
-}
-
-a {
-	text-decoration: none;
-
-	&, &:active {
-		color: @active-color;
-	}
-
-	&:hover {
-		color: lighten(@active-color, 15%);
-	}
-}
-
-.button {
-	//margin: 0 8px;
-	padding: 4px;
-	background: transparent;
-	border: none;
-	vertical-align: middle;
-	border: 1px solid @border-color;
-	color: @active-color;
-	cursor: pointer;
-	&:focus {
-		outline: none;
-	}
-	.icon {
-		margin: 0;
-	}
 }
 
 ::-webkit-scrollbar {

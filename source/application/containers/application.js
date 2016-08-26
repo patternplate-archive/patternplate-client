@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import {push, replace} from 'react-router-redux';
 import Application from '../components/application';
 
+import themeLoaded from '../actions/theme-loaded';
+
 export default connect(mapProps, mapDispatch)(Application);
 
 function mapProps(state, own) {
@@ -19,7 +21,9 @@ function mapProps(state, own) {
 		pathname: own.location.pathname,
 		query: own.location.query,
 		search: own.location.query.search,
+		styles: state.styles,
 		theme: state.theme,
+		themeLoading: selectThemeLoading(state),
 		title: state.config.title || state.schema.name,
 		version: selectVersion(state)
 	};
@@ -36,6 +40,9 @@ function mapDispatch(dispatch, own) {
 				}
 			};
 			return dispatch(replace(location));
+		},
+		onThemeLoaded(theme) {
+			return dispatch(themeLoaded(theme));
 		},
 		onThemeChange(theme) {
 			const location = {
@@ -113,4 +120,8 @@ function selectVersion(state) {
 
 function selectSchema(state) {
 	return state.schema || {};
+}
+
+function selectThemeLoading(state) {
+	return state.styles.length > 1;
 }

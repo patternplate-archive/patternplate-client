@@ -12,10 +12,12 @@ import search from './search';
 import searchMatches from './search-matches';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
+import styles from './styles';
 import theme from './theme';
 import time from './time';
 
 const ident = (state = {}) => state;
+const getDependencies = (reducer = {}) => reducer.dependencies || [];
 
 export default {
 	activeBlock,
@@ -35,10 +37,12 @@ export default {
 	searchMatches,
 	sourceExpanded,
 	sourceId,
+	styles,
 	theme,
 	time
 };
 
 export const dependencies = {
-	searchMatches: ['expanded', 'navigation']
+	searchMatches: getDependencies(searchMatches),
+	styles: getDependencies(styles)
 };

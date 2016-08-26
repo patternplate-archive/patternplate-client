@@ -1,7 +1,16 @@
 .application {
 	display: flex;
 	width: 100%;
-	width: 100%;
+	min-width: 320px;
+	font: ~'@{root-font-size}/@{root-line-height} @{root-font-family}';
+	color: @root-color;
+	background: @root-background;
+	&--theme-loading {
+		// disable theme switch transitions until we have time to control them
+		* {
+			transition: none !important;
+		}
+	}
 	@media screen and (max-width: 500px) {
 		&--menu-enabled {
 			.application__content,
@@ -61,6 +70,34 @@
 		}
 		@media screen and (min-width: 900px) {
 			width: @navWidthWide;
+		}
+	}
+	a {
+		text-decoration: none;
+
+		&, &:active {
+			color: @active-color;
+		}
+
+		&:hover {
+			color: lighten(@active-color, 15%);
+		}
+	}
+
+	.button {
+		//margin: 0 8px;
+		padding: 4px;
+		background: transparent;
+		border: none;
+		vertical-align: middle;
+		border: 1px solid @border-color;
+		color: @active-color;
+		cursor: pointer;
+		&:focus {
+			outline: none;
+		}
+		.icon {
+			margin: 0;
 		}
 	}
 }
