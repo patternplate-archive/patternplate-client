@@ -60,7 +60,7 @@ function Application(props) {
 				/>
 			<main className="application__content">
 				{
-					breadcrumbs.length > 0 &&
+					props.breadcrumbs.length > 0 &&
 						<BreadCrumbs
 							base={props.base}
 							crumbs={props.breadcrumbs}

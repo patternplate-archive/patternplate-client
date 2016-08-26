@@ -14,7 +14,8 @@ function mapState(state) {
 	return {
 		activeSource: state.sourceId || '',
 		base: state.base,
-		code: selectCode(state),
+		// code: selectCode(state),
+		code: [],
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
 		display: selectDisplay(state),
@@ -63,7 +64,7 @@ function mapDispatch(dispatch, own) {
 }
 
 function selectPattern(state) {
-	return state.patterns ||
+	return state.pattern ||
 		navigate(state.id, state.navigation) ||
 		{};
 }
@@ -148,6 +149,7 @@ function selectDependents(state) {
 function selectDependencies(state) {
 	const rootPattern = selectPattern(state);
 	return Object.entries(rootPattern.dependencies || {})
+		.filter(entry => entry[0] !== 'Pattern')
 		.map(entry => {
 			const [localName, pattern] = entry;
 			const navPattern = navigate(pattern.id, state.navigation) || {manifest: {}};
@@ -173,29 +175,4 @@ function selectReloading(state) {
 
 function selectLocation(state) {
 	return state.routing.locationBeforeTransitions;
-}
-
-function selectCode(state) {
-	const pattern = selectPattern(state);
-	const results = pattern.results || {};
-	const envResults = results.index; // TODO: this is an atavism, remove it
-
-	return Object.values(envResults || {})
-		.map(result => {
-			const sourceId = md5(result.source);
-			const concern = result.concern || 'demo';
-			const type = result.type || 'source';
-			const typeName = type === 'source' ? 'Source' : 'Result';
-			const language = type === 'source' ? result.in : result.out;
-
-			return {
-				active: state.sourceId === sourceId,
-				id: sourceId,
-				name: result.name,
-				language,
-				source: result[type],
-				type: typeName,
-				concern
-			};
-		});
 }

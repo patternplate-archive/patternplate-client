@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes as t} from 'react';
 import join from 'classnames';
 import PatternSources from './pattern-sources';
 import PatternTools from './pattern-tools';
@@ -34,3 +34,33 @@ function PatternToolbar(props) {
 		</div>
 	);
 }
+
+PatternToolbar.propTypes = {
+	activeSource: t.string.isRequired,
+	base: t.string.isRequired,
+	code: t.arrayOf(t.object).isRequired,
+	dependencies: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		localName: t.string.isRequired,
+		name: t.string.isRequired,
+		version: t.string.isRequired
+	})).isRequired,
+	dependents: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		name: t.string.isRequired,
+		version: t.string.isRequired
+	})).isRequired,
+	environment: t.string.isRequired,
+	environments: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		name: t.string.isRequired
+	})).isRequired,
+	expanded: t.bool.isRequired,
+	id: t.string.isRequired,
+	location: t.shape({
+		pathname: t.string.isRequired,
+		query: t.object.isRequired
+	}).isRequired,
+	name: t.string.isRequired,
+	onEnvironmentChange: t.func.isRequired
+};

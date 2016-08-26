@@ -24,9 +24,13 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 		}; */
 	},
 	success(state, {payload}) {
-		const {id, manifest, results, dependencies, environments} = payload;
 		return {
-			id, manifest, results, dependencies, environments, loading: false,
+			...state,
+			id: payload.id,
+			manifest: payload.manifest,
+			dependencies: payload.dependencies,
+			formats: payload.outFormats,
+			loading: false,
 			reloading: false
 		};
 	},

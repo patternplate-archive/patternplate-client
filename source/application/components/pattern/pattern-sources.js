@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {PropTypes as t} from 'react';
 
 import PatternControl from './pattern-control';
 import PatternCode from './pattern-code';
@@ -15,14 +15,12 @@ function PatternSources(props) {
 					<PatternSource
 						active={source.active}
 						base={props.base}
-						buffer={source.buffer}
 						concern={source.concern}
 						id={source.id}
 						key={source.id}
 						language={source.language}
 						location={props.location}
 						name={source.name}
-						shortid={source.id}
 						source={source.source}
 						type={source.type}
 						/>
@@ -31,6 +29,23 @@ function PatternSources(props) {
 		</div>
 	);
 }
+
+PatternSources.propTypes = {
+	base: t.string.isRequired,
+	location: t.shape({
+		pathname: t.string.isRequired,
+		query: t.object.isRequired
+	}).isRequired,
+	sources: t.arrayOf(t.shape({
+		active: t.bool.isRequired,
+		concern: t.string.isRequired,
+		id: t.string.isRequired,
+		language: t.string.isRequired,
+		name: t.string.isRequired,
+		source: t.string.isRequired,
+		type: t.string.isRequired
+	}))
+};
 
 function PatternSource(props) {
 	return (
@@ -70,6 +85,17 @@ function PatternSource(props) {
 	);
 }
 
-function PatternArtifact() {
-	
-}
+PatternSource.propTypes = {
+	active: t.bool.isRequired,
+	base: t.string.isRequired,
+	id: t.string.isRequired,
+	location: t.shape({
+		pathname: t.string.isRequired,
+		query: t.object.isRequired
+	}).isRequired,
+	name: t.string.isRequired,
+	language: t.string.isRequired,
+	source: t.string.isRequired,
+	concern: t.string.isRequired,
+	type: t.string.isRequired
+};

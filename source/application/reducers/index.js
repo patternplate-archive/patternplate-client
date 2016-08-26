@@ -7,7 +7,7 @@ import highlights from './highlights';
 import id from './id';
 import menuEnabled from './menu-enabled';
 import messages from './messages';
-import patterns from './patterns';
+import pattern from './pattern';
 import search from './search';
 import searchMatches from './search-matches';
 import sourceExpanded from './source-expanded';
@@ -29,7 +29,7 @@ export default {
 	menuEnabled,
 	messages,
 	navigation: ident,
-	patterns,
+	pattern,
 	schema: ident,
 	search,
 	searchMatches,

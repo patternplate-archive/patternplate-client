@@ -112,7 +112,7 @@ class Content extends React.Component {
 					item.type === 'pattern' &&
 						<PatternSection
 							id={id}
-							data={props.patterns}
+							data={props.pattern}
 							navigation={props.navigation}
 							config={props.config}
 							environment={environment}
