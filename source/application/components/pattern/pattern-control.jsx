@@ -11,6 +11,7 @@ class PatternControl extends Component {
 		active: t.bool.isRequired,
 		base: t.string.isRequired,
 		children: t.any,
+		disabled: t.bool,
 		expand: t.bool,
 		iconDescription: t.string,
 		location: t.object.isRequired,
@@ -39,16 +40,17 @@ class PatternControl extends Component {
 	}
 
 	render() {
-		const {active, expand, name, location, shortid, title} = this.props;
+		const {props} = this;
+		const {active, location} = props;
 		const className = classnames('pattern-control', {active});
-		const source = active ? null : shortid;
+		const source = props.active ? null : props.shortid;
 
 		const to = {
 			pathname: location.pathname,
 			query: {
 				...location.query,
 				source,
-				[`source-expanded`]: expand
+				[`source-expanded`]: props.expand
 			}
 		};
 
@@ -56,10 +58,11 @@ class PatternControl extends Component {
 			<Link
 				to={to}
 				className={className}
+				disabled={props.disabled}
 				onClick={this.handleClick}
-				title={title}
+				title={props.title}
 				>
-				{this.props.children || name}
+				{props.children || props.name}
 			</Link>
 		);
 	}

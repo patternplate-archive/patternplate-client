@@ -1,11 +1,16 @@
+import path from 'path';
+
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
+import {noop, uniqBy} from 'lodash';
+import md5 from 'md5';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
 import getPatternData from '../actions/get-pattern-data';
+import getPatternFile from '../actions/get-pattern-file';
 
 export default connect(mapState, mapDispatch)(Pattern);
 
@@ -47,6 +52,7 @@ function mapDispatch(dispatch, own) {
 				query: location.query
 			});
 		},
+		onFileRequest: getPatternFile,
 		reload: ({id, query, base}) => {
 			return getPatternData({
 				id,
@@ -118,7 +124,7 @@ function selectDisplay(state) {
 }
 
 function selectDependentPatterns(state) {
-	return getManifestSelector('dependentPatterns', {})(state);
+	return selectPattern(state).dependents || {};
 }
 
 function selectDependents(state) {
@@ -176,6 +182,41 @@ function selectLocation(state) {
 }
 
 function selectCode(state) {
-	console.log(state.files);
-	return [];
+	const pattern = selectPattern(state);
+	const sources = pattern.sources || {};
+	const files = pattern.files || [];
+
+	const formats = uniqBy(files.reduce((registry, file) => {
+		return [...registry, {
+			id: [pattern.id, file.type].join('/'),
+			displayName: file.displayName,
+			type: file.type,
+			in: path.extname(file.id).slice(1),
+			out: file.out
+		}];
+	}, []), 'id');
+
+	return formats.map(format => {
+		const formatFiles = files.filter(file => file.type === format.type);
+		const concerns = formatFiles.map(file => file.concern);
+		const hasDemo = concerns.includes('demo');
+
+		const defaultConcern = hasDemo ? 'demo' : 'index';
+		const concern = defaultConcern;
+		const defaultType = 'source';
+		const id = [pattern.id, `${concern}.${format.in}`].join('/');
+		const source = sources[id];
+
+		return {
+			active: state.sourceId === id,
+			loading: false,
+			concern,
+			concerns,
+			id,
+			language: format.in,
+			name: format.displayName,
+			source: source || '',
+			type: defaultType
+		};
+	});
 }

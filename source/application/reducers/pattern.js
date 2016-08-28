@@ -1,27 +1,20 @@
 import {handleAction} from 'redux-actions';
 
-import {getPatternData} from '../actions';
+import {getPatternData, getPatternFile} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 
 import getIdByPathname from '../utils/get-id-by-pathname';
 import composeReducers from '../utils/compose-reducers';
 
 const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', (state, action) => {
-	const id = getIdByPathname(action.payload.pathname);
-	const stateId = state ? state.id : null;
+	// const id = getIdByPathname(action.payload.pathname);
+	// const stateId = state ? state.id : null;
 	return state;
 }, {});
 
 const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	start(state, {payload}) {
 		return state;
-		/* const loading = payload.options.loading;
-		const reloading = payload.options.reloading;
-		return {
-			...state,
-			loading,
-			reloading
-		}; */
 	},
 	success(state, {payload}) {
 		return {
@@ -32,7 +25,8 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 			id: payload.id,
 			loading: false,
 			manifest: payload.manifest,
-			reloading: false
+			reloading: false,
+			sources: payload.sources || state.sources
 		};
 	},
 	throws() {
@@ -40,7 +34,20 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	}
 }, {});
 
+const handleSourceLoad = handlePromiseThunkAction(getPatternFile, {
+	success(state, {payload}) {
+		return {
+			...state,
+			sources: {
+				...state.sources,
+				[payload.id]: payload.source
+			}
+		};
+	}
+});
+
 export default composeReducers(
 	handlePatternNavigation,
-	handlePatternLoad
+	handlePatternLoad,
+	handleSourceLoad
 );

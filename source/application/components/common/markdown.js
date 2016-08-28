@@ -34,7 +34,10 @@ class Markdown extends Component {
 			id, payload, language, worker
 		};
 
-		dispatch(highlightCode(options));
+		if (options.language && options.payload) {
+			dispatch(highlightCode(options));
+		}
+
 		return payload;
 	}
 
@@ -43,7 +46,7 @@ class Markdown extends Component {
 			<div className="markdown">
 				<Remarkable
 					container="div"
-					source={emojify(this.props.source)}
+					source={emojify(this.props.source || '')}
 					options={{
 						html: true,
 						xhtmlOut: true,

@@ -14,7 +14,9 @@ function PatternToolbar(props) {
 		<div className={className}>
 			<PatternSources
 				base={props.base}
+				environment={props.environment}
 				location={props.location}
+				onFileRequest={props.onFileRequest}
 				sources={props.code}
 				/>
 			<PatternTools
@@ -62,5 +64,6 @@ PatternToolbar.propTypes = {
 		query: t.object.isRequired
 	}).isRequired,
 	name: t.string.isRequired,
-	onEnvironmentChange: t.func.isRequired
+	onEnvironmentChange: t.func.isRequired,
+	onFileRequest: t.func.isRequired
 };

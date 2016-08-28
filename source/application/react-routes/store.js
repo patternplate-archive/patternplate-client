@@ -26,5 +26,7 @@ export default function configureStore(history, initial) {
 		[thunk, promise, logger(), routerMiddleware(history)];
 
 	const middleware = applyMiddleware(...middlewares);
-	return createStore(reducer, initial, compose(middleware));
+	const store = createStore(reducer, initial, compose(middleware));
+
+	return store;
 }

@@ -49,6 +49,7 @@ function Pattern(props) {
 				location={props.location}
 				name={props.name}
 				onEnvironmentChange={props.onEnvironmentChange}
+				onFileRequest={props.onFileRequest}
 				reloading={props.reloading}
 				expanded={props.sourceExpanded}
 				/>
@@ -85,6 +86,7 @@ Pattern.propTypes = {
 	}).isRequired,
 	name: t.string.isRequired,
 	onEnvironmentChange: t.func.isRequired,
+	onFileRequest: t.func.isRequired,
 	reload: t.func.isRequired,
 	reloading: t.bool.isRequired,
 	tags: t.arrayOf(t.string).isRequired,

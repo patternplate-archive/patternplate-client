@@ -35,7 +35,7 @@ function Toolbar(props) {
 					</Icon>
 				</IndexLink>
 				<span className="version">
-					{props.version}
+					v{props.version}
 				</span>
 			</div>
 			<div className="toolbar">

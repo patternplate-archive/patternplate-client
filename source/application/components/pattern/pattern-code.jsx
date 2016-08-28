@@ -36,12 +36,29 @@ class PatternCode extends React.Component {
 	};
 
 	componentDidMount() {
-		if (this.props.highlight) {
-			const {base, format: language, dispatch, id, source} = this.props;
-			const worker = `${base}script/lowlight.bundle.js`;
-			const options = {id, payload: source, worker, language};
-			dispatch(highlightCode(options));
+		const {base, format: language, dispatch, highlight, highlights, id, source} = this.props;
+		if (!highlight || highlights[id]) {
+			return;
 		}
+		if (!source || !language) {
+			return;
+		}
+		const worker = `${base}script/lowlight.bundle.js`;
+		const options = {id, payload: source, worker, language};
+		dispatch(highlightCode(options));
+	}
+
+	componentWillUpdate(next) {
+		const {base, format: language, dispatch, highlight, highlights, id, source} = next;
+		if (!highlight || highlights[id]) {
+			return;
+		}
+		if (!source || !language) {
+			return;
+		}
+		const worker = `${base}script/lowlight.bundle.js`;
+		const options = {id, payload: source, worker, language};
+		dispatch(highlightCode(options));
 	}
 
 	componentWillUnmount() {

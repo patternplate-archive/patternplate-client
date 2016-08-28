@@ -63,6 +63,25 @@
 		z-index: 2;
 		background: @root-background;
 	}
+	&:not(.pattern-source--loading) {
+		.pattern-control {
+			&:not(.active) {
+				color: @root-color;
+				&:hover {
+					color: @hover-color;
+				}
+			}
+		}
+	}
+	&--loading {
+		.pattern-control {
+			color: @border-color;
+			cursor: progress;
+			&:hover {
+				color: @border-color;
+			}
+		}
+	}
 }
 .pattern-code {
 	display: flex;
