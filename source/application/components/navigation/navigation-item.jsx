@@ -70,7 +70,7 @@ export default class NavigationItem extends React.Component {
 			anchored
 		};
 
-		const itemClassName = classnames('navigation-item', modifiers);
+		const itemClassName = classnames(`navigation-item navigation-item--${type}`, modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
 		const pathname = getPathName(base, linkTo, id);
 		const to = {pathname, query: omit(location.query, ['menu-enabled'])};

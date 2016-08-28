@@ -18,9 +18,14 @@
 		.navigation-tree {
 			border-left: 4px solid fadeout(@active-color, 50%);
 		}
+	}
+}
+
+.navigation-item {
+	&&--pattern {
 		.navigation-link {
-			&.child-active:not(.active) {
-				border-left: 4px solid fadeout(@active-color, 50%);
+			&.child-active {
+				border-color: @active-color;
 			}
 		}
 	}
