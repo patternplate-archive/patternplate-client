@@ -43,6 +43,7 @@ function Application(props) {
 				version={props.version}
 				/>
 			<Navigation
+				activePattern={props.activePattern}
 				base={props.base}
 				expanded={props.expanded}
 				enabled={props.menuEnabled}
@@ -71,6 +72,7 @@ function Application(props) {
 }
 
 Application.propTypes = {
+	activePattern: t.string.isRequired,
 	about: t.arrayOf(t.shape({
 		label: t.string,
 		value: t.string

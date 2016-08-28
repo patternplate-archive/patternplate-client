@@ -1,7 +1,4 @@
 import React, {Component, PropTypes as types} from 'react';
-import {findDOMNode} from 'react-dom';
-import autobind from 'autobind-decorator';
-import deepEqual from 'deep-equal';
 import pure from 'pure-render-decorator';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -13,6 +10,8 @@ class NavigationTree extends Component {
 	displayName = 'NavigationTree';
 
 	static propTypes = {
+		id: types.string,
+		activePattern: types.string,
 		base: types.string.isRequired,
 		data: types.object,
 		path: types.string,
@@ -26,111 +25,9 @@ class NavigationTree extends Component {
 		location: types.object
 	};
 
-	activeReference = null;
-	activeElement = null;
-
-	activeFolderReference = null;
-	activeFolderElement = null;
-
-	@autobind
-	handleFolderClick(e, component) {
-		this.getActiceFolderReference(component);
-	}
-
-	@autobind
-	getActiceFolderReference(node) {
-		const element = node instanceof Component ?
-			findDOMNode(node) :
-			node;
-		const reference = node instanceof Component ?
-			node :
-			this;
-		this.activeFolderReference = reference;
-		this.activeFolderElement = element;
-	}
-
-	@autobind
-	getActiveReference(node) {
-		const element = node instanceof Component ?
-			findDOMNode(node) :
-			node;
-		const reference = node instanceof Component ?
-			node :
-			this;
-
-		if (reference.props.active) {
-			this.activeReference = reference;
-			this.activeElement = element;
-		}
-	}
-
 	render() {
-		const {base, data, children, path, searchQuery, hierarchy, location} = this.props;
+		const {base, data, children, hierarchy, activePattern, searchQuery, location} = this.props;
 		const {folders, patterns} = getAugmentedChildren(data, hierarchy);
-		const matcher = new RegExp(`^${base}pattern`);
-		const currentPathFragments = path.replace(matcher, '').split('/').filter(Boolean);
-		const currentPath = currentPathFragments.join('/');
-
-		const nested = folders.map(folder => {
-			const folderPath = folder.id.split('/').filter(Boolean);
-			const active = deepEqual(currentPathFragments.slice(0, folderPath.length), folderPath);
-			const ref = active ? this.getActiceFolderReference : null;
-
-			return (
-				<NavigationItem
-					name={folder.displayName}
-					symbol={folder.icon}
-					id={folder.id}
-					searchQuery={searchQuery}
-					key={folder.id}
-					active={active || folder.expanded}
-					ref={ref}
-					onClick={this.handleFolderClick}
-					location={location}
-					base={base}
-					type="directory"
-					>
-					<NavigationTree
-						id={folder.id}
-						path={path}
-						data={folder.children}
-						searchQuery={searchQuery}
-						hierarchy={hierarchy}
-						location={location}
-						base={base}
-						/>
-				</NavigationItem>
-			);
-		});
-
-		const items = patterns.map(pattern => {
-			const {
-				displayName,
-				expanded,
-				id,
-				type,
-				manifest
-			} = pattern;
-
-			const {options = {}} = manifest;
-			const {hidden = false} = options;
-
-			return (
-				<NavigationItem
-					base={base}
-					name={displayName}
-					hidden={hidden}
-					id={id}
-					key={id}
-					symbol={type}
-					ref={this.getActiveReference}
-					searchQuery={searchQuery}
-					location={location}
-					type={type}
-					active={currentPath === id || expanded}
-					/>
-			);
-		});
 
 		return (
 			<CSSTransitionGroup
@@ -141,8 +38,65 @@ class NavigationTree extends Component {
 				transitionLeaveTimeout={300}
 				>
 				{children}
-				{nested}
-				{items}
+				{
+					folders.map(folder => {
+						const active = activePattern.startsWith(folder.id);
+
+						return (
+							<NavigationItem
+								name={folder.displayName}
+								symbol={folder.icon}
+								id={folder.id}
+								searchQuery={searchQuery}
+								key={folder.id}
+								active={active || folder.expanded}
+								onClick={this.handleFolderClick}
+								location={location}
+								base={base}
+								type="directory"
+								>
+								<NavigationTree
+									activePattern={activePattern}
+									id={folder.id}
+									data={folder.children}
+									searchQuery={searchQuery}
+									hierarchy={hierarchy}
+									location={location}
+									base={base}
+									/>
+							</NavigationItem>
+						);
+					})
+				}
+				{
+					patterns.map(pattern => {
+						const {
+							displayName,
+							expanded,
+							type,
+							manifest
+						} = pattern;
+
+						const {options = {}} = manifest;
+						const {hidden = false} = options;
+
+						return (
+							<NavigationItem
+								base={base}
+								name={displayName}
+								hidden={hidden}
+								id={pattern.id}
+								key={pattern.id}
+								symbol={type}
+								ref={this.getActiveReference}
+								searchQuery={searchQuery}
+								location={location}
+								type={type}
+								active={activePattern === pattern.id || expanded}
+								/>
+							);
+					})
+				}
 			</CSSTransitionGroup>
 		);
 	}

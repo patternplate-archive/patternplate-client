@@ -11,6 +11,7 @@ import SearchField from '../common/search-field';
 @pure
 class Navigation extends React.Component {
 	static propTypes = {
+		activePattern: t.string.isRequired,
 		base: t.string.isRequired,
 		enabled: t.bool.isRequired,
 		expanded: t.bool.isRequired,
@@ -41,6 +42,7 @@ class Navigation extends React.Component {
 
 	render() {
 		const {
+			activePattern,
 			base,
 			expanded,
 			path,
@@ -58,6 +60,7 @@ class Navigation extends React.Component {
 		return (
 			<nav className={className}>
 				<NavigationTree
+					activePattern={activePattern}
 					base={base}
 					data={navigation}
 					path={path}

@@ -8,6 +8,7 @@ export default connect(mapProps, mapDispatch)(Application);
 
 function mapProps(state, own) {
 	return {
+		activePattern: state.id,
 		about: selectAbout(state),
 		base: state.base,
 		breadcrumbs: selectBreadCrumbs(state),
