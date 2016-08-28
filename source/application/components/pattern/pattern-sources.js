@@ -1,5 +1,6 @@
 import React, {Component, PropTypes as t} from 'react';
 import join from 'classnames';
+import autobind from 'autobind-decorator';
 
 import PatternControl from './pattern-control';
 import PatternCode from './pattern-code';
@@ -25,6 +26,7 @@ function PatternSources(props) {
 						loading={source.loading}
 						location={props.location}
 						name={source.name}
+						onConcernChange={props.onConcernChange}
 						onFileRequest={props.onFileRequest}
 						source={source.source}
 						type={source.type}
@@ -42,6 +44,7 @@ PatternSources.propTypes = {
 		pathname: t.string.isRequired,
 		query: t.object.isRequired
 	}).isRequired,
+	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,
 	sources: t.arrayOf(t.shape({
 		active: t.bool.isRequired,
@@ -54,6 +57,7 @@ PatternSources.propTypes = {
 	}))
 };
 
+@autobind
 class PatternSource extends Component {
 	static propTypes = {
 		active: t.bool.isRequired,
@@ -128,11 +132,13 @@ class PatternSource extends Component {
 						<PatternCode
 							base={props.base}
 							concern={props.concern}
+							concerns={props.concerns}
 							copy
 							format={props.language}
 							highlight
 							id={props.id}
 							name={props.name}
+							onConcernChange={props.onConcernChange}
 							source={props.source}
 							type={props.type}
 							/>

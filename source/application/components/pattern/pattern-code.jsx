@@ -2,27 +2,31 @@ import React, {PropTypes as types} from 'react';
 import {connect} from 'react-redux';
 import join from 'classnames';
 import {pd as pretty} from 'pretty-data';
-import toh from 'hast-to-hyperscript';
 
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
 
+import Select from '../common/select';
 import highlightCode from '../../actions/highlight-code';
+import toElements from '../../utils/to-elements';
 
 @pure
 @autobind
 class PatternCode extends React.Component {
-	displayName = 'PatternCode';
-
 	static propTypes = {
 		base: types.string.isRequired,
+		concern: types.string.isRequired,
+		concerns: types.arrayOf(types.string).isRequired,
 		copy: types.bool,
 		dispatch: types.func.isRequired,
 		format: types.string.isRequired,
 		highlight: types.bool,
 		highlights: types.object.isRequired,
 		id: types.string,
-		name: types.string.isRequired
+		name: types.string.isRequired,
+		onConcernChange: types.func.isRequired,
+		source: types.string.isRequired,
+		type: types.string.isRequired
 	};
 
 	static defaultProps = {
@@ -91,32 +95,44 @@ class PatternCode extends React.Component {
 
 	render() {
 		const {
-			id,
-			format,
-			name,
-			concern,
+			base,
 			copy,
+			format,
 			highlight,
 			highlights,
+			id,
 			source: passed,
-			type
+			onConcernChange
+			// type
 		} = this.props;
 
 		const prettify = highlight && format === 'html';
 		const prettified = prettify ? pretty.xml(passed) : passed;
 		const highlighted = highlights[id];
-		const children = highlighted ? toh(React.createElement, highlighted) : prettified;
+		const children = highlighted ? toElements(highlighted) : prettified;
 		const {copying} = this.state;
 		const formatClassName = join(`hljs`, format);
+
+		const concern = {
+			value: this.props.concern,
+			name: `${this.props.concern}.${format}`
+		};
+
+		const concerns = this.props.concerns.map(concern => {
+			return {name: `${concern}.${format}`, value: concern};
+		});
 
 		return (
 			<div className="pattern-code">
 				<div className="pattern-code__toolbar">
 					<div className="pattern-code__name">
-						{name}:
-						<span className="pattern-code__concern"> {concern}</span>
-						<span className="pattern-code__language">.{format}</span>
-						<span className="pattern-code__type"> ({type})</span>
+						<Select
+							base={base}
+							className="pattern-code__concern"
+							options={concerns}
+							onChange={onConcernChange}
+							value={concern}
+							/>
 					</div>
 					<div className="pattern-code__tools">
 						{

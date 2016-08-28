@@ -3,8 +3,7 @@ import path from 'path';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
-import {noop, uniqBy} from 'lodash';
-import md5 from 'md5';
+import {uniqBy} from 'lodash';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
@@ -39,6 +38,17 @@ function mapState(state) {
 function mapDispatch(dispatch, own) {
 	const {location} = own;
 	return bindActionCreators({
+		onConcernChange: e => {
+			const previous = location.query.source;
+			const next = e.target.value;
+			return push({
+				pathname: location.pathname,
+				query: {
+					...location.query,
+					source: `${path.dirname(previous)}/${next}${path.extname(previous)}`
+				}
+			});
+		},
 		onEnvironmentChange: e => {
 			const parsed = urlQuery.parse(location.pathname);
 			const pathname = urlQuery.format({
@@ -199,10 +209,21 @@ function selectCode(state) {
 	return formats.map(format => {
 		const formatFiles = files.filter(file => file.type === format.type);
 		const concerns = formatFiles.map(file => file.concern);
-		const hasDemo = concerns.includes('demo');
 
+		const hasDemo = concerns.includes('demo');
 		const defaultConcern = hasDemo ? 'demo' : 'index';
-		const concern = defaultConcern;
+		const isPassable = state.sourceId && path.dirname(state.sourceId) === state.id;
+
+		const passedConcern = isPassable ?
+			path.basename(state.sourceId, path.extname(state.sourceId)) :
+			defaultConcern;
+
+		const isApplicable = concerns.includes(passedConcern);
+
+		const concern = isApplicable ?
+			passedConcern :
+			defaultConcern;
+
 		const defaultType = 'source';
 		const id = [pattern.id, `${concern}.${format.in}`].join('/');
 		const source = sources[id];

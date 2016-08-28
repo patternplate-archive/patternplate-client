@@ -27,7 +27,7 @@ class Markdown extends Component {
 		const worker = `${base}script/lowlight.bundle.js`;
 
 		if (highlight) {
-			return toHtml(highlight);
+			return toHtml(highlight).replace(/^<div>/, '').replace(/<\/div>$/, '');
 		}
 
 		const options = {
