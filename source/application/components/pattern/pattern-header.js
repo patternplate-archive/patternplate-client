@@ -13,8 +13,8 @@ export default function PatternHeader(props) {
 		flag,
 		tags,
 		location,
-		loading,
-		reloading
+		reloading,
+		reloadTime
 	} = props;
 
 	const flagClassName = join(`pattern__flag`, {
@@ -63,15 +63,21 @@ export default function PatternHeader(props) {
 				)}
 			</Headline>
 			<div className="pattern-haeder__actions">
-				<button
-					type="button"
+				<Link
 					className="button"
 					title={reloadTitle}
 					disabled={reloading}
 					onClick={props.onReloadClick}
+					to={{
+						pathname: location.pathname,
+						query: {
+							...location.query,
+							reload: reloadTime || Date.now()
+						}
+					}}
 					>
 					Reload
-				</button>
+				</Link>
 			</div>
 		</div>
 	);
@@ -86,6 +92,7 @@ PatternHeader.propTypes = {
 	tags: t.arrayOf(t.string),
 	loading: t.bool.isRequired,
 	reloading: t.bool.isRequired,
+	reloadTime: t.number.isRequired,
 	onReloadClick: t.func.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,

@@ -17,10 +17,12 @@ export function createPromiseThunkAction(name, rawCreator) {
 				result.dispatch = dispatch;
 				global.clearTimeout(delayedTimer);
 				dispatch(createAction(`${name}_SUCCESS`)(result));
+				return result;
 			} catch (error) {
 				error.dispatch = dispatch;
 				global.clearTimeout(delayedTimer);
 				dispatch(createAction(`${name}_THROWS`)(error));
+				return error;
 			}
 		};
 	};

@@ -1,9 +1,10 @@
 import url from 'url';
-import querystring from 'querystring';
 
+import isStream from 'is-stream';
 import {merge} from 'lodash';
-import {sync as resolveSync} from 'resolve';
 import Helmet from 'react-helmet';
+import {sync as resolveSync} from 'resolve';
+import queryString from 'query-string';
 
 import router from '../application/react-routes/server';
 import layout from '../application/layouts';
@@ -16,6 +17,7 @@ const resolve = id => resolveSync(id, {basedir: cwd});
 const getSchema = require(resolve('patternplate-server/library/get-schema'));
 const getNavigation = require(resolve('patternplate-server/library/get-navigation'));
 const getPatternMetaData = require(resolve('patternplate-server/library/get-pattern-meta-data'));
+const getPatternSource = require(resolve('patternplate-server/library/get-pattern-source'));
 
 const defaultData = {
 	schema: {},
@@ -31,7 +33,7 @@ export default async function renderPage(application, pageUrl) {
 
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
-	const query = querystring.parse(parsed.query);
+	const query = queryString.parse(parsed.query);
 	const base = depth > 0 ? Array(depth).fill('..').join('/') : '.';
 
 	const id = getIdByPathname(parsed.pathname);
@@ -39,10 +41,19 @@ export default async function renderPage(application, pageUrl) {
 	const schema = app ? await getSchema(app, client, server) : {};
 	const navigation = app ? await getNavigation(app, client, server) : {};
 	const pattern = navigate(id, navigation);
+	const isPattern = pattern && pattern.type === 'pattern';
+	const sourceId = query.source;
 
-	if (pattern && pattern.type === 'pattern') {
+	if (isPattern) {
 		const patternData = await getPatternMetaData(server, id);
 		merge(pattern, patternData);
+	}
+
+	if (isPattern && sourceId) {
+		const fileType = query['source-type'] || 'source';
+		const env = query.environment || 'index';
+		const patternFile = await getPatternSource(server)(sourceId, fileType, env);
+		merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
 	}
 
 	const config = application.configuration.ui;
@@ -71,5 +82,22 @@ export default async function renderPage(application, pageUrl) {
 			`${base}/script/vendors.bundle.js`,
 			`${base}/script/index.bundle.js`
 		]
+	});
+}
+
+async function consumeFile(input) {
+	if (isStream(input)) {
+		return await streamToString(input);
+	}
+
+	return input;
+}
+
+function streamToString(input) {
+	return new Promise((resolve, reject) => {
+		const buffers = [];
+		input.on('data', chunk => buffers.push(chunk));
+		input.on('end', () => resolve(Buffer.concat(buffers).toString()));
+		input.on('error', reject);
 	});
 }

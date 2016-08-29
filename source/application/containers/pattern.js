@@ -8,7 +8,7 @@ import {uniqBy} from 'lodash';
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
-import getPatternData from '../actions/get-pattern-data';
+import reloadPattern from '../actions/reload-pattern';
 import getPatternFile from '../actions/get-pattern-file';
 
 export default connect(mapState, mapDispatch)(Pattern);
@@ -29,6 +29,7 @@ function mapState(state) {
 		location: selectLocation(state),
 		name: selectName(state),
 		reloading: selectReloading(state),
+		reloadTime: selectReloadTime(state),
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
 		version: selectVersion(state)
@@ -63,16 +64,8 @@ function mapDispatch(dispatch, own) {
 			});
 		},
 		onFileRequest: getPatternFile,
-		reload: ({id, query, base}) => {
-			return getPatternData({
-				id,
-				query,
-				options: {
-					base,
-					loading: false,
-					relading: true
-				}
-			});
+		reload: () => {
+			return reloadPattern();
 		},
 		onTypeChange: e => {
 			const value = e.target.value;
@@ -199,6 +192,11 @@ function selectLoading(state) {
 function selectReloading(state) {
 	const pattern = selectPattern(state);
 	return pattern.reloading || false;
+}
+
+function selectReloadTime(state) {
+	const pattern = selectPattern(state);
+	return pattern.reloadTime || null;
 }
 
 function selectLocation(state) {

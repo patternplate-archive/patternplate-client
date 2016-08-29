@@ -1,14 +1,13 @@
 import {handleAction} from 'redux-actions';
 
-import {getPatternData, getPatternFile} from '../actions';
+import {getPatternData, getPatternFile, reloadPatternStart} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 
-// import getIdByPathname from '../utils/get-id-by-pathname';
 import composeReducers from '../utils/compose-reducers';
 
+console.log({reloadPatternStart});
+
 const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', state => {
-	// const id = getIdByPathname(action.payload.pathname);
-	// const stateId = state ? state.id : null;
 	return state;
 }, {});
 
@@ -47,8 +46,27 @@ const handleSourceLoad = handlePromiseThunkAction(getPatternFile, {
 	}
 });
 
+const handlePatternReload = handleAction(reloadPatternStart, state => {
+	return {
+		...state,
+		reloading: true,
+		reloadedTime: null,
+		reloadTime: Date.now()
+	};
+});
+
+const handlePatternReloadSuccess = handleAction('RELOAD_PATTERN_SUCCESS', state => {
+	return {
+		...state,
+		reloading: false,
+		reloadedTime: Date.now()
+	};
+});
+
 export default composeReducers(
 	handlePatternNavigation,
 	handlePatternLoad,
-	handleSourceLoad
+	handleSourceLoad,
+	handlePatternReload,
+	handlePatternReloadSuccess
 );

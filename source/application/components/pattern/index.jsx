@@ -26,15 +26,17 @@ function Pattern(props) {
 				loading={props.loading}
 				location={props.location}
 				name={props.name}
+				onReloadClick={onReloadClick}
 				reloading={props.reloading}
+				reloadTime={props.reloadTime}
 				tags={props.tags}
 				version={props.version}
-				onReloadClick={onReloadClick}
 				/>
 			<PatternDemo
 				base={props.base}
 				target={props.id}
 				environment={props.environment}
+				reloadTime={props.reloadTime}
 				/>
 			<PatternToolbar
 				activeSource={props.activeSource}
@@ -93,6 +95,7 @@ Pattern.propTypes = {
 	onTypeChange: t.func.isRequired,
 	reload: t.func.isRequired,
 	reloading: t.bool.isRequired,
+	reloadTime: t.number.isRequired,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
 	sourceExpanded: t.bool

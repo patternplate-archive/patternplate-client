@@ -1,35 +1,37 @@
 import React, {PropTypes as types} from 'react';
-import pure from 'pure-render-decorator';
+import queryString from 'query-string';
 import urlQuery from '../../utils/url-query';
 import Frame from '../common/frame';
 
-@pure
-class PatternDemo extends React.Component {
-	static displayName = 'PatternDemo';
+function PatternDemo(props) {
+	const source = urlQuery.format({
+		pathname: `${props.base}demo/${props.target}/index.html`,
+		query: {environment: props.environment}
+	});
 
-	static propTypes = {
-		base: types.string,
-		target: types.string,
-		environment: types.string
-	};
+	const query = queryString.stringify({
+		'reload-time': props.reloadTime
+	});
 
-	render() {
-		const {base, target, environment} = this.props;
-		const source = urlQuery.format({
-			pathname: `${base}demo/${target}/index.html`,
-			query: {environment}
-		});
+	const src = [source, query].filter(Boolean).join('?');
 
-		return (
-			<div className="pattern-demo-container">
-				<Frame
-					className="pattern-demo"
-					src={source}
-					id={source}
-					/>
-			</div>
-		);
-	}
+	return (
+		<div className="pattern-demo-container">
+			<Frame
+				className="pattern-demo"
+				src={src}
+				id={source}
+				/>
+		</div>
+	);
 }
+
+PatternDemo.propTypes = {
+	base: types.string.isRequired,
+	target: types.string.isRequired,
+	environment: types.string.isRequired,
+	reloading: types.bool,
+	reloadTime: types.number.isRequired
+};
 
 export default PatternDemo;
