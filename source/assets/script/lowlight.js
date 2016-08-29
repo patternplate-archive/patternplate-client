@@ -72,9 +72,7 @@ global.onmessage = event => {
 	const prettify = candidates.includes('xml') || candidates.includes('html');
 	const code = prettify ? pretty.xml(passed) : passed;
 
-	const {value: children} = language ?
-		low.highlight(language, code, options) :
-		low.highlightAuto(code, options);
+	const {value: children} = low.highlight(language, code, options);
 
 	const payload = {type: 'element', tagName: 'div', children};
 	global.postMessage(ARSON.stringify({id, payload}));
