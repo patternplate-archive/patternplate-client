@@ -25,8 +25,10 @@ class PatternCode extends React.Component {
 		id: types.string,
 		name: types.string.isRequired,
 		onConcernChange: types.func.isRequired,
+		onTypeChange: types.func.isRequired,
 		source: types.string.isRequired,
-		type: types.string.isRequired
+		type: types.string.isRequired,
+		types: types.arrayOf(types.string).isRequired
 	};
 
 	static defaultProps = {
@@ -102,8 +104,8 @@ class PatternCode extends React.Component {
 			highlights,
 			id,
 			source: passed,
-			onConcernChange
-			// type
+			onConcernChange,
+			onTypeChange
 		} = this.props;
 
 		const prettify = highlight && format === 'html';
@@ -122,6 +124,15 @@ class PatternCode extends React.Component {
 			return {name: `${concern}.${format}`, value: concern};
 		});
 
+		const type = {
+			value: this.props.type,
+			name: this.props.type
+		};
+
+		const types = this.props.types.map(type => {
+			return {name: type, value: type};
+		});
+
 		return (
 			<div className="pattern-code">
 				<div className="pattern-code__toolbar">
@@ -132,6 +143,13 @@ class PatternCode extends React.Component {
 							options={concerns}
 							onChange={onConcernChange}
 							value={concern}
+							/>
+						<Select
+							base={base}
+							className="pattern-code__type"
+							options={types}
+							onChange={onTypeChange}
+							value={type}
 							/>
 					</div>
 					<div className="pattern-code__tools">

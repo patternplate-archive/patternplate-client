@@ -3,10 +3,10 @@ import {handleAction} from 'redux-actions';
 import {getPatternData, getPatternFile} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 
-import getIdByPathname from '../utils/get-id-by-pathname';
+// import getIdByPathname from '../utils/get-id-by-pathname';
 import composeReducers from '../utils/compose-reducers';
 
-const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', (state, action) => {
+const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', state => {
 	// const id = getIdByPathname(action.payload.pathname);
 	// const stateId = state ? state.id : null;
 	return state;

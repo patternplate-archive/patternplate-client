@@ -105,6 +105,7 @@
 	.pattern-code__toolbar {
 		display: flex;
 		flex-shrink: 0;
+		align-items: center;
 		width: 100%;
 		border: 1px solid @border-color;
 		border-width: 1px 0;
@@ -138,11 +139,18 @@
 	.pattern-code__label {
 		padding-right: 5px;
 	}
-	.pattern-code__concern {
+	.pattern-code__concern,
+	.pattern-code__type {
 		.select__body {
+			margin-right: 5px;
 			border-radius: 3px;
 			border: 1px solid @border-color;
 			background: @code-background;
+		}
+		&:not(:last-child) {
+			.select__body {
+				margin-right: 5px;
+			}
 		}
 	}
 	.pattern-code__content {

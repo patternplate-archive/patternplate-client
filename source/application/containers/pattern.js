@@ -73,6 +73,20 @@ function mapDispatch(dispatch, own) {
 					relading: true
 				}
 			});
+		},
+		onTypeChange: e => {
+			const value = e.target.value;
+			const sourceType = ['source', 'transformed'].includes(value) ?
+				value :
+				'source';
+
+			return push({
+				pathname: location.pathname,
+				query: {
+					...location.query,
+					'source-type': sourceType
+				}
+			});
 		}
 	}, dispatch);
 }
@@ -224,9 +238,9 @@ function selectCode(state) {
 			passedConcern :
 			defaultConcern;
 
-		const defaultType = 'source';
 		const id = [pattern.id, `${concern}.${format.in}`].join('/');
 		const source = sources[id];
+		const sourceType = format.type === 'documentation' ? 'source' : state.sourceType;
 
 		return {
 			active: state.sourceId === id,
@@ -237,7 +251,8 @@ function selectCode(state) {
 			language: format.in,
 			name: format.displayName,
 			source: source || '',
-			type: defaultType
+			type: sourceType,
+			types: ['source', 'transformed']
 		};
 	});
 }

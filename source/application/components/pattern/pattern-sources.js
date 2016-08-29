@@ -1,6 +1,7 @@
 import React, {Component, PropTypes as t} from 'react';
 import join from 'classnames';
 import autobind from 'autobind-decorator';
+import md5 from 'md5';
 
 import PatternControl from './pattern-control';
 import PatternCode from './pattern-code';
@@ -28,8 +29,10 @@ function PatternSources(props) {
 						name={source.name}
 						onConcernChange={props.onConcernChange}
 						onFileRequest={props.onFileRequest}
+						onTypeChange={props.onTypeChange}
 						source={source.source}
 						type={source.type}
+						types={source.types}
 						/>
 				))
 			}
@@ -46,6 +49,7 @@ PatternSources.propTypes = {
 	}).isRequired,
 	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,
+	onTypeChange: t.func.isRequired,
 	sources: t.arrayOf(t.shape({
 		active: t.bool.isRequired,
 		concern: t.string.isRequired,
@@ -75,7 +79,8 @@ class PatternSource extends Component {
 		language: t.string.isRequired,
 		onFileRequest: t.func.isRequired,
 		source: t.string.isRequired,
-		type: t.string.isRequired
+		type: t.string.isRequired,
+		types: t.arrayOf(t.string).isRequired
 	};
 
 	componentDidMount() {
@@ -91,7 +96,9 @@ class PatternSource extends Component {
 	}
 
 	componentWillUpdate(next) {
-		if (next.active && !next.source) {
+		const {props: current} = this;
+
+		if (shouldFetch(current, next)) {
 			next.onFileRequest({
 				id: next.id,
 				environment: next.environment,
@@ -136,14 +143,22 @@ class PatternSource extends Component {
 							copy
 							format={props.language}
 							highlight
-							id={props.id}
+							id={md5([props.id, props.source].join(':'))}
 							name={props.name}
 							onConcernChange={props.onConcernChange}
+							onTypeChange={props.onTypeChange}
 							source={props.source}
 							type={props.type}
+							types={props.types}
 							/>
 				}
 			</div>
 		);
 	}
+}
+
+const updateFieldKeys = ['active', 'concern', 'environment', 'id', 'type'];
+
+function shouldFetch(current, next) {
+	return next.active && updateFieldKeys.some(key => current[key] !== next[key]);
 }

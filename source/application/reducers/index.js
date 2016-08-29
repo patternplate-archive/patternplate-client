@@ -12,6 +12,7 @@ import search from './search';
 import searchMatches from './search-matches';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
+import sourceType from './source-type';
 import styles from './styles';
 import theme from './theme';
 import time from './time';
@@ -37,6 +38,7 @@ export default {
 	searchMatches,
 	sourceExpanded,
 	sourceId,
+	sourceType,
 	styles,
 	theme,
 	time
