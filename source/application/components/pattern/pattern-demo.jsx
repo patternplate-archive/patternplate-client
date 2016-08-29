@@ -19,8 +19,10 @@ function PatternDemo(props) {
 		<div className="pattern-demo-container">
 			<Frame
 				className="pattern-demo"
-				src={src}
 				id={source}
+				onLoad={props.onLoad}
+				onError={props.onError}
+				src={src}
 				/>
 		</div>
 	);
@@ -28,10 +30,12 @@ function PatternDemo(props) {
 
 PatternDemo.propTypes = {
 	base: types.string.isRequired,
-	target: types.string.isRequired,
 	environment: types.string.isRequired,
+	onError: types.func.isRequired,
+	onLoad: types.func.isRequired,
 	reloading: types.bool,
-	reloadTime: types.number
+	reloadTime: types.number,
+	target: types.string.isRequired
 };
 
 export default PatternDemo;

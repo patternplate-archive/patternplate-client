@@ -34,9 +34,11 @@ function Pattern(props) {
 				/>
 			<PatternDemo
 				base={props.base}
-				target={props.id}
 				environment={props.environment}
+				onError={props.onDemoError}
+				onLoad={props.onDemoLoad}
 				reloadTime={props.reloadTime}
+				target={props.id}
 				/>
 			<PatternToolbar
 				activeSource={props.activeSource}
@@ -99,6 +101,8 @@ Pattern.propTypes = {
 		query: t.object.isRequired
 	}).isRequired,
 	name: t.string.isRequired,
+	onDemoError: t.func.isRequired,
+	onDemoLoad: t.func.isRequired,
 	onEnvironmentChange: t.func.isRequired,
 	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,

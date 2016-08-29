@@ -1,8 +1,9 @@
 import path from 'path';
 
-import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
+import {bindActionCreators} from 'redux';
+import {createAction} from 'redux-actions';
 import {uniqBy} from 'lodash';
 
 import urlQuery from '../utils/url-query';
@@ -10,6 +11,7 @@ import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
 import reloadPattern from '../actions/reload-pattern';
 import getPatternFile from '../actions/get-pattern-file';
+import patternDemoError from '../actions/pattern-demo-error';
 
 export default connect(mapState, mapDispatch)(Pattern);
 
@@ -50,6 +52,8 @@ function mapDispatch(dispatch, own) {
 				}
 			});
 		},
+		onDemoError: patternDemoError,
+		onDemoLoad: createAction('PATTERN_DEMO_LOADED'), // not implemented
 		onEnvironmentChange: e => {
 			const parsed = urlQuery.parse(location.pathname);
 			const pathname = urlQuery.format({

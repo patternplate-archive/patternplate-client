@@ -4,7 +4,6 @@ import join from 'classnames';
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
 import {noop} from 'lodash';
-// import ago from 's-ago';
 
 import Icon from '../common/icon';
 
@@ -13,10 +12,10 @@ import Icon from '../common/icon';
 export default class Message extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
+		id: t.string.isRequired,
 		onTimeRequest: t.func.isRequired,
 		onDismiss: t.func.isRequired,
-		onRetry: t.func.isRequired,
-		payload: t.object
+		onRetry: t.func.isRequired
 	};
 
 	static defaultProps = {
@@ -25,20 +24,12 @@ export default class Message extends Component {
 		onRetry: noop
 	};
 
-	/* componentDidMount() {
-		this.interval = global.setInterval(this.props.onTimeRequest, 1000);
-	}
-
-	componentWillUnmount() {
-		global.clearInterval(this.interval);
-	} */
-
 	handleDismissClick() {
 		this.props.onDismiss(this.props.id);
 	}
 
 	handleRetryClick() {
-		this.props.onRetry(this.props.payload);
+		this.props.onRetry();
 	}
 
 	render() {
@@ -85,8 +76,8 @@ export default class Message extends Component {
 						props.pattern &&
 							<Link
 								to={{
-									pathname: `${props.base}pattern/${props.payload.id}`,
-									query: {...props.location.query, ...props.payload.query}
+									pathname: `${props.base}pattern/${props.pattern}`,
+									query: props.location.query
 								}}
 								className="message__field"
 								>

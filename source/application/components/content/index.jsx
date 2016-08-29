@@ -8,7 +8,7 @@ import autobind from 'autobind-decorator';
 import Message from '../common/message';
 import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
-import {getPatternData, getTime, dismissMessage} from '../../actions';
+import {getPatternData, getTime, dismissMessage, reloadPattern} from '../../actions';
 import PatternFolder from '../pattern/pattern-folder';
 import PatternSection from '../pattern/pattern-section';
 import navigate from '../../utils/navigate';
@@ -77,7 +77,7 @@ class Content extends React.Component {
 
 	handleMessageRetry(payload) {
 		const {dispatch} = this.props;
-		dispatch(getPatternData(payload));
+		dispatch(reloadPattern());
 	}
 
 	render() {
