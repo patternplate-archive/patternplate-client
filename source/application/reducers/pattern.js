@@ -26,7 +26,7 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 			loading: false,
 			manifest: payload.manifest,
 			reloading: false,
-			sources: payload.sources || sources
+			sources
 		};
 	},
 	throws() {

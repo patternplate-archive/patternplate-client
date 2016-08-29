@@ -10,6 +10,7 @@ import router from '../application/react-routes/server';
 import layout from '../application/layouts';
 import getIdByPathname from '../application/utils/get-id-by-pathname';
 import navigate from '../application/utils/navigate';
+import urlQuery from '../application/utils/url-query';
 
 const cwd = process.cwd();
 const resolve = id => resolveSync(id, {basedir: cwd});
@@ -55,9 +56,10 @@ export default async function renderPage(application, pageUrl) {
 
 	if (isPattern && sourceId) {
 		try {
-			const fileType = query['source-type'] || 'source';
+			const parsed = urlQuery.parse(sourceId);
+			const fileType = parsed.type || 'source';
 			const env = query.environment || 'index';
-			const patternFile = await getPatternSource(server)(sourceId, fileType, env);
+			const patternFile = await getPatternSource(server)(parsed.pathname, fileType, env);
 			merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
 		} catch (error) {
 			application.log.error(error);

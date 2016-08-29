@@ -1,10 +1,11 @@
 import path from 'path';
 
+import {merge, uniqBy} from 'lodash';
 import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import {bindActionCreators} from 'redux';
 import {createAction} from 'redux-actions';
-import {merge, uniqBy} from 'lodash';
+import shortid from 'shortid';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
@@ -42,13 +43,17 @@ function mapDispatch(dispatch, own) {
 	const {location} = own;
 	return bindActionCreators({
 		onConcernChange: e => {
-			const previous = location.query.source;
+			const parsed = urlQuery.parse(location.query.source);
+			const previous = parsed.pathname;
 			const next = e.target.value;
 			return push({
 				pathname: location.pathname,
 				query: {
 					...location.query,
-					source: `${path.dirname(previous)}/${next}${path.extname(previous)}`
+					source: urlQuery.format({
+						pathname: `${path.dirname(previous)}/${next}${path.extname(previous)}`,
+						query: parsed.query
+					})
 				}
 			});
 		},
@@ -76,12 +81,19 @@ function mapDispatch(dispatch, own) {
 			const sourceType = ['source', 'transformed'].includes(value) ?
 				value :
 				'source';
+			const parsed = urlQuery.parse(location.query.source);
 
 			return push({
 				pathname: location.pathname,
 				query: {
 					...location.query,
-					'source-type': sourceType
+					source: urlQuery.format({
+						...parsed,
+						query: {
+							...parsed.query,
+							type: sourceType
+						}
+					})
 				}
 			});
 		}
@@ -228,10 +240,9 @@ function selectCode(state) {
 
 		const hasDemo = concerns.includes('demo');
 		const defaultConcern = hasDemo ? 'demo' : 'index';
-		const isPassable = state.sourceId && path.dirname(state.sourceId) === state.id;
+		const parsed = urlQuery.parse(state.sourceId || '');
 
-		const passedConcern = isPassable ?
-			path.basename(state.sourceId, path.extname(state.sourceId)) :
+		const passedConcern = path.basename(parsed.pathname, path.extname(parsed.pathname)) ||
 			defaultConcern;
 
 		const isApplicable = concerns.includes(passedConcern);
@@ -242,7 +253,15 @@ function selectCode(state) {
 
 		const sourceType = format.type === 'documentation' ? 'source' : state.sourceType;
 		const language = sourceType === 'source' ? format.in : format.out;
-		const id = [pattern.id, `${concern}${format.extname}`].join('/');
+		const pathname = [pattern.id, `${concern}${format.extname}`].join('/');
+
+		const id = urlQuery.format({
+			pathname,
+			query: {
+				type: sourceType
+			}
+		});
+
 		const source = sources[id];
 
 		return {
@@ -252,6 +271,7 @@ function selectCode(state) {
 			concern,
 			concerns,
 			id,
+			shortid: shortid(id),
 			language,
 			name: format.displayName,
 			source: source || '',

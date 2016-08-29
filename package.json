@@ -113,6 +113,7 @@
     "redux-logger": "^2.6.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
+    "shortid": "^2.2.6",
     "strip-ansi": "^3.0.1",
     "topologically-combine-reducers": "0.0.5",
     "uuid": "^2.0.2"

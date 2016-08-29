@@ -23,7 +23,8 @@ function PatternSources(props) {
 						environment={props.environment}
 						extname={source.extname}
 						id={source.id}
-						key={source.id}
+						shortid={source.shortid}
+						key={source.shortid}
 						language={source.language}
 						loading={source.loading}
 						location={props.location}
@@ -71,6 +72,7 @@ class PatternSource extends Component {
 		concerns: t.arrayOf(t.string).isRequired,
 		environment: t.string.isRequired,
 		id: t.string.isRequired,
+		shortid: t.string.isRequired,
 		loading: t.bool.isRequired,
 		location: t.shape({
 			pathname: t.string.isRequired,
@@ -89,6 +91,7 @@ class PatternSource extends Component {
 		if (!props.source && props.active) {
 			props.onFileRequest({
 				id: props.id,
+				shortid: props.shortid,
 				environment: props.environment,
 				type: props.type,
 				base: props.base
@@ -102,6 +105,7 @@ class PatternSource extends Component {
 		if (shouldFetch(current, next)) {
 			next.onFileRequest({
 				id: next.id,
+				shortid: next.shortid,
 				environment: next.environment,
 				type: next.type,
 				base: next.base
