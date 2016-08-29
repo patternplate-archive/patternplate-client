@@ -35,25 +35,17 @@ low.registerLanguage('xml', xml);
 low.registerLanguage('md', md);
 low.registerLanguage('markdown', md);
 
-function getLanguageCandidates(language) {
-	const detected = low.getLanguage(language);
-
-	if (!detected) {
-		return [];
-	}
-
-	if (!detected.aliases || detected.aliases.length === 0) {
-		return [language];
-	}
-
-	return detected.aliases;
+function highlight(language, source, options) {
+	const code = ['xml', 'html'].includes(language) ? pretty.xml(source) : source;
+	const {value: children} = low.highlight(language, code, options);
+	return children;
 }
 
 global.onmessage = event => {
 	const {data} = event;
-	const {payload: passed, id, language, options = {}} = ARSON.parse(data);
+	const {payload, id, language, options = {}} = ARSON.parse(data);
 
-	if (!passed) {
+	if (!payload) {
 		console.warn('lowlight request without payload, skipping');
 		return;
 	}
@@ -63,17 +55,10 @@ global.onmessage = event => {
 		return;
 	}
 
-	const candidates = getLanguageCandidates(language);
+	const children = highlight(language, payload, options);
 
-	if (candidates.length === 0) {
-		return;
-	}
-
-	const prettify = candidates.includes('xml') || candidates.includes('html');
-	const code = prettify ? pretty.xml(passed) : passed;
-
-	const {value: children} = low.highlight(language, code, options);
-
-	const payload = {type: 'element', tagName: 'div', children};
-	global.postMessage(ARSON.stringify({id, payload}));
+	global.postMessage(ARSON.stringify({
+		id,
+		payload: {type: 'element', tagName: 'div', children}
+	}));
 };
