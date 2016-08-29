@@ -45,15 +45,23 @@ export default async function renderPage(application, pageUrl) {
 	const sourceId = query.source;
 
 	if (isPattern) {
-		const patternData = await getPatternMetaData(server, id);
-		merge(pattern, patternData);
+		try {
+			const patternData = await getPatternMetaData(server, id);
+			merge(pattern, patternData);
+		} catch (error) {
+			application.log.error(error);
+		}
 	}
 
 	if (isPattern && sourceId) {
-		const fileType = query['source-type'] || 'source';
-		const env = query.environment || 'index';
-		const patternFile = await getPatternSource(server)(sourceId, fileType, env);
-		merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
+		try {
+			const fileType = query['source-type'] || 'source';
+			const env = query.environment || 'index';
+			const patternFile = await getPatternSource(server)(sourceId, fileType, env);
+			merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
+		} catch (error) {
+			application.log.error(error);
+		}
 	}
 
 	const config = application.configuration.ui;
