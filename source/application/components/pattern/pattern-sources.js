@@ -21,6 +21,7 @@ function PatternSources(props) {
 						concern={source.concern}
 						concerns={source.concerns}
 						environment={props.environment}
+						extname={source.extname}
 						id={source.id}
 						key={source.id}
 						language={source.language}
@@ -141,6 +142,7 @@ class PatternSource extends Component {
 							concern={props.concern}
 							concerns={props.concerns}
 							copy
+							extname={props.extname}
 							format={props.language}
 							highlight
 							id={md5([props.id, props.source].join(':'))}

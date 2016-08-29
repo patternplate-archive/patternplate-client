@@ -41,7 +41,10 @@ function Select(props) {
 Select.propTypes = {
 	base: t.string.isRequired,
 	className: t.string,
-	value: t.string.isRequired,
+	value: t.shape({
+		value: t.string.isRequired,
+		name: t.string.isRequired
+	}),
 	options: t.arrayOf(t.shape({
 		value: t.string.isRequired,
 		name: t.string.isRequired

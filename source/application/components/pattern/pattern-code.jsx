@@ -1,3 +1,4 @@
+import path from 'path';
 import React, {PropTypes as types} from 'react';
 import {connect} from 'react-redux';
 import join from 'classnames';
@@ -19,6 +20,7 @@ class PatternCode extends React.Component {
 		concerns: types.arrayOf(types.string).isRequired,
 		copy: types.bool,
 		dispatch: types.func.isRequired,
+		extname: types.string.isRequired,
 		format: types.string.isRequired,
 		highlight: types.bool,
 		highlights: types.object.isRequired,
@@ -32,7 +34,7 @@ class PatternCode extends React.Component {
 	};
 
 	static defaultProps = {
-		format: 'html',
+		// format: 'html',
 		highlight: true,
 		copy: true
 	};
@@ -96,32 +98,22 @@ class PatternCode extends React.Component {
 	}
 
 	render() {
-		const {
-			base,
-			copy,
-			format,
-			highlight,
-			highlights,
-			id,
-			source: passed,
-			onConcernChange,
-			onTypeChange
-		} = this.props;
+		const {props} = this;
 
-		const prettify = highlight && format === 'html';
-		const prettified = prettify ? pretty.xml(passed) : passed;
-		const highlighted = highlights[id];
+		const prettify = props.highlight && props.format === 'html';
+		const prettified = prettify ? pretty.xml(props.source) : props.source;
+		const highlighted = props.highlights[props.id];
 		const children = highlighted ? toElements(highlighted) : prettified;
 		const {copying} = this.state;
-		const formatClassName = join(`hljs`, format);
+		const formatClassName = join(`hljs`, props.format);
 
 		const concern = {
-			value: this.props.concern,
-			name: `${this.props.concern}.${format}`
+			value: props.concern,
+			name: `${props.concern}${props.extname}`
 		};
 
 		const concerns = this.props.concerns.map(concern => {
-			return {name: `${concern}.${format}`, value: concern};
+			return {name: `${concern}${props.extname}`, value: concern};
 		});
 
 		const type = {
@@ -138,23 +130,23 @@ class PatternCode extends React.Component {
 				<div className="pattern-code__toolbar">
 					<div className="pattern-code__name">
 						<Select
-							base={base}
+							base={props.base}
 							className="pattern-code__concern"
 							options={concerns}
-							onChange={onConcernChange}
+							onChange={props.onConcernChange}
 							value={concern}
 							/>
 						<Select
-							base={base}
+							base={props.base}
 							className="pattern-code__type"
 							options={types}
-							onChange={onTypeChange}
+							onChange={props.onTypeChange}
 							value={type}
 							/>
 					</div>
 					<div className="pattern-code__tools">
 						{
-							copy &&
+							props.copy &&
 								<button type="button" onClick={this.handleCopyClick}>
 									{copying ? 'Copied!' : 'Copy to clipboard'}
 								</button>

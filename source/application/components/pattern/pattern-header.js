@@ -72,7 +72,7 @@ export default function PatternHeader(props) {
 						pathname: location.pathname,
 						query: {
 							...location.query,
-							reload: reloadTime || Date.now()
+							reload: reloadTime
 						}
 					}}
 					>
@@ -92,7 +92,7 @@ PatternHeader.propTypes = {
 	tags: t.arrayOf(t.string),
 	loading: t.bool.isRequired,
 	reloading: t.bool.isRequired,
-	reloadTime: t.number.isRequired,
+	reloadTime: t.number,
 	onReloadClick: t.func.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,

@@ -31,7 +31,7 @@ PatternDemo.propTypes = {
 	target: types.string.isRequired,
 	environment: types.string.isRequired,
 	reloading: types.bool,
-	reloadTime: types.number.isRequired
+	reloadTime: types.number
 };
 
 export default PatternDemo;

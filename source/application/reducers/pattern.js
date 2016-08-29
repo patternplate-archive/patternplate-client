@@ -5,8 +5,6 @@ import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 
 import composeReducers from '../utils/compose-reducers';
 
-console.log({reloadPatternStart});
-
 const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', state => {
 	return state;
 }, {});
@@ -50,7 +48,7 @@ const handlePatternReload = handleAction(reloadPatternStart, state => {
 	return {
 		...state,
 		reloading: true,
-		reloadedTime: null,
+		reloadedTime: 0,
 		reloadTime: Date.now()
 	};
 });

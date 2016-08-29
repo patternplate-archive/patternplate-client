@@ -65,7 +65,17 @@ Pattern.propTypes = {
 	activeSource: t.string.isRequired,
 	base: t.string.isRequired,
 	code: t.arrayOf(t.shape({
-		name: t.string.isRequired
+		active: t.bool.isRequired,
+		extname: t.string.isRequired,
+		loading: t.bool.isRequired,
+		concern: t.string.isRequired,
+		concerns: t.arrayOf(t.string).isRequired,
+		id: t.string.isRequired,
+		language: t.string.isRequired,
+		name: t.string.isRequired,
+		source: t.string,
+		type: t.string,
+		types: t.arrayOf(t.string).isRequired
 	})).isRequired,
 	dependencies: t.arrayOf(t.shape({
 		id: t.string.isRequired,
@@ -95,7 +105,7 @@ Pattern.propTypes = {
 	onTypeChange: t.func.isRequired,
 	reload: t.func.isRequired,
 	reloading: t.bool.isRequired,
-	reloadTime: t.number.isRequired,
+	reloadTime: t.number,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
 	sourceExpanded: t.bool

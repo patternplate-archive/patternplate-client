@@ -212,8 +212,9 @@ function selectCode(state) {
 		return [...registry, {
 			id: [pattern.id, file.type].join('/'),
 			displayName: file.displayName,
+			extname: path.extname(file.path),
 			type: file.type,
-			in: path.extname(file.id).slice(1),
+			in: file.in,
 			out: file.out
 		}];
 	}, []), 'id');
@@ -236,17 +237,19 @@ function selectCode(state) {
 			passedConcern :
 			defaultConcern;
 
-		const id = [pattern.id, `${concern}.${format.in}`].join('/');
-		const source = sources[id];
 		const sourceType = format.type === 'documentation' ? 'source' : state.sourceType;
+		const language = sourceType === 'source' ? format.in : format.out;
+		const id = [pattern.id, `${concern}${format.extname}`].join('/');
+		const source = sources[id];
 
 		return {
 			active: state.sourceId === id,
+			extname: format.extname,
 			loading: false,
 			concern,
 			concerns,
 			id,
-			language: format.in,
+			language,
 			name: format.displayName,
 			source: source || '',
 			type: sourceType,
