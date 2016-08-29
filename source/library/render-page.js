@@ -41,7 +41,7 @@ export default async function renderPage(application, pageUrl) {
 
 	const schema = app ? await getSchema(app, client, server) : {};
 	const navigation = app ? await getNavigation(app, client, server) : {};
-	const pattern = navigate(id, navigation);
+	const pattern = merge({}, navigate(id, navigation));
 	const isPattern = pattern && pattern.type === 'pattern';
 	const sourceId = query.source;
 
@@ -57,7 +57,7 @@ export default async function renderPage(application, pageUrl) {
 	if (isPattern && sourceId) {
 		try {
 			const parsed = urlQuery.parse(sourceId);
-			const fileType = parsed.type || 'source';
+			const fileType = parsed.query.type || 'source';
 			const env = query.environment || 'index';
 			const patternFile = await getPatternSource(server)(parsed.pathname, fileType, env);
 			merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
@@ -75,7 +75,7 @@ export default async function renderPage(application, pageUrl) {
 	};
 
 	const serverData = {schema, navigation, pattern};
-	const data = merge(defaultData, options.data, serverData, {config});
+	const data = merge({}, defaultData, options.data, serverData, {config});
 	const content = await router(options.url, data);
 	const head = Helmet.rewind();
 

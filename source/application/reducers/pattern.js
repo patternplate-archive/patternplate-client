@@ -5,13 +5,10 @@ import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 
 import composeReducers from '../utils/compose-reducers';
 
-const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', state => {
-	return state;
-}, {});
-
 const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	start(state) {
 		return {
+			loading: true,
 			sources: state.sources
 		};
 	},
@@ -64,7 +61,6 @@ const handlePatternReloadSuccess = handleAction('RELOAD_PATTERN_SUCCESS', state 
 });
 
 export default composeReducers(
-	handlePatternNavigation,
 	handlePatternLoad,
 	handleSourceLoad,
 	handlePatternReload,
