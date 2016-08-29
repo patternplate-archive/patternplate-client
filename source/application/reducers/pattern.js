@@ -13,10 +13,11 @@ const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', (state,
 }, {});
 
 const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
-	start(state, {payload}) {
+	start(state) {
 		return state;
 	},
 	success(state, {payload}) {
+		const sources = state ? state.sources : {};
 		return {
 			...state,
 			dependencies: payload.dependencies,
@@ -26,7 +27,7 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 			loading: false,
 			manifest: payload.manifest,
 			reloading: false,
-			sources: payload.sources || state.sources
+			sources: payload.sources || sources
 		};
 	},
 	throws() {
