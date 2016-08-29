@@ -11,7 +11,9 @@ const handlePatternNavigation = handleAction('@@router/LOCATION_CHANGE', state =
 
 const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	start(state) {
-		return state;
+		return {
+			sources: state.sources
+		};
 	},
 	success(state, {payload}) {
 		const sources = state ? state.sources : {};

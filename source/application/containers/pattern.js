@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {push} from 'react-router-redux';
 import {bindActionCreators} from 'redux';
 import {createAction} from 'redux-actions';
-import {uniqBy} from 'lodash';
+import {merge, uniqBy} from 'lodash';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
@@ -89,9 +89,8 @@ function mapDispatch(dispatch, own) {
 }
 
 function selectPattern(state) {
-	return state.pattern ||
-		navigate(state.id, state.navigation) ||
-		{};
+	const cached = navigate(state.id, state.navigation);
+	return merge({}, cached, state.pattern);
 }
 
 function selectManifest(state) {
@@ -115,7 +114,7 @@ function selectName(state) {
 	const pattern = selectPattern(state);
 	const name = getManifestSelector('name')(state);
 	const displayName = getManifestSelector('displayName')(state);
-	return name || displayName || pattern.id || '';
+	return displayName || name || pattern.id || '';
 }
 
 function selectEnvironments(state) {
@@ -153,7 +152,7 @@ function selectDependents(state) {
 		.filter(pattern => pattern.display)
 		.reduce((registry, pattern) => {
 			const navPattern = navigate(pattern.id, state.navigation) || {manifest: {}};
-			const patternEntries = Object.entries(navPattern.manifest.patterns);
+			const patternEntries = Object.entries(navPattern.manifest.patterns || {});
 			const localNames = patternEntries
 				.filter(entry => entry[1] === state.id)
 				.map(entry => entry[0]);
