@@ -57,7 +57,7 @@ export default function patternRouteFactory(application) {
 		};
 
 		if (type === 'html' && extension === 'html') {
-			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, environment);
+			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, filters, environment);
 
 			if (error) {
 				this.throw(error);
