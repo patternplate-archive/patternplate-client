@@ -60,9 +60,11 @@ const handlePatternReloadSuccess = handleAction('RELOAD_PATTERN_SUCCESS', state 
 	};
 });
 
-export default composeReducers(
+const reducers = composeReducers(
 	handlePatternLoad,
 	handleSourceLoad,
 	handlePatternReload,
 	handlePatternReloadSuccess
 );
+
+export default reducers;

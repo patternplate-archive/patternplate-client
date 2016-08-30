@@ -1,9 +1,24 @@
-import {handleAction} from 'redux-actions';
+import handleDependentActions from '../actions/handle-dependent-actions';
+import urlQuery from '../utils/url-query';
 
 const defaultValue = null;
 
-function handler(_, action) {
-	return action.payload.query.source || defaultValue;
+function handler(_, {payload}, {environment}) {
+	if (payload.query.source) {
+		const parsed = urlQuery.parse(payload.query.source);
+		return urlQuery.format({
+			...parsed,
+			query: {
+				...parsed.query,
+				environment
+			}
+		});
+	}
+	return defaultValue;
 }
 
-export default handleAction('@@router/LOCATION_CHANGE', handler, defaultValue);
+export default handleDependentActions({
+	'@@router/LOCATION_CHANGE': handler
+}, {
+	dependencies: ['environment']
+});

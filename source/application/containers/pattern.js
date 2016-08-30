@@ -258,7 +258,8 @@ function selectCode(state) {
 		const id = urlQuery.format({
 			pathname,
 			query: {
-				type: sourceType
+				type: sourceType,
+				environment: state.environment
 			}
 		});
 

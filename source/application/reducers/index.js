@@ -46,6 +46,7 @@ export default {
 };
 
 export const dependencies = {
+	pattern: getDependencies(pattern),
 	searchMatches: getDependencies(searchMatches),
 	styles: getDependencies(styles)
 };

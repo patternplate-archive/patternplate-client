@@ -21,7 +21,13 @@ function handleDependentActions(actionHandlers, options) {
 	assert.ok(Array.isArray(options.dependencies), 'options.dependencies must be an array');
 
 	const handler = (...args) => {
-		const [, , dependencies] = args;
+		const [, , dependencies = {}] = args;
+
+		if (Object.keys(dependencies).length > 0) {
+			const missing = options.dependencies.filter(dependency => !(dependency in dependencies));
+			assert.ok(missing.length === 0, `dependencies must be present in state. missing: ${missing.join(',')}`);
+		}
+
 		const deps = pick(dependencies, options.dependencies);
 		const handlers = partialReduce(deps)(actionHandlers);
 		const reducer = handleActions(handlers, options.defaultValue);
