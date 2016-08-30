@@ -3,8 +3,10 @@ import join from 'classnames';
 import Helmet from 'react-helmet';
 
 import BreadCrumbs from '../bread-crumbs';
-import Toolbar from '../toolbar';
+import ConsoleLightbox from '../../containers/console';
+import ProblemLightbox from '../../containers/problem';
 import Navigation from '../navigation';
+import Toolbar from '../toolbar';
 
 export default Application;
 
@@ -67,6 +69,14 @@ function Application(props) {
 				}
 				{props.children}
 			</main>
+			{
+				props.issue &&
+					<ProblemLightbox/>
+			}
+			{
+				props.lightbox === 'console' &&
+					<ConsoleLightbox/>
+			}
 		</div>
 	);
 }
@@ -90,10 +100,12 @@ Application.propTypes = {
 	description: t.string.isRequired,
 	expanded: t.bool.isRequired,
 	hierarchy: t.object.isRequired,
+	issue: t.bool.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,
 		query: t.object.isRequired
 	}).isRequired,
+	lightbox: t.string,
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
 	onSearch: t.func.isRequired,

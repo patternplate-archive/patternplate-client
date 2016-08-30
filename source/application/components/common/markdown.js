@@ -4,6 +4,7 @@ import Remarkable from 'react-remarkable';
 import {emojify} from 'node-emoji';
 import md5 from 'md5';
 import toHtml from 'hast-util-to-html';
+import join from 'classnames';
 
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
@@ -15,6 +16,7 @@ import highlightCode from '../../actions/highlight-code';
 class Markdown extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
+		className: t.string,
 		source: t.string.isRequired,
 		highlights: t.object.isRequired,
 		dispatch: t.func.isRequired
@@ -42,8 +44,9 @@ class Markdown extends Component {
 	}
 
 	render() {
+		const className = join('markdown', this.props.className);
 		return (
-			<div className="markdown">
+			<div className={className}>
 				<Remarkable
 					container="div"
 					source={emojify(this.props.source || '')}

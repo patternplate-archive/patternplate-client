@@ -5,6 +5,8 @@ import environment from './environment';
 import expanded from './expanded';
 import highlights from './highlights';
 import id from './id';
+import issue from './issue';
+import lightbox from './lightbox';
 import menuEnabled from './menu-enabled';
 import messages from './messages';
 import navigation from './navigation';
@@ -30,6 +32,8 @@ export default {
 	expanded,
 	highlights,
 	id,
+	issue,
+	lightbox,
 	menuEnabled,
 	messages,
 	navigation,

@@ -19,7 +19,7 @@ function logger() {
 }
 
 export default function configureStore(history, initial) {
-	const reducer = topology({routing, ...reducers}, dependencies);
+	const reducer = hydrateable(topology({routing, ...reducers}, dependencies));
 
 	const middlewares = process.env.NODE_ENV === 'production' ?
 		[thunk, promise, routerMiddleware(history)] :
@@ -29,4 +29,15 @@ export default function configureStore(history, initial) {
 	const store = createStore(reducer, initial, compose(middleware));
 
 	return store;
+}
+
+function hydrateable(reducer) {
+	return (state, action) => {
+		switch (action.type) {
+			case '@@APPLY_STATE':
+				return reducer(action.payload, action);
+			default:
+				return reducer(state, action);
+		}
+	};
 }

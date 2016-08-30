@@ -44,26 +44,6 @@ class PatternSection extends React.Component {
 	}
 
 	render() {
-		/* const {props} = this;
-		const {base, location, data, config} = props;
-		const loading = data && data.loading;
-
-		const fragments = this.props.id.split('/');
-		const paths = fragments
-			.map((fragment, index) => {
-				return {
-					name: fragment,
-					path: fragments.slice(0, index + 1).join('/')
-				};
-			});
-
-		const theme = location.query.theme || 'light';
-		const inverted = theme === 'dark';
-
-		const className = join('pattern-section', {
-			[`pattern-section--loading`]: loading
-		}); */
-
 		return (
 			<section className="pattern-section">
 				<PatternContainer

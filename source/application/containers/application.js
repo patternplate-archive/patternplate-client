@@ -15,6 +15,8 @@ function mapProps(state, own) {
 		description: selectDescription(state),
 		expanded: state.expanded,
 		hierarchy: state.config.hierarchy,
+		issue: state.issue,
+		lightbox: state.lightbox,
 		location: own.location,
 		menuEnabled: state.menuEnabled,
 		navigation: state.search ? state.searchMatches : state.navigation,

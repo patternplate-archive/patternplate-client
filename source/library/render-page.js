@@ -1,16 +1,16 @@
 import url from 'url';
+import os from 'os';
 
-// import isStream from 'is-stream';
 import {merge} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
 import queryString from 'query-string';
+import platform from 'platform';
 
 import router from '../application/react-routes/server';
 import layout from '../application/layouts';
 import getIdByPathname from '../application/utils/get-id-by-pathname';
 import navigate from '../application/utils/navigate';
-// import urlQuery from '../application/utils/url-query';
 
 const cwd = process.cwd();
 const resolve = id => resolveSync(id, {basedir: cwd});
@@ -75,7 +75,15 @@ export default async function renderPage(application, pageUrl) {
 	};
 
 	const serverData = {schema, navigation, pattern};
-	const data = merge({}, defaultData, options.data, serverData, {config});
+	const data = merge({}, defaultData, options.data, serverData, {config}, {
+		schema: {
+			serverOsName: os.type(),
+			serverOsVersion: os.release(),
+			serverRuntimeName: platform.name,
+			serverRuntimeVersion: platform.version
+		}
+	});
+
 	const content = await router(options.url, data);
 	const head = Helmet.rewind();
 
