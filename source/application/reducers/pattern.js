@@ -9,11 +9,13 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 	start(state) {
 		return {
 			loading: true,
-			sources: state.sources
+			sources: state.sources,
+			errors: state.errors
 		};
 	},
 	success(state, {payload}) {
 		const sources = state ? state.sources : {};
+		const errors = state ? state.errors || [] : [];
 		return {
 			...state,
 			dependencies: payload.dependencies,
@@ -23,11 +25,16 @@ const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
 			loading: false,
 			manifest: payload.manifest,
 			reloading: false,
-			sources
+			sources,
+			errors
 		};
 	},
-	throws() {
-		return {loading: false, reloading: false};
+	throws(state, {payload}) {
+		return {
+			loading: false,
+			reloading: false,
+			errors: [...state.errors, {file: null, id: state.id, payload}]
+		};
 	}
 }, {});
 
@@ -39,6 +46,12 @@ const handleSourceLoad = handlePromiseThunkAction(getPatternFile, {
 				...state.sources,
 				[payload.id]: payload.source
 			}
+		};
+	},
+	throws(state, {payload: error}) {
+		return {
+			...state,
+			errors: [...state.errors, {id: state.id, payload: error.payload}]
 		};
 	}
 });

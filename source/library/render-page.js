@@ -1,6 +1,6 @@
 import url from 'url';
 
-import isStream from 'is-stream';
+// import isStream from 'is-stream';
 import {merge} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
@@ -10,7 +10,7 @@ import router from '../application/react-routes/server';
 import layout from '../application/layouts';
 import getIdByPathname from '../application/utils/get-id-by-pathname';
 import navigate from '../application/utils/navigate';
-import urlQuery from '../application/utils/url-query';
+// import urlQuery from '../application/utils/url-query';
 
 const cwd = process.cwd();
 const resolve = id => resolveSync(id, {basedir: cwd});
@@ -18,7 +18,7 @@ const resolve = id => resolveSync(id, {basedir: cwd});
 const getSchema = require(resolve('patternplate-server/library/get-schema'));
 const getNavigation = require(resolve('patternplate-server/library/get-navigation'));
 const getPatternMetaData = require(resolve('patternplate-server/library/get-pattern-meta-data'));
-const getPatternSource = require(resolve('patternplate-server/library/get-pattern-source'));
+// const getPatternSource = require(resolve('patternplate-server/library/get-pattern-source'));
 
 const defaultData = {
 	schema: {},
@@ -43,7 +43,7 @@ export default async function renderPage(application, pageUrl) {
 	const navigation = app ? await getNavigation(app, client, server) : {};
 	const pattern = merge({}, navigate(id, navigation));
 	const isPattern = pattern && pattern.type === 'pattern';
-	const sourceId = query.source;
+	// const sourceId = query.source;
 
 	if (isPattern) {
 		try {
@@ -54,17 +54,17 @@ export default async function renderPage(application, pageUrl) {
 		}
 	}
 
-	if (isPattern && sourceId) {
+	/* if (isPattern && sourceId) {
 		try {
 			const parsed = urlQuery.parse(sourceId);
 			const fileType = parsed.query.type || 'source';
 			const env = query.environment || 'index';
 			const patternFile = await getPatternSource(server)(parsed.pathname, fileType, env);
-			merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
+			// merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
 		} catch (error) {
 			application.log.error(error);
 		}
-	}
+	} */
 
 	const config = application.configuration.ui;
 	const options = {
@@ -95,7 +95,7 @@ export default async function renderPage(application, pageUrl) {
 	});
 }
 
-async function consumeFile(input) {
+/* async function consumeFile(input) {
 	if (isStream(input)) {
 		return await streamToString(input);
 	}
@@ -110,4 +110,4 @@ function streamToString(input) {
 		input.on('end', () => resolve(Buffer.concat(buffers).toString()));
 		input.on('error', reject);
 	});
-}
+} */

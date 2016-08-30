@@ -17,6 +17,7 @@ function PatternSources(props) {
 				sources.map(source => (
 					<PatternSource
 						active={source.active}
+						update={source.update}
 						base={props.base}
 						concern={source.concern}
 						concerns={source.concerns}
@@ -79,8 +80,8 @@ class PatternSource extends Component {
 			query: t.object.isRequired
 		}).isRequired,
 		name: t.string.isRequired,
-		language: t.string.isRequired,
 		onFileRequest: t.func.isRequired,
+		language: t.string.isRequired,
 		source: t.string.isRequired,
 		type: t.string.isRequired,
 		types: t.arrayOf(t.string).isRequired
@@ -88,7 +89,7 @@ class PatternSource extends Component {
 
 	componentDidMount() {
 		const {props} = this;
-		if (!props.source && props.active) {
+		if (props.update) {
 			props.onFileRequest({
 				id: props.id,
 				shortid: props.shortid,
@@ -100,15 +101,13 @@ class PatternSource extends Component {
 	}
 
 	componentWillUpdate(next) {
-		const {props: current} = this;
-
-		if (shouldFetch(current, next)) {
+		if (next.update) {
 			next.onFileRequest({
-				id: next.id,
-				shortid: next.shortid,
-				environment: next.environment,
-				type: next.type,
-				base: next.base
+				id: this.props.id,
+				shortid: this.props.shortid,
+				environment: this.props.environment,
+				type: this.props.type,
+				base: this.props.base
 			});
 		}
 	}
@@ -161,10 +160,4 @@ class PatternSource extends Component {
 			</div>
 		);
 	}
-}
-
-const updateFieldKeys = ['active', 'concern', 'environment', 'id', 'type'];
-
-function shouldFetch(current, next) {
-	return next.active && updateFieldKeys.some(key => current[key] !== next[key]);
 }

@@ -218,16 +218,22 @@ function selectLocation(state) {
 	return state.routing.locationBeforeTransitions;
 }
 
+function selectPatternErrors(state) {
+	return selectPattern(state).errors || [];
+}
+
 function selectCode(state) {
 	const pattern = selectPattern(state);
 	const sources = pattern.sources || {};
 	const files = pattern.files || [];
+	const errors = selectPatternErrors(state);
 
 	const formats = uniqBy(files.reduce((registry, file) => {
 		return [...registry, {
 			id: [pattern.id, file.type].join('/'),
 			displayName: file.displayName,
-			extname: path.extname(file.path),
+			inExtname: path.extname(file.path),
+			outExtname: `.${file.out}`,
 			type: file.type,
 			in: file.in,
 			out: file.out
@@ -253,7 +259,8 @@ function selectCode(state) {
 
 		const sourceType = format.type === 'documentation' ? 'source' : state.sourceType;
 		const language = sourceType === 'source' ? format.in : format.out;
-		const pathname = [pattern.id, `${concern}${format.extname}`].join('/');
+		const extname = format.inExtname;
+		const pathname = [pattern.id, `${concern}${extname}`].join('/');
 
 		const id = urlQuery.format({
 			pathname,
@@ -264,10 +271,18 @@ function selectCode(state) {
 		});
 
 		const source = sources[id];
+		const active = state.sourceId === id;
+
+		const fileErrors = errors.filter(error => {
+			return error.payload ?
+				error.payload.id === id :
+				error.patternFile === id;
+		});
 
 		return {
-			active: state.sourceId === id,
-			extname: format.extname,
+			active,
+			update: active && !source && !fileErrors.length,
+			extname,
 			loading: false,
 			concern,
 			concerns,
