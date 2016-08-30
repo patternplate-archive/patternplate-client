@@ -45,6 +45,9 @@ class PatternCode extends React.Component {
 
 	componentDidMount() {
 		const {base, format: language, dispatch, highlight, highlights, id, source} = this.props;
+		if ((this.props.highlights.errors || []).includes(id)) {
+			return;
+		}
 		if (!highlight || highlights[id]) {
 			return;
 		}
@@ -58,6 +61,9 @@ class PatternCode extends React.Component {
 
 	componentWillUpdate(next) {
 		const {base, format: language, dispatch, highlight, highlights, id, source} = next;
+		if ((next.highlights.errors || []).includes(id)) {
+			return;
+		}
 		if (!highlight || highlights[id]) {
 			return;
 		}

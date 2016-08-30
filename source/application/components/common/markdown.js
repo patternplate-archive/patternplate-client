@@ -28,6 +28,10 @@ class Markdown extends Component {
 		const highlight = this.props.highlights[id];
 		const worker = `${base}script/lowlight.bundle.js`;
 
+		if ((this.props.highlights.errors || []).includes(id)) {
+			return payload;
+		}
+
 		if (highlight) {
 			return toHtml(highlight).replace(/^<div>/, '').replace(/<\/div>$/, '');
 		}
