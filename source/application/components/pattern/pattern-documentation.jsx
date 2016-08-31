@@ -1,6 +1,6 @@
 import React, {PropTypes as t} from 'react';
 
-import Markdown from '../common/markdown';
+import Markdown from '../../containers/markdown';
 
 function PatternDocumentation(props) {
 	const source = props.source || props.children;

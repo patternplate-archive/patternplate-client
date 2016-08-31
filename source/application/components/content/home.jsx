@@ -1,5 +1,5 @@
 import React, {Component, PropTypes as t} from 'react';
-import Markdown from '../common/markdown';
+import Markdown from '../../containers/markdown';
 
 // import Messages from './messages';
 // import pure from 'pure-render-decorator';

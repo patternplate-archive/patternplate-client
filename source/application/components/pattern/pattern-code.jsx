@@ -1,6 +1,5 @@
-import path from 'path';
+// import path from 'path';
 import React, {PropTypes as types} from 'react';
-import {connect} from 'react-redux';
 import join from 'classnames';
 import {pd as pretty} from 'pretty-data';
 
@@ -8,18 +7,16 @@ import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
 
 import Select from '../common/select';
-import highlightCode from '../../actions/highlight-code';
 import toElements from '../../utils/to-elements';
 
 @pure
 @autobind
-class PatternCode extends React.Component {
+export default class PatternCode extends React.Component {
 	static propTypes = {
 		base: types.string.isRequired,
 		concern: types.string.isRequired,
 		concerns: types.arrayOf(types.string).isRequired,
 		copy: types.bool,
-		dispatch: types.func.isRequired,
 		extname: types.string.isRequired,
 		format: types.string.isRequired,
 		highlight: types.bool,
@@ -27,6 +24,7 @@ class PatternCode extends React.Component {
 		id: types.string,
 		name: types.string.isRequired,
 		onConcernChange: types.func.isRequired,
+		onHighlightRequest: types.func.isRequired,
 		onTypeChange: types.func.isRequired,
 		source: types.string.isRequired,
 		type: types.string.isRequired,
@@ -44,35 +42,12 @@ class PatternCode extends React.Component {
 	};
 
 	componentDidMount() {
-		const {base, format: language, dispatch, highlight, highlights, id, source} = this.props;
-		if ((this.props.highlights.errors || []).includes(id)) {
-			return;
-		}
-		if (!highlight || highlights[id]) {
-			return;
-		}
-		if (!source || !language) {
-			return;
-		}
-		const worker = `${base}script/lowlight.bundle.js`;
-		const options = {id, payload: source, worker, language};
-		dispatch(highlightCode(options));
+		const {props} = this;
+		highlightIfNeeded(props);
 	}
 
-	componentWillUpdate(next) {
-		const {base, format: language, dispatch, highlight, highlights, id, source} = next;
-		if ((next.highlights.errors || []).includes(id)) {
-			return;
-		}
-		if (!highlight || highlights[id]) {
-			return;
-		}
-		if (!source || !language) {
-			return;
-		}
-		const worker = `${base}script/lowlight.bundle.js`;
-		const options = {id, payload: source, worker, language};
-		dispatch(highlightCode(options));
+	componentWillUpdate(props) {
+		highlightIfNeeded(props);
 	}
 
 	componentWillUnmount() {
@@ -108,8 +83,8 @@ class PatternCode extends React.Component {
 
 		const prettify = props.highlight && props.format === 'html';
 		const prettified = prettify ? pretty.xml(props.source) : props.source;
-		const highlighted = props.highlights[props.id];
-		const children = highlighted ? toElements(highlighted) : prettified;
+		const highlighted = props.highlights.results.find(result => props.id === result.id);
+		const children = highlighted ? toElements(highlighted.payload) : prettified;
 		const {copying} = this.state;
 		const formatClassName = join(`hljs`, props.format);
 
@@ -177,6 +152,27 @@ class PatternCode extends React.Component {
 	}
 }
 
-export default connect(state => {
-	return {highlights: state.highlights};
-})(PatternCode);
+function highlightIfNeeded(props) {
+	if (!props.source) {
+		return;
+	}
+	if (!props.format) {
+		return;
+	}
+
+	const waits = ['errors', 'queue'].some(key => props.highlights[key].find(item => item.id === props.id));
+
+	if (waits) {
+		return;
+	}
+
+	const result = props.highlights.results.find(item => item.id === props.id);
+
+	if (result) {
+		return;
+	}
+
+	const worker = `${props.base}script/lowlight.bundle.js`;
+	const options = {id: props.id, payload: props.source, worker, language: props.format};
+	props.onHighlightRequest(options);
+}

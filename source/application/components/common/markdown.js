@@ -1,5 +1,4 @@
 import React, {Component, PropTypes as t} from 'react';
-import {connect} from 'react-redux';
 import Remarkable from 'react-remarkable';
 import {emojify} from 'node-emoji';
 import md5 from 'md5';
@@ -9,42 +8,48 @@ import join from 'classnames';
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 
-import highlightCode from '../../actions/highlight-code';
-
 @pure
 @autobind
-class Markdown extends Component {
+export default class Markdown extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
 		className: t.string,
 		source: t.string.isRequired,
 		highlights: t.object.isRequired,
-		dispatch: t.func.isRequired
+		onHighlightRequest: t.func.isRequired
 	};
 
 	onHighlight(payload, language) {
-		const {base, dispatch} = this.props;
+		if (!payload) {
+			return '';
+		}
+
+		if (!language) {
+			return '';
+		}
+
+		const {props} = this;
+		const {highlights} = props;
+
 		const id = ['highlight', language, md5(payload)].join(':');
-		const highlight = this.props.highlights[id];
-		const worker = `${base}script/lowlight.bundle.js`;
+		const waits = ['errors', 'queue'].some(key => highlights[key].find(item => item.id === id));
 
-		if ((this.props.highlights.errors || []).includes(id)) {
-			return payload;
+		if (waits) {
+			return '';
 		}
 
-		if (highlight) {
-			return toHtml(highlight).replace(/^<div>/, '').replace(/<\/div>$/, '');
+		const result = highlights.results.find(result => result.id === id);
+
+		if (result) {
+			return toHtml(result.payload);
 		}
 
-		const options = {
-			id, payload, language, worker
-		};
+		const worker = `${props.base}script/lowlight.bundle.js`;
+		const options = {id, payload, language, worker};
 
-		if (options.language && options.payload) {
-			dispatch(highlightCode(options));
-		}
-
-		return payload;
+		// Request highlighting
+		props.onHighlightRequest(options);
+		return '';
 	}
 
 	render() {
@@ -65,7 +70,3 @@ class Markdown extends Component {
 		);
 	}
 }
-
-export default connect(state => {
-	return {highlights: state.highlights};
-})(Markdown);

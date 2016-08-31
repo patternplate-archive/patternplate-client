@@ -14,6 +14,8 @@ import json from 'highlight.js/lib/languages/json.js';
 import xml from 'highlight.js/lib/languages/xml.js';
 import md from 'highlight.js/lib/languages/markdown.js';
 
+import bash from 'highlight.js/lib/languages/bash.js';
+
 // CSS and friends
 low.registerLanguage('css', css);
 low.registerLanguage('less', less);
@@ -35,6 +37,10 @@ low.registerLanguage('xml', xml);
 low.registerLanguage('md', md);
 low.registerLanguage('markdown', md);
 
+// (s)hell(ish)s
+low.registerLanguage('bash', bash);
+// low.registerLanguage('shell', bash);
+
 function highlight(language, source, options) {
 	const code = ['xml', 'html'].includes(language) ? pretty.xml(source) : source;
 	const {value: children} = low.highlight(language, code, options);
@@ -45,20 +51,27 @@ global.onmessage = event => {
 	const {data} = event;
 	const {payload, id, language, options = {}} = ARSON.parse(data);
 
-	if (!payload) {
-		console.warn('lowlight request without payload, skipping');
-		return;
+	try {
+		if (!payload) {
+			console.warn('lowlight request without payload, skipping');
+			return;
+		}
+
+		if (!language) {
+			console.warn('lowlight request without language payload, skipping');
+			return;
+		}
+
+		const children = highlight(language, payload, options);
+
+		global.postMessage(ARSON.stringify({
+			id,
+			payload: {type: 'element', tagName: 'div', children}
+		}));
+	} catch (error) {
+		global.postMessage(ARSON.stringify({
+			id,
+			payload: {type: 'error', error}
+		}));
 	}
-
-	if (!language) {
-		console.warn('lowlight request without language payload, skipping');
-		return;
-	}
-
-	const children = highlight(language, payload, options);
-
-	global.postMessage(ARSON.stringify({
-		id,
-		payload: {type: 'element', tagName: 'div', children}
-	}));
 };

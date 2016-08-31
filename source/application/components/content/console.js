@@ -3,7 +3,7 @@ import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 
 import Editor from '../common/editor';
-import Markdown from '../common/markdown';
+import Markdown from '../../containers/markdown';
 import Lightbox from '../lightbox';
 
 @autobind

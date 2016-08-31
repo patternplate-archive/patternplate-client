@@ -1,13 +1,12 @@
-import {createAction} from 'redux-actions';
+import {createPromiseThunkAction} from './promise-thunk-action';
 import highlight from '../utils/highlight';
 
-export default createAction('HIGHLIGHT_CODE', thunk);
-
-async function thunk(options) {
+export default createPromiseThunkAction('HIGHLIGHT_CODE', async payload => {
 	try {
-		return await highlight(options);
+		return await highlight(payload);
 	} catch (error) {
-		error.options = options;
+		console.log(payload.id, '!');
+		error.payload = payload;
 		throw error;
 	}
-}
+});

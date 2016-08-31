@@ -7,7 +7,7 @@ import queryString from 'query-string';
 
 import Lightbox from '../lightbox';
 import Editor from '../common/editor';
-import Markdown from '../common/markdown';
+import Markdown from '../../containers/markdown';
 
 @autobind
 export default class ProblemLightbox extends Component {

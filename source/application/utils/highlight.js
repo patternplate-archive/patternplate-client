@@ -14,25 +14,20 @@ function highlight(options) {
 
 		const onWorkerMessage = e => {
 			const data = ARSON.parse(e.data);
-			if (data.id === options.id) {
-				data.highlighted = true;
-				resolve(data);
-				unbind();
+
+			if (data.id !== options.id) {
+				return;
 			}
-		};
 
-		const onWorkerError = error => {
-			reject(error);
-			unbind();
-		};
+			if (data.payload.type === 'error') {
+				return reject(data.payload.error);
+			}
 
-		function unbind() {
+			resolve(data);
 			worker.removeEventListener('message', onWorkerMessage);
-			worker.removeEventListener('error', onWorkerError);
-		}
+		};
 
 		worker.addEventListener('message', onWorkerMessage);
-		worker.addEventListener('error', onWorkerError);
 		worker.postMessage(ARSON.stringify(options));
 	});
 }
