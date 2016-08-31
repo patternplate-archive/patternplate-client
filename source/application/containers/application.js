@@ -1,10 +1,18 @@
 import {connect} from 'react-redux';
-import {push, replace} from 'react-router-redux';
+import {bindActionCreators} from 'redux';
 import Application from '../components/application';
 
-import themeLoaded from '../actions/theme-loaded';
+import {search, themeLoaded, toggleTheme} from '../actions';
 
 export default connect(mapProps, mapDispatch)(Application);
+
+function mapDispatch(dispatch) {
+	return bindActionCreators({
+		onSearch: search,
+		onThemeLoaded: themeLoaded,
+		onThemeChange: toggleTheme
+	}, dispatch);
+}
 
 function mapProps(state, own) {
 	return {
@@ -29,34 +37,6 @@ function mapProps(state, own) {
 		themeLoading: selectThemeLoading(state),
 		title: state.config.title || state.schema.name,
 		version: selectVersion(state)
-	};
-}
-
-function mapDispatch(dispatch, own) {
-	return {
-		onSearch(search) {
-			const location = {
-				pathname: own.location.pathname,
-				query: {
-					...own.location.query,
-					search
-				}
-			};
-			return dispatch(replace(location));
-		},
-		onThemeLoaded(theme) {
-			return dispatch(themeLoaded(theme));
-		},
-		onThemeChange(theme) {
-			const location = {
-				pathname: own.location.pathname,
-				query: {
-					...own.location.query,
-					theme
-				}
-			};
-			return dispatch(push(location));
-		}
 	};
 }
 

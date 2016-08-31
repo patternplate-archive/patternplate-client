@@ -2,7 +2,6 @@ import path from 'path';
 
 import {merge, uniqBy} from 'lodash';
 import {connect} from 'react-redux';
-import {push} from 'react-router-redux';
 import {bindActionCreators} from 'redux';
 import {createAction} from 'redux-actions';
 import shortid from 'shortid';
@@ -10,6 +9,7 @@ import shortid from 'shortid';
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
+import {changeConcern, changeEnvironment, changeType} from '../actions';
 import reloadPattern from '../actions/reload-pattern';
 import getPatternFile from '../actions/get-pattern-file';
 import patternDemoError from '../actions/pattern-demo-error';
@@ -39,64 +39,15 @@ function mapState(state) {
 	};
 }
 
-function mapDispatch(dispatch, own) {
-	const {location} = own;
+function mapDispatch(dispatch) {
 	return bindActionCreators({
-		onConcernChange: e => {
-			const parsed = urlQuery.parse(location.query.source);
-			const previous = parsed.pathname;
-			const next = e.target.value;
-			return push({
-				pathname: location.pathname,
-				query: {
-					...location.query,
-					source: urlQuery.format({
-						pathname: `${path.dirname(previous)}/${next}${path.extname(previous)}`,
-						query: parsed.query
-					})
-				}
-			});
-		},
+		onConcernChange: changeConcern,
 		onDemoError: patternDemoError,
 		onDemoLoad: createAction('PATTERN_DEMO_LOADED'), // not implemented
-		onEnvironmentChange: e => {
-			const parsed = urlQuery.parse(location.pathname);
-			const pathname = urlQuery.format({
-				...parsed,
-				query: {
-					environment: e.target.value
-				}
-			});
-			return push({
-				pathname,
-				query: location.query
-			});
-		},
+		onEnvironmentChange: changeEnvironment,
 		onFileRequest: getPatternFile,
-		reload: () => {
-			return reloadPattern();
-		},
-		onTypeChange: e => {
-			const value = e.target.value;
-			const sourceType = ['source', 'transformed'].includes(value) ?
-				value :
-				'source';
-			const parsed = urlQuery.parse(location.query.source);
-
-			return push({
-				pathname: location.pathname,
-				query: {
-					...location.query,
-					source: urlQuery.format({
-						...parsed,
-						query: {
-							...parsed.query,
-							type: sourceType
-						}
-					})
-				}
-			});
-		}
+		reload: reloadPattern,
+		onTypeChange: changeType
 	}, dispatch);
 }
 

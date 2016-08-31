@@ -1,10 +1,11 @@
-import {connect} from 'react-redux';
-
-import React, {Component, PropTypes as types} from 'react';
 import cx from 'classnames';
+import pure from 'pure-render-decorator';
+import React, {Component, PropTypes as types} from 'react';
+import {connect} from 'react-redux';
 
 import isURI from '../../utils/is-uri';
 
+@pure
 class Icon extends Component {
 	displayName = 'Icon';
 

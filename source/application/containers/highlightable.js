@@ -1,5 +1,6 @@
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import highlightCode from '../actions/highlight-code';
+import {highlightCode} from '../actions';
 
 export function mapProps(state) {
 	return {
@@ -8,11 +9,9 @@ export function mapProps(state) {
 }
 
 export function mapDispatch(dispatch) {
-	return {
-		onHighlightRequest(payload) {
-			return dispatch(highlightCode(payload));
-		}
-	};
+	return bindActionCreators({
+		onHighlightRequest: highlightCode
+	}, dispatch);
 }
 
 export default connect(mapProps, mapDispatch);

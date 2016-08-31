@@ -4,6 +4,7 @@ import {createAction} from 'redux-actions';
 import getPatternData from './get-pattern-data';
 import getPatternFile from './get-pattern-file';
 import reloadPatternDemo from './reload-pattern-demo';
+import urlQuery from '../utils/url-query';
 
 export default reloadPattern;
 export const reloadPatternStart = createAction('RELOAD_PATTERN_START');
@@ -11,6 +12,11 @@ export const reloadPatternStart = createAction('RELOAD_PATTERN_START');
 function reloadPattern() {
 	return async (dispatch, getState) => {
 		const state = getState();
+
+		if (state.id === '..') {
+			return;
+		}
+
 		const location = state.routing.locationBeforeTransitions;
 		const {environment = 'index'} = location.query;
 		const type = path.basename(state.sourceId) === 'index.md' ?
@@ -32,7 +38,9 @@ function reloadPattern() {
 
 		jobs.push(dispatch(reloadPatternDemo()));
 
-		if (state.sourceId) {
+		const id = urlQuery.parse(state.sourceId || '').pathname;
+
+		if (id && id !== 'relations') {
 			jobs.push(dispatch(getPatternFile({
 				base: state.base,
 				environment,

@@ -1,6 +1,9 @@
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import ConsoleLightbox from '../components/content/console';
+import {applyState} from '../actions';
+
 export default connect(mapProps, mapDispatch)(ConsoleLightbox);
 
 function mapProps(state) {
@@ -13,12 +16,7 @@ function mapProps(state) {
 }
 
 function mapDispatch(dispatch) {
-	return {
-		onApplyState(payload) {
-			dispatch({
-				type: '@@APPLY_STATE',
-				payload
-			});
-		}
-	};
+	return bindActionCreators({
+		onApplyState: applyState
+	}, dispatch);
 }

@@ -3,19 +3,16 @@ import React, {PropTypes as t} from 'react';
 import PatternDemo from './pattern-demo';
 import PatternHeader from './pattern-header';
 import PatternToolbar from './pattern-toolbar';
+import unwrap from '../../utils/unwrap';
 
 export default Pattern;
 
 function Pattern(props) {
-	const onReloadClick = () => {
-		return props.reload({
-			base: props.base,
-			id: props.id,
-			query: {
-				environment: props.environment
-			}
-		});
-	};
+	const onReloadClick = props.reload;
+
+	const onConcernChange = unwrap(props.onConcernChange, 'target.value');
+	const onEnvironmentChange = unwrap(props.onEnvironmentChange, 'target.value');
+	const onTypeChange = unwrap(props.onTypeChange, 'target.value');
 
 	return (
 		<div className="pattern">
@@ -52,10 +49,10 @@ function Pattern(props) {
 				loading={props.loading}
 				location={props.location}
 				name={props.name}
-				onConcernChange={props.onConcernChange}
-				onEnvironmentChange={props.onEnvironmentChange}
+				onConcernChange={onConcernChange}
+				onEnvironmentChange={onEnvironmentChange}
 				onFileRequest={props.onFileRequest}
-				onTypeChange={props.onTypeChange}
+				onTypeChange={onTypeChange}
 				reloading={props.reloading}
 				expanded={props.sourceExpanded}
 				/>

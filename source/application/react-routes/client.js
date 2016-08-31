@@ -7,7 +7,7 @@ import {syncHistoryWithStore} from 'react-router-redux';
 import routes from './routes';
 import configureStore from './store';
 
-export default async function (data, el) {
+export default function (data, el) {
 	const store = configureStore(browserHistory, data);
 	const history = syncHistoryWithStore(browserHistory, store);
 	const router = (
