@@ -1,10 +1,12 @@
 import getIdByPathname from '../utils/get-id-by-pathname';
-import {handleAction} from 'redux-actions';
+import handleDependentActions from '../actions/handle-dependent-actions';
 
-const defaultValue = null;
-
-function handler(_, action) {
-	return getIdByPathname(action.payload.pathname) || null;
+function handler(_, {payload}, {depth, base}) {
+	return getIdByPathname(payload.pathname, base) || null;
 }
 
-export default handleAction('@@router/LOCATION_CHANGE', handler, defaultValue);
+export default handleDependentActions({
+	'@@router/LOCATION_CHANGE': handler
+}, {
+	dependencies: ['depth', 'base']
+});
