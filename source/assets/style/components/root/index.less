@@ -19,22 +19,22 @@ body {
 ::-webkit-scrollbar {
 	background: transparent;
 	overflow: visible;
-	width: 4px;
-	height: 4px;
-	background-color: fadeout(#999, 50%);
+	width: 7px;
+	height: 7px;
+	background-color: @border-color;
 }
 
 ::-webkit-scrollbar-thumb {
-	background-color: fadeout(@active-color, 50%);
-	border: none;
+	background-color: @scrollbar-thumb-color;
+	border: 1px solid @border-color;
 }
 
 ::-webkit-scrollbar-thumb:horizontal {
-	min-width: 4px;
+	border-top-width: 0;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-	min-height: 4px;
+	border-right-width: 0;
 }
 
 ::-webkit-scrollbar-track-piece {

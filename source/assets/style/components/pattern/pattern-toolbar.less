@@ -3,7 +3,7 @@
 	display: flex;
 	flex-wrap: wrap-reverse;
 	border-top: 1px solid @border-color;
-	min-height: 66px;
+	min-height: @pattern-toolbar-height;
 	&--expanded {
 		flex-wrap: wrap;
 		.pattern-sources {
@@ -168,8 +168,8 @@
 	}
 }
 .pattern-tool {
-	height: 65px;
-	padding: 10px 15px;
+	height: 100%;
+	padding: 5px;
 	border-left: 1px solid @border-color;
 	cursor: pointer;
 	&.pattern-tool--relations {
@@ -188,11 +188,12 @@
 	display: inline-block;
 	display: inline-flex;
 	overflow: hidden;
-	padding: 10px 15px;
-	height: 65px;
+	padding: 0 4px;
+	height: @pattern-toolbar-height;
 	color: inherit;
-	border: 5px solid transparent;
-	border-width: 5px 0;
+	border: 0 solid transparent;
+	border-top-width: 3px;
+	border-bottom-width: 3px;
 	white-space: nowrap;
 	text-decoration: none;
 	text-overflow: ellipsis;

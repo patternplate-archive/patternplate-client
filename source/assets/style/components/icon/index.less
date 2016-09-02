@@ -7,8 +7,8 @@
 		flex-direction: column;
 	}
 	.svg-icon{
-		width: 30px;
-		height: 30px;
+		width: 24px;
+		height: 24px;
 		margin: auto;
 	}
 	.svg {
@@ -37,6 +37,9 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 	width: 100%;
+	margin-top: unit(1px / @root-font-size, em);;
+	font-size: unit(10px / @root-font-size, em);
+	line-height: 1em;
 }
 
 .not-supports-svg {

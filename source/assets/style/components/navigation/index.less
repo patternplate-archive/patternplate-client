@@ -16,7 +16,7 @@
 			}
 		}
 		.navigation-tree {
-			border-left: 4px solid fadeout(@active-color, 50%);
+			border-left: @nav-stream-width solid fadeout(@active-color, 50%);
 		}
 	}
 }
@@ -32,9 +32,11 @@
 }
 
 .navigation-toolbar {
+	z-index: 1;
 	display: flex;
-	min-height: 50px;
+	min-height: @nav-toolbar-height;
 	background: @root-background;
+	box-shadow: 0 -1px 3px rgba(0,0,0,0.1);
 	.slim & {
 		flex-wrap: wrap;
 		justify-content: center;
@@ -174,7 +176,7 @@
 		padding: 0 20px 0 10px;
 		height: 40px;
 		color: inherit;
-		border-left: 4px solid transparent;
+		border-left: @nav-stream-width solid transparent;
 		line-height: 30px;
 		white-space: nowrap;
 		text-decoration: none;
@@ -222,6 +224,8 @@
 .navigation__search-field {
 	font-weight: bold;
 	height: 40px;
+	margin: 5px;
+	border: 1px solid @border-color;
 	input {
 		height: 100%;
 		width: 100%;
@@ -263,7 +267,7 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
-		padding-left: 15px;
+		padding-left: 9px;
 		cursor: text;
 	}
 	&__icon {
@@ -278,7 +282,7 @@
 	}
 	&__input {
 		background: transparent;
-		padding-right: 20px;
+		padding-right: 5px;
 		transition: padding .3s .3s ease-in-out, color .3s .3s ease-in-out;
 		&:focus {
 			outline: none;
@@ -317,7 +321,7 @@
 			}
 		}
 	}
-	
+
 	.navigation {
 		.icon .svg-icon {
 			transition: .3s .3s width ease-in-out, .3s .3s height ease-in-out;
