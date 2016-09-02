@@ -1,5 +1,6 @@
 import React, {PropTypes as t} from 'react';
 import {Link} from 'react-router';
+import Icon from '../common/icon';
 import join from 'classnames';
 import {noop} from 'lodash';
 
@@ -76,7 +77,9 @@ export default function PatternHeader(props) {
 						}
 					}}
 					>
-					Reload
+					<Icon
+						symbol="reload"
+						/>
 				</Link>
 			</div>
 		</div>
