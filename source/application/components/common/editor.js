@@ -1,4 +1,11 @@
-import React from 'react';
+import React, {Component} from 'react';
+
+function forceResize(window) {
+	const {CustomEvent} = window;
+	const event = new CustomEvent('resize');
+	event.initEvent('resize');
+	window.dispatchEvent(event);
+}
 
 (function () {
 	if (!global.document) {
@@ -12,5 +19,14 @@ import React from 'react';
 	require('brace/theme/tomorrow');
 	require('brace/theme/tomorrow_night');
 
-	module.exports = props => <AceEditor {...props}/>;
+	module.exports = class Editor extends Component {
+		componentDidMount() {
+			forceResize(global);
+		}
+
+		render() {
+			const {props} = this;
+			return <AceEditor {...props}/>;
+		}
+	};
 })();
