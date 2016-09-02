@@ -15,11 +15,6 @@ function changeType(input) {
 		const type = ['source', 'transformed'].includes(input) ? input : 'source';
 		const query = {type};
 		const source = urlQuery.format(merge({}, parsed, {query}));
-		console.log({
-			input,
-			query,
-			source
-		});
 		dispatch(patchLocation({query: {source}}));
 	};
 }

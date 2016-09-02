@@ -19,6 +19,7 @@ function Layout(props) {
 				{props.style.toComponent()}
 			</head>
 			<body>
+				<IconRegistry>{props.icons}</IconRegistry>
 				<Content content={props.content}/>
 				<State data={props.data}/>
 				{
@@ -35,11 +36,20 @@ Layout.propTypes = {
 	attributes: t.object.isRequired,
 	content: t.string.isRequired,
 	data: t.string.isRequired,
+	icons: t.any.isRequired,
 	link: t.object.isRequired,
 	meta: t.object.isRequired,
 	scripts: t.arrayOf(t.string).isRequired,
 	style: t.object.isRequired,
 	title: t.object.isRequired
+};
+
+function IconRegistry(props) {
+	return <div data-icon-registry>{props.children}</div>;
+}
+
+IconRegistry.propTypes = {
+	children: t.any
 };
 
 function Content(props) {

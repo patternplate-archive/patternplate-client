@@ -1,88 +1,123 @@
-import cx from 'classnames';
-import pure from 'pure-render-decorator';
-import React, {Component, PropTypes as types} from 'react';
-import {connect} from 'react-redux';
+import join from 'classnames';
+import {uniq} from 'lodash';
+import React, {PropTypes as t} from 'react';
+import ReactDOM from 'react-dom';
+import withSideEffect from 'react-side-effect';
+import icons from './icons';
 
-import isURI from '../../utils/is-uri';
+const iconNames = Object.keys(icons);
 
-@pure
-class Icon extends Component {
-	displayName = 'Icon';
+export default withSideEffect(toState, onChange)(Icon);
 
-	static propTypes = {
-		base: types.string.isRequired,
-		uri: types.string.isRequired,
-		symbol: types.string.isRequired,
-		className: types.string,
-		fallback: types.bool.isRequired,
-		inline: types.bool.isRequired,
-		children: types.any,
-		description: types.string,
-		style: types.object,
-		dispatch: types.func.isRequired
-	};
-
-	static defaultProps = {
-		uri: 'static/images/patternplate-icons.svg',
-		fallback: true,
-		inline: false
-	};
-
-	static contextTypes = {
-		support: types.shape({
-			svg: types.bool.isRequired
-		})
-	};
-
-	render() {
-		const {
-			base,
-			className: userClassName,
-			fallback,
-			uri,
-			symbol,
-			inline,
-			children,
-			description,
-			style
-		} = this.props;
-
-		const className = cx('icon', userClassName, {
-			'icon--has-description': description
-		});
-
-		const textClassName = cx('svg-text');
-		const textStyle = {display: fallback ? 'none' : null};
-
-		const fragment = inline ?
-			`#${symbol}` :
-			`${base}${uri}#${symbol}`;
-
-		const href = isURI(this.props.symbol) ?
-			this.props.symbol :
-			fragment;
-
-		return (
-			<div className={className} style={style}>
-				<div className="svg-icon">
-				{
-					<svg className="svg">
-						<use xlinkHref={href}/>
-					</svg>
-				}
-				</div>
-				<div className={textClassName} style={textStyle}>
-					{children}
-				</div>
-				{
-					description &&
-						<small className="icon__description">
-							{description}
-						</small>
-				}
-			</div>
-		);
-	}
+function toState(propsList) {
+	const list = propsList
+		.map(item => item.symbol)
+		.sort();
+	const symbols = uniq(list);
+	return <IconRegistry symbols={symbols}/>;
 }
 
-export default connect()(Icon);
+function onChange(registry) {
+	const element = getRegistryMountPoint();
+	ReactDOM.render(registry, element);
+}
+
+function getRegistryMountPoint() {
+	const found = document.querySelector('[data-icon-registry]');
+	if (found) {
+		return found;
+	}
+
+	const created = document.createElement('div');
+	created.setAttribute('data-icon-registry', true);
+	document.body.appendChild(created);
+	return created;
+}
+
+function Icon(props) {
+	const className = join('icon', props.className, {
+		'icon--has-description': props.description
+	});
+
+	const textStyle = {display: props.fallback ? 'none' : null};
+	const xlinkHref = `#${props.symbol}`;
+
+	return (
+		<div className={className} style={props.style}>
+			<div className="svg-icon">
+			{
+				<svg className="svg">
+					<use xlinkHref={xlinkHref}/>
+				</svg>
+			}
+			</div>
+			<div className="svg-text" style={textStyle}>
+				{props.children}
+			</div>
+			{
+				props.description &&
+					<small className="icon__description">
+						{props.description}
+					</small>
+			}
+		</div>
+	);
+}
+
+Icon.propTypes = {
+	symbol: t.oneOf(iconNames).isRequired,
+	className: t.string,
+	fallback: t.bool.isRequired,
+	children: t.any,
+	description: t.string,
+	style: t.object
+};
+
+Icon.defaultProps = {
+	fallback: true
+};
+
+const hiddenStyles = {
+	position: 'fixed',
+	height: 0,
+	width: 0,
+	overflow: 'hidden',
+	padding: 0,
+	visibility: 'hidden'
+};
+
+function IconRegistry(props) {
+	return (
+		<svg style={hiddenStyles}>
+			{
+				props.symbols
+					.map(symbol => {
+						const paths = icons[symbol] || [];
+
+						return (
+							<symbol
+								id={symbol}
+								key={symbol}
+								viewBox="0 0 24 24"
+								>
+								{
+									paths.map((pathProps, index) => {
+										const {tagName: Component = 'path', ...props} = pathProps;
+										return <Component key={index} {...props}/>;
+									})
+								}
+							</symbol>
+							);
+					})
+			}
+		</svg>
+	);
+}
+
+IconRegistry.propTypes = {
+	symbols: t.arrayOf(t.oneOf(iconNames)).isRequired
+};
+
+IconRegistry.defaultProps = {
+	symbols: []
+};

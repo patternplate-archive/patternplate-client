@@ -11,6 +11,7 @@ import router from '../application/react-routes/server';
 import layout from '../application/layouts';
 import getIdByPathname from '../application/utils/get-id-by-pathname';
 import navigate from '../application/utils/navigate';
+import Icon from '../application/components/common/icon';
 
 const cwd = process.cwd();
 const resolve = id => resolveSync(id, {basedir: cwd});
@@ -86,11 +87,13 @@ export default async function renderPage(application, pageUrl) {
 
 	const content = await router(options.url, data);
 	const head = Helmet.rewind();
+	const icons = Icon.rewind();
 
 	return layout({
 		attributes: head.htmlAttributes,
 		base,
 		content,
+		icons,
 		data: JSON.stringify(data),
 		link: head.link,
 		meta: head.meta,

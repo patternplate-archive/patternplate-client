@@ -6,24 +6,10 @@ import promise from 'redux-promise';
 
 import reducers, {dependencies} from '../reducers';
 
-const reduxLogger = require.main ?
-	require('redux-cli-logger').default :
-	require('redux-logger');
-
-function logger() {
-	if (process.env.NODE_ENV === 'production') {
-		return null;
-	}
-
-	return reduxLogger({});
-}
-
 export default function configureStore(history, initial) {
 	const reducer = hydrateable(topology({routing, ...reducers}, dependencies));
 
-	const middlewares = process.env.NODE_ENV === 'production' ?
-		[thunk, promise, routerMiddleware(history)] :
-		[thunk, promise, logger(), routerMiddleware(history)];
+	const middlewares = [thunk, promise, routerMiddleware(history)];
 
 	const middleware = applyMiddleware(...middlewares);
 	const store = createStore(reducer, initial, compose(middleware));
