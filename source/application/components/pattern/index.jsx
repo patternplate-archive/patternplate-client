@@ -67,7 +67,6 @@ Pattern.propTypes = {
 	code: t.arrayOf(t.shape({
 		active: t.bool.isRequired,
 		extname: t.string.isRequired,
-		loading: t.bool.isRequired,
 		concern: t.string.isRequired,
 		concerns: t.arrayOf(t.string).isRequired,
 		id: t.string.isRequired,

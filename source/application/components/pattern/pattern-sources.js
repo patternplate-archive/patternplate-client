@@ -74,7 +74,7 @@ class PatternSource extends Component {
 		environment: t.string.isRequired,
 		id: t.string.isRequired,
 		shortid: t.string.isRequired,
-		loading: t.bool.isRequired,
+		loading: t.bool,
 		location: t.shape({
 			pathname: t.string.isRequired,
 			query: t.object.isRequired

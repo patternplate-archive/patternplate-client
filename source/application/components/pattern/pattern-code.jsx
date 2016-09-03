@@ -2,9 +2,9 @@
 import React, {PropTypes as types} from 'react';
 import join from 'classnames';
 import {pd as pretty} from 'pretty-data';
-
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
+import {requestIdleCallback, cancelIdleCallback} from 'request-idle-callback';
 
 import Select from '../common/select';
 import toElements from '../../utils/to-elements';
@@ -41,18 +41,28 @@ export default class PatternCode extends React.Component {
 		copying: false
 	};
 
+	timeout = null;
+	idle = null;
+
 	componentDidMount() {
 		const {props} = this;
-		highlightIfNeeded(props);
+		this.idle = requestIdleCallback(() => {
+			highlightIfNeeded(props);
+		}, 50000);
 	}
 
 	componentWillUpdate(props) {
-		highlightIfNeeded(props);
+		this.idle = requestIdleCallback(() => {
+			highlightIfNeeded(props);
+		}, 5000);
 	}
 
 	componentWillUnmount() {
 		if (this.timeout) {
 			global.clearTimeout(this.timeout);
+		}
+		if (this.idle) {
+			cancelIdleCallback(this.idle);
 		}
 	}
 
@@ -160,7 +170,8 @@ function highlightIfNeeded(props) {
 		return;
 	}
 
-	const waits = ['errors', 'queue'].some(key => props.highlights[key].find(item => item.id === props.id));
+	const waits = ['errors', 'queue']
+		.some(key => props.highlights[key].find(item => item.id === props.id));
 
 	if (waits) {
 		return;

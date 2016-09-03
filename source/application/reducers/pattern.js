@@ -9,7 +9,6 @@ import composeReducers from '../utils/compose-reducers';
 
 const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 	start(state) {
-		console.log(state);
 		return {
 			errors: state.errors,
 			dataErrored: false,
@@ -24,7 +23,6 @@ const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 		};
 	},
 	success(state, {payload}) {
-		console.log(payload);
 		const sources = state ? state.sources : {};
 		const errors = state ? state.errors || [] : [];
 		return {

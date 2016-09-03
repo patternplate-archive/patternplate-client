@@ -7,6 +7,7 @@ import join from 'classnames';
 
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
+import {requestIdleCallback, cancelIdleCallback} from 'request-idle-callback';
 
 @pure
 @autobind
@@ -18,6 +19,8 @@ export default class Markdown extends Component {
 		highlights: t.object.isRequired,
 		onHighlightRequest: t.func.isRequired
 	};
+
+	jobs = [];
 
 	onHighlight(payload, language) {
 		if (!payload) {
@@ -47,9 +50,18 @@ export default class Markdown extends Component {
 		const worker = `${props.base}script/lowlight.bundle.js`;
 		const options = {id, payload, language, worker};
 
-		// Request highlighting
-		props.onHighlightRequest(options);
+		this.jobs = [
+			...this.jobs,
+			requestIdleCallback(() => {
+				props.onHighlightRequest(options);
+			}, 5000)
+		];
+
 		return '';
+	}
+
+	componentWillUnmount() {
+		this.jobs.forEach(job => cancelIdleCallback(job));
 	}
 
 	render() {
