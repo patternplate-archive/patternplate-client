@@ -1,6 +1,4 @@
-// import path from 'path';
 import React, {PropTypes as types} from 'react';
-import join from 'classnames';
 import {pd as pretty} from 'pretty-data';
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
@@ -94,9 +92,8 @@ export default class PatternCode extends React.Component {
 		const prettify = props.highlight && props.format === 'html';
 		const prettified = prettify ? pretty.xml(props.source) : props.source;
 		const highlighted = props.highlights.results.find(result => props.id === result.id);
-		const children = highlighted ? toElements(highlighted.payload) : prettified;
+
 		const {copying} = this.state;
-		const formatClassName = join(`hljs`, props.format);
 
 		const concern = {
 			value: props.concern,
@@ -146,9 +143,18 @@ export default class PatternCode extends React.Component {
 				</div>
 				<div className="pattern-code__content">
 					<pre>
-						<code className={formatClassName}>
-							{children}
+						<code className={`hljs hljs--raw ${props.format}`}>
+							{prettified}
 						</code>
+						{
+							highlighted &&
+								<code
+									className={`hljs hljs--highlighted ${props.format}`}
+									key="highlighted"
+									>
+									{toElements(highlighted.payload)}
+								</code>
+						}
 					</pre>
 					<textarea
 						className="clipboard"
