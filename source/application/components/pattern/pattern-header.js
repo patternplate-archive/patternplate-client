@@ -81,6 +81,9 @@ export default function PatternHeader(props) {
 					>
 					<Icon symbol="reload"/>
 				</Link>
+				<div className="button">
+					<Icon symbol="checkers"/>
+				</div>
 				<a
 					className="button fullscreen"
 					target="_blank"
@@ -88,10 +91,7 @@ export default function PatternHeader(props) {
 					href={fullscreen}
 					title={fullscreenTitle}
 					>
-					<Icon
-						base={props.base}
-						symbol="fullscreen"
-						/>
+					<Icon symbol="fullscreen"/>
 				</a>
 			</div>
 		</div>

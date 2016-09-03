@@ -117,27 +117,79 @@ const documentation = [
 const code = documentation;
 
 export default {
-	'arrow-double-left': arrowDoubleLeft,
-	'arrow-double-right': arrowDoubleRight,
-	'arrow-left': arrowLeft,
-	'arrow-right': arrowRight,
-	atoms,
-	code,
-	dark,
-	dependencies,
-	documentation,
-	ecospheres,
-	environment,
-	folder,
-	fullscreen,
-	globals,
-	home,
-	light,
-	molecules,
-	organisms,
-	pattern,
-	patternplate,
-	polymers,
-	reload,
-	search
+	'arrow-double-left': () => arrowDoubleLeft,
+	'arrow-double-right': () => arrowDoubleRight,
+	'arrow-left': () => arrowLeft,
+	'arrow-right': () => arrowRight,
+	'atoms': () => atoms,
+	'code': () => code,
+	'dark': () => dark,
+	'dependencies': () => dependencies,
+	'documentation': () => documentation,
+	'ecospheres': () => ecospheres,
+	'environment': () => environment,
+	'folder': () => folder,
+	'fullscreen': () => fullscreen,
+	'globals': () => globals,
+	'home': () => home,
+	'light': () => light,
+	'molecules': () => molecules,
+	'organisms': () => organisms,
+	'pattern': () => pattern,
+	'patternplate': () => patternplate,
+	'polymers': () => polymers,
+	'reload': () => reload,
+	'search': () => search,
+	'checkers': () => checkers(),
+	'checkers-inverted': () => checkers(true)
 };
+
+function checkers(inverted) {
+	const length = 18;
+	const count = 5;
+	const dim = length / count;
+	const offset = (24 - length) / 2;
+
+	const fields = range(count * count)
+		.map((_, i) => {
+			const x = i % count;
+			const y = (i - x) / count;
+			const filled = !inverted && y % 2 === 0 ?
+				x % 2 === 0 :
+				x % 2 !== 0;
+
+			if (!filled) {
+				return null;
+			}
+
+			return rect({
+				x: offset + x * dim,
+				y: offset + y * dim,
+				width: dim,
+				height: dim
+			});
+		})
+		.filter(Boolean);
+
+	return join(fields);
+}
+
+function rect(props) {
+	const {width, height, x, y, ...p} = props;
+	return {
+		...p,
+		d: `M${x},${y}h${width}v${height}h-${width}z`
+	};
+}
+
+function range(count) {
+	return Array(count)
+		.fill(true);
+}
+
+function join(paths) {
+	const d = paths.map(path => path.d).join('');
+	return [{
+		d
+	}];
+}

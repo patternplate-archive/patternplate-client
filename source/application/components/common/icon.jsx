@@ -92,7 +92,7 @@ function IconRegistry(props) {
 			{
 				props.symbols
 					.map(symbol => {
-						const paths = icons[symbol] || [];
+						const paths = icons[symbol]() || [];
 
 						return (
 							<symbol
