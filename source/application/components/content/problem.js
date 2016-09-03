@@ -67,6 +67,7 @@ export default class ProblemLightbox extends Component {
 								issue: false
 							}
 						}}
+						title="Close this lightbox [esc]"
 						className="button problem-lightbox__button problem-lightbox__button--abort"
 						>
 						Close

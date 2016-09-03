@@ -89,6 +89,7 @@ class Navigation extends React.Component {
 						linkTo="/"
 						active={path === base}
 						type="page"
+						title="Navigate to documentation [ctrl+d]"
 						base={base}
 						/>
 				</NavigationTree>

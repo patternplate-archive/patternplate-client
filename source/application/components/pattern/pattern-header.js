@@ -18,8 +18,8 @@ export default function PatternHeader(props) {
 			environment: props.environment
 		}
 	});
-	const fullscreenTitle = `Open "${props.name}" in fullscreen`;
-	const reloadTitle = `Reload demo for "${props.name}"`;
+	const fullscreenTitle = `Open "${props.name}" in fullscreen [ctrl+f]`;
+	const reloadTitle = `Reload demo for "${props.name}" [ctrl+r]`;
 
 	const reloadClassName = join('button reload', {
 		'reload--reloading': props.loading,

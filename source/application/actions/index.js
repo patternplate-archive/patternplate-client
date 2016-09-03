@@ -14,6 +14,7 @@ export loadPatternData from './load-pattern-data';
 export loadPatternDemo from './load-pattern-demo';
 export loadPatternFile from './load-pattern-file';
 
+export openDocumentation from './open-documentation';
 export openFullscreen from './open-fullscreen';
 export patchLocation from './patch-location';
 export patternDemoError from './pattern-demo-error';

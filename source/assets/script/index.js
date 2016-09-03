@@ -22,6 +22,7 @@ function bind(app) {
 	const {store: {dispatch}} = app;
 	const binder = bindDispatch(dispatch);
 	binder('ctrl+c', actions.toggleConsole());
+	binder('ctrl+d', actions.openDocumentation());
 	binder('ctrl+e', actions.toggleExpandMenu());
 	binder('ctrl+f', actions.openFullscreen());
 	binder('ctrl+i', actions.toggleIssue());

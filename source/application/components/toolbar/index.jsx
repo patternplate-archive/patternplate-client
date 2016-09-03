@@ -24,7 +24,7 @@ function Toolbar(props) {
 							...props.query
 						}
 					}}
-					title="Navigate to start page"
+					title="Navigate to documentation [ctrl+d]"
 					>
 					<Icon
 						base={props.base}
@@ -66,7 +66,7 @@ function Toolbar(props) {
 						className="button"
 						type="button"
 						onClick={handleThemeChange}
-						title={`Switch to ${targetTheme} theme`}
+						title={`Switch to ${targetTheme} theme [ctrl+t]`}
 						>
 						<Icon
 							base={props.base}

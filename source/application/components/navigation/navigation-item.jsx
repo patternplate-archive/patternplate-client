@@ -59,22 +59,20 @@ export default class NavigationItem extends React.Component {
 	}
 
 	render() {
-		const {
-			anchored, base, name, id, symbol, active, hidden, linkTo, location, type
-		} = this.props;
+		const {props: p} = this;
 		const {component: Component} = this.props;
 
 		const modifiers = {
-			'child-active': active,
-			hidden,
-			anchored
+			'child-active': p.active,
+			'hidden': p.hidden,
+			'anchored': p.anchored
 		};
 
-		const itemClassName = classnames(`navigation-item navigation-item--${type}`, modifiers);
+		const itemClassName = classnames(`navigation-item navigation-item--${p.type}`, modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
-		const pathname = getPathName(base, linkTo, id);
-		const to = {pathname, query: omit(location.query, ['menu-enabled'])};
-		const title = `Navigate to ${name} ${type}`;
+		const pathname = getPathName(p.base, p.linkTo, p.id);
+		const to = {pathname, query: omit(p.location.query, ['menu-enabled'])};
+		const title = p.title || `Navigate to ${p.name} ${p.type}`;
 
 		return (
 			<Component className={itemClassName}>
@@ -84,8 +82,8 @@ export default class NavigationItem extends React.Component {
 					title={title}
 					className={linkClassName}
 					>
-					<Icon base={base} symbol={symbol}/>
-					<span>{name}</span>
+					<Icon base={p.base} symbol={p.symbol}/>
+					<span>{p.name}</span>
 				</Link>
 				{this.props.children}
 			</Component>

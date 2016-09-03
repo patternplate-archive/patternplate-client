@@ -75,6 +75,7 @@ export default class ConsoleLightbox extends Component {
 								lightbox: false
 							}
 						}}
+						title="Close this lightbox [esc]"
 						className="button console-lightbox__button console-lightbox__button--abort"
 						>
 						Close
