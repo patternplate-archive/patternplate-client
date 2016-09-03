@@ -145,20 +145,29 @@ export default {
 };
 
 function checkers(inverted) {
-	const length = 18;
+	const length = 20;
 	const count = 5;
 	const dim = length / count;
 	const offset = (24 - length) / 2;
+	const field = (count * count) / 2;
 
 	const fields = range(count * count)
 		.map((_, i) => {
 			const x = i % count;
 			const y = (i - x) / count;
-			const filled = !inverted && y % 2 === 0 ?
+
+			const filled = y % 2 === 0 ?
 				x % 2 === 0 :
 				x % 2 !== 0;
 
 			if (!filled) {
+				return null;
+			}
+
+			const product = (y + 1) * (x + 1);
+			const inArea = inverted ? true : product <= field;
+
+			if (!inArea) {
 				return null;
 			}
 
