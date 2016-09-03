@@ -7,6 +7,8 @@ import {loadPatternData, loadPatternFile, dismissMessage} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
 
+const defaultValue = [];
+
 function createMessage(error, seed = 1) {
 	error.cwd = '/Users/marneb/projects/patternplate/patternplate/patterns/';
 	const lines = error.message.split('\n');
@@ -31,7 +33,7 @@ export default composeReducers(
 			const message = createMessage(error, 1);
 			return [message, ...state.slice(0, 2)];
 		}
-	}, []),
+	}, {defaultValue}),
 	handlePromiseThunkAction(loadPatternFile, {
 		throws(state, {payload: error}) {
 			const message = createMessage(error, 1);
@@ -40,7 +42,7 @@ export default composeReducers(
 	}),
 	handleAction(dismissMessage, (state, {payload: id}) => {
 		return state.filter(message => message.id !== id);
-	}, []),
+	}, {defaultValue}),
 	handleAction('PATTERN_DEMO_ERROR', (state, {payload: error}) => {
 		const message = createMessage(error, 1);
 		return [message, ...state.slice(0, 2)];

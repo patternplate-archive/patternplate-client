@@ -22,9 +22,14 @@ const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 			sources: state.sources
 		};
 	},
-	success(state, {payload}) {
+	success(state, {payload}, {id}) {
 		const sources = state ? state.sources : {};
 		const errors = state ? state.errors || [] : [];
+
+		if (id !== payload.id) {
+			return state;
+		}
+
 		return {
 			...state,
 			dependencies: payload.dependencies,
@@ -44,7 +49,10 @@ const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 			dataErrored: true
 		};
 	}
-}, {});
+}, {
+	defaultValue: {},
+	dependencies: ['id']
+});
 
 const handleSourceLoad = handlePromiseThunkAction(loadPatternFile, {
 	start(state) {
@@ -89,7 +97,5 @@ const reducers = composeReducers(
 	handleSourceLoad,
 	handleLoadPatternDemo
 );
-
-reducers.dependencies = ['id'];
 
 export default reducers;

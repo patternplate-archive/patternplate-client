@@ -25,7 +25,10 @@ function handleDependentActions(actionHandlers, options) {
 
 		if (Object.keys(dependencies).length > 0) {
 			const missing = options.dependencies.filter(dependency => !(dependency in dependencies));
-			assert.ok(missing.length === 0, `dependencies must be present in state. missing: ${missing.join(',')}`);
+			assert.ok(
+				missing.length === 0,
+				`dependencies must be present in state. missing: ${missing.join(',')}`
+			);
 		}
 
 		const deps = pick(dependencies, options.dependencies);

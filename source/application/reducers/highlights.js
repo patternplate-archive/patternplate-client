@@ -12,7 +12,7 @@ export default handlePromiseThunkAction(highlightCode, {
 	success: handleSuccess,
 	throws: handleError,
 	delayed: handleError
-}, defaultValue);
+}, {defaultValue});
 
 function handleStart(state, {payload}) {
 	const result = state.results.find(result => result.id === payload.id);

@@ -47,7 +47,6 @@ function loadPattern() {
 		}
 
 		await least(1000, Promise.all(jobs));
-		dispatch(createAction('RELOAD_PATTERN_SUCCESS')());
 	};
 }
 
