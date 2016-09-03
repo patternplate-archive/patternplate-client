@@ -34,6 +34,7 @@ function mapState(state) {
 		loading: selectLoading(state),
 		location: selectLocation(state),
 		onDemoReady: selectOnDemoReloaded(state),
+		opacity: state.opacity,
 		name: selectName(state),
 		reloadTime: selectReloadTime(state),
 		reloadedTime: selectReloadedTime(state),

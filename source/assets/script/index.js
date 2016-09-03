@@ -26,6 +26,7 @@ function bind(app) {
 	binder('ctrl+e', actions.toggleExpandMenu());
 	binder('ctrl+f', actions.openFullscreen());
 	binder('ctrl+i', actions.toggleIssue());
+	binder('ctrl+o', actions.toggleOpacity());
 	binder('ctrl+r', actions.loadPattern());
 	binder('ctrl+t', actions.toggleTheme());
 	binder('esc', actions.closeAllTheThings());

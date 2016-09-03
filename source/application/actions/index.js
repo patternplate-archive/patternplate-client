@@ -27,4 +27,5 @@ export themeLoaded from './theme-loaded';
 export toggleConsole from './toggle-console';
 export toggleExpandMenu from './toggle-expand-menu';
 export toggleIssue from './toggle-issue';
+export toggleOpacity from './toggle-opacity';
 export toggleTheme from './toggle-theme';

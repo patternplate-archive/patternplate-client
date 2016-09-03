@@ -26,6 +26,11 @@ export default function PatternHeader(props) {
 		'reload--error': props.errored
 	});
 
+	const opacitySymbol = props.opacity ? 'checkers' : 'checkers-inverted';
+	const opacityTitle = props.opacity ?
+		'Show opacity [ctrl+o]' :
+		'Hide opacity [ctrl+o]';
+
 	return (
 		<div className="pattern-header-container">
 			<Headline className="pattern-header" order={2}>
@@ -81,9 +86,19 @@ export default function PatternHeader(props) {
 					>
 					<Icon symbol="reload"/>
 				</Link>
-				<div className="button">
-					<Icon symbol="checkers"/>
-				</div>
+				<Link
+					className="button"
+					title={opacityTitle}
+					to={{
+						pathname: props.location.pathname,
+						query: {
+							...props.location.query,
+							opacity: !props.opacity
+						}
+					}}
+					>
+					<Icon symbol={opacitySymbol}/>
+				</Link>
 				<a
 					className="button fullscreen"
 					target="_blank"
@@ -111,6 +126,7 @@ PatternHeader.propTypes = {
 	reloadTime: t.number,
 	reloadedTime: t.number,
 	onReloadClick: t.func.isRequired,
+	opacity: t.bool.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,
 		query: t.object.isRequired

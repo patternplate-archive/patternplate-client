@@ -10,6 +10,7 @@ import lightbox from './lightbox';
 import menuEnabled from './menu-enabled';
 import messages from './messages';
 import navigation from './navigation';
+import opacity from './opacity';
 import pattern from './pattern';
 import search from './search';
 import searchMatches from './search-matches';
@@ -36,6 +37,7 @@ export default {
 	menuEnabled,
 	messages,
 	navigation,
+	opacity,
 	pattern,
 	schema: ident,
 	search,

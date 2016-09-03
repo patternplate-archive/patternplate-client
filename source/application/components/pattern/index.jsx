@@ -25,6 +25,7 @@ function Pattern(props) {
 				loading={props.loading}
 				location={props.location}
 				name={props.name}
+				opacity={props.opacity}
 				onReloadClick={onReloadClick}
 				reloadTime={props.reloadTime}
 				reloadedTime={props.reloadedTime}
@@ -37,6 +38,7 @@ function Pattern(props) {
 				loading={props.loading}
 				onError={props.onDemoError}
 				onReady={props.onDemoReady}
+				opacity={props.opacity}
 				reloadTime={props.reloadTime}
 				target={props.id}
 				/>
@@ -106,6 +108,7 @@ Pattern.propTypes = {
 	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,
 	onTypeChange: t.func.isRequired,
+	opacity: t.bool.isRequired,
 	reload: t.func.isRequired,
 	reloadTime: t.number,
 	reloadedTime: t.number,
