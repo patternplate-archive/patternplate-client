@@ -17,7 +17,7 @@ export default function NavigationToggle(props) {
 				query: {...location.query, ...{expanded: !expanded}}
 			}}
 			className="toggleMode"
-			title={expanded ? 'Collapse navigation' : 'Expand navigation'}
+			title={expanded ? 'Collapse navigation [ctrl+e]' : 'Expand navigation [ctrl+e]'}
 			>
 			<Icon base={base} className={iconClassName} symbol="arrow-double-right"/>
 		</Link>

@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import BreadCrumbs from '../bread-crumbs';
 import ConsoleLightbox from '../../containers/console';
 import ProblemLightbox from '../../containers/problem';
+import ShortcutsLightbox from '../../containers/shortcuts';
 import Navigation from '../navigation';
 import Toolbar from '../toolbar';
 
@@ -72,6 +73,10 @@ function Application(props) {
 			{
 				props.lightbox === 'console' &&
 					<ConsoleLightbox/>
+			}
+			{
+				props.lightbox === 'shortcuts' &&
+					<ShortcutsLightbox/>
 			}
 			{
 				props.issue &&

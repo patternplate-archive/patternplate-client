@@ -114,6 +114,14 @@ const documentation = [
 	}
 ];
 
+const issue = [{
+	d: 'M22 11.6l-4.7-8c0-.2-.4-.3-.7-.3H7.4c-.3 0-.6 0-.7.4l-4.6 8v.7l5 8c0 .2.5.4.8.4H17c.2 0 .5-.2.6-.5l4.6-8v-.7zM16 19H8l-4.2-7 4-7H16l4.3 7-4 7zm-4-4.5c.5 0 .8-.4.8-.8V7.4c0-.4-.3-.8-.8-.8s-.8.4-.8.8v6.3c0 .4.3.8.8.8zm-.7 1.3c-.2.2-.3.5-.3.8 0 .3 0 .5.3.7.2.2.4.3.7.3.3 0 .5 0 .7-.3.2-.2.3-.4.3-.7 0-.3 0-.6-.3-.8-.3-.3-1-.3-1.4 0z'
+}];
+
+const command = [{
+	d: 'M17 13.7h-1.6v-3.4H17c2 0 3.5-1.5 3.5-3.4 0-2-1.5-4-3.5-4-1.5 0-3 1.6-3 3.4V8h-3.3V7C10.4 5 9 3.5 7 3.5S3.4 5 3.4 7c0 1.8 1.5 3.3 3.4 3.3h1.6v3.4H7c-2 0-3.5 1.5-3.5 3.4 0 2 1.5 4 3.5 4 1.5 0 3-1.4 3-3.3V16h3.4v1c0 2 1.5 3.5 3.4 3.5 2 0 3.4-1.5 3.4-3.4 0-1.3-1.5-3-3.4-3zM15.5 7c0-1 .8-1.8 1.7-1.8C18 5.2 19 6 19 7c0 .8-.8 1.6-1.7 1.6h-1.6V7zM7 8.5c-1 0-2-.7-2-1.5.2-1 1-2 2-2 .8 0 1.6.8 1.6 1.7v1.6H7zM8.5 17c0 1-.8 1.8-1.7 1.8C6 18.8 5 18 5 17c0-.8.8-1.6 1.7-1.6h1.6V17zm1.7-3.3v-3.4h3.4v3.4h-3.4zm6.8 5c-.8 0-1.6-.7-1.6-1.6v-1H17c1 0 1.8.8 1.8 1.7 0 1-.8 1.8-1.7 1.8z'
+}];
+
 const code = documentation;
 
 export default {
@@ -123,6 +131,7 @@ export default {
 	'arrow-right': () => arrowRight,
 	'atoms': () => atoms,
 	'code': () => code,
+	'command': () => command,
 	'dark': () => dark,
 	'dependencies': () => dependencies,
 	'documentation': () => documentation,
@@ -132,6 +141,7 @@ export default {
 	'fullscreen': () => fullscreen,
 	'globals': () => globals,
 	'home': () => home,
+	'issue': () => issue,
 	'light': () => light,
 	'molecules': () => molecules,
 	'organisms': () => organisms,

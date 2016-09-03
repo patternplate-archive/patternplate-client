@@ -70,6 +70,7 @@ function bundle() {
 					--presets [es2015 stage-0 react] \
 					--plugins [transform-decorators-legacy transform-runtime add-module-exports] \
 			] \
+		-t brfs \
 		-t [envify] \
 		-o $OUT
 }

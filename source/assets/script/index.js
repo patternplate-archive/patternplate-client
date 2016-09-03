@@ -27,6 +27,7 @@ function bind(app) {
 	binder('ctrl+f', actions.openFullscreen());
 	binder('ctrl+i', actions.toggleIssue());
 	binder('ctrl+o', actions.toggleOpacity());
+	binder('ctrl+k', actions.toggleKeyboardShortcuts());
 	binder('ctrl+r', actions.loadPattern());
 	binder('ctrl+t', actions.toggleTheme());
 	binder('esc', actions.closeAllTheThings());
