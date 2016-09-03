@@ -9,10 +9,17 @@ function ItemField(props) {
 	const className = join('pattern-field', props.className, {
 		[`pattern-field--${props.valueKey}`]: props.value
 	});
+	const children = props.children || props.value;
 
 	return (
 		<Component className={className}>
-			{props.children || props.value}
+			{
+				Array.isArray(children) ?
+					children.map((c, i) => {
+						return <span key={i}>{c}</span>;
+					}) :
+					children
+			}
 		</Component>
 	);
 }
