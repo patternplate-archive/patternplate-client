@@ -7,19 +7,16 @@ export function createPromiseThunkAction(name, rawCreator) {
 	const creator = rawCreator || asyncIdent;
 	const fn = payload => {
 		return async dispatch => {
-			payload.dispatch = dispatch;
 			dispatch(createAction(`${name}_START`)(payload));
 			const delayedTimer = global.setTimeout(() => {
 				dispatch(createAction(`${name}_DELAYED`)(payload));
 			}, 1000);
 			try {
 				const result = await creator(payload);
-				result.dispatch = dispatch;
 				global.clearTimeout(delayedTimer);
 				dispatch(createAction(`${name}_SUCCESS`)(result));
 				return result;
 			} catch (error) {
-				error.dispatch = dispatch;
 				global.clearTimeout(delayedTimer);
 				dispatch(createAction(`${name}_THROWS`)(error));
 				return error;

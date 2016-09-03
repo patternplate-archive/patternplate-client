@@ -3,13 +3,14 @@ import {routerReducer as routing, routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import topology from 'topologically-combine-reducers';
 import promise from 'redux-promise';
+// import logger from 'redux-logger';
 
 import reducers, {dependencies} from '../reducers';
 
 export default function configureStore(history, initial) {
 	const reducer = hydrateable(topology({routing, ...reducers}, dependencies));
 
-	const middlewares = [thunk, promise, routerMiddleware(history)];
+	const middlewares = [thunk, promise, /* logger(),*/ routerMiddleware(history)];
 
 	const middleware = applyMiddleware(...middlewares);
 	const store = createStore(reducer, initial, compose(middleware));

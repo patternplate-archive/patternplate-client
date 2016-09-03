@@ -1,15 +1,12 @@
 import path from 'path';
 import {createAction} from 'redux-actions';
 
-import getPatternData from './get-pattern-data';
-import getPatternFile from './get-pattern-file';
-import reloadPatternDemo from './reload-pattern-demo';
+import {loadPatternData, loadPatternFile, loadPatternDemo} from './';
 import urlQuery from '../utils/url-query';
 
-export default reloadPattern;
-export const reloadPatternStart = createAction('RELOAD_PATTERN_START');
+export default loadPattern;
 
-function reloadPattern() {
+function loadPattern() {
 	return async (dispatch, getState) => {
 		const state = getState();
 
@@ -22,11 +19,7 @@ function reloadPattern() {
 		const type = path.basename(state.sourceId) === 'index.md' ?
 			'source' : state.sourceType;
 
-		const jobs = [];
-
-		jobs.push(dispatch(reloadPatternStart()));
-
-		jobs.push(dispatch(getPatternData({
+		const dataPayload = {
 			id: state.id,
 			query: {
 				environment
@@ -34,14 +27,18 @@ function reloadPattern() {
 			options: {
 				base: state.base
 			}
-		})));
+		};
 
-		jobs.push(dispatch(reloadPatternDemo()));
+		const actions = [
+			loadPatternData(dataPayload),
+			loadPatternDemo(true)
+		];
 
+		const jobs = actions.map(dispatch);
 		const id = urlQuery.parse(state.sourceId || '').pathname;
 
 		if (id && id !== 'relations') {
-			jobs.push(dispatch(getPatternFile({
+			jobs.push(dispatch(loadPatternFile({
 				base: state.base,
 				environment,
 				id: state.sourceId,
@@ -49,7 +46,21 @@ function reloadPattern() {
 			})));
 		}
 
-		await Promise.all(jobs);
+		await least(1000, Promise.all(jobs));
 		dispatch(createAction('RELOAD_PATTERN_SUCCESS')());
 	};
+}
+
+function wait(timeout, value) {
+	return new Promise(resolve => setTimeout(() => resolve(value), timeout));
+}
+
+function least(timeout, thenable) {
+	const then = new Date();
+
+	return Promise.resolve(thenable)
+		.then(result => {
+			const delta = 1000 - (new Date() - then) % 1000;
+			return wait(delta, result);
+		});
 }

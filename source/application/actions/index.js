@@ -4,15 +4,25 @@ export changeEnvironment from './change-environment';
 export changeType from './change-type';
 export closeAllTheThings from './close-all-the-things';
 export dismissMessage from './dismiss-message';
-export getPatternData from './get-pattern-data';
-export getPatternFile from './get-pattern-file';
-export getTime from './get-time';
 export highlightCode from './highlight-code';
 export patchLocation from './patch-location';
 export patternDemoError from './pattern-demo-error';
-export reloadPattern, {reloadPatternStart} from './reload-pattern';
-export reloadPatternDemo from './reload-pattern-demo';
+
+/**
+ * Pattern fetching related action
+ **/
+export loadPattern from './load-pattern';
+export loadPatternData from './load-pattern-data';
+export loadPatternDemo from './load-pattern-demo';
+export loadPatternFile from './load-pattern-file';
+
 export search from './search';
 export themeLoaded from './theme-loaded';
+
+/**
+ * Automagic state toggles
+ */
+export toggleConsole from './toggle-console';
 export toggleExpandMenu from './toggle-expand-menu';
+export toggleIssue from './toggle-issue';
 export toggleTheme from './toggle-theme';

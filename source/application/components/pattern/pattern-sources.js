@@ -84,7 +84,8 @@ class PatternSource extends Component {
 		language: t.string.isRequired,
 		source: t.string.isRequired,
 		type: t.string.isRequired,
-		types: t.arrayOf(t.string).isRequired
+		types: t.arrayOf(t.string).isRequired,
+		update: t.bool.isRequired
 	};
 
 	componentDidMount() {

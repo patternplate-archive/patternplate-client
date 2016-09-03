@@ -1,9 +1,6 @@
 import 'isomorphic-fetch';
 import {merge} from 'lodash';
 import {createPromiseThunkAction} from './promise-thunk-action';
-import urlQuery from '../utils/url-query';
-
-const headers = {headers: {accept: 'application/json'}, credentials: 'include'};
 
 async function getError(response, payload) {
 	try {
@@ -21,17 +18,20 @@ async function getError(response, payload) {
 	}
 }
 
-export default createPromiseThunkAction('GET_PATTERN_DATA', async payload => {
-	const {id, query, options: {base}} = payload;
-	const uri = urlQuery.format({
-		pathname: `${base}api/pattern/${id}.json`, query
-	});
-
-	const response = await global.fetch(uri, headers);
+export default createPromiseThunkAction('LOAD_PATTERN_FILE', async payload => {
+	const {id, base} = payload;
+	const uri = `${base}api/file/${id}`;
+	const response = await global.fetch(uri);
 
 	if (response.status >= 400) {
-		throw await getError(response, payload);
+		const error = await getError(response, payload);
+		throw error;
 	}
 
-	return response.json();
+	const source = await response.text();
+
+	return {
+		id,
+		source
+	};
 });

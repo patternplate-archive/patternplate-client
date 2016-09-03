@@ -1,11 +1,11 @@
 import path from 'path';
 import {merge, zipObjectDeep} from 'lodash';
 
-import {getPatternData} from '../actions';
+import {loadPatternData} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import navigate from '../utils/navigate';
 
-const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
+const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 	success(state, {payload}) {
 		const match = navigate(payload.id, state);
 		if (match) {

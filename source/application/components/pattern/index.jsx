@@ -18,22 +18,24 @@ function Pattern(props) {
 		<div className="pattern">
 			<PatternHeader
 				base={props.base}
+				errored={props.errored}
 				flag={props.flag}
 				id={props.id}
 				loading={props.loading}
 				location={props.location}
 				name={props.name}
 				onReloadClick={onReloadClick}
-				reloading={props.reloading}
 				reloadTime={props.reloadTime}
+				reloadedTime={props.reloadedTime}
 				tags={props.tags}
 				version={props.version}
 				/>
 			<PatternDemo
 				base={props.base}
 				environment={props.environment}
+				loading={props.loading}
 				onError={props.onDemoError}
-				onLoad={props.onDemoLoad}
+				onReady={props.onDemoReady}
 				reloadTime={props.reloadTime}
 				target={props.id}
 				/>
@@ -53,7 +55,6 @@ function Pattern(props) {
 				onEnvironmentChange={onEnvironmentChange}
 				onFileRequest={props.onFileRequest}
 				onTypeChange={onTypeChange}
-				reloading={props.reloading}
 				expanded={props.sourceExpanded}
 				/>
 		</div>
@@ -90,6 +91,7 @@ Pattern.propTypes = {
 		id: t.string.isRequired,
 		name: t.string.isRequired
 	})).isRequired,
+	errored: t.bool.isRequired,
 	flag: t.string,
 	id: t.string.isRequired,
 	loading: t.bool.isRequired,
@@ -99,14 +101,14 @@ Pattern.propTypes = {
 	}).isRequired,
 	name: t.string.isRequired,
 	onDemoError: t.func.isRequired,
-	onDemoLoad: t.func.isRequired,
+	onDemoReady: t.func.isRequired,
 	onEnvironmentChange: t.func.isRequired,
 	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,
 	onTypeChange: t.func.isRequired,
 	reload: t.func.isRequired,
-	reloading: t.bool.isRequired,
 	reloadTime: t.number,
+	reloadedTime: t.number,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
 	sourceExpanded: t.bool

@@ -1,47 +1,66 @@
 import {handleAction} from 'redux-actions';
 
-import {getPatternData, getPatternFile, reloadPatternStart} from '../actions';
-import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
+import {
+	loadPatternData, loadPatternFile, loadPatternDemo
+} from '../actions';
 
+import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
 
-const handlePatternLoad = handlePromiseThunkAction(getPatternData, {
+const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 	start(state) {
+		console.log(state);
 		return {
-			loading: true,
-			sources: state.sources,
-			errors: state.errors
+			errors: state.errors,
+			dataErrored: false,
+			demoErrored: false,
+			sourceErrored: false,
+			dataLoading: true,
+			demoLoading: Boolean(state.id),
+			fileLoading: Boolean(state.sourceId),
+			reloadTime: state.reloadTime,
+			reloadedTime: state.reloadedTime,
+			sources: state.sources
 		};
 	},
 	success(state, {payload}) {
+		console.log(payload);
 		const sources = state ? state.sources : {};
 		const errors = state ? state.errors || [] : [];
 		return {
 			...state,
 			dependencies: payload.dependencies,
 			environments: payload.environments,
+			dataErrored: false,
+			dataLoading: false,
 			files: payload.files,
-			id: payload.id,
-			loading: false,
 			manifest: payload.manifest,
-			reloading: false,
 			sources,
 			errors
 		};
 	},
 	throws(state, {payload}) {
 		return {
-			loading: false,
-			reloading: false,
-			errors: [...state.errors, {file: null, id: state.id, payload}]
+			dataLoading: false,
+			errors: [...state.errors, {file: null, id: state.id, payload}],
+			dataErrored: true
 		};
 	}
 }, {});
 
-const handleSourceLoad = handlePromiseThunkAction(getPatternFile, {
+const handleSourceLoad = handlePromiseThunkAction(loadPatternFile, {
+	start(state) {
+		return {
+			...state,
+			sourceLoading: true,
+			sourceErrored: false
+		};
+	},
 	success(state, {payload}) {
 		return {
 			...state,
+			sourceLoading: false,
+			sourceErrored: false,
 			sources: {
 				...state.sources,
 				[payload.id]: payload.source
@@ -51,33 +70,28 @@ const handleSourceLoad = handlePromiseThunkAction(getPatternFile, {
 	throws(state, {payload: error}) {
 		return {
 			...state,
+			sourceLoading: false,
+			sourceErrored: true,
 			errors: [...state.errors, {id: state.id, payload: error.payload}]
 		};
 	}
 });
 
-const handlePatternReload = handleAction(reloadPatternStart, state => {
+const handleLoadPatternDemo = handleAction(loadPatternDemo, (state, {payload: loading}) => {
 	return {
 		...state,
-		reloading: true,
-		reloadedTime: 0,
-		reloadTime: Date.now()
-	};
-});
-
-const handlePatternReloadSuccess = handleAction('RELOAD_PATTERN_SUCCESS', state => {
-	return {
-		...state,
-		reloading: false,
-		reloadedTime: Date.now()
+		demoErrored: false,
+		demoLoading: loading,
+		reloadTime: loading ? Date.now() : state.reloadTime
 	};
 });
 
 const reducers = composeReducers(
 	handlePatternLoad,
 	handleSourceLoad,
-	handlePatternReload,
-	handlePatternReloadSuccess
+	handleLoadPatternDemo
 );
+
+reducers.dependencies = ['id'];
 
 export default reducers;

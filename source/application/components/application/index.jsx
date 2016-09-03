@@ -70,12 +70,12 @@ function Application(props) {
 				{props.children}
 			</main>
 			{
-				props.issue &&
-					<ProblemLightbox/>
-			}
-			{
 				props.lightbox === 'console' &&
 					<ConsoleLightbox/>
+			}
+			{
+				props.issue &&
+					<ProblemLightbox/>
 			}
 		</div>
 	);

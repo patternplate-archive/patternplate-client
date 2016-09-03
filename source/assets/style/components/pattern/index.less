@@ -2,6 +2,28 @@
 @import './pattern-environment-selection';
 @import './pattern-toolbar';
 
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes warp {
+	from {
+		filter: grayscale(1);
+	}
+	50% {
+		color: @error-color;
+		filter: grayscale(0);
+	}
+	to {
+		filter: grayscale(1);
+	}
+}
+
 .pattern {
 	position: relative;
 	display: flex;
@@ -10,6 +32,23 @@
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
+}
+
+.button {
+	&.reload--reloading {
+		cursor: wait;
+		filter: grayscale(1);
+		.svg-icon {
+			animation: spin 1s infinite;
+			animation-fill-mode: both;
+		}
+	}
+	&.reload--error {
+		.svg-icon {
+			animation: warp 1s infinite;
+			animation-fill-mode: both;
+		}
+	}
 }
 
 .pattern-name {

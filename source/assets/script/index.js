@@ -4,11 +4,11 @@ import {merge} from 'lodash';
 import mousetrap from 'mousetrap';
 
 import router from '../../application/react-routes/client';
-import {
-	closeAllTheThings, toggleExpandMenu, toggleTheme, reloadPattern
-} from '../../application/actions';
+import * as actions from '../../application/actions';
 
 const select = global.document.querySelector.bind(global.document);
+
+main();
 
 function main() {
 	const vault = select('[data-application-state]');
@@ -18,26 +18,21 @@ function main() {
 	bind(app);
 }
 
-main();
-
 function bind(app) {
 	const {store: {dispatch}} = app;
+	const binder = bindDispatch(dispatch);
+	binder('ctrl+c', actions.toggleConsole());
+	binder('ctrl+e', actions.toggleExpandMenu());
+	binder('ctrl+i', actions.toggleIssue());
+	binder('ctrl+r', actions.loadPattern());
+	binder('ctrl+t', actions.toggleTheme());
+	binder('esc', actions.closeAllTheThings());
+}
 
-	mousetrap.bind('ctrl+e', () => {
-		dispatch(toggleExpandMenu());
-	});
-
-	mousetrap.bind('ctrl+r', () => {
-		dispatch(reloadPattern());
-	});
-
-	mousetrap.bind('ctrl+t', () => {
-		dispatch(toggleTheme());
-	});
-
-	mousetrap.bind('esc', () => {
-		dispatch(closeAllTheThings());
-	});
+function bindDispatch(dispatch) {
+	return (event, action) => {
+		mousetrap.bind(event, () => dispatch(action));
+	};
 }
 
 function getData(vault) {

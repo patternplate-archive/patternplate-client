@@ -1,17 +1,19 @@
 import path from 'path';
 
-import {merge, uniqBy} from 'lodash';
+import {merge, noop, uniqBy} from 'lodash';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createAction} from 'redux-actions';
 import shortid from 'shortid';
 
 import urlQuery from '../utils/url-query';
 import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
-import {changeConcern, changeEnvironment, changeType} from '../actions';
-import reloadPattern from '../actions/reload-pattern';
-import getPatternFile from '../actions/get-pattern-file';
+
+import {
+	changeConcern, changeEnvironment, changeType,
+	loadPattern, loadPatternDemo, loadPatternFile
+} from '../actions';
+
 import patternDemoError from '../actions/pattern-demo-error';
 
 export default connect(mapState, mapDispatch)(Pattern);
@@ -26,13 +28,15 @@ function mapState(state) {
 		display: selectDisplay(state),
 		environment: state.environment,
 		environments: selectEnvironments(state),
+		errored: selectPatternErrored(state),
 		flag: selectFlag(state),
 		id: selectId(state),
 		loading: selectLoading(state),
 		location: selectLocation(state),
+		onDemoReady: selectOnDemoReloaded(state),
 		name: selectName(state),
-		reloading: selectReloading(state),
 		reloadTime: selectReloadTime(state),
+		reloadedTime: selectReloadedTime(state),
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
 		version: selectVersion(state)
@@ -43,10 +47,10 @@ function mapDispatch(dispatch) {
 	return bindActionCreators({
 		onConcernChange: changeConcern,
 		onDemoError: patternDemoError,
-		onDemoLoad: createAction('PATTERN_DEMO_LOADED'), // not implemented
+		onDemoReady: () => loadPatternDemo(false),
 		onEnvironmentChange: changeEnvironment,
-		onFileRequest: getPatternFile,
-		reload: reloadPattern,
+		onFileRequest: loadPatternFile,
+		reload: loadPattern,
 		onTypeChange: changeType
 	}, dispatch);
 }
@@ -152,12 +156,11 @@ function selectDependencies(state) {
 
 function selectLoading(state) {
 	const pattern = selectPattern(state);
-	return pattern.loading || true;
-}
-
-function selectReloading(state) {
-	const pattern = selectPattern(state);
-	return pattern.reloading || false;
+	return [
+		pattern.dataLoading,
+		pattern.demoLoading,
+		pattern.sourceLoading
+	].some(Boolean);
 }
 
 function selectReloadTime(state) {
@@ -165,12 +168,31 @@ function selectReloadTime(state) {
 	return pattern.reloadTime || null;
 }
 
+function selectReloadedTime(state) {
+	const pattern = selectPattern(state);
+	return pattern.reloadedTime || null;
+}
+
 function selectLocation(state) {
 	return state.routing.locationBeforeTransitions;
 }
 
+function selectOnDemoReloaded(state) {
+	const pattern = selectPattern(state);
+	return pattern.onDemoReloaded || noop;
+}
+
 function selectPatternErrors(state) {
 	return selectPattern(state).errors || [];
+}
+
+function selectPatternErrored(state) {
+	const pattern = selectPattern(state);
+	return [
+		pattern.dataErrored,
+		pattern.demoErrored,
+		pattern.sourceErrored
+	].some(Boolean);
 }
 
 function selectCode(state) {
@@ -230,11 +252,15 @@ function selectCode(state) {
 				error.patternFile === id;
 		});
 
+		const update = active &&
+			!source &&
+			!pattern.sourceLoading &&
+			!fileErrors.length;
+
 		return {
 			active,
-			update: active && !source && !fileErrors.length,
+			update,
 			extname,
-			loading: false,
 			concern,
 			concerns,
 			id,

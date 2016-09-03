@@ -18,7 +18,6 @@ import sourceId from './source-id';
 import sourceType from './source-type';
 import styles from './styles';
 import theme from './theme';
-import time from './time';
 
 const ident = (state = {}) => state;
 const getDependencies = (reducer = {}) => reducer.dependencies || [];
@@ -45,8 +44,7 @@ export default {
 	sourceId,
 	sourceType,
 	styles,
-	theme,
-	time
+	theme
 };
 
 export const dependencies = {

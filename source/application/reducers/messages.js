@@ -3,7 +3,7 @@ import strip from 'strip-ansi';
 import md5 from 'md5';
 import {handleAction} from 'redux-actions';
 
-import {getPatternData, getPatternFile, dismissMessage} from '../actions';
+import {loadPatternData, loadPatternFile, dismissMessage} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
 
@@ -23,7 +23,7 @@ function createMessage(error, seed = 1) {
 }
 
 export default composeReducers(
-	handlePromiseThunkAction(getPatternData, {
+	handlePromiseThunkAction(loadPatternData, {
 		success(state, {payload}) {
 			return state.filter(message => !message.pattern || message.pattern === payload.id);
 		},
@@ -32,7 +32,7 @@ export default composeReducers(
 			return [message, ...state.slice(0, 2)];
 		}
 	}, []),
-	handlePromiseThunkAction(getPatternFile, {
+	handlePromiseThunkAction(loadPatternFile, {
 		throws(state, {payload: error}) {
 			const message = createMessage(error, 1);
 			return [message, ...state.slice(0, 2)];
