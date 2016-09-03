@@ -1,17 +1,25 @@
 import React, {PropTypes as t} from 'react';
 import {Link} from 'react-router';
-import Icon from '../common/icon';
 import join from 'classnames';
 import {noop} from 'lodash';
 
 import Headline from '../common/headline';
+import Icon from '../common/icon';
+import urlQuery from '../../utils/url-query';
 
 export default function PatternHeader(props) {
 	const flagClassName = join(`pattern__flag`, {
 		[`pattern__flag--${props.flag}`]: props.flag
 	});
 
-	const reloadTitle = `Reload "${props.name}" at ${props.id}`;
+	const fullscreen = urlQuery.format({
+		pathname: `${props.base}demo/${props.id}/index.html`,
+		query: {
+			environment: props.environment
+		}
+	});
+	const fullscreenTitle = `Open "${props.name}" in fullscreen`;
+	const reloadTitle = `Reload demo for "${props.name}"`;
 
 	const reloadClassName = join('button reload', {
 		'reload--reloading': props.loading,
@@ -57,7 +65,7 @@ export default function PatternHeader(props) {
 					</small>
 				)}
 			</Headline>
-			<div className="pattern-haeder__actions">
+			<div className="pattern-header__actions">
 				<Link
 					className={reloadClassName}
 					title={reloadTitle}
@@ -71,10 +79,20 @@ export default function PatternHeader(props) {
 						}
 					}}
 					>
-					<Icon
-						symbol="reload"
-						/>
+					<Icon symbol="reload"/>
 				</Link>
+				<a
+					className="button fullscreen"
+					target="_blank"
+					rel="noopener"
+					href={fullscreen}
+					title={fullscreenTitle}
+					>
+					<Icon
+						base={props.base}
+						symbol="fullscreen"
+						/>
+				</a>
 			</div>
 		</div>
 	);
@@ -83,6 +101,7 @@ export default function PatternHeader(props) {
 PatternHeader.propTypes = {
 	base: t.string.isRequired,
 	errored: t.bool.isRequired,
+	environment: t.string.isRequired,
 	id: t.string.isRequired,
 	name: t.string.isRequired,
 	version: t.string.isRequired,

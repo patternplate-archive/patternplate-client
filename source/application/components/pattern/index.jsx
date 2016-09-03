@@ -18,6 +18,7 @@ function Pattern(props) {
 		<div className="pattern">
 			<PatternHeader
 				base={props.base}
+				environment={props.environment}
 				errored={props.errored}
 				flag={props.flag}
 				id={props.id}

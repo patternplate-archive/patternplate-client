@@ -23,6 +23,7 @@ function bind(app) {
 	const binder = bindDispatch(dispatch);
 	binder('ctrl+c', actions.toggleConsole());
 	binder('ctrl+e', actions.toggleExpandMenu());
+	binder('ctrl+f', actions.openFullscreen());
 	binder('ctrl+i', actions.toggleIssue());
 	binder('ctrl+r', actions.loadPattern());
 	binder('ctrl+t', actions.toggleTheme());

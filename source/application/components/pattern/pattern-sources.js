@@ -85,6 +85,7 @@ class PatternSource extends Component {
 		source: t.string.isRequired,
 		type: t.string.isRequired,
 		types: t.arrayOf(t.string).isRequired,
+		title: t.string,
 		update: t.bool.isRequired
 	};
 
@@ -118,7 +119,8 @@ class PatternSource extends Component {
 		const className = join('pattern-source', {
 			'pattern-source--loading': props.loading
 		});
-
+		const verb = props.active ? `Close` : `View`;
+		const title = `${verb} ${props.concern}${props.extname}`;
 		return (
 			<div className={className}>
 				<PatternControl
@@ -130,6 +132,7 @@ class PatternSource extends Component {
 					location={props.location}
 					name={props.name}
 					shortid={props.id}
+					title={title}
 					/>
 				{
 					props.active && props.language === 'md' &&

@@ -1,3 +1,4 @@
+import assert from 'assert';
 import React, {PropTypes as t} from 'react';
 import join from 'classnames';
 import Icon from '../common/icon';
@@ -13,6 +14,8 @@ function PatternToolEnvSelect(props) {
 		'pattern-environment-selection--disabled': props.disabled
 	});
 
+	const title = getTitle(selected, envs);
+
 	return (
 		<label className={className}>
 			<span className="pattern-environment-selection__label">
@@ -26,6 +29,7 @@ function PatternToolEnvSelect(props) {
 				disabled={props.disabled}
 				value={env}
 				onChange={props.onChange}
+				title={title}
 				>
 				{
 					envs.map(env => {
@@ -63,3 +67,24 @@ PatternToolEnvSelect.propTypes = {
 PatternToolEnvSelect.defaultProps = {
 	onChange: () => {}
 };
+
+function getTitle(selected = {}, envs = []) {
+	assert.equal(typeof selected, 'object', 'selected must be an object');
+	assert.ok(Array.isArray(envs), 'envs must be an array');
+	const other = envs.filter(e => e.id !== selected.id);
+
+	const lead = other[0];
+
+	if (!lead) {
+		return null;
+	}
+
+	const head = other.slice(0, other.length - 1);
+	const tail = other[other.length - 1];
+
+	const environments = tail ?
+		`${head.map(e => `"${e.name}"`).join(', ')} or "${tail.name}"` :
+		lead.name;
+
+	return `Change currently active environment "${selected.name}" to ${environments}`;
+}

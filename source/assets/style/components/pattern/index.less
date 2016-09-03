@@ -202,8 +202,12 @@
 }
 
 .pattern-header__actions {
+	display: flex;
 	flex-grow: 0;
 	flex-shrink: 0;
+	.button:not(:last-child) {
+		margin-right: 5px;
+	}
 }
 
 .pattern-loader {

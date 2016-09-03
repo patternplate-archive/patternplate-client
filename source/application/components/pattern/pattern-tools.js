@@ -2,7 +2,6 @@ import React, {PropTypes as t} from 'react';
 
 import PatternToolCodeToogle from './pattern-tool-code-toggle';
 import PatternToolEnvironmentSelection from './pattern-tool-environment-selection';
-import PatternToolFullscsreen from './pattern-tool-fullscreen';
 import PatternToolRelations from './pattern-tool-relations';
 import urlQuery from '../../utils/url-query';
 
@@ -38,11 +37,6 @@ function PatternTools(props) {
 				id={props.id}
 				location={props.location}
 				name={props.name}
-				/>
-			<PatternToolFullscsreen
-				base={props.base}
-				environment={props.environment}
-				id={props.id}
 				/>
 		</div>
 	);
