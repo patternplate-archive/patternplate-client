@@ -14,7 +14,8 @@
 	@media screen and (max-width: 500px) {
 		&--menu-enabled {
 			.application__content,
-			.application__navigation {
+			.application__navigation,
+			.application__header {
 				transform: translate(0);
 			}
 		}
@@ -23,7 +24,6 @@
 	&__navigation {
 		display: flex;
 		flex-direction: column;
-		padding-top: 60px;
 		transition: transform .3s ease-in-out;
 		@media screen and (max-width: 500px) {
 			display: block;
@@ -39,6 +39,9 @@
 		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 		flex: 1;
 		overflow-x: hidden;
+		@media screen and (max-width: 500px) {
+			padding-top: @headerHeight;
+		}
 	}
 	&__content {
 		.markdown {
@@ -70,6 +73,11 @@
 		}
 		@media screen and (min-width: 900px) {
 			width: @navWidthWide;
+		}
+	}
+	&__header {
+		@media screen and (max-width: 500px) {
+			transform: translateX(100%);
 		}
 	}
 	a {
@@ -108,7 +116,7 @@
 	flex-direction: column;
 	min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 	flex: 1;
-	max-height: ~'calc(100vh - 60px)';
+	max-height: 100vh;
 	overflow-x: hidden;
 	&--home {
 		padding: 15px;

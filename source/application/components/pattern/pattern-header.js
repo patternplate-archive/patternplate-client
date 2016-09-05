@@ -3,6 +3,7 @@ import {Link} from 'react-router';
 import join from 'classnames';
 import {noop} from 'lodash';
 
+import BreadCrumbs from '../bread-crumbs';
 import Headline from '../common/headline';
 import Icon from '../common/icon';
 import urlQuery from '../../utils/url-query';
@@ -33,6 +34,12 @@ export default function PatternHeader(props) {
 
 	return (
 		<div className="pattern-header-container">
+			<BreadCrumbs
+				base={props.base}
+				crumbs={props.breadcrumbs}
+				location={props.location}
+				className="pattern-path"
+				/>
 			<Headline className="pattern-header" order={2}>
 				<span className="pattern-name">
 					{props.name}
@@ -115,6 +122,14 @@ export default function PatternHeader(props) {
 
 PatternHeader.propTypes = {
 	base: t.string.isRequired,
+	breadcrumbs: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		name: t.string.isRequired,
+		target: t.shape({
+			pathname: t.string.isRequired,
+			query: t.object.isRequired
+		}).isRequired
+	})).isRequired,
 	errored: t.bool.isRequired,
 	environment: t.string.isRequired,
 	id: t.string.isRequired,

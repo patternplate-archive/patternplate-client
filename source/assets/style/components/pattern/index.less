@@ -192,15 +192,22 @@
 .pattern-header-container {
 	display: flex;
 	align-items: center;
+	flex-wrap: wrap;
+    justify-content: space-between;
 	padding: 10px 15px;
-	border-bottom: 1px solid @border-color;
+	box-shadow: @shadow-down;
 	@media screen and (min-width: 500px) {
-		padding: 10px 13px 10px 30px;
+		padding: 5px;
+		padding-left: 30px;
 	}
 }
 
-.pattern-header {
+.pattern-path {
+	flex-shrink: 0;
 	width: 100%;
+}
+
+.pattern-header {
 	margin: 0;
 }
 

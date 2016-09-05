@@ -18,6 +18,7 @@ function Pattern(props) {
 		<div className="pattern">
 			<PatternHeader
 				base={props.base}
+				breadcrumbs={props.breadcrumbs}
 				environment={props.environment}
 				errored={props.errored}
 				flag={props.flag}
@@ -67,6 +68,14 @@ function Pattern(props) {
 Pattern.propTypes = {
 	activeSource: t.string.isRequired,
 	base: t.string.isRequired,
+	breadcrumbs: t.arrayOf(t.shape({
+		id: t.string.isRequired,
+		name: t.string.isRequired,
+		target: t.shape({
+			pathname: t.string.isRequired,
+			query: t.object.isRequired
+		}).isRequired
+	})),
 	code: t.arrayOf(t.shape({
 		active: t.bool.isRequired,
 		extname: t.string.isRequired,

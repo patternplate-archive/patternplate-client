@@ -34,12 +34,16 @@
 	display: block;
 	text-align: center;
 	color: inherit;
-	text-overflow: ellipsis;
-	overflow: hidden;
-	width: 100%;
 	margin-top: unit(1px / @root-font-size, em);;
 	font-size: unit(10px / @root-font-size, em);
 	line-height: 1em;
+}
+
+.icon__description,
+.svg-text {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 100%;
 }
 
 .not-supports-svg {

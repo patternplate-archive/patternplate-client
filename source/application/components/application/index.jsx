@@ -2,12 +2,10 @@ import React, {PropTypes as t} from 'react';
 import join from 'classnames';
 import Helmet from 'react-helmet';
 
-import BreadCrumbs from '../bread-crumbs';
 import ConsoleLightbox from '../../containers/console';
 import ProblemLightbox from '../../containers/problem';
 import ShortcutsLightbox from '../../containers/shortcuts';
 import Navigation from '../navigation';
-import Toolbar from '../toolbar';
 
 export default Application;
 
@@ -26,22 +24,15 @@ function Application(props) {
 					{
 						name: 'description',
 						content: props.description
+					},
+					{
+						name: 'viewport',
+						content: 'width=device-width, initial-scale=1'
 					}
 				]}
 				link={createLinks(props.styles, {base: props.base})}
 				title={props.title}
 				onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
-				/>
-			<Toolbar
-				about={props.about}
-				base={props.base}
-				icon="patternplate"
-				location={props.location}
-				menuEnabled={props.menuEnabled}
-				pathname={props.pathname}
-				query={props.query}
-				title={props.title}
-				version={props.version}
 				/>
 			<Navigation
 				activePattern={props.activePattern}
@@ -52,22 +43,17 @@ function Application(props) {
 				navigation={props.navigation}
 				onSearch={handleSearch}
 				onThemeChange={props.onThemeChange}
-				path={props.path}
-				pathname={props.pathname}
-				query={props.query}
 				location={props.location}
 				searchValue={props.search}
 				theme={props.theme}
+
+				about={props.about}
+				icon="patternplate"
+				menuEnabled={props.menuEnabled}
+				title={props.title}
+				version={props.version}
 				/>
 			<main className="application__content">
-				{
-					props.breadcrumbs.length > 0 &&
-						<BreadCrumbs
-							base={props.base}
-							crumbs={props.breadcrumbs}
-							location={props.location}
-							/>
-				}
 				{props.children}
 			</main>
 			{
@@ -93,14 +79,6 @@ Application.propTypes = {
 		value: t.string
 	})).isRequired,
 	base: t.string.isRequired,
-	breadcrumbs: t.arrayOf(t.shape({
-		id: t.string.isRequired,
-		name: t.string.isRequired,
-		target: t.shape({
-			pathname: t.string.isRequired,
-			query: t.object.isRequired
-		}).isRequired
-	})),
 	children: t.any,
 	description: t.string.isRequired,
 	expanded: t.bool.isRequired,
@@ -116,9 +94,6 @@ Application.propTypes = {
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
 	onThemeChange: t.func.isRequired,
-	path: t.string.isRequired,
-	pathname: t.string.isRequired,
-	query: t.object.isRequired,
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
