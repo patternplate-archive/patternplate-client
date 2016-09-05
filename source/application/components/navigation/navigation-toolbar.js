@@ -22,6 +22,14 @@ export default function NavigationToolbar(props) {
 		}
 	};
 
+	const targetTheme = props.theme === 'dark' ? 'light' : 'dark';
+	const handleThemeChange = () => props.onThemeChange(targetTheme);
+
+	const styles = {
+		light: {display: targetTheme === 'light' ? 'block' : 'none'},
+		dark: {display: targetTheme === 'dark' ? 'block' : 'none'}
+	};
+
 	return (
 		<div className="navigation-toolbar">
 			<div className="navigation-toolbar__container">
@@ -44,6 +52,29 @@ export default function NavigationToolbar(props) {
 							<Icon symbol="command"/>
 						</Link>
 					</li>
+					<li className="navigation-toolbar__link">
+						<button
+							className="button"
+							type="button"
+							onClick={handleThemeChange}
+							title={`Switch to ${targetTheme} theme [ctrl+t]`}
+							>
+							<Icon
+								base={props.base}
+								symbol="light"
+								style={styles.light}
+								>
+								Light
+							</Icon>
+							<Icon
+								base={props.base}
+								symbol="dark"
+								style={styles.dark}
+								>
+								Dark
+							</Icon>
+						</button>
+					</li>
 				</ul>
 			</div>
 			<div className="navigation-toolbar__action">
@@ -61,5 +92,7 @@ NavigationToolbar.propTypes = {
 	base: t.string.isRequired,
 	children: t.any,
 	location: t.object.isRequired,
-	expanded: t.bool.isRequired
+	expanded: t.bool.isRequired,
+	onThemeChange: t.func.isRequired,
+	theme: t.string.isRequired
 };

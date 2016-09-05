@@ -20,9 +20,11 @@ class Navigation extends React.Component {
 		navigation: t.object.isRequired,
 		onSearch: t.func,
 		onSearchBlur: t.func,
+		onThemeChange: t.func.isRequired,
 		path: t.string.isRequired,
 		searchQuery: t.string,
-		searchValue: t.string
+		searchValue: t.string,
+		theme: t.string.isRequired
 	};
 
 	static defaultProps = {
@@ -49,7 +51,8 @@ class Navigation extends React.Component {
 			navigation,
 			hierarchy,
 			location,
-			searchValue
+			searchValue,
+			onThemeChange: handleThemeChange
 		} = this.props;
 
 		const className = classnames('navigation application__navigation', {
@@ -97,6 +100,8 @@ class Navigation extends React.Component {
 					base={base}
 					expanded={expanded}
 					location={location}
+					onThemeChange={handleThemeChange}
+					theme={this.props.theme}
 					/>
 			</nav>
 		);

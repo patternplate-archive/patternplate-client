@@ -6,13 +6,6 @@ import Icon from '../common/icon';
 export default Toolbar;
 
 function Toolbar(props) {
-	const targetTheme = props.theme === 'dark' ? 'light' : 'dark';
-	const handleThemeChange = () => props.onThemeChange(targetTheme);
-
-	const styles = {
-		light: {display: targetTheme === 'light' ? 'block' : 'none'},
-		dark: {display: targetTheme === 'dark' ? 'block' : 'none'}
-	};
 
 	return (
 		<header className="main-header">
@@ -61,29 +54,6 @@ function Toolbar(props) {
 						}
 					</Icon>
 				</Link>
-				<div className="toolbar-tools">
-					<button
-						className="button"
-						type="button"
-						onClick={handleThemeChange}
-						title={`Switch to ${targetTheme} theme [ctrl+t]`}
-						>
-						<Icon
-							base={props.base}
-							symbol="light"
-							style={styles.light}
-							>
-							Light
-						</Icon>
-						<Icon
-							base={props.base}
-							symbol="dark"
-							style={styles.dark}
-							>
-							Dark
-						</Icon>
-					</button>
-				</div>
 			</div>
 		</header>
 	);
@@ -92,11 +62,9 @@ function Toolbar(props) {
 Toolbar.propTypes = {
 	base: t.string.isRequired,
 	icon: t.string.isRequired,
-	onThemeChange: t.func.isRequired,
 	menuEnabled: t.bool.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
-	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired
 };
