@@ -42,11 +42,6 @@ class Navigation extends React.Component {
 		this.props.onSearch(e.target.value);
 	}
 
-	@autobind
-	handleThemeChange(e) {
-		this.props.onThemeChange(e);
-	}
-
 	render() {
 		const {
 			activePattern,
@@ -56,7 +51,8 @@ class Navigation extends React.Component {
 			navigation,
 			hierarchy,
 			location,
-			searchValue
+			searchValue,
+			onThemeChange: handleThemeChange
 		} = this.props;
 
 		const className = classnames('navigation application__navigation', {
@@ -104,7 +100,7 @@ class Navigation extends React.Component {
 					base={base}
 					expanded={expanded}
 					location={location}
-					onThemeChange={this.handleThemeChange}
+					onThemeChange={handleThemeChange}
 					theme={this.props.theme}
 					/>
 			</nav>
