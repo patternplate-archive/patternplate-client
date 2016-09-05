@@ -19,7 +19,6 @@ function mapProps(state, own) {
 		activePattern: state.id,
 		about: selectAbout(state),
 		base: state.base,
-		breadcrumbs: selectBreadCrumbs(state),
 		description: selectDescription(state),
 		expanded: state.expanded,
 		hierarchy: state.config.hierarchy,
@@ -59,38 +58,8 @@ function selectAbout(state) {
 	];
 }
 
-function selectBreadCrumbs(state) {
-	const fragments = selectId(state).split('/');
-	const location = selectLocation(state);
-
-	if (fragments.length < 2) {
-		return [];
-	}
-
-	return fragments.map((fragment, index) => {
-		const partial = fragments.slice(0, index + 1).join('/');
-		return {
-			id: partial,
-			name: fragment,
-			navigateable: index < fragments.length - 1,
-			target: {
-				pathname: `${state.base}pattern/${partial}`,
-				query: location.query
-			}
-		};
-	});
-}
-
 function selectDescription(state) {
 	return selectSchema(state).description || '';
-}
-
-function selectId(state) {
-	return state.id || '';
-}
-
-function selectLocation(state) {
-	return state.routing.locationBeforeTransitions;
 }
 
 function selectName(state) {

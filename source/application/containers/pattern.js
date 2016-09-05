@@ -22,6 +22,7 @@ function mapState(state) {
 	return {
 		activeSource: state.sourceId || '',
 		base: state.base,
+		breadcrumbs: selectBreadCrumbs(state),
 		code: selectCode(state),
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
@@ -54,6 +55,28 @@ function mapDispatch(dispatch) {
 		reload: loadPattern,
 		onTypeChange: changeType
 	}, dispatch);
+}
+
+function selectBreadCrumbs(state) {
+	const fragments = selectId(state).split('/');
+	const location = selectLocation(state);
+
+	if (fragments.length < 2) {
+		return [];
+	}
+
+	return fragments.map((fragment, index) => {
+		const partial = fragments.slice(0, index + 1).join('/');
+		return {
+			id: partial,
+			name: fragment,
+			navigateable: index < fragments.length - 1,
+			target: {
+				pathname: `${state.base}pattern/${partial}`,
+				query: location.query
+			}
+		};
+	});
 }
 
 function selectPattern(state) {
