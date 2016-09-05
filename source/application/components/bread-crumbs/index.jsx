@@ -6,9 +6,10 @@ export default BreadCrumbs;
 
 function BreadCrumbs(props) {
 	const {crumbs} = props;
+	const className = join('breadcrumbs', props.className);
 
 	return (
-		<ul className="breadcrumbs">
+		<ul className={className}>
 			{
 				crumbs.map(crumb => {
 					return (
@@ -28,7 +29,7 @@ function BreadCrumbs(props) {
 function BreadCrumb(props) {
 	const className = join('breadcrumb', {
 		'breadcrumb--navigateable': props.navigateable
-	})
+	});
 	return (
 		<li className={className}>
 			{

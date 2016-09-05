@@ -7,24 +7,32 @@ import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
 import SearchField from '../common/search-field';
+import Header from '../header';
 
 @pure
 class Navigation extends React.Component {
 	static propTypes = {
+		about: t.arrayOf(t.shape({
+			label: t.string,
+			value: t.string
+		})).isRequired,
 		activePattern: t.string.isRequired,
 		base: t.string.isRequired,
 		enabled: t.bool.isRequired,
 		expanded: t.bool.isRequired,
 		hierarchy: t.object,
-		location: t.object,
+		icon: t.string.isRequired,
+		location: t.object.isRequired,
+		menuEnabled: t.bool.isRequired,
 		navigation: t.object.isRequired,
 		onSearch: t.func,
 		onSearchBlur: t.func,
 		onThemeChange: t.func.isRequired,
-		path: t.string.isRequired,
 		searchQuery: t.string,
 		searchValue: t.string,
-		theme: t.string.isRequired
+		theme: t.string.isRequired,
+		title: t.string.isRequired,
+		version: t.string.isRequired
 	};
 
 	static defaultProps = {
@@ -44,15 +52,19 @@ class Navigation extends React.Component {
 
 	render() {
 		const {
+			about,
 			activePattern,
 			base,
 			expanded,
-			path,
-			navigation,
 			hierarchy,
+			icon,
 			location,
+			menuEnabled,
+			navigation,
+			onThemeChange: handleThemeChange,
 			searchValue,
-			onThemeChange: handleThemeChange
+			title,
+			version
 		} = this.props;
 
 		const className = classnames('navigation application__navigation', {
@@ -62,11 +74,22 @@ class Navigation extends React.Component {
 
 		return (
 			<nav className={className}>
+				<Header
+					about={about}
+					base={base}
+					icon={icon}
+					location={location}
+					menuEnabled={menuEnabled}
+					path={location.pathname}
+					query={location.query}
+					title={title}
+					version={version}
+					/>
 				<NavigationTree
 					activePattern={activePattern}
 					base={base}
 					data={navigation}
-					path={path}
+					path={location.pathname}
 					hierarchy={hierarchy}
 					location={location}
 					>
@@ -90,7 +113,7 @@ class Navigation extends React.Component {
 						key="root"
 						location={location}
 						linkTo="/"
-						active={path === base}
+						active={location.pathname === base}
 						type="page"
 						title="Navigate to documentation [ctrl+d]"
 						base={base}
