@@ -60,6 +60,5 @@ Header.propTypes = {
 	menuEnabled: t.bool.isRequired,
 	path: t.string.isRequired,
 	query: t.object.isRequired,
-	title: t.string.isRequired,
-	version: t.string.isRequired
+	title: t.string.isRequired
 };

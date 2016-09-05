@@ -83,7 +83,6 @@ class Navigation extends React.Component {
 					path={location.pathname}
 					query={location.query}
 					title={title}
-					version={version}
 					/>
 				<NavigationTree
 					activePattern={activePattern}

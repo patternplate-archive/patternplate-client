@@ -43,7 +43,6 @@ function Application(props) {
 				navigation={props.navigation}
 				onSearch={handleSearch}
 				onThemeChange={props.onThemeChange}
-				query={props.query}
 				location={props.location}
 				searchValue={props.search}
 				theme={props.theme}
@@ -95,9 +94,6 @@ Application.propTypes = {
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
 	onThemeChange: t.func.isRequired,
-	path: t.string.isRequired,
-	pathname: t.string.isRequired,
-	query: t.object.isRequired,
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
