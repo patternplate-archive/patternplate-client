@@ -1,14 +1,11 @@
 .main-header {
+	overflow: hidden;
+	z-index: 1;
 	display: flex;
-	position: fixed;
-	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 3;
+	flex-shrink: 0;
 	height: @headerHeight;
 	background-color: @root-background;
-	border-bottom: 1px solid @border-color;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+	box-shadow: @shadow-down;
 	.logo {
 		display: none;
 		align-items: center;
@@ -16,12 +13,22 @@
 		@media screen and (min-width: 900px) {
 			min-width: @navWidthWide;
 		}
+		.icon {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			flex-wrap: nowrap;
+			width: 100%;
+		}
 		.svg-icon {
+			flex-shrink: 0;
 			width: 50px;
 			height: 50px;
+			max-width: 100%;
 			margin-right: 5px;
 		}
 		.svg-text {
+			margin-right: 5px;
 			color: @root-color;
 			&:hover {
 				color: @hover-color;
@@ -31,6 +38,8 @@
 			margin-right: 15px;
 		}
 		.version {
+			display: none;
+
 			flex-grow: 0;
 			flex-shrink: 0;
 			border-radius: 3px;
@@ -52,17 +61,7 @@
 			}
 		}
 	}
-	.toolbar {
-		display: flex;
-		flex-grow: 1;
-		align-items: center;
-		background-color: @root-background
-	}
-	.toolbar-tools {
-		margin-left: auto;
-	}
 	@media screen and (max-width: 500px) {
-		.button,
 		.menu {
 			margin: 0;
 			height: @headerHeight;
@@ -76,7 +75,7 @@
 		}
 	}
 	@media screen and (min-width: 500px) {
-		padding: 0 15px 0 5px;
+		padding: 0 5px;
 		.menu {
 			display: none;
 		}
