@@ -16,6 +16,10 @@ const routes = {
 			enabled: true,
 			path: '/demo/:id+'
 		},
+		component: {
+			enabled: true,
+			path: '/demo/:id+/component.js'
+		},
 		script: {
 			enabled: true,
 			path: '/script/:path+'
