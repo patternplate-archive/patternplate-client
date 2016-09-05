@@ -38,10 +38,8 @@ function Application(props) {
 				icon="patternplate"
 				location={props.location}
 				menuEnabled={props.menuEnabled}
-				onThemeChange={props.onThemeChange}
 				pathname={props.pathname}
 				query={props.query}
-				theme={props.theme}
 				title={props.title}
 				version={props.version}
 				/>
@@ -53,11 +51,13 @@ function Application(props) {
 				hierarchy={props.hierarchy}
 				navigation={props.navigation}
 				onSearch={handleSearch}
+				onThemeChange={props.onThemeChange}
 				path={props.path}
 				pathname={props.pathname}
 				query={props.query}
 				location={props.location}
 				searchValue={props.search}
+				theme={props.theme}
 				/>
 			<main className="application__content">
 				{

@@ -20,9 +20,11 @@ class Navigation extends React.Component {
 		navigation: t.object.isRequired,
 		onSearch: t.func,
 		onSearchBlur: t.func,
+		onThemeChange: t.func.isRequired,
 		path: t.string.isRequired,
 		searchQuery: t.string,
-		searchValue: t.string
+		searchValue: t.string,
+		theme: t.string.isRequired
 	};
 
 	static defaultProps = {
@@ -38,6 +40,11 @@ class Navigation extends React.Component {
 	@autobind
 	handleSearchChange(e) {
 		this.props.onSearch(e.target.value);
+	}
+
+	@autobind
+	handleThemeChange(e) {
+		this.props.onThemeChange(e);
 	}
 
 	render() {
@@ -97,6 +104,8 @@ class Navigation extends React.Component {
 					base={base}
 					expanded={expanded}
 					location={location}
+					onThemeChange={this.handleThemeChange}
+					theme={this.props.theme}
 					/>
 			</nav>
 		);
