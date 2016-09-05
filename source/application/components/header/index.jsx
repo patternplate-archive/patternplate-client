@@ -3,39 +3,34 @@ import {Link, IndexLink} from 'react-router';
 
 import Icon from '../common/icon';
 
-export default Toolbar;
+export default Header;
 
-function Toolbar(props) {
-
+function Header(props) {
 	return (
-		<header className="main-header">
-			<div className="logo">
-				<IndexLink
-					to={{
-						pathname: props.base,
-						query: {
-							...props.query
-						}
-					}}
-					title="Navigate to documentation [ctrl+d]"
+		<header className="main-header application__header">
+			<IndexLink
+				to={{
+					path: props.base,
+					query: {
+						...props.query
+					}
+				}}
+				title="Navigate to documentation [ctrl+d]"
+				className="logo"
+				>
+				<Icon
+					base={props.base}
+					symbol={props.icon}
+					fallback={false}
 					>
-					<Icon
-						base={props.base}
-						symbol={props.icon}
-						fallback={false}
-						>
-						{props.title}
-					</Icon>
-				</IndexLink>
-				<span className="version">
-					v{props.version}
-				</span>
-			</div>
+					{props.title}
+				</Icon>
+			</IndexLink>
 			<div className="toolbar">
 				<Link
 					className="menu"
 					to={{
-						pathname: props.pathname,
+						path: props.path,
 						query: {
 							...props.query,
 							'menu-enabled': !props.menuEnabled
@@ -59,11 +54,11 @@ function Toolbar(props) {
 	);
 }
 
-Toolbar.propTypes = {
+Header.propTypes = {
 	base: t.string.isRequired,
 	icon: t.string.isRequired,
 	menuEnabled: t.bool.isRequired,
-	pathname: t.string.isRequired,
+	path: t.string.isRequired,
 	query: t.object.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired
