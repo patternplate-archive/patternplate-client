@@ -15,9 +15,13 @@ export default class Markdown extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
 		className: t.string,
-		source: t.string.isRequired,
+		source: t.string,
 		highlights: t.object.isRequired,
 		onHighlightRequest: t.func.isRequired
+	};
+
+	static defaultProps = {
+		source: ''
 	};
 
 	jobs = [];
@@ -66,11 +70,12 @@ export default class Markdown extends Component {
 
 	render() {
 		const className = join('markdown', this.props.className);
+		const source = String(this.props.source);
 		return (
 			<div className={className}>
 				<Remarkable
 					container="div"
-					source={emojify(this.props.source || '')}
+					source={emojify(source)}
 					options={{
 						html: true,
 						xhtmlOut: true,
