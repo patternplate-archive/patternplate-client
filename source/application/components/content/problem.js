@@ -185,19 +185,14 @@ ${props.state}
 
 function getInstructions(props) {
 	const query = queryString.stringify({
-		title: `[v${props.version}]: [Please describe your issue briefly]`,
+		title: `[v${props.version}]`,
 		body: `[Please paste the contents of patternplate issue template here]`
 	});
+
 	return `
 > patternplate issue template, please use for issue reporting :bow:
 
 \`[Cmd+A] [Cmd+C]\` the markdown below into a new isse at
-<a
-	rel="nofollow"
-	target="_blank"
-	href="https://github.com/sinnerschrader/patternplate/issues/new?${query}"
-	>
-	sinnerschrader/patternplate
-</a>.
+[sinnerschrader/patternplate](https://github.com/sinnerschrader/patternplate/issues/new?${query})
 `;
 }
