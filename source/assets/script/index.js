@@ -1,4 +1,6 @@
 // import 'babel-polyfill';
+import 'dom4';
+import scrollparent from 'scrollparent';
 import platform from 'platform';
 import {merge} from 'lodash';
 import mousetrap from 'mousetrap';

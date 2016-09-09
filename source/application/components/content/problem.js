@@ -1,7 +1,7 @@
 import React, {Component, PropTypes as t} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
-import strip from 'strip-indent';
+// import strip from 'strip-indent';
 
 import queryString from 'query-string';
 
@@ -79,7 +79,7 @@ export default class ProblemLightbox extends Component {
 }
 
 function getIssueTemplate(props, includeDetails) {
-	return strip(`
+	return `
 - [ ] Provide a brief title of the problem
 - [ ] Describe what you are trying to do
 - [ ] Describe actual behaviour
@@ -95,11 +95,11 @@ function getIssueTemplate(props, includeDetails) {
 \`[Result of the steps above that match user expectations and allow usage]\`
 
 ${includeDetails ? getDetails(props) : ''}
-	`);
+`;
 }
 
 function getDetails(props) {
-	return strip(`
+	return `
 ## Details
 <details id="application-state">
 <summary>Application State</summary>
@@ -180,7 +180,7 @@ ${props.state}
 	</tbody>
 </table>
 </details>
-	`);
+`;
 }
 
 function getInstructions(props) {

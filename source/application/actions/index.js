@@ -18,6 +18,7 @@ export openDocumentation from './open-documentation';
 export openFullscreen from './open-fullscreen';
 export patchLocation from './patch-location';
 export patternDemoError from './pattern-demo-error';
+export scrollTo from './scroll-to';
 export search from './search';
 export themeLoaded from './theme-loaded';
 
