@@ -114,21 +114,27 @@ function getItems(root, hierarchy, defaults) {
 		return [];
 	}
 	return Object.values(root.children)
-		.map(child => {
-			const amend = child.type === 'pattern' ?
-			{
-				version: child.manifest.version,
-				flag: child.manifest.flag,
-				tags: child.manifest.tags
-			} :
-			{};
+		.map(selectPatternData(hierarchy, defaults))
+		.filter(item => item.type !== 'pattern' || item.display);
+}
 
-			return {
-				...defaults,
-				id: child.id,
-				name: getItemName(child, hierarchy),
-				type: child.type,
-				...amend
-			};
-		});
+function selectPatternData(hierarchy, defaults) {
+	return child => {
+		const amend = child.type === 'pattern' ?
+		{
+			version: child.manifest.version,
+			flag: child.manifest.flag,
+			tags: child.manifest.tags,
+			display: child.manifest.display !== false
+		} :
+		{};
+
+		return {
+			...defaults,
+			id: child.id,
+			name: getItemName(child, hierarchy),
+			type: child.type,
+			...amend
+		};
+	};
 }

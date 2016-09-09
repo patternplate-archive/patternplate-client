@@ -165,6 +165,7 @@ function selectDependencies(state) {
 	const rootPattern = selectPattern(state);
 	return Object.entries(rootPattern.dependencies || {})
 		.filter(entry => entry[0] !== 'Pattern')
+		.filter(entry => entry[1].manifest.display)
 		.map(entry => {
 			const [localName, pattern] = entry;
 			const navPattern = navigate(pattern.id, state.navigation) || {manifest: {}};
