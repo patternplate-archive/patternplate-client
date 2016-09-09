@@ -29,7 +29,6 @@ function bundle() {
 		$FLAG url \
 		$FLAG whatwg-fetch \
 		$FLAG react-router-redux \
-		$FLAG node-emoji \
 		$FLAG remarkable \
 		$FLAG core-js \
 		$FLAG react-router \
@@ -39,7 +38,6 @@ function bundle() {
 		$FLAG redux-promise \
 		$FLAG md5 \
 		$FLAG react-redux \
-		$FLAG redux-logger \
 		$FLAG redux-actions \
 		$FLAG uuid \
 		$FLAG deep-equal \
