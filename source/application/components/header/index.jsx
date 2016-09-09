@@ -6,20 +6,23 @@ import Icon from '../common/icon';
 export default Header;
 
 function Header(props) {
+	const to = {pathname: props.base, query: props.query};
+	const enabledTo = {
+		pathname: props.path,
+		query: {
+			...props.query,
+			'menu-enabled': !props.menuEnabled
+		}
+	};
+
 	return (
 		<header className="main-header application__header">
 			<IndexLink
-				to={{
-					path: props.base,
-					query: {
-						...props.query
-					}
-				}}
+				to={to}
 				title="Navigate to documentation [ctrl+d]"
 				className="logo"
 				>
 				<Icon
-					base={props.base}
 					symbol={props.icon}
 					fallback={false}
 					>
@@ -29,13 +32,7 @@ function Header(props) {
 			<div className="toolbar">
 				<Link
 					className="menu"
-					to={{
-						path: props.path,
-						query: {
-							...props.query,
-							'menu-enabled': !props.menuEnabled
-						}
-					}}
+					to={enabledTo}
 					>
 					<Icon
 						base={props.base}
