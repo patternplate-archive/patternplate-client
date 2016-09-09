@@ -93,7 +93,6 @@ class NavigationTree extends Component {
 								location={location}
 								type={type}
 								active={activePattern === pattern.id || expanded}
-								type="pattern"
 								/>
 							);
 					})

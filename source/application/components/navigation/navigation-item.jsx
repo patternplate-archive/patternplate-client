@@ -85,7 +85,9 @@ export default class NavigationItem extends React.Component {
 					<Icon base={p.base} symbol={p.symbol}/>
 					<span>{p.name}</span>
 				</Link>
-				{this.props.children}
+				{
+					p.active && this.props.children
+				}
 			</Component>
 		);
 	}
