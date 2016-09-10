@@ -1,6 +1,4 @@
-// import 'babel-polyfill';
 import 'dom4';
-import scrollparent from 'scrollparent';
 import platform from 'platform';
 import {merge} from 'lodash';
 import mousetrap from 'mousetrap';
@@ -31,6 +29,7 @@ function bind(app) {
 	binder('ctrl+o', actions.toggleOpacity());
 	binder('ctrl+k', actions.toggleKeyboardShortcuts());
 	binder('ctrl+r', actions.loadPattern());
+	binder('ctrl+space', actions.toggleSearchFocus());
 	binder('ctrl+t', actions.toggleTheme());
 	binder('esc', actions.closeAllTheThings());
 }

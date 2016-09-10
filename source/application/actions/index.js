@@ -30,4 +30,5 @@ export toggleExpandMenu from './toggle-expand-menu';
 export toggleIssue from './toggle-issue';
 export toggleOpacity from './toggle-opacity';
 export toggleKeyboardShortcuts from './toggle-keyboard-shortcuts';
+export toggleSearchFocus from './toggle-search-focus';
 export toggleTheme from './toggle-theme';

@@ -28,6 +28,7 @@ class Navigation extends React.Component {
 		onSearch: t.func,
 		onSearchBlur: t.func,
 		onThemeChange: t.func.isRequired,
+		requestSearchBlur: t.func.isRequired,
 		searchQuery: t.string,
 		searchValue: t.string,
 		theme: t.string.isRequired,
@@ -37,7 +38,8 @@ class Navigation extends React.Component {
 
 	static defaultProps = {
 		onSearch: () => {},
-		onSearchBlur: () => {}
+		onSearchBlur: () => {},
+		requestSearchBlur: () => {}
 	}
 
 	@autobind
@@ -95,16 +97,17 @@ class Navigation extends React.Component {
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
+							base={base}
+							blur={this.props.requestSearchBlur}
+							className="navigation__search-field"
 							linkTo="/search"
 							name="search"
-							className="navigation__search-field"
-							value={searchValue}
-							onFocus={this.handleSearchFocus}
 							onBlur={this.handleSearchBlur}
 							onChange={this.handleSearchChange}
+							onFocus={this.handleSearchFocus}
 							placeholder="Search"
 							title="Click to search for patterns"
-							base={base}
+							value={searchValue}
 							/>
 					</form>
 					<NavigationItem

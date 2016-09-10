@@ -35,22 +35,22 @@ function Application(props) {
 				onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
 				/>
 			<Navigation
+				about={props.about}
 				activePattern={props.activePattern}
 				base={props.base}
-				expanded={props.expanded}
 				enabled={props.menuEnabled}
+				expanded={props.expanded}
 				hierarchy={props.hierarchy}
+				icon="patternplate"
+				location={props.location}
+				menuEnabled={props.menuEnabled}
 				navigation={props.navigation}
 				onSearch={handleSearch}
 				onThemeChange={props.onThemeChange}
 				query={props.query}
-				location={props.location}
+				requestSearchBlur={props.requestSearchBlur}
 				searchValue={props.search}
 				theme={props.theme}
-
-				about={props.about}
-				icon="patternplate"
-				menuEnabled={props.menuEnabled}
 				title={props.title}
 				version={props.version}
 				/>

@@ -10,18 +10,19 @@ const source = `
 \`patternplate-client\` provides a number of keyboard shortcuts for your convenience.
 Most links reveal attached keyboard shortcuts when hovered, complementing the table below.
 
-| Combination | Scope      | Effect                                         |
-|:-----------:|:----------:|:-----------------------------------------------|
-|\`Ctrl+k\`   | Global     | Show this reference                            |
-|\`Ctrl+c\`   | Global     | Toggle the debug console                       |
-|\`Ctrl+d\`   | Global     | Open the documentation                         |
-|\`Ctrl+e\`   | Global     | Toggle expansion of the sidebar                |
-|\`Ctrl+f\`   | Pattern    | Open current pattern in new tab                |
-|\`Ctrl+i\`   | Global     | Toggle issue reportng helper                   |
-|\`Ctrl+o\`   | Global     | Show/hide opacity indicators                   |
-|\`Ctrl+r\`   | Pattern    | Reload the current pattern                     |
-|\`Ctrl+t\`   | Global     | Reload the current pattern                     |
-|\`Esc\`      | Global     | Close everything that could be considered open |
+| Combination     | Scope      | Effect                                         |
+|:---------------:|:----------:|:-----------------------------------------------|
+|\`Ctrl+k\`       | Global     | Show this reference                            |
+|\`Ctrl+c\`       | Global     | Toggle the debug console                       |
+|\`Ctrl+d\`       | Global     | Open the documentation                         |
+|\`Ctrl+e\`       | Global     | Toggle expansion of the sidebar                |
+|\`Ctrl+f\`       | Pattern    | Open current pattern in new tab                |
+|\`Ctrl+i\`       | Global     | Toggle issue reportng helper                   |
+|\`Ctrl+o\`       | Global     | Show/hide opacity indicators                   |
+|\`Ctrl+r\`       | Pattern    | Reload the current pattern                     |
+|\`Ctrl+space\`   | Global     | Toggle search focus                            |
+|\`Ctrl+t\`       | Global     | Reload the current pattern                     |
+|\`Esc\`          | Global     | Close everything that could be considered open |
 `;
 
 export default ShortcutsLightbox;
