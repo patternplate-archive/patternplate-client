@@ -15,14 +15,18 @@ export default class ConsoleLightbox extends Component {
 		theme: t.oneOf(['dark', 'light']).isRequired
 	};
 
-	handleChange(value) {
-		this.value = value;
+	state = {
+		value: ''
+	};
+
+	handleChange(e) {
+		this.setState({value: e.target.value});
 	}
 
 	handleApplyState() {
-		if (this.value && this.value !== this.props.state) {
+		if (this.state.value && this.state.value !== this.props.state) {
 			try {
-				const data = JSON.parse(this.value);
+				const data = JSON.parse(this.state.value);
 				this.props.onApplyState(data);
 			} catch (error) {
 				console.error(error);
@@ -32,8 +36,6 @@ export default class ConsoleLightbox extends Component {
 
 	render() {
 		const {props} = this;
-		const editorTheme = props.theme === 'light' ?
-			'tomorrow' : 'tomorrow_night';
 
 		return (
 			<Lightbox
@@ -47,17 +49,9 @@ export default class ConsoleLightbox extends Component {
 					/>
 				<div className="console-lightbox__preview">
 					<Editor
-						mode="json"
-						theme={editorTheme}
-						className="console-lightbox__state"
-						width="100%"
-						height="auto"
-						showPrintMargin={false}
-						tabSize={2}
-						value={props.state}
-						editorProps={{$blockScrolling: true}}
+						className="editor console-lightbox__state"
+						value={this.state.value || props.state}
 						onChange={this.handleChange}
-						wrapEnabled
 						/>
 				</div>
 				<div className="console-lightbox__button-row">

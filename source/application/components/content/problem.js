@@ -22,15 +22,8 @@ export default class ProblemLightbox extends Component {
 		browserVersion: t.string.isRequired
 	};
 
-	handleChange(value) {
-		this.value = value;
-	}
-
 	render() {
 		const {props} = this;
-		const editorTheme = props.theme === 'light' ?
-			'tomorrow' : 'tomorrow_night';
-
 		const issueTemplate = getIssueTemplate(props, true);
 
 		return (
@@ -45,17 +38,9 @@ export default class ProblemLightbox extends Component {
 					/>
 				<div className="problem-lightbox__preview">
 					<Editor
-						mode="markdown"
-						theme={editorTheme}
-						className="problem-lightbox__state"
-						width="100%"
-						height="auto"
-						showPrintMargin={false}
-						tabSize={2}
+						className="editor problem-lightbox__state"
+						reaOnly
 						value={issueTemplate}
-						editorProps={{$blockScrolling: true}}
-						onChange={this.handleChange}
-						wrapEnabled
 						/>
 				</div>
 				<div className="problem-lightbox__button-row">
