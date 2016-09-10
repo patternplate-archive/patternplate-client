@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import md5 from 'md5';
 
 import PatternControl from './pattern-control';
-import PatternCode from '../../containers/pattern-code';
+import PatternCode from './pattern-code';
 import PatternDocumentation from './pattern-documentation';
 
 export default PatternSources;

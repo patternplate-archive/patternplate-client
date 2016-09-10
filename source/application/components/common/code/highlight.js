@@ -1,5 +1,4 @@
 import low from 'lowlight/lib/core';
-import ARSON from 'arson';
 import {pd as pretty} from 'pretty-data';
 
 import css from 'highlight.js/lib/languages/css.js';
@@ -41,37 +40,18 @@ low.registerLanguage('markdown', md);
 low.registerLanguage('bash', bash);
 // low.registerLanguage('shell', bash);
 
-function highlight(language, source, options) {
-	const code = ['xml', 'html'].includes(language) ? pretty.xml(source) : source;
-	const {value: children} = low.highlight(language, code, options);
+const languages = [
+	'css', 'less', 'scss', 'stylus', 'js', 'javascript', 'jsx', 'ts', 'tsx',
+	'typescript', 'json', 'html', 'xml', 'md', 'markdown', 'bash'
+];
+
+const prettyPrinted = ['xml', 'html'];
+
+export default function highlight(language, source) {
+	if (!languages.includes(language)) {
+		return source;
+	}
+	const code = prettyPrinted.includes(language) ? pretty.xml(source) : source;
+	const {value: children} = low.highlight(language, code);
 	return children;
 }
-
-global.onmessage = event => {
-	const {data} = event;
-	const {payload, id, language, options = {}} = ARSON.parse(data);
-
-	try {
-		if (!payload) {
-			console.warn('lowlight request without payload, skipping');
-			return;
-		}
-
-		if (!language) {
-			console.warn('lowlight request without language payload, skipping');
-			return;
-		}
-
-		const children = highlight(language, payload, options);
-
-		global.postMessage(ARSON.stringify({
-			id,
-			payload: {type: 'element', tagName: 'div', children}
-		}));
-	} catch (error) {
-		global.postMessage(ARSON.stringify({
-			id,
-			payload: {type: 'error', error}
-		}));
-	}
-};

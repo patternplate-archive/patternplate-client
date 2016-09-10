@@ -1,7 +1,7 @@
+import {createReadStream} from 'fs';
 import {dirname, resolve} from 'path';
-import {readFile as fsReadFile, createReadStream} from 'fs';
 
-import denodeify from 'denodeify';
+import {readFile} from 'mz/fs';
 import exists from 'path-exists';
 
 function devRequire(id, fallback = {}) {
@@ -12,7 +12,6 @@ function devRequire(id, fallback = {}) {
 }
 
 function styleRouteFactory(application) {
-	const readFile = denodeify(fsReadFile);
 	const {runtime: {cwd}} = application;
 
 	return async function styleRoute() {

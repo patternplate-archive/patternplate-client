@@ -1,8 +1,0 @@
-#!/usr/bin/env sh
-./scripts/build/scripts/bundle \
-	source/assets/script/lowlight.js \
-	assets/script/lowlight.bundle.js \
-	-x \
-	./lowlight.bundle.map \
-	./assets/script/lowlight.bundle.map \
-	"$@"

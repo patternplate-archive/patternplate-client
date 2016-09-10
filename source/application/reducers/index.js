@@ -3,7 +3,6 @@ import base from './base';
 import depth from './depth';
 import environment from './environment';
 import expanded from './expanded';
-import highlights from './highlights';
 import id from './id';
 import issue from './issue';
 import lightbox from './lightbox';
@@ -30,7 +29,6 @@ export default {
 	depth,
 	environment,
 	expanded,
-	highlights,
 	id,
 	issue,
 	lightbox,

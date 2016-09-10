@@ -21,10 +21,10 @@ function Markdown(props) {
 
 Markdown.propTypes = {
 	base: t.string.isRequired,
-	hash: t.string.isRequired,
 	className: t.string,
-	query: t.object.isRequired,
+	hash: t.string.isRequired,
 	pathname: t.string.isRequired,
-	source: t.string,
-	scrollTo: t.func.isRequired
+	query: t.object.isRequired,
+	scrollTo: t.func.isRequired,
+	source: t.string
 };

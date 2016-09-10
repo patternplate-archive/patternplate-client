@@ -4,7 +4,6 @@ export changeEnvironment from './change-environment';
 export changeType from './change-type';
 export closeAllTheThings from './close-all-the-things';
 export dismissMessage from './dismiss-message';
-export highlightCode from './highlight-code';
 
 /**
  * Pattern fetching related action

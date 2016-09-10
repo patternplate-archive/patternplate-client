@@ -1,3 +1,5 @@
+import gh from 'hast-util-sanitize/lib/github';
+import {merge} from 'lodash';
 import React from 'react';
 import remark from 'remark';
 import emoji from 'remark-gemoji-to-emoji';
@@ -11,12 +13,16 @@ import wrap from './wrap';
 export default render;
 
 function render(source, options) {
+	const {base, hash, highlights, highlight, query, pathname, onHashChange} = options;
 	const h = React.createElement;
 	const headline = wrap(MarkdownHeadline);
 
+	const link = {base, hash, query, pathname, onHashChange};
+	const code = {highlights, highlight};
+
 	const components = {
-		a: wrap(MarkdownLink, options),
-		code: wrap(MarkdownCode),
+		a: wrap(MarkdownLink, link),
+		code: wrap(MarkdownCode, code),
 		h1: headline,
 		h2: headline,
 		h3: headline,
@@ -25,7 +31,14 @@ function render(source, options) {
 		h6: headline
 	};
 
-	const opts = {h, components};
+	const sanitize = merge({}, gh);
+	sanitize.attributes = {
+		a: ['href', 'title'],
+		code: ['className'],
+		img: ['src', 'alt']
+	};
+
+	const opts = {h, components, sanitize};
 
 	return remark()
 		.use(vdom, opts)

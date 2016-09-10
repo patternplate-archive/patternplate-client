@@ -29,7 +29,6 @@ function bundle() {
 		$FLAG url \
 		$FLAG whatwg-fetch \
 		$FLAG react-router-redux \
-		$FLAG remarkable \
 		$FLAG core-js \
 		$FLAG react-router \
 		$FLAG react-addons-shallow-compare \
@@ -39,9 +38,6 @@ function bundle() {
 		$FLAG md5 \
 		$FLAG react-redux \
 		$FLAG redux-actions \
-		$FLAG uuid \
-		$FLAG deep-equal \
-		$FLAG react-remarkable \
 		$FLAG autobind-decorator \
 		$FLAG classnames \
 		$FLAG fbjs \

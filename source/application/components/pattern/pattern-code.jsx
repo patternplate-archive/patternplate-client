@@ -2,10 +2,9 @@ import React, {PropTypes as types} from 'react';
 import {pd as pretty} from 'pretty-data';
 import autobind from 'autobind-decorator';
 import pure from 'pure-render-decorator';
-import {requestIdleCallback, cancelIdleCallback} from 'request-idle-callback';
 
+import Code from '../common/code';
 import Select from '../common/select';
-import toElements from '../../utils/to-elements';
 
 @pure
 @autobind
@@ -17,12 +16,9 @@ export default class PatternCode extends React.Component {
 		copy: types.bool,
 		extname: types.string.isRequired,
 		format: types.string.isRequired,
-		highlight: types.bool,
-		highlights: types.object.isRequired,
 		id: types.string,
 		name: types.string.isRequired,
 		onConcernChange: types.func.isRequired,
-		onHighlightRequest: types.func.isRequired,
 		onTypeChange: types.func.isRequired,
 		source: types.string.isRequired,
 		type: types.string.isRequired,
@@ -42,25 +38,9 @@ export default class PatternCode extends React.Component {
 	timeout = null;
 	idle = null;
 
-	componentDidMount() {
-		const {props} = this;
-		this.idle = requestIdleCallback(() => {
-			highlightIfNeeded(props);
-		}, 50000);
-	}
-
-	componentWillUpdate(props) {
-		this.idle = requestIdleCallback(() => {
-			highlightIfNeeded(props);
-		}, 5000);
-	}
-
 	componentWillUnmount() {
 		if (this.timeout) {
 			global.clearTimeout(this.timeout);
-		}
-		if (this.idle) {
-			cancelIdleCallback(this.idle);
 		}
 	}
 
@@ -88,11 +68,8 @@ export default class PatternCode extends React.Component {
 
 	render() {
 		const {props} = this;
-
 		const prettify = props.highlight && props.format === 'html';
-		const prettified = prettify ? pretty.xml(props.source) : props.source;
-		const highlighted = props.highlights.results.find(result => props.id === result.id);
-
+		const source = prettify ? pretty.xml(props.source) : props.source;
 		const {copying} = this.state;
 
 		const concern = {
@@ -143,22 +120,17 @@ export default class PatternCode extends React.Component {
 				</div>
 				<div className="pattern-code__content">
 					<pre>
-						<code className={`hljs hljs--raw ${props.format}`}>
-							{prettified}
-						</code>
-						{
-							highlighted &&
-								<code
-									className={`hljs hljs--highlighted ${props.format}`}
-									key="highlighted"
-									>
-									{toElements(highlighted.payload)}
-								</code>
-						}
+						<Code
+							highlights={props.highlights}
+							highlight={props.requestHighlight}
+							language={props.format}
+							>
+							{source}
+						</Code>
 					</pre>
 					<textarea
 						className="clipboard"
-						value={prettified}
+						value={source}
 						ref={this.saveReference}
 						readOnly
 						/>
@@ -166,30 +138,4 @@ export default class PatternCode extends React.Component {
 			</div>
 		);
 	}
-}
-
-function highlightIfNeeded(props) {
-	if (!props.source) {
-		return;
-	}
-	if (!props.format) {
-		return;
-	}
-
-	const waits = ['errors', 'queue']
-		.some(key => props.highlights[key].find(item => item.id === props.id));
-
-	if (waits) {
-		return;
-	}
-
-	const result = props.highlights.results.find(item => item.id === props.id);
-
-	if (result) {
-		return;
-	}
-
-	const worker = `${props.base}script/lowlight.bundle.js`;
-	const options = {id: props.id, payload: props.source, worker, language: props.format};
-	props.onHighlightRequest(options);
 }
