@@ -17,6 +17,9 @@ function Lightbox(props) {
 				<div className="lightbox__children">
 					{props.children}
 				</div>
+				<div className="lightbox__button-row">
+					{props.buttons}
+				</div>
 			</div>
 		</div>
 	);
@@ -25,5 +28,6 @@ function Lightbox(props) {
 Lightbox.propTypes = {
 	title: t.string.isRequired,
 	backdrop: t.bool.isRequired,
-	children: t.any
+	children: t.any,
+	buttons: t.arrayOf(t.element)
 };

@@ -26,14 +26,32 @@ export default class ProblemLightbox extends Component {
 		const {props} = this;
 		const issueTemplate = getIssueTemplate(props, true);
 
+		const buttons = [
+			<Link
+				key="0"
+				to={{
+					...props.location,
+					query: {
+						...props.location.query,
+						issue: false
+					}
+				}}
+				title="Close this lightbox [esc]"
+				className="button lightbox__button"
+				>
+				Close
+			</Link>
+		];
+
 		return (
 			<Lightbox
 				title="Report an issue"
 				backdrop
+				buttons={buttons}
 				>
 				<Markdown
 					base={props.base}
-					className="problem-lightbox__instructions"
+					className="lightbox__instructions"
 					source={getInstructions(props)}
 					/>
 				<div className="problem-lightbox__preview">
@@ -42,21 +60,6 @@ export default class ProblemLightbox extends Component {
 						reaOnly
 						value={issueTemplate}
 						/>
-				</div>
-				<div className="problem-lightbox__button-row">
-					<Link
-						to={{
-							...props.location,
-							query: {
-								...props.location.query,
-								issue: false
-							}
-						}}
-						title="Close this lightbox [esc]"
-						className="button problem-lightbox__button problem-lightbox__button--abort"
-						>
-						Close
-					</Link>
 				</div>
 			</Lightbox>
 		);

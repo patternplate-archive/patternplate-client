@@ -102,8 +102,12 @@
 		border: 1px solid @border-color;
 		color: @active-color;
 		cursor: pointer;
+		text-align: center;
 		&:focus {
 			outline: none;
+		}
+		&:disabled {
+			cursor: not-allowed;
 		}
 		.icon {
 			margin: 0;

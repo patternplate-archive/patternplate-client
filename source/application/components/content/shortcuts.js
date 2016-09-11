@@ -28,31 +28,33 @@ Most links reveal attached keyboard shortcuts when hovered, complementing the ta
 export default ShortcutsLightbox;
 
 function ShortcutsLightbox(props) {
+	const buttons = [
+		<Link
+			key="0"
+			to={{
+				...props.location,
+				query: {
+					...props.location.query,
+					lightbox: false
+				}
+			}}
+			title="Close this lightbox [esc]"
+			className="button lightbox__button"
+			>
+			Close
+		</Link>
+	];
 	return (
 		<Lightbox
 			title="Keyboard shortcuts"
 			backdrop
+			buttons={buttons}
 			>
 			<Markdown
 				base={props.base}
-				className="keyboard-lightbox__instructions"
+				className="lightbox__instructions"
 				source={source}
 				/>
-			<div className="console-lightbox__button-row">
-				<Link
-					to={{
-						...props.location,
-						query: {
-							...props.location.query,
-							lightbox: false
-						}
-					}}
-					title="Close this lightbox [esc]"
-					className="button console-lightbox__button console-lightbox__button--abort"
-					>
-					Close
-				</Link>
-			</div>
 		</Lightbox>
 	);
 }
