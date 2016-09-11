@@ -1,7 +1,6 @@
 import 'dom4';
 import platform from 'platform';
 import {merge} from 'lodash';
-import mousetrap from 'mousetrap';
 
 import router from '../../application/react-routes/client';
 import * as actions from '../../application/actions';
@@ -20,24 +19,55 @@ function main() {
 
 function bind(app) {
 	const {store: {dispatch}} = app;
-	const binder = bindDispatch(dispatch);
-	binder('ctrl+c', actions.toggleConsole());
-	binder('ctrl+d', actions.openDocumentation());
-	binder('ctrl+e', actions.toggleExpandMenu());
-	binder('ctrl+f', actions.openFullscreen());
-	binder('ctrl+i', actions.toggleIssue());
-	binder('ctrl+o', actions.toggleOpacity());
-	binder('ctrl+k', actions.toggleKeyboardShortcuts());
-	binder('ctrl+r', actions.loadPattern());
-	binder('ctrl+space', actions.toggleSearchFocus());
-	binder('ctrl+t', actions.toggleTheme());
-	binder('esc', actions.closeAllTheThings());
-}
 
-function bindDispatch(dispatch) {
-	return (event, action) => {
-		mousetrap.bind(event, () => dispatch(action));
-	};
+	global.addEventListener('keydown', e => {
+		const ctrl = e.ctrlKey;
+		const code = e.data ? e.data.keyCode : e.keyCode;
+
+		if (ctrl && code === 67) { // ctrl+c
+			dispatch(actions.toggleConsole());
+		}
+
+		if (ctrl && code === 68) { // ctrl+d
+			dispatch(actions.openDocumentation());
+		}
+
+		if (ctrl && code === 69) { // ctrl+e
+			dispatch(actions.toggleExpandMenu());
+		}
+
+		if (ctrl && code === 70) { // ctrl+f
+			dispatch(actions.openFullscreen());
+		}
+
+		if (ctrl && code === 73) { // ctrl+i
+			dispatch(actions.toggleIssue());
+		}
+
+		if (ctrl && code === 79) { // ctrl+o
+			dispatch(actions.toggleOpacity());
+		}
+
+		if (ctrl && code === 75) { // ctrl+k
+			dispatch(actions.toggleKeyboardShortcuts());
+		}
+
+		if (ctrl && code === 82) { // ctrl+k
+			dispatch(actions.loadPattern());
+		}
+
+		if (ctrl && code === 32) { // ctrl+k
+			dispatch(actions.toggleSearchFocus());
+		}
+
+		if (ctrl && code === 84) { // ctrl+k
+			dispatch(actions.toggleTheme());
+		}
+
+		if (code === 27) { // esc
+			dispatch(actions.closeAllTheThings());
+		}
+	});
 }
 
 function getData(vault) {

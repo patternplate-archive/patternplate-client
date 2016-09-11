@@ -1,4 +1,5 @@
 import React, {Component, PropTypes as t} from 'react';
+import {findDOMNode} from 'react-dom';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
 
@@ -11,6 +12,7 @@ export default class ConsoleLightbox extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
 		onApplyState: t.func.isRequired,
+		onClose: t.func.isRequired,
 		state: t.string.isRequired,
 		theme: t.oneOf(['dark', 'light']).isRequired
 	};
@@ -19,23 +21,52 @@ export default class ConsoleLightbox extends Component {
 		value: ''
 	};
 
+	componentDidMount() {
+		if (this.ref) {
+			const node = findDOMNode(this.ref);
+			node.focus();
+		}
+	}
+
+	handleApplyState() {
+		if (isDisabled(this.state, this.props)) {
+			return;
+		}
+		try {
+			const data = JSON.parse(this.state.value);
+			this.props.onApplyState(data);
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	handleChange(e) {
 		this.setState({value: e.target.value});
 	}
 
-	handleApplyState() {
-		if (this.state.value && this.state.value !== this.props.state) {
-			try {
-				const data = JSON.parse(this.state.value);
-				this.props.onApplyState(data);
-			} catch (error) {
-				console.error(error);
-			}
+	handleClose() {
+		this.props.onClose();
+	}
+
+	handleKeyDown(e) {
+		if (e.ctrlKey && e.keyCode === 13) {
+			e.preventDefault();
+			this.handleApplyState();
 		}
+		if (e.keyCode === 27) {
+			this.handleClose();
+		}
+	}
+
+	saveRef(ref) {
+		this.ref = ref;
 	}
 
 	render() {
 		const {props} = this;
+		const disabled = isDisabled(this.state, this.props);
+		const title = disabled ?
+			'No changes to apply' : 'Apply changes [ctrl+enter]';
 
 		return (
 			<Lightbox
@@ -52,11 +83,15 @@ export default class ConsoleLightbox extends Component {
 						className="editor console-lightbox__state"
 						value={this.state.value || props.state}
 						onChange={this.handleChange}
+						onKeyDown={this.handleKeyDown}
+						ref={this.saveRef}
 						/>
 				</div>
 				<div className="console-lightbox__button-row">
 					<button
 						className="button console-lightbox__button console-lightbox__button--apply"
+						disabled={disabled}
+						title={title}
 						onClick={this.handleApplyState}
 						>
 						Apply changes
@@ -78,4 +113,8 @@ export default class ConsoleLightbox extends Component {
 			</Lightbox>
 		);
 	}
+}
+
+function isDisabled(state, props) {
+	return !state.value || state.value === props.state;
 }

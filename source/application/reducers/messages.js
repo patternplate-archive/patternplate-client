@@ -3,7 +3,9 @@ import strip from 'strip-ansi';
 import md5 from 'md5';
 import {handleAction} from 'redux-actions';
 
-import {loadPatternData, loadPatternFile, dismissMessage} from '../actions';
+import {
+	loadPatternData, loadPatternFile, dismissAllMessages, dismissMessage
+} from '../actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
 
@@ -42,6 +44,9 @@ export default composeReducers(
 	}),
 	handleAction(dismissMessage, (state, {payload: id}) => {
 		return state.filter(message => message.id !== id);
+	}, {defaultValue}),
+	handleAction(dismissAllMessages, () => {
+		return defaultValue;
 	}, {defaultValue}),
 	handleAction('PATTERN_DEMO_ERROR', (state, {payload: error}) => {
 		const message = createMessage(error, 1);

@@ -3,6 +3,7 @@ export changeConcern from './change-concern';
 export changeEnvironment from './change-environment';
 export changeType from './change-type';
 export closeAllTheThings from './close-all-the-things';
+export dismissAllMessages from './dismiss-all-messages';
 export dismissMessage from './dismiss-message';
 
 /**

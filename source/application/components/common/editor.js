@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default Editor;
+export default class Editor extends Component {
+	render() {
+		const {props} = this;
 
-function Editor(props) {
-	return (
-		<textarea
-			className={props.className}
-			onChange={props.onChange}
-			value={props.value}
-			/>
-	);
+		return (
+			<textarea
+				className={props.className}
+				onChange={props.onChange}
+				onKeyDown={props.onKeyDown}
+				value={props.value}
+				/>
+		);
+	}
 }

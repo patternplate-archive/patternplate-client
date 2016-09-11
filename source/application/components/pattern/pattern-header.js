@@ -84,6 +84,7 @@ export default function PatternHeader(props) {
 							<a
 								href={autoMount}
 								target="_blank"
+								title="Learn about component auto mounting on Github"
 								rel="noopener"
 								>
 								auto-mount

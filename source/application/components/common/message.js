@@ -51,7 +51,7 @@ export default class Message extends Component {
 									onClick={this.handleRetryClick}
 									type="button"
 									className="message__button"
-									title={`Retry loading ${props.pattern}`}
+									title={`Retry loading ${props.pattern} [ctrl+r]`}
 									>
 									Retry
 								</button>
@@ -60,7 +60,7 @@ export default class Message extends Component {
 							onClick={this.handleDismissClick}
 							type="button"
 							className="message__button"
-							title={`Dismiss message with title ${props.title}`}
+							title={`Dismiss message [esc]`}
 							>
 							Dismiss
 						</button>

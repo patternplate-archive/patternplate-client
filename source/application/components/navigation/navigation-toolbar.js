@@ -46,7 +46,7 @@ export default function NavigationToolbar(props) {
 					<li className="navigation-toolbar__link">
 						<Link
 							className="button"
-							title="Show keyboard shortcuts [ctrl+t]"
+							title="Show keyboard shortcuts [ctrl+k]"
 							to={cheatsheet}
 							>
 							<Icon symbol="command"/>

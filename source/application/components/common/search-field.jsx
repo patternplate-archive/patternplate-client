@@ -13,15 +13,16 @@ export default class SearchField extends Component {
 	static propTypes = {
 		base: types.string.isRequired,
 		blur: types.func.isRequired,
-		component: types.node,
 		className: types.string,
-		value: types.string,
+		component: types.node,
 		linkTo: types.string.isRequired,
 		name: types.string.isRequired,
-		placeholder: types.string,
+		onBlur: types.func,
 		onChange: types.func,
 		onFocus: types.func,
-		onBlur: types.func
+		placeholder: types.string,
+		title: types.string,
+		value: types.string
 	};
 
 	static defaultProps = {
@@ -49,7 +50,8 @@ export default class SearchField extends Component {
 			onChange,
 			onFocus,
 			onBlur,
-			placeholder
+			placeholder,
+			...props
 		} = this.props;
 
 		const {displayName} = SearchField;
@@ -65,6 +67,7 @@ export default class SearchField extends Component {
 						className={inputClassName}
 						value={value}
 						placeholder={placeholder}
+						title={props.title}
 						type="search"
 						name={name}
 						onBlur={onBlur}

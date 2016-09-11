@@ -16,6 +16,7 @@ Most links reveal attached keyboard shortcuts when hovered, complementing the ta
 |\`Ctrl+c\`       | Global     | Toggle the debug console                       |
 |\`Ctrl+d\`       | Global     | Open the documentation                         |
 |\`Ctrl+e\`       | Global     | Toggle expansion of the sidebar                |
+|\`Ctrl+enter\`   | Console    | Apply changes to application state             |
 |\`Ctrl+f\`       | Pattern    | Open current pattern in new tab                |
 |\`Ctrl+i\`       | Global     | Toggle issue reportng helper                   |
 |\`Ctrl+o\`       | Global     | Show/hide opacity indicators                   |

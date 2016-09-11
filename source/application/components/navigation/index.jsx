@@ -106,7 +106,7 @@ class Navigation extends React.Component {
 							onChange={this.handleSearchChange}
 							onFocus={this.handleSearchFocus}
 							placeholder="Search"
-							title="Click to search for patterns"
+							title="Search for patterns [ctrl+space]"
 							value={searchValue}
 							/>
 					</form>
