@@ -11,7 +11,8 @@ import Pattern from '../components/pattern';
 
 import {
 	changeConcern, changeEnvironment, changeType,
-	loadPattern, loadPatternDemo, loadPatternFile
+	loadPattern, loadPatternDemo, loadPatternFile,
+	scrollDemo
 } from '../actions';
 
 import patternDemoError from '../actions/pattern-demo-error';
@@ -40,6 +41,7 @@ function mapState(state) {
 		name: selectName(state),
 		reloadTime: selectReloadTime(state),
 		reloadedTime: selectReloadedTime(state),
+		rulers: state.rulers,
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
 		version: selectVersion(state)
@@ -51,6 +53,7 @@ function mapDispatch(dispatch) {
 		onConcernChange: changeConcern,
 		onDemoError: patternDemoError,
 		onDemoReady: () => loadPatternDemo(false),
+		onDemoScroll: scrollDemo,
 		onEnvironmentChange: changeEnvironment,
 		onFileRequest: loadPatternFile,
 		reload: loadPattern,

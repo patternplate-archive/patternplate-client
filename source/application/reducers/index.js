@@ -11,8 +11,11 @@ import messages from './messages';
 import navigation from './navigation';
 import opacity from './opacity';
 import pattern from './pattern';
+import rulers from './rulers';
 import search from './search';
 import searchMatches from './search-matches';
+import scrollDemoX from './scroll-demo-x';
+import scrollDemoY from './scroll-demo-y';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
 import sourceType from './source-type';
@@ -37,7 +40,10 @@ export default {
 	navigation,
 	opacity,
 	pattern,
+	rulers,
 	schema: ident,
+	scrollDemoX,
+	scrollDemoY,
 	search,
 	searchMatches,
 	sourceExpanded,

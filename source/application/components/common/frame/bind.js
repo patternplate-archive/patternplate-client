@@ -1,9 +1,9 @@
 import {findDOMNode} from 'react-dom';
-import {omit} from 'lodash';
+import {debounce, omit} from 'lodash';
 
 export default bind;
 
-function bind(ref) {
+function bind(ref, props) {
 	if (!ref) {
 		return;
 	}
@@ -20,4 +20,13 @@ function bind(ref) {
 		}
 		window.dispatchEvent(event);
 	});
+
+	const onScroll = debounce(e => {
+		const scrolling = e.target.scrollingElement;
+		const y = scrolling.scrollTop;
+		const x = scrolling.scrollLeft;
+		props.onScroll({x, y});
+	}, 15);
+
+	win.addEventListener('scroll', onScroll);
 }

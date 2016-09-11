@@ -1,0 +1,68 @@
+.rulers {
+	position: absolute;
+	z-index: 1;
+	height: 30px;
+	width: 30px;
+	background: @root-background;
+}
+
+.pattern-ruler {
+	background: @root-background;
+	user-select: none;
+	overflow: hidden;
+}
+
+.pattern-ruler__scale {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	white-space: nowrap;
+	background: @root-background;
+}
+
+.pattern-ruler--horizontal {
+	.pattern-ruler__scale {
+		flex-direction: row;
+		position: absolute;
+		left: 100%;
+		top: 0;
+		width: auto;
+		height: 100%;
+	}
+}
+
+.pattern-ruler--vertical {
+	.pattern-ruler__scale {
+		flex-direction: column;
+		position: absolute;
+		z-index: 2;
+		right: -1px;
+		top: 100%;
+		width: 100%;
+		height: auto;
+	}
+}
+
+.pattern-ruler__step {
+	flex: 0 0 1px;
+	background: @hover-color;
+}
+
+.pattern-ruler__label {
+	display: inline-block;
+	vertical-align: top;
+	font-size: 9px;
+	padding-left: 3px;
+	margin-top: -3px;
+	color: @hover-color;
+}
+
+.pattern-ruler--vertical .pattern-ruler__label {
+	transform: rotate(-90deg);
+	transform-origin: 0 0;
+	margin-top: 0;
+	margin-left: -3px;
+}

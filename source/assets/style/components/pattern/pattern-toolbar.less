@@ -1,9 +1,11 @@
 .pattern-toolbar {
 	position: relative;
+	z-index: 4;
 	display: flex;
 	flex-wrap: wrap-reverse;
 	border-top: 1px solid @border-color;
 	min-height: @pattern-toolbar-height;
+	background: @root-background;
 	&--expanded {
 		flex-wrap: wrap;
 		.pattern-sources {
@@ -90,6 +92,7 @@
 	flex-direction: column;
 	max-height: 50vh;
 	position: absolute;
+	z-index: 2;
 	right: 0%;
 	bottom: ~'calc(100% + 1.5px)';
 	left: 0%;

@@ -1,5 +1,6 @@
 @import './pattern-dependencies';
 @import './pattern-environment-selection';
+@import './pattern-ruler';
 @import './pattern-toolbar';
 
 @keyframes spin {
@@ -151,17 +152,16 @@
 
 .pattern-demo {
 	position: absolute;
-	top: 0;
+	top: 30px;
 	right: 0;
-	left: 15px;
+	left: 30px;
 	border: 0;
-	width: ~'calc(100% - 15px)';
+	width: ~'calc(100% - 30px)';
 	height: 100%;
 	background: transparent;
 	transition: height 0.3s ease-in-out;
 	overflow: auto;
 	@media screen and (min-width: 500px) {
-		left: 30px;
 		width: ~'calc(100% - 30px)';
 	}
 }
@@ -191,10 +191,13 @@
 }
 
 .pattern-header-container {
+	position: relative;
+	z-index: 3;
+	background: @root-background;
 	display: flex;
 	align-items: center;
 	flex-wrap: wrap;
-    justify-content: space-between;
+	justify-content: space-between;
 	padding: 10px 15px;
 	box-shadow: @shadow-down;
 	@media screen and (min-width: 500px) {

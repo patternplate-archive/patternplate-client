@@ -31,6 +31,7 @@ function Pattern(props) {
 				onReloadClick={onReloadClick}
 				reloadTime={props.reloadTime}
 				reloadedTime={props.reloadedTime}
+				rulers={props.rulers}
 				tags={props.tags}
 				version={props.version}
 				/>
@@ -40,8 +41,10 @@ function Pattern(props) {
 				loading={props.loading}
 				onError={props.onDemoError}
 				onReady={props.onDemoReady}
+				onScroll={props.onDemoScroll}
 				opacity={props.opacity}
 				reloadTime={props.reloadTime}
+				rulers={props.rulers}
 				target={props.id}
 				/>
 			<PatternToolbar
@@ -115,6 +118,7 @@ Pattern.propTypes = {
 	name: t.string.isRequired,
 	onDemoError: t.func.isRequired,
 	onDemoReady: t.func.isRequired,
+	onDemoScroll: t.func.isRequired,
 	onEnvironmentChange: t.func.isRequired,
 	onConcernChange: t.func.isRequired,
 	onFileRequest: t.func.isRequired,
@@ -123,6 +127,7 @@ Pattern.propTypes = {
 	reload: t.func.isRequired,
 	reloadTime: t.number,
 	reloadedTime: t.number,
+	rulers: t.bool.isRequired,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
 	sourceExpanded: t.bool

@@ -16,7 +16,7 @@ export default class Frame extends Component {
 	};
 
 	componentDidMount() {
-		bind(this.ref);
+		bind(this.ref, this.props);
 	}
 
 	saveRef(ref) {
@@ -27,7 +27,7 @@ export default class Frame extends Component {
 		const {props} = this;
 
 		const onLoad = e => {
-			bind(this.ref);
+			bind(this.ref, this.props);
 			props.onLoad(e);
 		};
 

@@ -3,6 +3,7 @@ import join from 'classnames';
 import queryString from 'query-string';
 import urlQuery from '../../utils/url-query';
 import Frame from '../common/frame';
+import Ruler from '../../containers/ruler';
 
 function PatternDemo(props) {
 	const source = urlQuery.format({
@@ -21,11 +22,27 @@ function PatternDemo(props) {
 
 	return (
 		<div className={className}>
+			{
+				props.rulers &&
+					<div className="rulers">
+						<Ruler
+							type="vertical"
+							step={10}
+							length={2800}
+							/>
+						<Ruler
+							type="horizontal"
+							step={10}
+							length={2800}
+							/>
+					</div>
+			}
 			<Frame
 				className="pattern-demo"
 				id={source}
 				onLoad={props.onReady}
 				onError={props.onError}
+				onScroll={props.onScroll}
 				src={src}
 				/>
 		</div>
@@ -40,6 +57,7 @@ PatternDemo.propTypes = {
 	opacity: types.bool.isRequired,
 	loading: types.bool.isRequired,
 	reloadTime: types.number,
+	rulers: types.bool.isRequired,
 	target: types.string.isRequired
 };
 

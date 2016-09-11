@@ -52,15 +52,19 @@ function bind(app) {
 			dispatch(actions.toggleKeyboardShortcuts());
 		}
 
-		if (ctrl && code === 82) { // ctrl+k
+		if (ctrl && code === 76) { // ctrl+l
+			dispatch(actions.toggleRulers());
+		}
+
+		if (ctrl && code === 82) { // ctrl+r
 			dispatch(actions.loadPattern());
 		}
 
-		if (ctrl && code === 32) { // ctrl+k
+		if (ctrl && code === 32) { // ctrl+space
 			dispatch(actions.toggleSearchFocus());
 		}
 
-		if (ctrl && code === 84) { // ctrl+k
+		if (ctrl && code === 84) { // ctrl+t
 			dispatch(actions.toggleTheme());
 		}
 

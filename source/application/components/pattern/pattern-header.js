@@ -22,12 +22,18 @@ export default function PatternHeader(props) {
 		}
 	});
 	const fullscreenTitle = `Open "${props.name}" in fullscreen [ctrl+f]`;
-	const reloadTitle = `Reload demo for "${props.name}" [ctrl+r]`;
 
+	const reloadTitle = `Reload demo for "${props.name}" [ctrl+r]`;
 	const reloadClassName = join('button reload', {
 		'reload--reloading': props.loading,
 		'reload--error': props.errored
 	});
+
+	const rulersTitle = props.rulers ?
+		`Disable rulers [ctrl+l]` :
+		`Enable rulers [ctrl+l]`;
+
+	const rulersClassName = `button button--rulers`;
 
 	const opacitySymbol = props.opacity ? 'checkers' : 'checkers-inverted';
 	const opacityTitle = props.opacity ?
@@ -109,6 +115,19 @@ export default function PatternHeader(props) {
 					<Icon symbol="reload"/>
 				</Link>
 				<Link
+					className={rulersClassName}
+					title={rulersTitle}
+					to={{
+						pathname: props.location.pathname,
+						query: {
+							...props.location.query,
+							rulers: !props.rulers
+						}
+					}}
+					>
+					<Icon symbol="rulers"/>
+				</Link>
+				<Link
 					className="button"
 					title={opacityTitle}
 					to={{
@@ -146,22 +165,23 @@ PatternHeader.propTypes = {
 			query: t.object.isRequired
 		}).isRequired
 	})).isRequired,
-	errored: t.bool.isRequired,
 	environment: t.string.isRequired,
-	id: t.string.isRequired,
-	name: t.string.isRequired,
-	version: t.string.isRequired,
+	errored: t.bool.isRequired,
 	flag: t.string,
-	tags: t.arrayOf(t.string),
+	id: t.string.isRequired,
 	loading: t.bool.isRequired,
-	reloadTime: t.number,
-	reloadedTime: t.number,
-	onReloadClick: t.func.isRequired,
-	opacity: t.bool.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired,
 		query: t.object.isRequired
-	})
+	}),
+	name: t.string.isRequired,
+	onReloadClick: t.func.isRequired,
+	opacity: t.bool.isRequired,
+	reloadTime: t.number,
+	reloadedTime: t.number,
+	rulers: t.bool.isRequired,
+	tags: t.arrayOf(t.string),
+	version: t.string.isRequired
 };
 
 PatternHeader.defaultProps = {
