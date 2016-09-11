@@ -33,13 +33,6 @@ export default class SearchField extends Component {
 		onBlur: () => {}
 	};
 
-	handleKeyDown(e) {
-		// if ctrl+space
-		if (e.ctrlKey && e.keyCode === 32) {
-			this.props.blur();
-		}
-	}
-
 	render() {
 		const {
 			base,
