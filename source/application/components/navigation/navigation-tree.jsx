@@ -46,6 +46,7 @@ class NavigationTree extends Component {
 							<NavigationItem
 								name={folder.displayName}
 								symbol={folder.icon}
+								symbolActive={folder.iconActive}
 								id={folder.id}
 								searchQuery={searchQuery}
 								key={folder.id}

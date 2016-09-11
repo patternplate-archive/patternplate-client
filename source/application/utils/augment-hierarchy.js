@@ -14,7 +14,8 @@ function augmentFolderData(hierarchy) {
 		const defaultHierarchyEntry = {
 			order: -1,
 			displayName: key,
-			icon: 'folder'
+			icon: 'folder',
+			iconActive: 'folder-open'
 		};
 
 		const hierarchyEntry = hierarchy[folder.id];

@@ -33,6 +33,10 @@ const arrowDoubleRight = [
 	'M11.548 10.767c.14.147.258.31.344.494.215.464.215 1.01 0 1.474-.085.185-.203.347-.343.494l-3.543 3.546-1.06-1.06c1.183-1.186 2.46-2.285 3.55-3.558.058-.075.073-.176.033-.262-.013-.03-.033-.055-.056-.08L6.947 8.29l1.06-1.06 3.54 3.54z'
 ];
 
+const folderOpen = [{
+	d: 'M20 18H4V9h5v3h11v6zM10.5 7.5v-3h-8v14c0 .552.448 1 1 1h17c.552 0 1-.448 1-1v-11h-11z'
+}];
+
 const documentation = [
 	'M18.375 16.625h-9v-13h9v13zm-10.5-14.5v15c0 .552.447 1 1 1h11v-16h-12z',
 	'M14.125 20.375h-8.25c-.137 0-.25-.112-.25-.25V6.875h1.25v-1.5h-2.75v14.75c0 .965.786 1.75 1.75 1.75h9.75v-2.75h-1.5v1.25z',
@@ -79,6 +83,7 @@ export default {
 	'ecospheres': () => ecospheres,
 	'environment': () => environment,
 	'folder': () => folder,
+	'folder-open': () => folderOpen,
 	'fullscreen': () => fullscreen,
 	'globals': () => globals,
 	'home': () => home,

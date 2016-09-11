@@ -30,7 +30,8 @@ export default class NavigationItem extends React.Component {
 		anchored: types.bool,
 		linkTo: types.string,
 		name: types.string.isRequired,
-		symbol: types.string,
+		symbol: types.string.isRequired,
+		symbolActive: types.string,
 		searchQuery: types.string,
 		id: types.oneOfType([
 			types.string,
@@ -73,6 +74,7 @@ export default class NavigationItem extends React.Component {
 		const pathname = getPathName(p.base, p.linkTo, p.id);
 		const to = {pathname, query: omit(p.location.query, ['menu-enabled'])};
 		const title = p.title || `Navigate to ${p.name} ${p.type}`;
+		const symbol = p.active && (p.symbol === 'folder') ? p.symbolActive : p.symbol;
 
 		return (
 			<Component className={itemClassName}>
@@ -82,7 +84,7 @@ export default class NavigationItem extends React.Component {
 					title={title}
 					className={linkClassName}
 					>
-					<Icon base={p.base} symbol={p.symbol}/>
+					<Icon base={p.base} symbol={symbol}/>
 					<span>{p.name}</span>
 				</Link>
 				{
