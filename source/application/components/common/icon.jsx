@@ -23,6 +23,7 @@ function onChange(registry) {
 }
 
 function getRegistryMountPoint() {
+	const {document} = global;
 	const found = document.querySelector('[data-icon-registry]');
 	if (found) {
 		return found;
@@ -93,21 +94,7 @@ function IconRegistry(props) {
 				props.symbols
 					.map(symbol => {
 						const paths = icons[symbol]() || [];
-
-						return (
-							<symbol
-								id={symbol}
-								key={symbol}
-								viewBox="0 0 24 24"
-								>
-								{
-									paths.map((pathProps, index) => {
-										const {tagName: Component = 'path', ...props} = pathProps;
-										return <Component key={index} {...props}/>;
-									})
-								}
-							</symbol>
-							);
+						return <Symbol id={symbol} key={symbol} definition={paths}/>;
 					})
 			}
 		</svg>
@@ -120,4 +107,38 @@ IconRegistry.propTypes = {
 
 IconRegistry.defaultProps = {
 	symbols: []
+};
+
+function Symbol(props) {
+	const paths = Array.isArray(props.definition) ?
+		props.definition :
+		[props.definition];
+
+	return (
+		<symbol
+			id={props.id}
+			viewBox="0 0 24 24"
+			>
+			{
+				paths.map(path => <Path definition={path} key={path}/>)
+			}
+		</symbol>
+	);
+}
+
+Symbol.propTypes = {
+	definition: t.oneOfType([t.string, t.object, t.array]).isRequired,
+	id: t.string.isRequired
+};
+
+function Path(props) {
+	const {definition} = props;
+	const def = typeof definition === 'string' ? {d: definition} : definition;
+	const {tagName, ...p} = def;
+	const Component = tagName || 'path';
+	return <Component {...p}/>;
+}
+
+Path.propTypes = {
+	definition: t.oneOfType([t.string, t.object]).isRequired
 };

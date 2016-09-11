@@ -74,6 +74,7 @@
 }
 
 .pattern-tag,
+.pattern-option,
 .pattern__flag {
 	display: inline-block;
 	margin-right: 5px;
@@ -220,52 +221,16 @@
 	}
 }
 
-.pattern-loader {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-/* .pattern-loader {
-	position: absolute;
-	top: 1px;
-	right: -30px;
-	bottom: 1px;
-	left: -30px;
-	display: flex;
-	width: 100%;
-	height: 100%;
-	background: @root-background;
-	align-items: center;
-	justify-content: center;
-	transition: .3s opacity ease-in-out;
-	z-index: 1;
-	.pattern-loader-icon {
-		height: 200px;
-		width: 200px;
-		background-size: contain;
-		background-image: url(@animated-logo-url);
-	}
-	&.pattern-loader--hidden {
-		opacity: 0;
-	}
-	&.pattern-loader--is-hidden {
-		display: none;
-		.pattern-loader-icon {
-			background-image: none;
+.pattern-option {
+	color: #fefefe;
+	background: @active-color;
+	a {
+		color: inherit;
+		&:hover {
+			color: inherit;
 		}
 	}
-}*/
-.pattern-error {
-	.svg {
-		color: @error-color;
-
-		fill: inherit;
-	}
 }
-
 
 .pattern-content-transition-enter {
 	opacity: 0;

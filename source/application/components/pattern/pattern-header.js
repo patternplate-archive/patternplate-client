@@ -8,6 +8,8 @@ import Headline from '../common/headline';
 import Icon from '../common/icon';
 import urlQuery from '../../utils/url-query';
 
+const autoMount = 'https://github.com/sinnerschrader/patternplate-transform-react-to-markup#component-auto-mounting';
+
 export default function PatternHeader(props) {
 	const flagClassName = join(`pattern__flag`, {
 		[`pattern__flag--${props.flag}`]: props.flag
@@ -76,6 +78,18 @@ export default function PatternHeader(props) {
 						</Link>
 					</small>
 				)}
+				{
+					props.automount &&
+						<small className="pattern-option">
+							<a
+								href={autoMount}
+								target="_blank"
+								rel="noopener"
+								>
+								auto-mount
+							</a>
+						</small>
+				}
 			</Headline>
 			<div className="pattern-header__actions">
 				<Link
@@ -121,6 +135,7 @@ export default function PatternHeader(props) {
 }
 
 PatternHeader.propTypes = {
+	automount: t.bool.isRequired,
 	base: t.string.isRequired,
 	breadcrumbs: t.arrayOf(t.shape({
 		id: t.string.isRequired,

@@ -20,6 +20,7 @@ export default connect(mapState, mapDispatch)(Pattern);
 
 function mapState(state) {
 	return {
+		automount: selectAutomount(state),
 		activeSource: state.sourceId || '',
 		base: state.base,
 		breadcrumbs: selectBreadCrumbs(state),
@@ -87,6 +88,26 @@ function selectPattern(state) {
 function selectManifest(state) {
 	const pattern = selectPattern(state);
 	return pattern.manifest || {};
+}
+
+function selectManifestOptions(state) {
+	const manifest = selectManifest(state);
+	return manifest.options || {};
+}
+
+function selectReactMarkup(state) {
+	const options = selectManifestOptions(state);
+	return options['react-to-markup'] || {};
+}
+
+function selectReactMarkupOptions(state) {
+	const markup = selectReactMarkup(state);
+	return markup.opts || {};
+}
+
+function selectAutomount(state) {
+	const opts = selectReactMarkupOptions(state);
+	return ('automount' in opts) ? opts.automount : false;
 }
 
 function getManifestSelector(name, defaultValue) {

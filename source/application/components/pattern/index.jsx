@@ -17,6 +17,7 @@ function Pattern(props) {
 	return (
 		<div className="pattern">
 			<PatternHeader
+				automount={props.automount}
 				base={props.base}
 				breadcrumbs={props.breadcrumbs}
 				environment={props.environment}
@@ -66,6 +67,7 @@ function Pattern(props) {
 }
 
 Pattern.propTypes = {
+	automount: t.bool.isRequired,
 	activeSource: t.string.isRequired,
 	base: t.string.isRequired,
 	breadcrumbs: t.arrayOf(t.shape({
