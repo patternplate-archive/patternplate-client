@@ -94,20 +94,32 @@ export default class PatternCode extends React.Component {
 			<div className="pattern-code">
 				<div className="pattern-code__toolbar">
 					<div className="pattern-code__name">
-						<Select
-							base={props.base}
-							className="pattern-code__concern"
-							options={concerns}
-							onChange={props.onConcernChange}
-							value={concern}
-							/>
-						<Select
-							base={props.base}
-							className="pattern-code__type"
-							options={types}
-							onChange={props.onTypeChange}
-							value={type}
-							/>
+						{
+							concerns.length > 1 ?
+								<Select
+									base={props.base}
+									className="pattern-code__concern"
+									options={concerns}
+									onChange={props.onConcernChange}
+									value={concern}
+									/> :
+								<span className="pattern-code__concern">
+									{concern.name}
+								</span>
+						}
+						{
+							types.length > 1 ?
+								<Select
+									base={props.base}
+									className="pattern-code__type"
+									options={types}
+									onChange={props.onTypeChange}
+									value={type}
+									/> :
+								<span className="pattern-code__type">
+									{type.name}
+								</span>
+						}
 					</div>
 					<div className="pattern-code__tools">
 						{

@@ -22,13 +22,16 @@ function PatternTools(props) {
 						location={props.location}
 						/>
 			}
-			<PatternToolEnvironmentSelection
-				base={props.base}
-				disabled={!hasEnvironments}
-				environment={props.environment}
-				environments={props.environments}
-				onChange={props.onEnvironmentChange}
-				/>
+			{
+				hasEnvironments &&
+					<PatternToolEnvironmentSelection
+						base={props.base}
+						disabled={!hasEnvironments}
+						environment={props.environment}
+						environments={props.environments}
+						onChange={props.onEnvironmentChange}
+						/>
+			}
 			<PatternToolRelations
 				active={active}
 				base={props.base}

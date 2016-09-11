@@ -140,16 +140,11 @@
 	}
 	.pattern-code__concern,
 	.pattern-code__type {
+		margin-right: 7.5px;
 		.select__body {
-			margin-right: 5px;
 			border-radius: 3px;
 			border: 1px solid @border-color;
 			background: @code-background;
-		}
-		&:not(:last-child) {
-			.select__body {
-				margin-right: 5px;
-			}
 		}
 	}
 	.pattern-code__content {
@@ -185,6 +180,7 @@
 	border-left: 1px solid @border-color;
 	cursor: pointer;
 	&.pattern-tool--relations {
+		margin-left: auto;
 		padding: 0;
 	}
 }
@@ -194,6 +190,7 @@
 	z-index: 1;
 	left: 0;
 	bottom: 0;
+	border-right: 1px solid @border-color!important;
 }
 
 .pattern-control {
