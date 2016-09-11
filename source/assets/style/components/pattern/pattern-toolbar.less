@@ -7,7 +7,7 @@
 	&--expanded {
 		flex-wrap: wrap;
 		.pattern-sources {
-			margin-bottom: 0;
+			margin-bottom: -1px;
 		}
 	}
 	@media screen and (max-width: 500px) {
@@ -29,6 +29,7 @@
 	min-width: 60px;
 	margin-left: auto;
 	margin-bottom: -65px;
+	border-bottom: 1px solid @border-color;
 	background: @root-background;
 	transition: .3s height ease-in-out;
 	@media screen and (min-width: 500px) {
@@ -42,7 +43,7 @@
 	flex-grow: 1;
 	align-items: center;
 	width: 100%;
-	margin-left: 60px;
+	margin-left: 44px;
 	@media screen and (min-width: 500px) {
 		width: auto;
 		justify-content: flex-end;
@@ -95,10 +96,7 @@
 	background: @root-background;
 	overflow: hidden;
 	@media screen and (max-width: 500px) {
-		position: fixed;
-		top: 65px;
-		height: ~'calc(100vh - 170px)';
-		max-height: ~'calc(100vh - 170px)';
+		max-height: 75vh;
 	}
 	&.pattern-code--max {
 		height: 50vh;
