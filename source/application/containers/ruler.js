@@ -5,7 +5,7 @@ export default connect(mapProps)(Ruler);
 
 function mapProps(state) {
 	return {
-		x: state.scrollDemoX,
-		y: state.scrollDemoY
+		x: state.scrollDemoX.x,
+		y: state.scrollDemoY.y
 	};
 }

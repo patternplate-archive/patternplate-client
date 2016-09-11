@@ -1,6 +1,10 @@
-export default function (state = 0, action) {
-	if (action.type === 'SCROLL_DEMO_X') {
-		return action.payload;
+import handleDependentActions from '../actions/handle-dependent-actions';
+
+export default handleDependentActions({
+	'@@router/LOCATION_CHANGE': (state, action, {pattern}) => {
+		return {x: 0, pattern};
+	},
+	'SCROLL_DEMO_X': (state, {payload}) => {
+		return {...state, x: payload};
 	}
-	return state;
-}
+}, {defaultValue: {x: 0}, dependencies: ['pattern']});

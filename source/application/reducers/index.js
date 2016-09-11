@@ -56,5 +56,7 @@ export default {
 export const dependencies = {
 	pattern: getDependencies(pattern),
 	searchMatches: getDependencies(searchMatches),
-	styles: getDependencies(styles)
+	styles: getDependencies(styles),
+	scrollDemoY: getDependencies(scrollDemoY),
+	scrollDemoX: getDependencies(scrollDemoX)
 };
