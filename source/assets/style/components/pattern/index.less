@@ -152,17 +152,17 @@
 
 .pattern-demo {
 	position: absolute;
-	top: 30px;
+	top: @pattern-demo-padding;
 	right: 0;
-	left: 30px;
+	left: @pattern-demo-padding;
 	border: 0;
-	width: ~'calc(100% - 30px)';
+	width: ~'calc(100% - @pattern-demo-padding)';
 	height: 100%;
 	background: transparent;
 	transition: height 0.3s ease-in-out;
 	overflow: auto;
 	@media screen and (min-width: 500px) {
-		width: ~'calc(100% - 30px)';
+		width: ~'calc(100% - @pattern-demo-padding)';
 	}
 }
 

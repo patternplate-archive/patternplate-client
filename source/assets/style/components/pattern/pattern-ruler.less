@@ -1,13 +1,14 @@
 .rulers {
 	position: absolute;
 	z-index: 1;
-	height: 30px;
-	width: 30px;
+	height: @pattern-demo-padding;
+	width: @pattern-demo-padding;
 	background: @root-background;
+	color: @hover-color;
 }
 
 .pattern-ruler {
-	background: @root-background;
+	background: inherit;
 	user-select: none;
 	overflow: hidden;
 }
@@ -20,14 +21,14 @@
 	padding: 0;
 	list-style-type: none;
 	white-space: nowrap;
-	background: @root-background;
+	background: inherit;
 }
 
 .pattern-ruler--horizontal {
 	.pattern-ruler__scale {
 		flex-direction: row;
 		position: absolute;
-		left: 100%;
+		left: calc(~"100% - 1px");
 		top: 0;
 		width: auto;
 		height: 100%;
@@ -39,8 +40,7 @@
 		flex-direction: column;
 		position: absolute;
 		z-index: 2;
-		right: -1px;
-		top: 100%;
+		top: calc(~"100% - 1px");
 		width: 100%;
 		height: auto;
 	}
@@ -48,7 +48,7 @@
 
 .pattern-ruler__step {
 	flex: 0 0 1px;
-	background: @hover-color;
+	background: currentColor;
 }
 
 .pattern-ruler__label {
@@ -57,7 +57,6 @@
 	font-size: 9px;
 	padding-left: 3px;
 	margin-top: -3px;
-	color: @hover-color;
 }
 
 .pattern-ruler--vertical .pattern-ruler__label {
