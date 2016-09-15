@@ -1,6 +1,8 @@
 import activeBlock from './active-block';
 import base from './base';
 import depth from './depth';
+import demoContentDimensions from './demo-content-dimensions';
+import demoDimensions from './demo-dimensions';
 import environment from './environment';
 import expanded from './expanded';
 import id from './id';
@@ -21,6 +23,7 @@ import sourceId from './source-id';
 import sourceType from './source-type';
 import styles from './styles';
 import theme from './theme';
+import window from './window';
 
 const ident = (state = {}) => state;
 const getDependencies = (reducer = {}) => reducer.dependencies || [];
@@ -29,6 +32,8 @@ export default {
 	activeBlock,
 	base,
 	config: ident,
+	demoContentDimensions,
+	demoDimensions,
 	depth,
 	environment,
 	expanded,
@@ -50,7 +55,8 @@ export default {
 	sourceId,
 	sourceType,
 	styles,
-	theme
+	theme,
+	window
 };
 
 export const dependencies = {

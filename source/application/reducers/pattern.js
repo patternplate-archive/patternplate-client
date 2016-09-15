@@ -32,6 +32,7 @@ const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 
 		return {
 			...state,
+			id: payload.id,
 			dependencies: payload.dependencies,
 			environments: payload.environments,
 			dataErrored: false,

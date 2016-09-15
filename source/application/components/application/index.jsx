@@ -1,4 +1,5 @@
-import React, {PropTypes as t} from 'react';
+import React, {Component, PropTypes as t} from 'react';
+import autobind from 'autobind-decorator';
 import join from 'classnames';
 import Helmet from 'react-helmet';
 
@@ -7,70 +8,87 @@ import ProblemLightbox from '../../containers/problem';
 import ShortcutsLightbox from '../../containers/shortcuts';
 import Navigation from '../navigation';
 
-export default Application;
+@autobind
+export default class Application extends Component {
+	componentDidMount() {
+		global.addEventListener('resize', this.onResize);
+	}
 
-function Application(props) {
-	const handleSearch = props.onSearch;
+	componentWillUnmount() {
+		global.removeEventListener('resize', this.onResize);
+	}
 
-	const className = join('application', {
-		'application--menu-enabled': props.menuEnabled,
-		'application--theme-loading': props.themeLoading
-	});
+	onResize() {
+		this.props.onResize({
+			width: global.innerWidth,
+			height: global.innerHeight
+		});
+	}
 
-	return (
-		<div className={className}>
-			<Helmet
-				meta={[
-					{
-						name: 'description',
-						content: props.description
-					},
-					{
-						name: 'viewport',
-						content: 'width=device-width, initial-scale=1'
-					}
-				]}
-				link={createLinks(props.styles, {base: props.base})}
-				title={props.title}
-				onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
-				/>
-			<Navigation
-				about={props.about}
-				activePattern={props.activePattern}
-				base={props.base}
-				enabled={props.menuEnabled}
-				expanded={props.expanded}
-				hierarchy={props.hierarchy}
-				icon="patternplate"
-				location={props.location}
-				menuEnabled={props.menuEnabled}
-				navigation={props.navigation}
-				onSearch={handleSearch}
-				onThemeChange={props.onThemeChange}
-				query={props.query}
-				requestSearchBlur={props.requestSearchBlur}
-				searchValue={props.search}
-				theme={props.theme}
-				title={props.title}
-				version={props.version}
-				/>
-			<main className="application__content">
-				{props.children}
-			</main>
-			{
-				props.lightbox === 'console' &&
-					<ConsoleLightbox/>
-			}
-			{
-				props.lightbox === 'shortcuts' &&
-					<ShortcutsLightbox/>
-			}
-			{
-				props.issue &&
-					<ProblemLightbox/>
-			}
-		</div>
-	);
+	render() {
+		const {props} = this;
+		const handleSearch = props.onSearch;
+
+		const className = join('application', {
+			'application--menu-enabled': props.menuEnabled,
+			'application--theme-loading': props.themeLoading
+		});
+
+		return (
+			<div className={className}>
+				<Helmet
+					meta={[
+						{
+							name: 'description',
+							content: props.description
+						},
+						{
+							name: 'viewport',
+							content: 'width=device-width, initial-scale=1'
+						}
+					]}
+					link={createLinks(props.styles, {base: props.base})}
+					title={props.title}
+					onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
+					/>
+				<Navigation
+					about={props.about}
+					activePattern={props.activePattern}
+					base={props.base}
+					enabled={props.menuEnabled}
+					expanded={props.expanded}
+					hierarchy={props.hierarchy}
+					icon="patternplate"
+					location={props.location}
+					menuEnabled={props.menuEnabled}
+					navigation={props.navigation}
+					onSearch={handleSearch}
+					onThemeChange={props.onThemeChange}
+					query={props.query}
+					requestSearchBlur={props.requestSearchBlur}
+					searchValue={props.search}
+					theme={props.theme}
+					title={props.title}
+					version={props.version}
+					/>
+				<main className="application__content">
+					{props.children}
+				</main>
+				{
+					props.lightbox === 'console' &&
+						<ConsoleLightbox/>
+				}
+				{
+					props.lightbox === 'shortcuts' &&
+						<ShortcutsLightbox/>
+				}
+				{
+					props.issue &&
+						<ProblemLightbox/>
+				}
+			</div>
+		);
+	}
 }
 
 Application.propTypes = {
@@ -92,12 +110,14 @@ Application.propTypes = {
 	lightbox: t.string,
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
+	onResize: t.func.isRequired,
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
 	onThemeChange: t.func.isRequired,
 	path: t.string.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
+	requestSearchBlur: t.func.isRequired,
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,

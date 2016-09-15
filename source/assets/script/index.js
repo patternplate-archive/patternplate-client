@@ -76,8 +76,9 @@ function bind(app) {
 
 function getData(vault) {
 	const platformData = getPlatformData();
+	const windowData = getWindowData();
 	const vaultData = JSON.parse(vault.textContent);
-	return merge({}, vaultData, {schema: platformData});
+	return merge({}, vaultData, windowData, {schema: platformData});
 }
 
 function getPlatformData() {
@@ -86,5 +87,14 @@ function getPlatformData() {
 		clientRuntimeVersion: platform.version,
 		clientOsName: platform.os.name,
 		clientOsVersion: platform.os.version
+	};
+}
+
+function getWindowData() {
+	return {
+		window: {
+			width: global.innerWidth,
+			height: global.innerHeight
+		}
 	};
 }

@@ -22,9 +22,32 @@
 	list-style-type: none;
 	white-space: nowrap;
 	background: inherit;
+	cursor: pointer;
+}
+
+.pattern-ruler__steps {
+	display: flex;
+	flex-direction: inherit;
+	align-items: flex-end;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.pattern-ruler__marker {
+	position: absolute;
+	z-index: 5;
+	top: 0px;
+	bottom: 0px;
+	width: 1px;
+	background: @active-color;
 }
 
 .pattern-ruler--horizontal {
+	.pattern-ruler__marker {
+		height: 100%;
+		width: 1px;
+	}
 	.pattern-ruler__scale {
 		flex-direction: row;
 		position: absolute;
@@ -33,22 +56,28 @@
 		width: auto;
 		height: 100%;
 	}
+	.pattern-ruler__step {
+		border-left: 1px solid currentColor;
+	}
 }
 
 .pattern-ruler--vertical {
+	.pattern-ruler__marker {
+		height: 1px;
+		width: 100%;
+	}
 	.pattern-ruler__scale {
 		flex-direction: column;
 		position: absolute;
 		z-index: 2;
 		top: calc(~"100% - 1px");
+		right: 0;
 		width: 100%;
 		height: auto;
 	}
-}
-
-.pattern-ruler__step {
-	flex: 0 0 1px;
-	background: currentColor;
+	.pattern-ruler__step {
+		border-top: 1px solid currentColor;
+	}
 }
 
 .pattern-ruler__label {

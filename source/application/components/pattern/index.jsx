@@ -37,15 +37,26 @@ function Pattern(props) {
 				/>
 			<PatternDemo
 				base={props.base}
+				contentHeight={props.demoContentHeight}
+				contentWidth={props.demoContentWidth}
 				environment={props.environment}
+				height={props.demoHeight}
 				loading={props.loading}
 				onError={props.onDemoError}
 				onReady={props.onDemoReady}
+				onResize={props.onDemoContentResize}
 				onScroll={props.onDemoScroll}
 				opacity={props.opacity}
 				reloadTime={props.reloadTime}
+				resizeable={props.rulers}
+				resize={props.resize}
 				rulers={props.rulers}
+				rulerX={props.rulerX}
+				rulerY={props.rulerY}
+				rulerLengthX={props.rulerLengthX}
+				rulerLengthY={props.rulerLengthY}
 				target={props.id}
+				width={props.demoWidth}
 				/>
 			<PatternToolbar
 				activeSource={props.activeSource}
@@ -93,6 +104,10 @@ Pattern.propTypes = {
 		type: t.string,
 		types: t.arrayOf(t.string).isRequired
 	})).isRequired,
+	demoContentWidth: t.number.isRequired,
+	demoContentHeight: t.number.isRequired,
+	demoWidth: t.number,
+	demoHeight: t.number,
 	dependencies: t.arrayOf(t.shape({
 		id: t.string.isRequired,
 		name: t.string.isRequired,
@@ -116,6 +131,7 @@ Pattern.propTypes = {
 		query: t.object.isRequired
 	}).isRequired,
 	name: t.string.isRequired,
+	onDemoContentResize: t.func.isRequired,
 	onDemoError: t.func.isRequired,
 	onDemoReady: t.func.isRequired,
 	onDemoScroll: t.func.isRequired,
@@ -127,7 +143,12 @@ Pattern.propTypes = {
 	reload: t.func.isRequired,
 	reloadTime: t.number,
 	reloadedTime: t.number,
+	resize: t.func.isRequired,
 	rulers: t.bool.isRequired,
+	rulerX: t.number.isRequired,
+	rulerY: t.number.isRequired,
+	rulerLengthX: t.number.isRequired,
+	rulerLengthY: t.number.isRequired,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
 	sourceExpanded: t.bool

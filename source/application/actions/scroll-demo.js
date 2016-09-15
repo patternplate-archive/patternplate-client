@@ -1,25 +1,36 @@
 export default scrollDemo;
 export const type = 'SCROLL_DEMO';
 
-function scrollDemo({x, y}) {
+let loop;
+let frame;
+
+function scrollDemo(payload) {
 	return (dispatch, getState) => {
-		const state = getState();
-		if (x !== state.demoScrollX) {
-			global.requestAnimationFrame(() => {
-				dispatch({
-					type: 'SCROLL_DEMO_X',
-					payload: x
-				});
+		function run() {
+			loop = global.requestAnimationFrame(() => {
+				const state = getState();
+
+				if (state.scrollDemoX.x !== frame.x) {
+					dispatch({
+						type: 'SCROLL_DEMO_X',
+						payload: frame.x
+					});
+				}
+				if (state.scrollDemoY.y !== frame.y) {
+					dispatch({
+						type: 'SCROLL_DEMO_Y',
+						payload: frame.y
+					});
+				}
+				run();
 			});
 		}
-		if (y !== state.demoScrollY) {
-			global.requestAnimationFrame(() => {
-				dispatch({
-					type: 'SCROLL_DEMO_Y',
-					payload: y
-				});
-			});
+
+		if (!loop) {
+			run();
 		}
+
+		frame = payload;
 	};
 }
 

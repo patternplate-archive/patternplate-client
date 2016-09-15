@@ -2,18 +2,9 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
 
-import {search, themeLoaded, toggleSearchFocus, toggleTheme} from '../actions';
+import {search, themeLoaded, toggleSearchFocus, toggleTheme, windowResize} from '../actions';
 
 export default connect(mapProps, mapDispatch)(Application);
-
-function mapDispatch(dispatch) {
-	return bindActionCreators({
-		onSearch: search,
-		onThemeLoaded: themeLoaded,
-		onThemeChange: toggleTheme,
-		requestSearchBlur: () => toggleSearchFocus(false)
-	}, dispatch);
-}
 
 function mapProps(state, own) {
 	return {
@@ -38,6 +29,16 @@ function mapProps(state, own) {
 		title: state.config.title || state.schema.name,
 		version: selectVersion(state)
 	};
+}
+
+function mapDispatch(dispatch) {
+	return bindActionCreators({
+		onResize: windowResize,
+		onSearch: search,
+		onThemeLoaded: themeLoaded,
+		onThemeChange: toggleTheme,
+		requestSearchBlur: () => toggleSearchFocus(false)
+	}, dispatch);
 }
 
 function selectAbout(state) {

@@ -10,9 +10,8 @@ import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
 
 import {
-	changeConcern, changeEnvironment, changeType,
-	loadPattern, loadPatternDemo, loadPatternFile,
-	scrollDemo
+	changeConcern, changeEnvironment, changeType, demoContentResize,
+	loadPattern, loadPatternDemo, loadPatternFile, resizeDemo, scrollDemo
 } from '../actions';
 
 import patternDemoError from '../actions/pattern-demo-error';
@@ -21,11 +20,19 @@ export default connect(mapState, mapDispatch)(Pattern);
 
 function mapState(state) {
 	return {
-		automount: selectAutomount(state),
 		activeSource: state.sourceId || '',
+		automount: selectAutomount(state),
 		base: state.base,
 		breadcrumbs: selectBreadCrumbs(state),
 		code: selectCode(state),
+		rulerX: selectRulerXFraction(state),
+		rulerY: selectRulerYFraction(state),
+		rulerLengthX: selectRulerLengthX(state),
+		rulerLengthY: selectRulerLengthY(state),
+		demoContentHeight: selectDemoContentHeight(state),
+		demoContentWidth: selectDemoContentWidth(state),
+		demoHeight: selectHeight(state),
+		demoWidth: selectWidth(state),
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
 		display: selectDisplay(state),
@@ -36,11 +43,11 @@ function mapState(state) {
 		id: selectId(state),
 		loading: selectLoading(state),
 		location: selectLocation(state),
+		name: selectName(state),
 		onDemoReady: selectOnDemoReloaded(state),
 		opacity: state.opacity,
-		name: selectName(state),
-		reloadTime: selectReloadTime(state),
 		reloadedTime: selectReloadedTime(state),
+		reloadTime: selectReloadTime(state),
 		rulers: state.rulers,
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
@@ -53,12 +60,70 @@ function mapDispatch(dispatch) {
 		onConcernChange: changeConcern,
 		onDemoError: patternDemoError,
 		onDemoReady: () => loadPatternDemo(false),
+		onDemoContentResize: demoContentResize,
 		onDemoScroll: scrollDemo,
 		onEnvironmentChange: changeEnvironment,
 		onFileRequest: loadPatternFile,
 		reload: loadPattern,
+		resize: resizeDemo,
 		onTypeChange: changeType
 	}, dispatch);
+}
+
+function selectWidth(state) {
+	const dim = state.demoDimensions[state.id] || {};
+	return isNaN(dim.x) ?
+		selectWindowWidth(state) / 2 :
+		dim.x;
+}
+
+function selectHeight(state) {
+	const dim = state.demoDimensions[state.id] || {};
+	return isNaN(dim.y) ?
+		selectWindowHeight(state) / 2 :
+		dim.y;
+}
+
+function selectDemoContentWidth(state) {
+	const dim = state.demoContentDimensions[state.id] || {};
+	return dim.width || 0;
+}
+
+function selectDemoContentHeight(state) {
+	const dim = state.demoContentDimensions[state.id] || {};
+	return dim.height || 0;
+}
+
+function selectRulerXFraction(state) {
+	const length = selectRulerLengthX(state);
+	const scrollX = state.scrollDemoX.x;
+	return scrollX / (length / 100);
+}
+
+function selectRulerYFraction(state) {
+	const length = selectRulerLengthY(state);
+	const scrollY = state.scrollDemoY.y;
+	return scrollY / (length / 100);
+}
+
+function selectRulerLengthX(state) {
+	const width = selectDemoContentWidth(state);
+	const windowWidth = selectWindowWidth(state);
+	return width * 2 + Math.abs(windowWidth - width);
+}
+
+function selectRulerLengthY(state) {
+	const height = selectDemoContentHeight(state);
+	const windowHeight = selectWindowHeight(state);
+	return height * 2 + Math.abs(windowHeight - height);
+}
+
+function selectWindowWidth(state) {
+	return (state.window || {}).width || 0;
+}
+
+function selectWindowHeight(state) {
+	return (state.window || {}).height || 0;
 }
 
 function selectBreadCrumbs(state) {
