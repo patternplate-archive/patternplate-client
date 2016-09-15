@@ -132,7 +132,8 @@
     "scrollparent": "^1.0.0",
     "shortid": "^2.2.6",
     "strip-ansi": "^3.0.1",
-    "topologically-combine-reducers": "0.0.5"
+    "topologically-combine-reducers": "0.0.5",
+    "web-animations-js": "^2.2.2"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",

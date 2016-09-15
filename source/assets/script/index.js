@@ -1,4 +1,5 @@
 import 'dom4';
+import 'web-animations-js';
 import platform from 'platform';
 import {merge} from 'lodash';
 
