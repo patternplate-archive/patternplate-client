@@ -20,7 +20,7 @@ function bundle() {
 	if [ "$NODE_ENV" = "production" ]; then
 		MINIFY="-p [minifyify --map $MAP --output $MAPPATH]"
 	else
-		MINIFY="-p [minifyify --map $MAP --output $MAPPATH]"
+		MINIFY=""
 	fi
 
 	FLAGS="$FLAG react-dom \
@@ -54,8 +54,6 @@ function bundle() {
 	mkdir -p $(dirname $OUT) && \
 	$COMMAND $IN \
 		$FLAGS \
-		--extension=.js \
-		--extension=.jsx \
 		--debug \
 		-v \
 		$MINIFY \
