@@ -69,7 +69,7 @@ function Content(props) {
 								type={message.type}
 								title={message.subject}
 								body={message.body || message.stack}
-								pattern={message.pattern.trim()}
+								pattern={String(message.pattern).trim()}
 								payload={message.payload}
 								retry={message.retry}
 								file={message.file}
