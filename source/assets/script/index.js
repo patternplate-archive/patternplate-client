@@ -6,16 +6,22 @@ import {merge} from 'lodash';
 import router from '../../application/react-routes/client';
 import * as actions from '../../application/actions';
 
-const select = global.document.querySelector.bind(global.document);
+const {document, location} = global;
 
 main();
 
 function main() {
-	const vault = select('[data-application-state]');
-	const slot = select('[data-application]');
+	const vault = document.query('[data-application-state]');
+	const slot = document.query('[data-application]');
 	const data = getData(vault);
-	const app = router(data, slot);
-	bind(app);
+
+	// For static builds, purge the app mount point before
+	// attaching to avoid react warning
+	if (data.startPathname !== location.pathname) {
+		empty(slot);
+	}
+
+	bind(router(data, slot));
 }
 
 function bind(app) {
@@ -98,4 +104,10 @@ function getWindowData() {
 			height: global.innerHeight
 		}
 	};
+}
+
+function empty(el) {
+	while (el.lastChild) {
+		el.lastChild.remove();
+	}
 }

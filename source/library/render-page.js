@@ -83,6 +83,7 @@ export default async function renderPage(application, pageUrl) {
 			serverRuntimeName: platform.name,
 			serverRuntimeVersion: platform.version
 		},
+		startPathname: pageUrl,
 		startBase: base
 	});
 
