@@ -9,17 +9,15 @@ export default connect(mapProps, mapDispatch)(Application);
 function mapProps(state, own) {
 	return {
 		activePattern: state.id,
-		about: selectAbout(state),
 		base: state.base,
 		description: selectDescription(state),
+		depth: state.depth,
 		expanded: state.expanded,
 		hierarchy: state.config.hierarchy,
 		issue: state.issue,
 		lightbox: state.lightbox,
-		location: own.location,
 		menuEnabled: state.menuEnabled,
 		navigation: state.search ? state.searchMatches : state.navigation,
-		path: own.location.pathname,
 		pathname: own.location.pathname,
 		query: own.location.query,
 		search: own.location.query.search,
@@ -41,31 +39,8 @@ function mapDispatch(dispatch) {
 	}, dispatch);
 }
 
-function selectAbout(state) {
-	const schema = selectSchema(state);
-	const base = {
-		label: selectName(state),
-		value: selectVersion(state)
-	};
-	const about = ['app', 'client', 'server']
-		.map(type => {
-			return {
-				label: schema[`${type}Name`],
-				value: schema[`${type}Value`]
-			};
-		});
-	return [
-		base,
-		...about
-	];
-}
-
 function selectDescription(state) {
 	return selectSchema(state).description || '';
-}
-
-function selectName(state) {
-	return selectSchema(state).name || '';
 }
 
 function selectVersion(state) {

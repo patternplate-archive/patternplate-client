@@ -8,7 +8,7 @@ export default Header;
 function Header(props) {
 	const to = {pathname: props.base, query: props.query};
 	const enabledTo = {
-		pathname: props.path,
+		pathname: props.pathname,
 		query: {
 			...props.query,
 			'menu-enabled': !props.menuEnabled
@@ -55,7 +55,7 @@ Header.propTypes = {
 	base: t.string.isRequired,
 	icon: t.string.isRequired,
 	menuEnabled: t.bool.isRequired,
-	path: t.string.isRequired,
+	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired

@@ -30,6 +30,7 @@ export default class NavigationItem extends React.Component {
 		anchored: types.bool,
 		linkTo: types.string,
 		name: types.string.isRequired,
+		query: types.object.isRequired,
 		symbol: types.string.isRequired,
 		symbolActive: types.string,
 		searchQuery: types.string,
@@ -42,7 +43,6 @@ export default class NavigationItem extends React.Component {
 			types.arrayOf(types.node)
 		]),
 		onClick: types.func,
-		location: types.object,
 		type: types.string
 	};
 
@@ -60,21 +60,21 @@ export default class NavigationItem extends React.Component {
 	}
 
 	render() {
-		const {props: p} = this;
-		const {component: Component} = this.props;
+		const {props} = this;
+		const {component: Component} = props;
 
 		const modifiers = {
-			'child-active': p.active,
-			'hidden': p.hidden,
-			'anchored': p.anchored
+			'child-active': props.active,
+			'hidden': props.hidden,
+			'anchored': props.anchored
 		};
 
-		const itemClassName = classnames(`navigation-item navigation-item--${p.type}`, modifiers);
+		const itemClassName = classnames(`navigation-item navigation-item--${props.type}`, modifiers);
 		const linkClassName = classnames('navigation-link', modifiers);
-		const pathname = getPathName(p.base, p.linkTo, p.id);
-		const to = {pathname, query: omit(p.location.query, ['menu-enabled'])};
-		const title = p.title || `Navigate to ${p.name} ${p.type}`;
-		const symbol = p.active && (p.symbol === 'folder') ? p.symbolActive : p.symbol;
+		const pathname = getPathName(props.base, props.linkTo, props.id);
+		const to = {pathname, query: omit(props.query, ['menu-enabled'])};
+		const title = props.title || `Navigate to ${props.name} ${props.type}`;
+		const symbol = props.active && (props.symbol === 'folder') ? props.symbolActive : props.symbol;
 
 		return (
 			<Component className={itemClassName}>
@@ -84,11 +84,11 @@ export default class NavigationItem extends React.Component {
 					title={title}
 					className={linkClassName}
 					>
-					<Icon base={p.base} symbol={symbol}/>
-					<span>{p.name}</span>
+					<Icon symbol={symbol}/>
+					<span>{props.name}</span>
 				</Link>
 				{
-					p.active && this.props.children
+					props.active && props.children
 				}
 			</Component>
 		);

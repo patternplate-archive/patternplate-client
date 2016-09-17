@@ -12,22 +12,19 @@ import Header from '../header';
 @pure
 class Navigation extends React.Component {
 	static propTypes = {
-		about: t.arrayOf(t.shape({
-			label: t.string,
-			value: t.string
-		})).isRequired,
 		activePattern: t.string.isRequired,
 		base: t.string.isRequired,
 		enabled: t.bool.isRequired,
 		expanded: t.bool.isRequired,
 		hierarchy: t.object,
 		icon: t.string.isRequired,
-		location: t.object.isRequired,
 		menuEnabled: t.bool.isRequired,
 		navigation: t.object.isRequired,
 		onSearch: t.func,
 		onSearchBlur: t.func,
 		onThemeChange: t.func.isRequired,
+		pathname: t.string.isRequired,
+		query: t.object.isRequired,
 		requestSearchBlur: t.func.isRequired,
 		searchQuery: t.string,
 		searchValue: t.string,
@@ -53,51 +50,34 @@ class Navigation extends React.Component {
 	}
 
 	render() {
-		const {
-			about,
-			activePattern,
-			base,
-			expanded,
-			hierarchy,
-			icon,
-			location,
-			menuEnabled,
-			navigation,
-			onThemeChange: handleThemeChange,
-			searchValue,
-			title,
-			version
-		} = this.props;
+		const {props} = this;
 
 		const className = classnames('navigation application__navigation', {
-			'slim': !expanded,
-			'navigation--expanded': expanded
+			'slim': !props.expanded,
+			'navigation--expanded': props.expanded
 		});
 
 		return (
 			<nav className={className}>
 				<Header
-					about={about}
-					base={base}
-					icon={icon}
-					location={location}
-					menuEnabled={menuEnabled}
-					path={location.pathname}
-					query={location.query}
-					title={title}
-					version={version}
+					base={props.base}
+					icon={props.icon}
+					menuEnabled={props.menuEnabled}
+					pathname={props.pathname}
+					query={props.query}
+					title={props.title}
+					version={props.version}
 					/>
 				<NavigationTree
-					activePattern={activePattern}
-					base={base}
-					data={navigation}
-					path={location.pathname}
-					hierarchy={hierarchy}
-					location={location}
+					activePattern={props.activePattern}
+					base={props.base}
+					data={props.navigation}
+					query={props.query}
+					hierarchy={props.hierarchy}
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
-							base={base}
+							base={props.base}
 							blur={this.props.requestSearchBlur}
 							className="navigation__search-field"
 							linkTo="/search"
@@ -107,27 +87,28 @@ class Navigation extends React.Component {
 							onFocus={this.handleSearchFocus}
 							placeholder="Search"
 							title="Search for patterns [ctrl+space]"
-							value={searchValue}
+							value={props.searchValue}
 							/>
 					</form>
 					<NavigationItem
-						name="Documentation"
-						symbol="documentation"
+						active={props.pathname === props.base}
+						base={props.base}
 						key="root"
-						location={location}
 						linkTo="/"
-						active={location.pathname === base}
-						type="page"
+						name="Documentation"
+						query={props.query}
+						symbol="documentation"
 						title="Navigate to documentation [ctrl+d]"
-						base={base}
+						type="page"
 						/>
 				</NavigationTree>
 				<NavigationToolbar
-					base={base}
-					expanded={expanded}
-					location={location}
-					onThemeChange={handleThemeChange}
-					theme={this.props.theme}
+					base={props.base}
+					expanded={props.expanded}
+					onThemeChange={props.onThemeChange}
+					pathname={props.pathname}
+					query={props.query}
+					theme={props.theme}
 					/>
 			</nav>
 		);

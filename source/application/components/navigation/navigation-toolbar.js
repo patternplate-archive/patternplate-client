@@ -7,17 +7,17 @@ import NavigationToggle from './navigation-toggle';
 export default function NavigationToolbar(props) {
 	// const {data} = props;
 	const issue = {
-		...props.location,
+		pathname: props.pathname,
 		query: {
-			...props.location.query,
+			...props.query,
 			issue: true
 		}
 	};
 
 	const cheatsheet = {
-		...props.location,
+		pathname: props.pathname,
 		query: {
-			...props.location.query,
+			...props.query,
 			lightbox: 'shortcuts'
 		}
 	};
@@ -81,7 +81,8 @@ export default function NavigationToolbar(props) {
 				<NavigationToggle
 					base={props.base}
 					expanded={props.expanded}
-					location={props.location}
+					pathname={props.pathname}
+					query={props.query}
 					/>
 			</div>
 		</div>
@@ -91,8 +92,9 @@ export default function NavigationToolbar(props) {
 NavigationToolbar.propTypes = {
 	base: t.string.isRequired,
 	children: t.any,
-	location: t.object.isRequired,
 	expanded: t.bool.isRequired,
 	onThemeChange: t.func.isRequired,
+	pathname: t.string.isRequired,
+	query: t.object.isRequired,
 	theme: t.string.isRequired
 };

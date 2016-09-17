@@ -14,20 +14,19 @@ class NavigationTree extends Component {
 		activePattern: types.string,
 		base: types.string.isRequired,
 		data: types.object,
-		path: types.string,
+		query: types.object.isRequired,
 		searchQuery: types.string,
 		children: types.oneOfType([
 			types.node,
 			types.arrayOf(types.node)
 		]),
 		config: types.object,
-		hierarchy: types.object,
-		location: types.object
+		hierarchy: types.object
 	};
 
 	render() {
-		const {base, data, children, hierarchy, activePattern, searchQuery, location} = this.props;
-		const {folders, patterns} = getAugmentedChildren(data, hierarchy);
+		const {props} = this;
+		const {folders, patterns} = getAugmentedChildren(props.data, props.hierarchy);
 
 		return (
 			<CSSTransitionGroup
@@ -37,33 +36,33 @@ class NavigationTree extends Component {
 				transitionEnterTimeout={300}
 				transitionLeaveTimeout={300}
 				>
-				{children}
+				{props.children}
 				{
 					folders.map(folder => {
-						const active = activePattern.startsWith(folder.id);
+						const active = props.activePattern.startsWith(folder.id);
 
 						return (
 							<NavigationItem
+								active={active || folder.expanded}
+								base={props.base}
+								id={folder.id}
+								key={folder.id}
 								name={folder.displayName}
+								onClick={this.handleFolderClick}
+								query={props.query}
+								searchQuery={props.searchQuery}
 								symbol={folder.icon}
 								symbolActive={folder.iconActive}
-								id={folder.id}
-								searchQuery={searchQuery}
-								key={folder.id}
-								active={active || folder.expanded}
-								onClick={this.handleFolderClick}
-								location={location}
-								base={base}
 								type="directory"
 								>
 								<NavigationTree
-									activePattern={activePattern}
-									id={folder.id}
+									activePattern={props.activePattern}
+									base={props.base}
 									data={folder.children}
-									searchQuery={searchQuery}
-									hierarchy={hierarchy}
-									location={location}
-									base={base}
+									hierarchy={props.hierarchy}
+									id={folder.id}
+									query={props.query}
+									searchQuery={props.searchQuery}
 									/>
 							</NavigationItem>
 						);
@@ -83,17 +82,17 @@ class NavigationTree extends Component {
 
 						return (
 							<NavigationItem
-								base={base}
-								name={displayName}
+								active={props.activePattern === pattern.id || expanded}
+								base={props.base}
 								hidden={hidden}
 								id={pattern.id}
 								key={pattern.id}
-								symbol={type}
+								name={displayName}
+								query={props.query}
 								ref={this.getActiveReference}
-								searchQuery={searchQuery}
-								location={location}
+								searchQuery={props.searchQuery}
+								symbol={type}
 								type={type}
-								active={activePattern === pattern.id || expanded}
 								/>
 							);
 					})

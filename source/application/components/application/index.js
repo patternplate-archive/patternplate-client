@@ -34,6 +34,10 @@ export default class Application extends Component {
 			'application--theme-loading': props.themeLoading
 		});
 
+		const base = props.depth ?
+			Array(props.depth).fill('..').join('/') :
+			'/';
+
 		return (
 			<div className={className}>
 				<Helmet
@@ -47,23 +51,22 @@ export default class Application extends Component {
 							content: 'width=device-width, initial-scale=1'
 						}
 					]}
-					link={createLinks(props.styles, {base: props.base})}
+					link={createLinks(props.styles, {base})}
 					title={props.title}
 					onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
 					/>
 				<Navigation
-					about={props.about}
 					activePattern={props.activePattern}
 					base={props.base}
 					enabled={props.menuEnabled}
 					expanded={props.expanded}
 					hierarchy={props.hierarchy}
 					icon="patternplate"
-					location={props.location}
 					menuEnabled={props.menuEnabled}
 					navigation={props.navigation}
 					onSearch={handleSearch}
 					onThemeChange={props.onThemeChange}
+					pathname={props.pathname}
 					query={props.query}
 					requestSearchBlur={props.requestSearchBlur}
 					searchValue={props.search}
@@ -93,20 +96,12 @@ export default class Application extends Component {
 
 Application.propTypes = {
 	activePattern: t.string.isRequired,
-	about: t.arrayOf(t.shape({
-		label: t.string,
-		value: t.string
-	})).isRequired,
 	base: t.string.isRequired,
 	children: t.any,
 	description: t.string.isRequired,
 	expanded: t.bool.isRequired,
 	hierarchy: t.object.isRequired,
 	issue: t.bool.isRequired,
-	location: t.shape({
-		pathname: t.string.isRequired,
-		query: t.object.isRequired
-	}).isRequired,
 	lightbox: t.string,
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
@@ -114,7 +109,6 @@ Application.propTypes = {
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
 	onThemeChange: t.func.isRequired,
-	path: t.string.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	requestSearchBlur: t.func.isRequired,

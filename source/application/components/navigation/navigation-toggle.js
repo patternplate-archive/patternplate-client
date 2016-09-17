@@ -5,27 +5,27 @@ import join from 'classnames';
 import Icon from '../common/icon';
 
 export default function NavigationToggle(props) {
-	const {location, expanded, base} = props;
 	const iconClassName = join({
-		'icon--mirrored': expanded
+		'icon--mirrored': props.expanded
 	});
 
 	return (
 		<Link
 			to={{
-				pathname: location.pathname,
-				query: {...location.query, ...{expanded: !expanded}}
+				pathname: props.pathname,
+				query: {...props.query, ...{expanded: !props.expanded}}
 			}}
 			className="toggleMode"
-			title={expanded ? 'Collapse navigation [ctrl+e]' : 'Expand navigation [ctrl+e]'}
+			title={props.expanded ? 'Collapse navigation [ctrl+e]' : 'Expand navigation [ctrl+e]'}
 			>
-			<Icon base={base} className={iconClassName} symbol="arrow-double-right"/>
+			<Icon base={props.base} className={iconClassName} symbol="arrow-double-right"/>
 		</Link>
 	);
 }
 
 NavigationToggle.propTypes = {
-	location: t.object.isRequired,
+	base: t.string.isRequired,
 	expanded: t.bool.isRequired,
-	base: t.string.isRequired
+	pathname: t.string.isRequired,
+	query: t.object.isRequired
 };
