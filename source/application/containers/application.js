@@ -21,6 +21,7 @@ function mapProps(state, own) {
 		pathname: own.location.pathname,
 		query: own.location.query,
 		search: own.location.query.search,
+		startBase: state.startBase,
 		styles: state.styles,
 		theme: state.theme,
 		themeLoading: selectThemeLoading(state),

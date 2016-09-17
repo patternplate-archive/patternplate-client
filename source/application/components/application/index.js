@@ -34,10 +34,6 @@ export default class Application extends Component {
 			'application--theme-loading': props.themeLoading
 		});
 
-		const base = props.depth ?
-			Array(props.depth).fill('..').join('/') :
-			'/';
-
 		return (
 			<div className={className}>
 				<Helmet
@@ -51,7 +47,7 @@ export default class Application extends Component {
 							content: 'width=device-width, initial-scale=1'
 						}
 					]}
-					link={createLinks(props.styles, {base})}
+					link={createLinks(props.styles, {base: props.startBase})}
 					title={props.title}
 					onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
 					/>
@@ -128,7 +124,7 @@ function createStyle(options) {
 	return style => {
 		return {
 			'rel': 'stylesheet',
-			'href': `${options.base}style/${style}.css`,
+			'href': `${options.base}/style/${style}.css`,
 			'data-style-id': style
 		};
 	};

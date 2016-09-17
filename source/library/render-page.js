@@ -82,7 +82,8 @@ export default async function renderPage(application, pageUrl) {
 			serverOsVersion: os.release(),
 			serverRuntimeName: platform.name,
 			serverRuntimeVersion: platform.version
-		}
+		},
+		startBase: base
 	});
 
 	const content = await router(options.url, data);
