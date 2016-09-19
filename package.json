@@ -87,6 +87,7 @@
   "dependencies": {
     "autobind-decorator": "^1.3.3",
     "babel-polyfill": "^6.5.0",
+    "babel-preset-async-to-bluebird": "^1.1.0",
     "babel-runtime": "^6.6.1",
     "bluebird": "^3.4.0",
     "boilerplate-server": "^0.12.1",
