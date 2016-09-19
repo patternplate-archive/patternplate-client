@@ -8,9 +8,9 @@
 }
 
 .pattern-ruler {
+	position: relative;
 	background: inherit;
 	user-select: none;
-	overflow: hidden;
 }
 
 .pattern-ruler__scale {
@@ -34,24 +34,27 @@
 	padding: 0;
 }
 
+@pattern-ruler__marker-width: 1px;
+
 .pattern-ruler__marker {
 	position: absolute;
 	z-index: 5;
 	top: 0px;
 	bottom: 0px;
-	width: 1px;
+	width: @pattern-ruler__marker-width;
 	background: @active-color;
 }
 
 .pattern-ruler--horizontal {
+    height: 100%;
+    left: 100%;
 	.pattern-ruler__marker {
 		height: 100%;
-		width: 1px;
 	}
 	.pattern-ruler__scale {
 		flex-direction: row;
 		position: absolute;
-		left: calc(~"100% - 1px");
+		left: 0;
 		top: 0;
 		width: auto;
 		height: 100%;
@@ -62,15 +65,17 @@
 }
 
 .pattern-ruler--vertical {
+	width: 100%;
+    top: 100%;
 	.pattern-ruler__marker {
-		height: 1px;
+		height: @pattern-ruler__marker-width;
 		width: 100%;
 	}
 	.pattern-ruler__scale {
 		flex-direction: column;
 		position: absolute;
 		z-index: 2;
-		top: calc(~"100% - 1px");
+		top: 0;
 		right: 0;
 		width: 100%;
 		height: auto;

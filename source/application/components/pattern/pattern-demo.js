@@ -32,14 +32,14 @@ function PatternDemo(props) {
 							type="vertical"
 							step={10}
 							length={props.rulerLengthY}
-							markers={[props.height + 19]}
+							markers={[props.height]}
 							offset={props.rulerY}
 							/>
 						<Ruler
 							type="horizontal"
 							step={10}
 							length={props.rulerLengthX}
-							markers={[props.width + 19]}
+							markers={[props.width]}
 							offset={props.rulerX}
 							/>
 					</div>

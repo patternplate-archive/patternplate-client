@@ -80,13 +80,13 @@
 			transform: translateX(100%);
 		}
 	}
+
 	a {
 		text-decoration: none;
-
-		&, &:active {
+		&,
+		&:active {
 			color: @active-color;
 		}
-
 		&:hover {
 			color: lighten(@active-color, 15%);
 		}
@@ -98,13 +98,24 @@
 		padding: 4px;
 		background: transparent;
 		border: none;
+		color: @active-color;
 		vertical-align: middle;
 		border: 1px solid @border-color;
-		color: @active-color;
 		cursor: pointer;
 		text-align: center;
+		transition: @default-transition;
 		&:focus {
 			outline: none;
+		}
+		&:active {
+			border-color: currentColor;
+		}
+		&:hover {
+			color: lighten(@active-color, 15%);
+			border-color: currentColor;
+		}
+		&--is-active {
+			border-color: currentColor;
 		}
 		&:disabled {
 			cursor: not-allowed;

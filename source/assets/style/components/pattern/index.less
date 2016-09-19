@@ -38,7 +38,6 @@
 .button {
 	&.reload--reloading {
 		cursor: wait;
-		filter: grayscale(1);
 		.svg-icon {
 			animation: spin 1s infinite;
 			animation-fill-mode: both;
@@ -142,12 +141,18 @@
 	border-bottom: none;
 
 	&--opacity {
-		background-image:
-			linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker),
-			linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker);
-		background-size: @checkerSize @checkerSize;
-		background-position: 0 0, (@checkerSize / 2) (@checkerSize / 2);
+		.pattern__frame {
+			background-image:
+				linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker),
+				linear-gradient(45deg, @checker 25%, transparent 25%, transparent 75%, @checker 75%, @checker);
+			background-size: @checkerSize @checkerSize;
+			background-position: 0 0, (@checkerSize / 2) (@checkerSize / 2);
+		}
 	}
+}
+
+.pattern__frame {
+	background-color: @root-background;
 }
 
 .pattern-demo {
@@ -156,15 +161,20 @@
 	border: 0;
 	width: 100%;
 	height: 100%;
-	background: transparent;
 	overflow: hidden;
 }
 
-.pattern-demo.pattern-demo--resizable {
+.pattern-demo--resizable {
 	top: @pattern-demo-padding;
 	left: @pattern-demo-padding;
 	width: ~'calc(100% - @pattern-demo-padding)';
 	height: ~'calc(100% - @pattern-demo-padding)';
+
+	.pattern__frame {
+		box-sizing: initial;
+		padding-right: @pattern-resize-handle-height;
+		padding-bottom: @pattern-resize-handle-height;
+	}
 }
 
 .clipboard {
@@ -411,38 +421,73 @@
 		height: 100%;
 		border: none;
 	}
-	.iframe.iframe--resizeable {
-		width: ~'calc(100% - 20px)';
-		height: ~'calc(100% - 20px)';
-	}
 }
 
 .frame__handles {
 	position: absolute;
 	bottom: 0;
 	right: 0;
-	width: 20px;
-	height: 20px;
+	width: @pattern-resize-handle-height;
+	height: @pattern-resize-handle-height;
+}
+
+.frame-handle {
+	position: absolute;
+	background-color: @frame-handle-bg-color;
+	color: @border-color;
+	transition: @default-transition;
+	transition-property: color;
+	&:hover {
+		color: @active-color;
+	}
+	&::before,
+	&::after {
+		position: absolute;
+		content: '';
+		display: block;
+		width: 2em;
+		height: 1px;
+		background-color: currentColor;
+		transform: translate(-50%, -50%);
+	}
 }
 
 .frame-handle--horizontal {
-	position: absolute;
 	bottom: 0;
 	right: 100%;
 	height: 100%;
 	cursor: ns-resize;
 	border-top: 1px dashed @active-color;
+	&::before {
+		top: 35%;
+		left: 50%;
+	}
+	&::after {
+		top: 65%;
+		left: 50%;
+	}
 	.handle__value {
 		transform: translate(-50%, 0);
 	}
 }
 
 .frame-handle--vertical {
-	position: absolute;
-	bottom: 20px;
+	bottom: @pattern-resize-handle-height;
 	width: 100%;
 	cursor: ew-resize;
 	border-left: 1px dashed @active-color;
+	&::before,
+	&::after {
+		transform: translate(-50%, -50%) rotate(90deg);
+	}
+	&::before {
+		top: 50%;
+		left: 35%;
+	}
+	&::after {
+		top: 50%;
+		left: 65%;
+	}
 	.handle__value {
 		transform: translate(-35%, -50%) rotate(90deg);
 		transform-origin: 50% 0;
@@ -450,10 +495,23 @@
 }
 
 .frame-handle--diagonal {
+	overflow: hidden;
 	bottom: 0;
 	width: 100%;
 	height: 100%;
 	cursor: nwse-resize;
+	&::before,
+	&::after {
+		transform: translate(-50%, -50%) rotate(-45deg);
+	}
+	&::before {
+		top: 50%;
+		left: 50%;
+	}
+	&::after {
+		top: 75%;
+		left: 75%;
+	}
 	// transform: translate(-50%, -50%);
 }
 

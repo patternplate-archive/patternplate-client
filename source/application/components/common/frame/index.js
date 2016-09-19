@@ -73,17 +73,26 @@ export default class Frame extends Component {
 			props.onLoad(e);
 		};
 
-		const frameClassName = join('iframe', {
-			'iframe--resizeable': props.resizeable
-		});
+		const frameClassName = join(
+			'iframe',
+			{
+				'iframe--resizeable': props.resizeable
+			}
+		);
 
-		const style = props.resizeable ?
-			{width: props.width + 19, height: props.height + 19} :
-			{};
+		const frameResizeClassName = join(
+			'frame__resize-container',
+			'pattern__frame'
+		);
+
+		const style = props.resizeable ? {
+			width: props.width,
+			height: props.height
+		} : {};
 
 		return (
 			<div className={props.className}>
-				<div className="frame__resize-container" style={style}>
+				<div className={frameResizeClassName} style={style}>
 					<iframe
 						className={frameClassName}
 						onLoad={relay(onLoad, props.onError)}
