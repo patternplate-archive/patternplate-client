@@ -24,17 +24,33 @@ export default function PatternHeader(props) {
 	const fullscreenTitle = `Open "${props.name}" in fullscreen [ctrl+f]`;
 
 	const reloadTitle = `Reload demo for "${props.name}" [ctrl+r]`;
-	const reloadClassName = join('button reload', {
-		'reload--reloading': props.loading,
-		'reload--error': props.errored
-	});
+	const reloadClassName = join(
+		'button',
+		'button--reload',
+		{
+			'reload--reloading': props.loading,
+			'button--is-active': props.loading,
+			'reload--error': props.errored
+		}
+	);
 
 	const rulersTitle = props.rulers ?
 		`Disable rulers [ctrl+l]` :
 		`Enable rulers [ctrl+l]`;
 
-	const rulersClassName = `button button--rulers`;
+	const rulersClassName = join(
+		`button button--rulers`,
+		{
+			'button--is-active': props.rulers
+		}
+	);
 
+	const opacityClassName = join(
+		'button button--opacity',
+		{
+			'button--is-active': props.opacity
+		}
+	);
 	const opacitySymbol = props.opacity ? 'checkers' : 'checkers-inverted';
 	const opacityTitle = props.opacity ?
 		'Show opacity [ctrl+o]' :
@@ -128,7 +144,7 @@ export default function PatternHeader(props) {
 					<Icon symbol="rulers"/>
 				</Link>
 				<Link
-					className="button"
+					className={opacityClassName}
 					title={opacityTitle}
 					to={{
 						pathname: props.location.pathname,
