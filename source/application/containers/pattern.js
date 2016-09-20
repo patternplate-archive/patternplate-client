@@ -348,11 +348,13 @@ function selectCode(state) {
 		const language = sourceType === 'source' ? format.in : format.out;
 		const extname = format.inExtname;
 		const pathname = [pattern.id, `${concern}${extname}`].join('/');
+		const types = hasDemo && concern === 'index' ? ['source'] : ['source', 'transformed'];
+		const type = hasDemo && concern === 'index' ? 'source' : sourceType;
 
 		const id = urlQuery.format({
 			pathname,
 			query: {
-				type: sourceType,
+				type,
 				environment: state.environment
 			}
 		});
@@ -382,8 +384,8 @@ function selectCode(state) {
 			language,
 			name: format.displayName,
 			source: source || '',
-			type: sourceType,
-			types: ['source', 'transformed']
+			type,
+			types
 		};
 	});
 }

@@ -60,6 +60,10 @@ export default function patternRouteFactory(application) {
 			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, filters, environment);
 
 			if (error) {
+				console.log(error.message);
+				if (error.stack) {
+					console.trace(error.stack);
+				}
 				this.throw(error);
 			}
 
