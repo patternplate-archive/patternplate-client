@@ -1,22 +1,79 @@
-function layout(props) {
-	return `<!doctype html>
-	<html>
-		<head>
-			<title>${props.title}</title>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-			<link rel="icon" type="image/png" href="/static/images/patternplate-favicon-32.png" sizes="32x32" />
-			<link rel="icon" type="image/png" href="/static/images/patternplate-favicon-16.png" sizes="16x16" />
-			<link rel="stylesheet" href="${props.stylesheet}" data-application-theme="data-application-theme">
-		</head>
-		<body>
-			<div class="inline-svg" data-application-icons="data-application-icons">${props.icons}</div>
-			<div data-application="data-application">${props.content}</div>
-			<script data-application-state="data-application-state" type="application/json">${props.data}</script>
-			<script src="/script/vendors.js"></script>
-			<script src="${props.script}"></script>
-		</body>
-	</html>
-	`;
-}
+ /* eslint-disable react/no-danger */
+import React, {PropTypes as t} from 'react';
+import {renderToStaticMarkup as render} from 'react-dom/server';
 
 export default layout;
+
+function layout(props) {
+	return `<!doctype html>${render(<Layout {...props}/>)}`;
+}
+
+function Layout(props) {
+	const attributes = props.attributes.toComponent();
+	return (
+		<html {...attributes}>
+			<head>
+				{props.title.toComponent()}
+				{props.meta.toComponent()}
+				{props.link.toComponent()}
+				{props.style.toComponent()}
+			</head>
+			<body>
+				<IconRegistry>{props.icons}</IconRegistry>
+				<Content content={props.content}/>
+				<State data={props.data}/>
+				{
+					props.scripts.map(src => {
+						return <script key={src} src={src}/>;
+					})
+				}
+			</body>
+		</html>
+	);
+}
+
+Layout.propTypes = {
+	attributes: t.object.isRequired,
+	content: t.string.isRequired,
+	data: t.string.isRequired,
+	icons: t.any.isRequired,
+	link: t.object.isRequired,
+	meta: t.object.isRequired,
+	scripts: t.arrayOf(t.string).isRequired,
+	style: t.object.isRequired,
+	title: t.object.isRequired
+};
+
+function IconRegistry(props) {
+	return <div data-icon-registry>{props.children}</div>;
+}
+
+IconRegistry.propTypes = {
+	children: t.any
+};
+
+function Content(props) {
+	return (
+		<div data-application
+			dangerouslySetInnerHTML={{__html: props.content}}
+			/>
+	);
+}
+
+Content.propTypes = {
+	content: t.string.isRequired
+};
+
+function State(props) {
+	return (
+		<script
+			data-application-state
+			dangerouslySetInnerHTML={{__html: props.data}}
+			type="application/json"
+			/>
+	);
+}
+
+State.propTypes = {
+	data: t.string.isRequired
+};

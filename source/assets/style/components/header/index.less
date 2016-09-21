@@ -1,0 +1,87 @@
+.main-header {
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-shrink: 0;
+	height: @headerHeight;
+	background-color: @root-background;
+	box-shadow: @shadow-down;
+	.logo {
+		display: none;
+		align-items: center;
+		min-width: @navWidthMedium;
+		@media screen and (min-width: 900px) {
+			min-width: @navWidthWide;
+		}
+		.icon {
+			display: flex;
+			align-items: center;
+			justify-content: flex-start;
+			flex-wrap: nowrap;
+			width: 100%;
+		}
+		.svg-icon {
+			flex-shrink: 0;
+			width: 50px;
+			height: 50px;
+			max-width: 100%;
+			margin-right: 5px;
+		}
+		.svg-text {
+			margin-right: 5px;
+			color: @root-color;
+			&:hover {
+				color: @hover-color;
+			}
+		}
+		a {
+			margin-right: 15px;
+		}
+		.version {
+			display: none;
+
+			flex-grow: 0;
+			flex-shrink: 0;
+			border-radius: 3px;
+			padding: 5px;
+			margin-left: auto;
+			margin-right: 10px;
+			line-height: 1.45;
+			background: @code-background;
+			border: 1px solid @border-color;
+		}
+	}
+	.menu {
+		display: flex;
+		align-items: center;
+		.svg-text {
+			color: @root-color;
+			&:hover {
+				color: @hover-color;
+			}
+		}
+	}
+	@media screen and (max-width: 500px) {
+		.menu {
+			margin: 0;
+			height: @headerHeight;
+			border: none;
+			vertical-align: middle;
+			.svg-icon {
+				width: 50px;
+				height: 50px;
+				padding: 5px;
+			}
+		}
+	}
+	@media screen and (min-width: 500px) {
+		padding: 0 5px;
+		.menu {
+			display: none;
+		}
+		.logo {
+			display: flex;
+		}
+	}
+}

@@ -1,0 +1,65 @@
+@import (inline) ~'npm://highlight.js/styles/@{syntax-theme}.css';
+@import (less) 'npm://github-markdown-css/github-markdown.css';
+
+.inverted-markdown() when (@theme-dark) {
+	h1, h2, h3, h4, h5, h6, p, ol, ul {
+		color: @root-color;
+	}
+
+	h1, h2 {
+		border-bottom-color: #373c40;
+	}
+
+	hr {
+		border-bottom-color: #373c40;
+		background-color: #373c40;
+	}
+
+	blockquote {
+		color: #999;
+		border-left-color: #777;
+		p {
+			color: inherit;
+		}
+	}
+
+	code {
+		background-color: rgba(255,255,255,.04);
+	}
+
+	pre {
+		background: @code-background;
+		color: @root-color;
+	}
+
+	table {
+		tr {
+			color: @root-color;
+			border-top: 1px solid #373c40;
+			background: transparent;
+			&:nth-child(2n) {
+				background: @sidebar-bg-hl;
+			}
+		}
+		td, th {
+			border: 1px solid #373c40;
+		}
+	}
+}
+
+.markdown {
+	background: transparent;
+	border: none;
+	&:extend(.markdown-body all);
+	img {
+		background-color: transparent;
+	}
+	table {
+		text-align: left;
+	}
+	.inverted-markdown();
+}
+
+.hljs {
+	tab-size: 2;
+}

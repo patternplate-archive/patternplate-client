@@ -1,6 +1,6 @@
 
-function hierarchyCompare (a, b) {
-	return (a.order == b.order) ?
+function hierarchyCompare(a, b) {
+	return (a.order === b.order) ?
 		a.displayName.localeCompare(b.displayName) :
 		a.order > b.order;
 }
@@ -8,16 +8,17 @@ function hierarchyCompare (a, b) {
 function augmentFolderData(hierarchy) {
 	// extract displayName and order from hierarchy config for the folder
 	return folder => {
-		let splits = folder.id.split('/');
-		let key = splits[splits.length - 1];
+		const splits = folder.id.split('/');
+		const key = splits[splits.length - 1];
 
-		let defaultHierarchyEntry = {
-			'order': -1, // default order is -1, hence 'unordered' items are on top
-			'displayName': key,
-			'icon': 'folder' // TODO: add 'folder' default icon
+		const defaultHierarchyEntry = {
+			order: -1,
+			displayName: key,
+			icon: 'folder',
+			iconActive: 'folder-open'
 		};
 
-		let hierarchyEntry = hierarchy[folder.id];
+		const hierarchyEntry = hierarchy[folder.id];
 
 		return {
 			...folder,
@@ -27,34 +28,29 @@ function augmentFolderData(hierarchy) {
 	};
 }
 
-function augmentPatternData (hierarchy) {
+function augmentPatternData() {
 	return pattern => ({
 		...pattern,
 		displayName: pattern.manifest.displayName || pattern.manifest.name
 	});
 }
 
-export default function getAugmentedChildren (data, hierarchy) {
-	let folders = [];
-	let patterns = [];
+export function getPatterns(data, hierarchy) {
+	return Object.values(data).reduce((pool, item) => {
+		const amend = item.type === 'pattern' ? [item] : [];
+		return [...pool, ...amend, ...getPatterns(item.children || {}, hierarchy)];
+	}, []);
+}
 
-	Object.keys(data).forEach(childKey => {
-		let child = data[childKey];
+export default function getAugmentedChildren(data, hierarchy) {
+	const folders = Object.values(data)
+		.filter(item => item.type === 'folder')
+		.map(augmentFolderData(hierarchy));
 
-		if (child.type == 'pattern') {
-			patterns.push(child);
-		} else if (child.type == 'folder') {
-			folders.push(child);
-		} else {
-			console.warn('Unknown meta hierarchy type "' + child.type + '", skipping.');
-		}
-	});
-
-	folders = folders.map(augmentFolderData(hierarchy));
-	folders.sort(hierarchyCompare);
-
-	patterns = patterns.map(augmentPatternData(hierarchy));
-	patterns.sort(hierarchyCompare);
+	const patterns = Object.values(data)
+		.filter(item => item.type === 'pattern')
+		.map(augmentPatternData(hierarchy))
+		.sort(hierarchyCompare);
 
 	return {
 		folders,

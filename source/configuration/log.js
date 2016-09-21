@@ -1,5 +1,5 @@
 const log = {
-	'level': 'silly'
+	level: 'info'
 };
 
 export default log;

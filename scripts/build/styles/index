@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+concurrently -k \
+	"./scripts/build/styles/compile source/assets/style/light.less assets/style/light" \
+	"./scripts/build/styles/compile source/assets/style/dark.less assets/style/dark"

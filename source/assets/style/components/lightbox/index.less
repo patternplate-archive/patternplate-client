@@ -1,0 +1,86 @@
+.lightbox {
+	position: absolute;
+	&__backdrop {
+		position: fixed;
+		z-index: 3;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: darken(fadeout(@root-background, 60%), 25%);
+	}
+	&__container {
+		position: fixed;
+		z-index: 4;
+		top: 50%;
+		left: 50%;
+		display: flex;
+		flex-direction: column;
+		transform: translate(-50%, -50%);
+		width: 300px;
+		min-width: 100vw;
+		max-width: 100vw;
+		height: 300px;
+		min-height: 100vh;
+		max-height: 100vh;
+		background: @root-background;
+		border: 1px solid @border-color;
+		border-radius: 3px;
+		@media screen and (min-width: 500px) {
+			min-height: 90vh;
+			min-width: 90vw;
+		}
+	}
+	&__title {
+		z-index: 1;
+		flex-grow: 0;
+		flex-shrink: 0;
+		padding: 0 15px;
+		box-shadow: @shadow-down;
+	}
+	&__children {
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		padding: 0 15px;
+	}
+	&__instructions {
+		margin-top: 15px;
+	}
+	&__button-row {
+		z-index: 1;
+		display: flex;
+		justify-content: flex-end;
+		flex-shrink: 0;
+		margin-top: auto;
+		padding: 15px;
+		box-shadow: @shadow-up;
+	}
+	&__button {
+		flex-shrink: 0;
+		&:not(:last-child):not(:first-child) {
+			margin-right: 10px;
+		}
+		@media screen and (max-width: 500px) {
+			width: 100%;
+			flex-grow: 1;
+		}
+	}
+}
+.console-lightbox__preview,
+.problem-lightbox__preview {
+	flex-grow: 1;
+	display: flex;
+	width: 100%;
+	.markdown {
+		overflow: auto;
+		padding: 15px;
+		width: 50%;
+	}
+	textarea {
+		width: 100%;
+	}
+}

@@ -1,0 +1,238 @@
+.pattern-toolbar {
+	position: relative;
+	z-index: 4;
+	display: flex;
+	flex-wrap: wrap-reverse;
+	border-top: 1px solid @border-color;
+	min-height: @pattern-toolbar-height;
+	background: @root-background;
+	&--expanded {
+		flex-wrap: wrap;
+		.pattern-sources {
+			margin-bottom: -1px;
+		}
+	}
+	@media screen and (max-width: 500px) {
+		.pattern-sources {
+			background-color: @sidebar-bg-sub;
+			.pattern-control {
+				height: 40px;
+				border-width: 1px 2.5px;
+				background-color: @sidebar-bg-sub;
+			}
+		}
+	}
+}
+.pattern-sources {
+	display: flex;
+	flex-shrink: 1;
+	flex-grow: 100;
+	width: 100%;
+	min-width: 60px;
+	margin-left: auto;
+	margin-bottom: -65px;
+	border-bottom: 1px solid @border-color;
+	background: @root-background;
+	transition: .3s height ease-in-out;
+	@media screen and (min-width: 500px) {
+		width: auto;
+		height: auto;
+	}
+}
+.pattern-tools {
+	display: flex;
+	flex-shrink: 1;
+	flex-grow: 1;
+	align-items: center;
+	width: 100%;
+	margin-left: 44px;
+	@media screen and (min-width: 500px) {
+		width: auto;
+		justify-content: flex-end;
+	}
+	a {
+		color: inherit;
+		&:not(.active):hover {
+			color: @hover-color;
+		}
+	}
+}
+.pattern-source {
+	flex-shrink: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	.pattern-control {
+		position: relative;
+		z-index: 2;
+		background: @root-background;
+	}
+	&:not(.pattern-source--loading) {
+		.pattern-control {
+			&:not(.active) {
+				color: @root-color;
+				&:hover {
+					color: @hover-color;
+				}
+			}
+		}
+	}
+	&--loading {
+		.pattern-control {
+			color: @border-color;
+			cursor: progress;
+			&:hover {
+				color: @border-color;
+			}
+		}
+	}
+}
+.pattern-code {
+	display: flex;
+	flex-direction: column;
+	max-height: 50vh;
+	position: absolute;
+	z-index: 2;
+	right: 0%;
+	bottom: ~'calc(100% + 1.5px)';
+	left: 0%;
+	background: @root-background;
+	overflow: hidden;
+	@media screen and (max-width: 500px) {
+		max-height: 75vh;
+	}
+	&.pattern-code--max {
+		height: 50vh;
+	}
+	.pattern-code__toolbar {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		width: 100%;
+		border: 1px solid @border-color;
+		border-width: 1px 0;
+		background: @root-background;
+	}
+	.pattern-code__name,
+	.pattern-code__tools {
+		flex-grow: 1;
+		padding: 3px 6px;
+		vertical-align: middle;
+	}
+	.pattern-code__name {
+		font-weight: bold;
+	}
+	.pattern-code__tools {
+		text-align: right;
+		button {
+			padding: 0 3px;
+			border: none;
+			background: none;
+			cursor: pointer;
+			color: inherit;
+			&:focus,
+			&:hover {
+				color: @active-color;
+				outline: none;
+				cursor: pointer;
+			}
+		}
+	}
+	.pattern-code__label {
+		padding-right: 5px;
+	}
+	.pattern-code__concern,
+	.pattern-code__type {
+		margin-right: 7.5px;
+		.select__body {
+			border-radius: 3px;
+			border: 1px solid @border-color;
+			background: @code-background;
+		}
+	}
+	.pattern-code__content {
+		overflow: auto;
+	}
+	.hljs,
+	.markdown {
+		border: 0;
+	}
+	.markdown {
+		padding: 0 15px 15px 15px;
+		white-space: normal;
+	}
+	pre {
+		position: relative;
+		margin: 0;
+	}
+	.hljs {
+		background: @code-background;
+	}
+}
+
+.hljs--highlighted {
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+}
+
+.pattern-tool {
+	height: 100%;
+	padding: 5px;
+	border-left: 1px solid @border-color;
+	cursor: pointer;
+	&.pattern-tool--relations {
+		margin-left: auto;
+		padding: 0;
+	}
+}
+
+.pattern-tool-code-toggle {
+	position: absolute;
+	z-index: 1;
+	left: 0;
+	bottom: 0;
+	border-right: 1px solid @border-color!important;
+}
+
+.pattern-control {
+	display: inline-block;
+	display: inline-flex;
+	overflow: hidden;
+	padding: 0 10px;
+	height: @pattern-toolbar-height;
+	color: inherit;
+	border: 0 solid transparent;
+	border-top-width: 3px;
+	border-bottom-width: 3px;
+	white-space: nowrap;
+	text-decoration: none;
+	text-overflow: ellipsis;
+	cursor: pointer;
+
+	align-items: center;
+	&:focus {
+		outline: none;
+	}
+	&:hover {
+		color: @hover-color;
+	}
+	&:disabled {
+		color: fadeout(@hover-color, 50%);
+		cursor: not-allowed;
+	}
+	&.active {
+		color: @active-color;
+		border-bottom-color: currentcolor;
+		background-color: @sidebar-bg-sub;
+		text-shadow: 0 0 4px fadeout(@active-color, 90%);
+	}
+}
+
+.clipboard {
+	position: fixed;
+	bottom: 0;
+	left: -10000px;
+	left: -100vw;
+}

@@ -1,0 +1,26 @@
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+	font-size: unit(10px / @root-font-size, em);
+	list-style-type: none;
+}
+
+.breadcrumb {
+	display: inline-flex;
+	flex-grow: 0;
+	flex-shrink: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	&:not(:last-child) {
+		&::after {
+			content: '/';
+			flex-grow: 0;
+			flex-shrink: 0;
+			padding: 0 5px;
+			font-size: 1.1em;
+			color: @border-color;
+		}
+	}
+}

@@ -1,0 +1,101 @@
+.rulers {
+	position: absolute;
+	z-index: 1;
+	height: @pattern-demo-padding;
+	width: @pattern-demo-padding;
+	background: @root-background;
+	color: @hover-color;
+}
+
+.pattern-ruler {
+	position: relative;
+	background: inherit;
+	user-select: none;
+}
+
+.pattern-ruler__scale {
+	position: relative;
+	display: flex;
+	align-items: flex-end;
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	white-space: nowrap;
+	background: inherit;
+	cursor: pointer;
+}
+
+.pattern-ruler__steps {
+	display: flex;
+	flex-direction: inherit;
+	align-items: flex-end;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+@pattern-ruler__marker-width: 1px;
+
+.pattern-ruler__marker {
+	position: absolute;
+	z-index: 5;
+	top: 0px;
+	bottom: 0px;
+	width: @pattern-ruler__marker-width;
+	background: @active-color;
+}
+
+.pattern-ruler--horizontal {
+    height: 100%;
+    left: 100%;
+	.pattern-ruler__marker {
+		height: 100%;
+	}
+	.pattern-ruler__scale {
+		flex-direction: row;
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: auto;
+		height: 100%;
+	}
+	.pattern-ruler__step {
+		border-left: 1px solid currentColor;
+	}
+}
+
+.pattern-ruler--vertical {
+	width: 100%;
+    top: 100%;
+	.pattern-ruler__marker {
+		height: @pattern-ruler__marker-width;
+		width: 100%;
+	}
+	.pattern-ruler__scale {
+		flex-direction: column;
+		position: absolute;
+		z-index: 2;
+		top: 0;
+		right: 0;
+		width: 100%;
+		height: auto;
+	}
+	.pattern-ruler__step {
+		border-top: 1px solid currentColor;
+	}
+}
+
+.pattern-ruler__label {
+	display: inline-block;
+	vertical-align: top;
+	font-size: 9px;
+	padding-left: 3px;
+	margin-top: -3px;
+}
+
+.pattern-ruler--vertical .pattern-ruler__label {
+	transform: rotate(-90deg);
+	transform-origin: 0 0;
+	margin-top: 0;
+	margin-left: -3px;
+}
