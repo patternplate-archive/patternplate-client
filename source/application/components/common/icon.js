@@ -1,5 +1,5 @@
 import join from 'classnames';
-import {uniq} from 'lodash';
+import {noop, uniq} from 'lodash';
 import React, {PropTypes as t} from 'react';
 import ReactDOM from 'react-dom';
 import withSideEffect from 'react-side-effect';
@@ -93,7 +93,8 @@ function IconRegistry(props) {
 			{
 				props.symbols
 					.map(symbol => {
-						const paths = icons[symbol]() || [];
+						const creator = icons[symbol] || noop;
+						const paths = creator() || [];
 						return <Symbol id={symbol} key={symbol} definition={paths}/>;
 					})
 			}
