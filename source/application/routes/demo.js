@@ -7,17 +7,9 @@ const getPatternFile = require('patternplate-server/library/get-pattern-file');
 
 function withErrorHandling(fn) {
 	return async function(...args) {
-		const [, id] = args;
 		try {
 			const result = await fn(...args);
-			if (!result) {
-				const error = new Error(`Could not find pattern with id ${id}`);
-				error.fileName = id;
-				error.file = id;
-				error.status = 404;
-				throw error;
-			}
-			return [null, result];
+			return [null, result || ''];
 		} catch (error) {
 			return [error];
 		}
