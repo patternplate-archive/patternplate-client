@@ -20,11 +20,12 @@ function augmentFolderData(hierarchy) {
 
 		const hierarchyEntry = hierarchy[folder.id];
 
-		return {
-			...folder,
-			...defaultHierarchyEntry,
-			...hierarchyEntry
-		};
+		return Object.assign(
+			{},
+			folder,
+			defaultHierarchyEntry,
+			hierarchyEntry
+		);
 	};
 }
 
@@ -45,7 +46,8 @@ export function getPatterns(data, hierarchy) {
 export default function getAugmentedChildren(data, hierarchy) {
 	const folders = Object.values(data)
 		.filter(item => item.type === 'folder')
-		.map(augmentFolderData(hierarchy));
+		.map(augmentFolderData(hierarchy))
+		.sort(hierarchyCompare);
 
 	const patterns = Object.values(data)
 		.filter(item => item.type === 'pattern')
