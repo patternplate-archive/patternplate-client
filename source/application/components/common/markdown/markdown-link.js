@@ -56,7 +56,7 @@ export default class MarkdownLink extends Component {
 
 		const to = {
 			pathname: hasHash && isSamePathname ?
-				`/${[props.base, props.pathname].join('').split('/').filter(Boolean).join('/')}` :
+				`${props.base}` :
 				`/${[props.base, parsed.pathname].join('').split('/').filter(Boolean).join('/')}`,
 			query: props.query,
 			hash: parsed.hash
