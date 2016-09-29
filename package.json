@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Universal javascript client application for patternplate",
   "main": "library/",
   "scripts": {
