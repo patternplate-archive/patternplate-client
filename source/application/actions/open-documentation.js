@@ -4,8 +4,9 @@ export default openDocumentation;
 export const type = 'OPEN_DOCUMENTATION';
 
 function openDocumentation() {
-	return dispatch => {
-		const pathname = '/';
+	return (dispatch, getState) => {
+		const state = getState();
+		const pathname = state.base;
 		dispatch(patchLocation({pathname}));
 	};
 }
