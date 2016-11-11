@@ -3,7 +3,7 @@ import React, {PropTypes as t} from 'react';
 export default MarkdownHeadline;
 
 function MarkdownHeadline(props) {
-	const {...p, tagName: TagName} = props;
+	const {tagName: TagName, ...p} = props;
 	const children = Array.isArray(p.children) ? p.children.join('') : p.children;
 	const id = children.split(' ').join('-').toLowerCase();
 
