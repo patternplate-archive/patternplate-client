@@ -18,6 +18,7 @@ Most links reveal attached keyboard shortcuts when hovered, complementing the ta
 |\`Ctrl+e\`       | Global     | Toggle expansion of the sidebar                |
 |\`Ctrl+enter\`   | Console    | Apply changes to application state             |
 |\`Ctrl+f\`       | Pattern    | Open current pattern in new tab                |
+|\`Ctrl+h\`       | Global     | Toggle visibility of hidden patterns           |
 |\`Ctrl+i\`       | Global     | Toggle issue reportng helper                   |
 |\`Ctrl+l\`       | Pattern    | Toggle pattern rulers                          |
 |\`Ctrl+o\`       | Global     | Show/hide opacity indicators                   |

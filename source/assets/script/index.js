@@ -47,6 +47,10 @@ function bind(app) {
 			dispatch(actions.openFullscreen());
 		}
 
+		if (ctrl && code === 72) { // ctrl+h
+			dispatch(actions.toggleHide());
+		}
+
 		if (ctrl && code === 73) { // ctrl+i
 			dispatch(actions.toggleIssue());
 		}

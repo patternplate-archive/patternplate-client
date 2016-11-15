@@ -23,6 +23,7 @@ import sourceId from './source-id';
 import sourceType from './source-type';
 import styles from './styles';
 import theme from './theme';
+import hide from './hide';
 import window from './window';
 
 const ident = (state = {}) => state;
@@ -37,6 +38,7 @@ export default {
 	depth,
 	environment,
 	expanded,
+	hide,
 	id,
 	issue,
 	lightbox,

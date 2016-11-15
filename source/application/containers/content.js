@@ -6,8 +6,8 @@ import Content from '../components/content';
 export default connect(mapState, mapDispatch)(Content);
 
 function mapState(state) {
-	const {base, config, navigation, pattern, messages, time} = state;
-	return {base, config, navigation, pattern, messages, time};
+	const {base, config, hide, navigation, pattern, messages, time} = state;
+	return {base, config, hide, navigation, pattern, messages, time};
 }
 
 function mapDispatch(dispatch) {

@@ -30,6 +30,7 @@ export themeLoaded from './theme-loaded';
  */
 export toggleConsole from './toggle-console';
 export toggleExpandMenu from './toggle-expand-menu';
+export toggleHide from './toggle-hide';
 export toggleIssue from './toggle-issue';
 export toggleKeyboardShortcuts from './toggle-keyboard-shortcuts';
 export toggleOpacity from './toggle-opacity';

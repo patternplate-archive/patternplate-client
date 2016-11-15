@@ -1,3 +1,4 @@
+import {merge} from 'lodash';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
@@ -13,6 +14,7 @@ function mapProps(state, own) {
 		description: selectDescription(state),
 		depth: state.depth,
 		expanded: state.expanded,
+		hide: state.hide,
 		hierarchy: state.config.hierarchy,
 		issue: state.issue,
 		lightbox: state.lightbox,
@@ -41,7 +43,7 @@ function mapDispatch(dispatch) {
 }
 
 function selectNavigation(state) {
-	return sanitizeNavigationTreeData({children: state.navigation});
+	return sanitizeNavigationTreeData({children: state.navigation}, state.hide);
 }
 
 function selectDescription(state) {
@@ -60,15 +62,15 @@ function selectThemeLoading(state) {
 	return state.styles.length > 1;
 }
 
-function sanitizeNavigationTreeData(data) {
+function sanitizeNavigationTreeData(data, hide) {
 	if (data.manifest) {
-		return data.manifest.display === false ? null : data;
+		return hide && data.manifest.display === false ? null : data;
 	}
 
 	return Object.entries(data.children)
 		.reduce((results, entry) => {
 			const [name, child] = entry;
-			const grandChildren = sanitizeNavigationTreeData(child);
+			const grandChildren = sanitizeNavigationTreeData(child, hide);
 			if (grandChildren && Object.keys(grandChildren).length > 0) {
 				results[name] = child;
 			}

@@ -26,7 +26,7 @@ function Content(props) {
 	const up = depth > 0 ? fragments.slice(0, fragments.length - 1).join('/') : '';
 	const item = navigate(id, props.navigation);
 	const itemDefaults = {base, location};
-	const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults), 'name'), rateType);
+	const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults, props.hide), 'name'), rateType);
 
 	return (
 		<div className="application-container application-container--pattern">
@@ -90,6 +90,7 @@ function Content(props) {
 Content.propTypes = {
 	base: t.string.isRequired,
 	config: t.object.isRequired,
+	hide: t.bool.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired
 	}).isRequired,
@@ -109,23 +110,23 @@ function getItemName(item, hierarchy) {
 	return configured.displayName || item.id;
 }
 
-function getItems(root, hierarchy, defaults) {
+function getItems(root, hierarchy, defaults, hide) {
 	if (root.type !== 'folder') {
 		return [];
 	}
 	return Object.values(root.children)
-		.map(selectPatternData(hierarchy, defaults))
+		.map(selectPatternData(hierarchy, defaults, hide))
 		.filter(item => item.type !== 'pattern' || item.display);
 }
 
-function selectPatternData(hierarchy, defaults) {
+function selectPatternData(hierarchy, defaults, hide) {
 	return child => {
 		const amend = child.type === 'pattern' ?
 		{
 			version: child.manifest.version,
 			flag: child.manifest.flag,
 			tags: child.manifest.tags,
-			display: child.manifest.display !== false
+			display: hide ? child.manifest.display !== false : true
 		} :
 		{};
 

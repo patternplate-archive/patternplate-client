@@ -20,8 +20,6 @@ function getPathName(...fragments) {
 }
 
 export default class NavigationItem extends React.Component {
-	displayName = 'NavigationItem';
-
 	static propTypes = {
 		base: types.string.isRequired,
 		component: types.node,

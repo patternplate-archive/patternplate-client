@@ -14,6 +14,7 @@ class NavigationTree extends Component {
 		activePattern: types.string,
 		base: types.string.isRequired,
 		data: types.object,
+		hide: types.bool.isRequired,
 		query: types.object.isRequired,
 		searchQuery: types.string,
 		children: types.oneOfType([
@@ -54,6 +55,7 @@ class NavigationTree extends Component {
 								symbol={folder.icon}
 								symbolActive={folder.iconActive}
 								type="directory"
+								hide={props.hide}
 								>
 								<NavigationTree
 									activePattern={props.activePattern}
@@ -63,6 +65,7 @@ class NavigationTree extends Component {
 									id={folder.id}
 									query={props.query}
 									searchQuery={props.searchQuery}
+									hide={props.hide}
 									/>
 							</NavigationItem>
 						);
@@ -79,12 +82,13 @@ class NavigationTree extends Component {
 
 						const {options = {}} = manifest;
 						const {hidden = false} = options;
+						const hideItem = props.hide ? hidden : false;
 
 						return (
 							<NavigationItem
 								active={props.activePattern === pattern.id || expanded}
 								base={props.base}
-								hidden={hidden}
+								hidden={hideItem}
 								id={pattern.id}
 								key={pattern.id}
 								name={displayName}
@@ -93,6 +97,7 @@ class NavigationTree extends Component {
 								searchQuery={props.searchQuery}
 								symbol={type}
 								type={type}
+								hide={props.hide}
 								/>
 							);
 					})

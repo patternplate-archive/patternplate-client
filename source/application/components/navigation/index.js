@@ -17,6 +17,7 @@ class Navigation extends React.Component {
 		enabled: t.bool.isRequired,
 		expanded: t.bool.isRequired,
 		hierarchy: t.object,
+		hide: t.bool.isRequired,
 		icon: t.string.isRequired,
 		menuEnabled: t.bool.isRequired,
 		navigation: t.object.isRequired,
@@ -74,6 +75,7 @@ class Navigation extends React.Component {
 					data={props.navigation}
 					query={props.query}
 					hierarchy={props.hierarchy}
+					hide={props.hide}
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
