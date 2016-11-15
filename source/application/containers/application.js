@@ -17,7 +17,7 @@ function mapProps(state, own) {
 		issue: state.issue,
 		lightbox: state.lightbox,
 		menuEnabled: state.menuEnabled,
-		navigation: state.search ? state.searchMatches : state.navigation,
+		navigation: state.search ? state.searchMatches : selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,
 		search: own.location.query.search,
@@ -40,6 +40,10 @@ function mapDispatch(dispatch) {
 	}, dispatch);
 }
 
+function selectNavigation(state) {
+	return sanitizeNavigationTreeData({children: state.navigation});
+}
+
 function selectDescription(state) {
 	return selectSchema(state).description || '';
 }
@@ -54,4 +58,20 @@ function selectSchema(state) {
 
 function selectThemeLoading(state) {
 	return state.styles.length > 1;
+}
+
+function sanitizeNavigationTreeData(data) {
+	if (data.manifest) {
+		return data.manifest.display === false ? null : data;
+	}
+
+	return Object.entries(data.children)
+		.reduce((results, entry) => {
+			const [name, child] = entry;
+			const grandChildren = sanitizeNavigationTreeData(child);
+			if (grandChildren && Object.keys(grandChildren).length > 0) {
+				results[name] = child;
+			}
+			return results;
+		}, {});
 }
