@@ -72,31 +72,18 @@ export default class ConsoleLightbox extends Component {
 			<Lightbox
 				title="Modify state"
 				backdrop
-				>
-				<Markdown
-					base={props.base}
-					className="problem-lightbox__instructions"
-					source="> :rocket: Edit `patternplate-client` redux state directly"
-					/>
-				<div className="console-lightbox__preview">
-					<Editor
-						className="editor console-lightbox__state"
-						value={this.state.value || props.state}
-						onChange={this.handleChange}
-						onKeyDown={this.handleKeyDown}
-						ref={this.saveRef}
-						/>
-				</div>
-				<div className="console-lightbox__button-row">
+				buttons={[
 					<button
+						key="Apply"
 						className="button console-lightbox__button console-lightbox__button--apply"
 						disabled={disabled}
 						title={title}
 						onClick={this.handleApplyState}
 						>
 						Apply changes
-					</button>
+					</button>,
 					<Link
+						key="Close"
 						to={{
 							...props.location,
 							query: {
@@ -109,6 +96,21 @@ export default class ConsoleLightbox extends Component {
 						>
 						Close
 					</Link>
+				]}
+				>
+				<Markdown
+					base={props.base}
+					className="lightbox__instructions"
+					source="> :rocket: Edit `patternplate-client` redux state directly"
+					/>
+				<div className="console-lightbox__preview">
+					<Editor
+						className="editor console-lightbox__state"
+						value={this.state.value || props.state}
+						onChange={this.handleChange}
+						onKeyDown={this.handleKeyDown}
+						ref={this.saveRef}
+						/>
 				</div>
 			</Lightbox>
 		);
