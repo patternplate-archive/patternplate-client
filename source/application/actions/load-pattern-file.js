@@ -1,6 +1,6 @@
-import 'isomorphic-fetch';
 import {merge} from 'lodash';
 import {createPromiseThunkAction} from './promise-thunk-action';
+import fetch from '../utils/fetch';
 
 async function getError(response, payload) {
 	try {
@@ -21,7 +21,7 @@ async function getError(response, payload) {
 export default createPromiseThunkAction('LOAD_PATTERN_FILE', async payload => {
 	const {id, base} = payload;
 	const uri = `${base}api/file/${id}`;
-	const response = await global.fetch(uri);
+	const response = await fetch(uri);
 
 	if (response.status >= 400) {
 		const error = await getError(response, payload);

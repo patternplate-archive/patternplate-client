@@ -46,7 +46,7 @@ const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
 	throws(state, {payload}) {
 		return {
 			dataLoading: false,
-			errors: [...state.errors, {file: null, id: state.id, payload}],
+			errors: [...(state.errors || []), {file: null, id: state.id, payload}],
 			dataErrored: true
 		};
 	}

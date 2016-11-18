@@ -3,9 +3,6 @@ import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
 import {pick, isEqual} from 'lodash';
 
-import 'isomorphic-fetch';
-
-// import PatternLoader from './pattern-loader';
 import PatternContainer from '../../containers/pattern';
 
 @pure

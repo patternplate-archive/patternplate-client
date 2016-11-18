@@ -1,9 +1,7 @@
-import 'isomorphic-fetch';
 import {merge} from 'lodash';
 import {createPromiseThunkAction} from './promise-thunk-action';
+import fetch from '../utils/fetch';
 import urlQuery from '../utils/url-query';
-
-const headers = {headers: {accept: 'application/json'}, credentials: 'include'};
 
 async function getError(response, payload) {
 	try {
@@ -27,7 +25,7 @@ export default createPromiseThunkAction('LOAD_PATTERN_DATA', async payload => {
 		pathname: `${base}api/pattern/${id}.json`, query
 	});
 
-	const response = await global.fetch(uri, headers);
+	const response = await fetch(uri);
 
 	if (response.status >= 400) {
 		throw await getError(response, payload);
