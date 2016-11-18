@@ -24,7 +24,7 @@ Most links reveal attached keyboard shortcuts when hovered, complementing the ta
 |\`Ctrl+o\`       | Global     | Show/hide opacity indicators                   |
 |\`Ctrl+r\`       | Pattern    | Reload the current pattern                     |
 |\`Ctrl+space\`   | Global     | Toggle search focus                            |
-|\`Ctrl+t\`       | Global     | Reload the current pattern                     |
+|\`Ctrl+t\`       | Global     | Toggle active theme                            |
 |\`Esc\`          | Global     | Close everything that could be considered open |
 `;
 
