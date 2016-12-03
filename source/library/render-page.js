@@ -55,18 +55,6 @@ export default async function renderPage(application, pageUrl) {
 		}
 	}
 
-	/* if (isPattern && sourceId) {
-		try {
-			const parsed = urlQuery.parse(sourceId);
-			const fileType = parsed.query.type || 'source';
-			const env = query.environment || 'index';
-			const patternFile = await getPatternSource(server)(parsed.pathname, fileType, env);
-			// merge(pattern, {sources: {[sourceId]: await consumeFile(patternFile.body)}});
-		} catch (error) {
-			application.log.error(error);
-		}
-	} */
-
 	const config = application.configuration.ui;
 	const options = {
 		url: pageUrl,

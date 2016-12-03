@@ -31,6 +31,10 @@ const routes = {
 		static: {
 			enabled: true,
 			path: '/static/:path+'
+		},
+		zcatch: {
+			enabled: true,
+			path: '(.*)'
 		}
 	}
 };

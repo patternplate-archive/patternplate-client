@@ -124,7 +124,7 @@ function getItemName(item, hierarchy) {
 
 function getNotFoundSource(id) {
 	return `
-# Not found
+# Pattern not found
 
 We looked everywhere and could not find pattern \`${id}\`.
 
