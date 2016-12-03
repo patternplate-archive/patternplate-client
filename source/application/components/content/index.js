@@ -2,6 +2,7 @@ import React, {PropTypes as t} from 'react';
 import {sortBy} from 'lodash';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
+import Markdown from '../common/markdown';
 import Message from '../common/message';
 import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
@@ -25,6 +26,17 @@ function Content(props) {
 	const depth = fragments.length - 1;
 	const up = depth > 0 ? fragments.slice(0, fragments.length - 1).join('/') : '';
 	const item = navigate(id, props.navigation);
+
+	if (!item) {
+		return (
+			<div className="application-container application-container--pattern">
+				<div className="not-found-section">
+					<Markdown source={getNotFoundSource(id)}/>
+				</div>
+			</div>
+		);
+	}
+
 	const itemDefaults = {base, location};
 	const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults, props.hide), 'name'), rateType);
 
@@ -108,6 +120,20 @@ function getItemName(item, hierarchy) {
 	}
 	const configured = hierarchy[item.id] || {};
 	return configured.displayName || item.id;
+}
+
+function getNotFoundSource(id) {
+	return `
+# Not found
+
+We looked everywhere and could not find pattern \`${id}\`.
+
+You might want to navigate back to [Home](/) or use the search.
+
+---
+
+Help us to make this message more helpful on [GitHub](https://github.com/sinnerschrader/patternplate)
+`;
 }
 
 function getItems(root, hierarchy, defaults, hide) {
