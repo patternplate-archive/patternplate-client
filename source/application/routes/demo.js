@@ -9,7 +9,7 @@ function withErrorHandling(fn) {
 	return async function(...args) {
 		try {
 			const result = await fn(...args);
-			return [null, result || ''];
+			return [null, result];
 		} catch (error) {
 			return [error];
 		}
@@ -41,6 +41,7 @@ export default function patternRouteFactory(application) {
 		const id = getPatternId(parsed.pathname);
 		const extension = getPatternExtension(parsed.pathname);
 		const type = this.accepts('text', 'html', 'json') || extension;
+		const errorType = type === 'json' ? 'json' : 'html';
 		const {environment = 'index'} = parsed.query;
 
 		const filters = {
@@ -56,7 +57,12 @@ export default function patternRouteFactory(application) {
 				if (error.stack) {
 					console.trace(error.stack);
 				}
-				this.throw(error);
+			}
+
+			if (demo === null) {
+				const err = new Error(`Could not find demo for ${id}.`);
+				err.file = __filename;
+				this.throw(404, err);
 			}
 
 			this.type = 'html';
@@ -67,7 +73,15 @@ export default function patternRouteFactory(application) {
 		const [error, file] = await getPatternFileOrError(application.parent.server, id, filters, extension, environment);
 
 		if (error) {
-			this.throw(error);
+			this.type = errorType;
+			this.send(500, error);
+		}
+
+		if (file === null) {
+			this.type = errorType;
+			const err = new Error(`Could not find file {index,demo}.${extension} for ${id}.`);
+			err.file = __filename;
+			this.throw(404, err);
 		}
 
 		this.type = extension;
