@@ -6,9 +6,10 @@ import Content from '../containers/content';
 import NotFound from '../containers/not-found';
 import Home from '../containers/home';
 
-export default function () {
+export default function (store) {
+	const state = store.getState();
 	return (
-		<Route path="/" component={Application}>
+		<Route path={state.base} component={Application}>
 			<IndexRoute component={Home}/>
 			<Route path="pattern/*" component={Content}/>
 			<Route path="*" component={NotFound}/>

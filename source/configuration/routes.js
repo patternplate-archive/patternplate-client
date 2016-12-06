@@ -34,7 +34,7 @@ const routes = {
 		},
 		zcatch: {
 			enabled: true,
-			path: '(.*)'
+			path: '!(/api/)(.*)'
 		}
 	}
 };
