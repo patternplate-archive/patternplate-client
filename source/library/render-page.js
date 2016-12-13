@@ -19,7 +19,6 @@ const resolve = id => resolveSync(id, {basedir: cwd});
 const getSchema = require(resolve('patternplate-server/library/get-schema'));
 const getNavigation = require(resolve('patternplate-server/library/get-navigation'));
 const getPatternMetaData = require(resolve('patternplate-server/library/get-pattern-meta-data'));
-// const getPatternSource = require(resolve('patternplate-server/library/get-pattern-source'));
 
 const defaultData = {
 	schema: {},
@@ -44,7 +43,6 @@ export default async function renderPage(application, pageUrl) {
 	const navigation = app ? await getNavigation(app, client, server) : {};
 	const pattern = merge({}, navigate(id, navigation));
 	const isPattern = pattern && pattern.type === 'pattern';
-	// const sourceId = query.source;
 
 	if (isPattern) {
 		try {
@@ -95,20 +93,3 @@ export default async function renderPage(application, pageUrl) {
 		]
 	});
 }
-
-/* async function consumeFile(input) {
-	if (isStream(input)) {
-		return await streamToString(input);
-	}
-
-	return input;
-}
-
-function streamToString(input) {
-	return new Promise((resolve, reject) => {
-		const buffers = [];
-		input.on('data', chunk => buffers.push(chunk));
-		input.on('end', () => resolve(Buffer.concat(buffers).toString()));
-		input.on('error', reject);
-	});
-} */
