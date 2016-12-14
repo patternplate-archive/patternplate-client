@@ -1,4 +1,3 @@
-import {merge} from 'lodash';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
@@ -18,6 +17,7 @@ function mapProps(state, own) {
 		hierarchy: state.config.hierarchy,
 		issue: state.issue,
 		lightbox: state.lightbox,
+		logo: state.config.logo || 'patternplate',
 		menuEnabled: state.menuEnabled,
 		navigation: state.search ? state.searchMatches : selectNavigation(state),
 		pathname: own.location.pathname,

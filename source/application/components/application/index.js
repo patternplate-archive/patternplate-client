@@ -58,7 +58,7 @@ export default class Application extends Component {
 					expanded={props.expanded}
 					hierarchy={props.hierarchy}
 					hide={props.hide}
-					icon="patternplate"
+					icon={props.logo}
 					menuEnabled={props.menuEnabled}
 					navigation={props.navigation}
 					onSearch={handleSearch}
@@ -101,6 +101,7 @@ Application.propTypes = {
 	hide: t.bool.isRequired,
 	issue: t.bool.isRequired,
 	lightbox: t.string,
+	logo: t.string.isRequired,
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
 	onResize: t.func.isRequired,

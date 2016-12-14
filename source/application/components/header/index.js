@@ -1,5 +1,10 @@
 import React, {PropTypes as t} from 'react';
 import {Link, IndexLink} from 'react-router';
+import {camelCase, keys} from 'lodash';
+import unified from 'unified';
+import parse from 'rehype-parse';
+import select from 'unist-util-select';
+import toh from 'hast-to-hyperscript';
 
 import Icon from '../common/icon';
 
@@ -22,12 +27,10 @@ function Header(props) {
 				title="Navigate to documentation [ctrl+d]"
 				className="logo"
 				>
-				<Icon
-					symbol={props.icon}
-					fallback={false}
-					>
+				<LiteralIcon icon={props.icon}/>
+				<span className="main-header__title">
 					{props.title}
-				</Icon>
+				</span>
 			</IndexLink>
 			<div className="toolbar">
 				<Link
@@ -60,3 +63,28 @@ Header.propTypes = {
 	title: t.string.isRequired,
 	version: t.string.isRequired
 };
+
+function LiteralIcon(props) {
+	const parsed = props.icon.trim().startsWith('<svg') ? toSVGElement(props.icon) : null;
+	const dim = parsed ? {width: `${parsed.props.width}px`, height: `${parsed.props.height}px`} : null;
+	return props.icon.trim().startsWith('<svg') ?
+		<div className="icon"><div className="svg-icon" style={dim}>{parsed}</div></div> :
+		<Icon symbol={props.icon} fallback={false}/>;
+}
+
+LiteralIcon.propTypes = {
+	icon: t.string.isRequired
+};
+
+function toSVGElement(input) {
+	const ast = unified()
+		.use(parse)
+		.parse(input);
+	const svg = select(ast, '*').find(e => e.tagName === 'svg');
+	const el = toh(React.createElement, svg);
+	const props = keys(el.props).reduce((props, prop) => {
+		props[camelCase(prop)] = el.props[prop];
+		return props;
+	}, {});
+	return Object.assign({}, el, {props});
+}

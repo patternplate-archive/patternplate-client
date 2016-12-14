@@ -109,7 +109,7 @@
     "find-root": "^0.1.1",
     "fuse.js": "^2.2.0",
     "github-markdown-css": "^2.4.0",
-    "hast-to-hyperscript": "^2.0.3",
+    "hast-to-hyperscript": "^2.0.4",
     "hast-util-sanitize": "^1.0.0",
     "hast-util-to-html": "^2.1.0",
     "highlight.js": "^9.6.0",
@@ -138,6 +138,7 @@
     "redux-actions": "^0.10.1",
     "redux-promise": "^0.5.3",
     "redux-thunk": "^2.1.0",
+    "rehype-parse": "^2.0.1",
     "remark": "^6.0.1",
     "remark-gemoji-to-emoji": "^1.0.0",
     "remark-vdom": "^3.0.1",
@@ -148,6 +149,8 @@
     "strip-ansi": "^3.0.1",
     "topologically-combine-reducers": "0.0.5",
     "unescape-html": "^1.0.0",
+    "unified": "^5.1.0",
+    "unist-util-select": "^1.5.0",
     "web-animations-js": "^2.2.2"
   },
   "devDependencies": {
