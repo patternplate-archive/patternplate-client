@@ -1,7 +1,7 @@
 import url from 'url';
 import os from 'os';
 
-import {merge} from 'lodash';
+import {merge, entries} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
 import queryString from 'query-string';
@@ -27,10 +27,11 @@ const defaultData = {
 	messages: []
 };
 
-export default async function renderPage(application, pageUrl) {
+export default async function renderPage(application, pageUrl, filters = {}) {
 	const app = application.parent;
 	const client = application;
 	const server = app.server;
+	const filter = getFilter(filters);
 
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
@@ -41,7 +42,9 @@ export default async function renderPage(application, pageUrl) {
 
 	const schema = app ? await getSchema(app, client, server) : {};
 	const navigation = app ? await getNavigation(app, client, server) : {};
-	const pattern = merge({}, navigate(id, navigation));
+	const filteredNavigation = applyFilters(navigation, filter);
+
+	const pattern = merge({}, navigate(id, filteredNavigation));
 	const isPattern = pattern && pattern.type === 'pattern';
 
 	if (isPattern) {
@@ -61,7 +64,7 @@ export default async function renderPage(application, pageUrl) {
 		config
 	};
 
-	const serverData = {schema, navigation, pattern};
+	const serverData = {schema, navigation: filteredNavigation, pattern};
 	const data = merge({}, defaultData, options.data, serverData, {config}, {
 		schema: {
 			serverOsName: os.type(),
@@ -92,4 +95,33 @@ export default async function renderPage(application, pageUrl) {
 			`${base}/script/index.bundle.js`
 		]
 	});
+}
+
+const pass = () => true;
+
+function applyFilters(raw, filter) {
+	return entries(raw).reduce((results, entry) => {
+		const [key, item] = entry;
+		if (item.type !== 'pattern') {
+			results[key] = item;
+			item.children = applyFilters(item.children, filter);
+			return results;
+		}
+		if (filter(item.manifest)) {
+			results[key] = item;
+		}
+		return results;
+	}, {});
+}
+
+function getFilter(filters) {
+	const flags = filters.flags || [];
+
+	if (flags.length === 0) {
+		return pass;
+	}
+
+	return item => {
+		return flags.includes(item.flag);
+	};
 }
