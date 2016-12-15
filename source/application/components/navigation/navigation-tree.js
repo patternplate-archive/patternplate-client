@@ -1,3 +1,4 @@
+import {startsWith} from 'lodash';
 import React, {Component, PropTypes as types} from 'react';
 import pure from 'pure-render-decorator';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -40,7 +41,7 @@ class NavigationTree extends Component {
 				{props.children}
 				{
 					folders.map(folder => {
-						const active = props.activePattern.startsWith(folder.id);
+						const active = startsWith(props.activePattern, folder.id);
 
 						return (
 							<NavigationItem

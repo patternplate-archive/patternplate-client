@@ -1,4 +1,4 @@
-import {flatten} from 'lodash';
+import {includes, flatten, startsWith} from 'lodash';
 
 import navigate from '../../utils/navigate';
 
@@ -44,16 +44,16 @@ export function matchPattern(pattern, criteria = {}) {
 
 			if (name === 'tags') {
 				const tags = pattern.manifest.tags || [];
-				return values.some(tag => tags.includes(tag));
+				return values.some(tag => includes(tags, tag));
 			} else if (name === 'flags') {
 				const flag = pattern.manifest.flag || '';
 				return values.some(valueFlag => valueFlag === flag);
 			} else if (name === 'depends') {
 				const dependencies = Object.keys(pattern.manifest.patterns || {});
-				return values.some(dependency => dependencies.includes(dependency));
+				return values.some(dependency => includes(dependencies, dependency));
 			} else if (name === 'provides') {
 				const dependents = Object.keys(pattern.manifest.dependentPatterns || {});
-				return values.some(dependent => dependents.includes(dependent));
+				return values.some(dependent => includes(dependents, dependent));
 			}
 
 			return true;
@@ -95,7 +95,7 @@ export function getPatterns(haystack, criteria = {}) {
 
 export function filterPatterns(patterns, ids) {
 	return getPatterns(patterns)
-		.filter(({id}) => ids.includes(id))
+		.filter(({id}) => includes(ids, id))
 		.reduce((registry, item) => {
 			const fragments = item.id.split('/');
 			const key = fragments[fragments.length - 1];
@@ -109,7 +109,7 @@ export function filterPatterns(patterns, ids) {
 const tokenKeys = ['tag', 'flag', 'depends', 'provides'];
 
 function matchesToken(key, token) {
-	return token.startsWith(`${key}:`);
+	return startsWith(token, `${key}:`);
 }
 
 export function isToken(token) {

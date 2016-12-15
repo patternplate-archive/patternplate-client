@@ -1,6 +1,7 @@
-import React, {Component, PropTypes as t} from 'react';
-import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
+import {find, range} from 'lodash';
+import pure from 'pure-render-decorator';
+import React, {Component, PropTypes as t} from 'react';
 
 const start = {transform: 'translate3d(0, 0, 0)'};
 
@@ -106,13 +107,12 @@ RulerSteps.propTypes = {
 };
 
 function getSteps(length, step) {
-	return Array(Math.round(length / step))
-		.fill(true)
+	return range(Math.round(length / step))
 		.map((_, index) => index)
 		.map(count => {
 			const label = count % 10 === 0 ? count * step : null;
 			const matches = [10, 5];
-			const match = matches.find(n => count % n === 0);
+			const match = find(matches, n => count % n === 0);
 			const order = match ? matches.indexOf(match) + 1 : 3;
 			return {label, order};
 		});

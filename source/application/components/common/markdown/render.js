@@ -1,6 +1,6 @@
 import gh from 'hast-util-sanitize/lib/github';
-import {merge} from 'lodash';
-import React, {Children} from 'react';
+import {includes, merge} from 'lodash';
+import React, {PropTypes as t, Children} from 'react';
 import remark from 'remark';
 import emoji from 'remark-gemoji-to-emoji';
 import vdom from 'remark-vdom';
@@ -63,12 +63,23 @@ function MarkdownGeneric(props) {
 	return <Component>{props.children}</Component>;
 }
 
+MarkdownGeneric.propTypes = {
+	tagName: t.string,
+	children: t.any
+};
+
 function strictChildren(Component, tagNames) {
-	return props => {
+	function StrictChildren(props) {
 		const children = Children.toArray(props.children)
 			.filter(child => {
-				return typeof child === 'object' && tagNames.includes(child.props.tagName);
+				return typeof child === 'object' && includes(tagNames, child.props.tagName);
 			});
 		return <Component {...props}>{children}</Component>;
+	}
+
+	StrictChildren.propTypes = {
+		children: t.any
 	};
+
+	return StrictChildren;
 }

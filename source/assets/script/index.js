@@ -1,8 +1,7 @@
-import 'dom4';
-import 'web-animations-js';
 import platform from 'platform';
 import {merge} from 'lodash';
 
+import './polyfills';
 import router from '../../application/react-routes/client';
 import * as actions from '../../application/actions';
 

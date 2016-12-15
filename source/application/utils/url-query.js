@@ -1,8 +1,9 @@
 import path from 'path';
 import url from 'url';
+import {includes} from 'lodash';
 
 function has(token) {
-	return item => item.includes(token);
+	return item => includes(item, token);
 }
 
 function div(token) {
@@ -11,10 +12,6 @@ function div(token) {
 
 function not(fn) {
 	return (...args) => !fn(...args);
-}
-
-function sanitize(input) {
-	return input.split('/').filter(Boolean).join('/');
 }
 
 function shove(input) {

@@ -1,4 +1,4 @@
-import {memoize, noop} from 'lodash';
+import {memoize, noop, startsWith} from 'lodash';
 import getError from './get-error';
 
 export default memoize((onLoad = noop, onError = noop) => {
@@ -13,7 +13,7 @@ export default memoize((onLoad = noop, onError = noop) => {
 
 		const lines = first.innerText.split('\n');
 
-		if (lines[0].startsWith('Message: Error in')) {
+		if (startsWith(lines[0], 'Message: Error in')) {
 			const error = getError(lines);
 			return onError(error);
 		}

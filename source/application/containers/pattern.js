@@ -1,6 +1,6 @@
 import path from 'path';
 
-import {merge, noop, uniqBy} from 'lodash';
+import {includes, merge, noop, uniqBy} from 'lodash';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import shortid from 'shortid';
@@ -331,14 +331,14 @@ function selectCode(state) {
 		const formatFiles = files.filter(file => file.type === format.type);
 		const concerns = formatFiles.map(file => file.concern);
 
-		const hasDemo = concerns.includes('demo');
+		const hasDemo = includes(concerns, 'demo');
 		const defaultConcern = hasDemo ? 'demo' : 'index';
 		const parsed = urlQuery.parse(state.sourceId || '');
 
 		const passedConcern = path.basename(parsed.pathname, path.extname(parsed.pathname)) ||
 			defaultConcern;
 
-		const isApplicable = concerns.includes(passedConcern);
+		const isApplicable = includes(concerns, passedConcern);
 
 		const concern = isApplicable ?
 			passedConcern :

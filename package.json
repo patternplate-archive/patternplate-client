@@ -100,12 +100,14 @@
     "npm": ">= 2.5.1"
   },
   "dependencies": {
+    "array-includes": "^3.0.2",
     "autobind-decorator": "^1.3.3",
     "babel-polyfill": "^6.5.0",
     "babel-runtime": "^6.6.1",
     "boilerplate-server": "^0.12.1",
     "classnames": "^1.2.2",
     "dom4": "^1.8.3",
+    "es6-promise": "^4.0.5",
     "find-root": "^0.1.1",
     "fuse.js": "^2.2.0",
     "github-markdown-css": "^2.4.0",
@@ -120,6 +122,7 @@
     "minimist": "^1.1.1",
     "mz": "^2.4.0",
     "normalize.less": "^1.0.0",
+    "object-assign": "^4.1.0",
     "path-exists": "^2.1.0",
     "platform": "^1.3.1",
     "pretty-data": "^0.40.0",

@@ -1,3 +1,4 @@
+import {assign} from 'lodash';
 
 function hierarchyCompare(a, b) {
 	return (a.order === b.order) ?
@@ -20,7 +21,7 @@ function augmentFolderData(hierarchy) {
 
 		const hierarchyEntry = hierarchy[folder.id];
 
-		return Object.assign(
+		return assign(
 			{},
 			folder,
 			defaultHierarchyEntry,

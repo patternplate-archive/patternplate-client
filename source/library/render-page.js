@@ -1,7 +1,7 @@
 import url from 'url';
 import os from 'os';
 
-import {merge, entries} from 'lodash';
+import {fill, merge, entries} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
 import queryString from 'query-string';
@@ -36,7 +36,7 @@ export default async function renderPage(application, pageUrl, filters = {}) {
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
 	const query = queryString.parse(parsed.query);
-	const base = depth > 0 ? Array(depth).fill('..').join('/') : '.';
+	const base = depth > 0 ? fill(Array(depth), '..').join('/') : '.';
 
 	const id = getIdByPathname(parsed.pathname);
 
