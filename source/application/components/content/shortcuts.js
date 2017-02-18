@@ -10,22 +10,22 @@ const source = `
 \`patternplate-client\` provides a number of keyboard shortcuts for your convenience.
 Most links reveal attached keyboard shortcuts when hovered, complementing the table below.
 
-| Combination     | Scope      | Effect                                         |
-|:---------------:|:----------:|:-----------------------------------------------|
-|\`Ctrl+k\`       | Global     | Show this reference                            |
-|\`Ctrl+c\`       | Global     | Toggle the debug console                       |
-|\`Ctrl+d\`       | Global     | Open the documentation                         |
-|\`Ctrl+e\`       | Global     | Toggle expansion of the sidebar                |
-|\`Ctrl+enter\`   | Console    | Apply changes to application state             |
-|\`Ctrl+f\`       | Pattern    | Open current pattern in new tab                |
-|\`Ctrl+h\`       | Global     | Toggle visibility of hidden patterns           |
-|\`Ctrl+i\`       | Global     | Toggle issue reportng helper                   |
-|\`Ctrl+l\`       | Pattern    | Toggle pattern rulers                          |
-|\`Ctrl+o\`       | Global     | Show/hide opacity indicators                   |
-|\`Ctrl+r\`       | Pattern    | Reload the current pattern                     |
-|\`Ctrl+space\`   | Global     | Toggle search focus                            |
-|\`Ctrl+t\`       | Global     | Toggle active theme                            |
-|\`Esc\`          | Global     | Close everything that could be considered open |
+| Combination         | Scope      | Effect                                         |
+|:-------------------:|:----------:|:-----------------------------------------------|
+|\`Ctrl+Alt+k\`       | Global     | Show this reference                            |
+|\`Ctrl+Alt+c\`       | Global     | Toggle the debug console                       |
+|\`Ctrl+Alt+d\`       | Global     | Open the documentation                         |
+|\`Ctrl+Alt+e\`       | Global     | Toggle expansion of the sidebar                |
+|\`Ctrl+Alt+enter\`   | Console    | Apply changes to application state             |
+|\`Ctrl+Alt+f\`       | Pattern    | Open current pattern in new tab                |
+|\`Ctrl+Alt+h\`       | Global     | Toggle visibility of hidden patterns           |
+|\`Ctrl+Alt+i\`       | Global     | Toggle issue reportng helper                   |
+|\`Ctrl+Alt+l\`       | Pattern    | Toggle pattern rulers                          |
+|\`Ctrl+Alt+o\`       | Global     | Show/hide opacity indicators                   |
+|\`Ctrl+Alt+r\`       | Pattern    | Reload the current pattern                     |
+|\`Ctrl+Alt+space\`   | Global     | Toggle search focus                            |
+|\`Ctrl+Alt+t\`       | Global     | Toggle active theme                            |
+|\`Esc\`              | Global     | Close everything that could be considered open |
 `;
 
 export default ShortcutsLightbox;

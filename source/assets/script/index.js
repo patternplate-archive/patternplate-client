@@ -27,54 +27,55 @@ function bind(app) {
 	const {store: {dispatch}} = app;
 
 	global.addEventListener('keydown', e => {
-		const ctrl = e.ctrlKey;
+		// Using ctrl + alt here due to OS differnces (e.g. ctrl + c)
+		const modifier = e.ctrlKey && e.altKey;
 		const code = e.data ? e.data.keyCode : e.keyCode;
 
-		if (ctrl && code === 67) { // ctrl+c
+		if (modifier && code === 67) { // ctrl+alt+c
 			dispatch(actions.toggleConsole());
 		}
 
-		if (ctrl && code === 68) { // ctrl+d
+		if (modifier && code === 68) { // ctrl+alt+d
 			dispatch(actions.openDocumentation());
 		}
 
-		if (ctrl && code === 69) { // ctrl+e
+		if (modifier && code === 69) { // ctrl+alt+e
 			dispatch(actions.toggleExpandMenu());
 		}
 
-		if (ctrl && code === 70) { // ctrl+f
+		if (modifier && code === 70) { // ctrl+alt+f
 			dispatch(actions.openFullscreen());
 		}
 
-		if (ctrl && code === 72) { // ctrl+h
+		if (modifier && code === 72) { // ctrl+alt+h
 			dispatch(actions.toggleHide());
 		}
 
-		if (ctrl && code === 73) { // ctrl+i
+		if (modifier && code === 73) { // ctrl+alt+i
 			dispatch(actions.toggleIssue());
 		}
 
-		if (ctrl && code === 79) { // ctrl+o
+		if (modifier && code === 79) { // ctrl+alt+o
 			dispatch(actions.toggleOpacity());
 		}
 
-		if (ctrl && code === 75) { // ctrl+k
+		if (modifier && code === 75) { // ctrl+alt+k
 			dispatch(actions.toggleKeyboardShortcuts());
 		}
 
-		if (ctrl && code === 76) { // ctrl+l
+		if (modifier && code === 76) { // ctrl+alt+l
 			dispatch(actions.toggleRulers());
 		}
 
-		if (ctrl && code === 82) { // ctrl+r
+		if (modifier && code === 82) { // ctrl+alt+r
 			dispatch(actions.loadPattern());
 		}
 
-		if (ctrl && code === 32) { // ctrl+space
+		if (modifier && code === 32) { // ctrl+alt+space
 			dispatch(actions.toggleSearchFocus());
 		}
 
-		if (ctrl && code === 84) { // ctrl+t
+		if (modifier && code === 84) { // ctrl+alt+t
 			dispatch(actions.toggleTheme());
 		}
 
