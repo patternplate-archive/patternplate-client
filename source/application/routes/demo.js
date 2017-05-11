@@ -53,16 +53,15 @@ export default function patternRouteFactory(application) {
 			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, filters, environment);
 
 			if (error) {
-				console.log(error.message);
-				if (error.stack) {
-					console.trace(error.stack);
-				}
+				this.throw(500, error);
+				return;
 			}
 
 			if (demo === null) {
 				const err = new Error(`Could not find demo for ${id}.`);
 				err.file = __filename;
 				this.throw(404, err);
+				return;
 			}
 
 			this.type = 'html';
@@ -74,7 +73,7 @@ export default function patternRouteFactory(application) {
 
 		if (error) {
 			this.type = errorType;
-			this.send(500, error);
+			this.throw(500, error);
 		}
 
 		if (file === null) {
