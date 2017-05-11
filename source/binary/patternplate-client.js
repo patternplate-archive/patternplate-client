@@ -5,22 +5,8 @@ import minimist from 'minimist';
 
 import patternClient from '../';
 
-async function main(options = {}) {
-	let application;
-
-	try {
-		application = await patternClient(options);
-	} catch (err) {
-		console.trace(err);
-		throw new Error(err);
-	}
-
-	try {
-		await application.start();
-	} catch (err) {
-		application.log.error(err);
-		throw new Error(err);
-	}
+function main(options = {}) {
+	return patternClient(options);
 }
 
 const args = minimist(process.argv.slice(1));
