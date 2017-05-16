@@ -1,7 +1,7 @@
-import {memoize, noop, startsWith} from 'lodash';
+import {noop, startsWith} from 'lodash';
 import getError from './get-error';
 
-export default memoize((onLoad = noop, onError = noop) => {
+export default (onLoad = noop, onError = noop) => {
 	return e => {
 		const document = e.target.contentWindow.document;
 		const {body} = document;
@@ -20,4 +20,4 @@ export default memoize((onLoad = noop, onError = noop) => {
 
 		return onLoad(e);
 	};
-});
+};

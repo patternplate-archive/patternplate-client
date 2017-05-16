@@ -1,7 +1,7 @@
-import {get, memoize} from 'lodash';
+import {get} from 'lodash';
 
 function unwrap(fn, path) {
 	return e => fn(get(e, path));
 }
 
-export default memoize(unwrap);
+export default unwrap;
