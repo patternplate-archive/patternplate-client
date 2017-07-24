@@ -1,5 +1,4 @@
 import path from 'path';
-import {createAction} from 'redux-actions';
 
 import {loadPatternData, loadPatternFile, loadPatternDemo} from './';
 import urlQuery from '../utils/url-query';

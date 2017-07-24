@@ -53,6 +53,8 @@ export default function patternRouteFactory(application) {
 			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, filters, environment);
 
 			if (error) {
+				console.log(error);
+				error.expose = true;
 				this.throw(500, error);
 				return;
 			}
@@ -72,6 +74,8 @@ export default function patternRouteFactory(application) {
 		const [error, file] = await getPatternFileOrError(application.parent.server, id, filters, extension, environment);
 
 		if (error) {
+			console.log(error);
+			error.expose = true;
 			this.type = errorType;
 			this.throw(500, error);
 		}

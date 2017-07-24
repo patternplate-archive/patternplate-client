@@ -54,6 +54,7 @@ export default class Application extends Component {
 				<Navigation
 					activePattern={props.activePattern}
 					base={props.base}
+					docs={props.docs}
 					enabled={props.menuEnabled}
 					expanded={props.expanded}
 					hierarchy={props.hierarchy}
@@ -96,6 +97,7 @@ Application.propTypes = {
 	base: t.string.isRequired,
 	children: t.any,
 	description: t.string.isRequired,
+	docs: t.arrayOf(t.sring).isRequired,
 	expanded: t.bool.isRequired,
 	hierarchy: t.object.isRequired,
 	hide: t.bool.isRequired,

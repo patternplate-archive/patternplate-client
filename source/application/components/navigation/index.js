@@ -14,6 +14,7 @@ class Navigation extends React.Component {
 	static propTypes = {
 		activePattern: t.string.isRequired,
 		base: t.string.isRequired,
+		docs: t.arrayOf(t.string).isRequired,
 		enabled: t.bool.isRequired,
 		expanded: t.bool.isRequired,
 		hierarchy: t.object,
@@ -92,16 +93,14 @@ class Navigation extends React.Component {
 							value={props.searchValue}
 							/>
 					</form>
-					<NavigationItem
+					<Documentation
 						active={props.pathname === props.base}
 						base={props.base}
+						items={props.docs}
 						key="root"
 						linkTo="/"
-						name="Documentation"
 						query={props.query}
-						symbol="documentation"
-						title="Navigate to documentation [ctrl+d]"
-						type="page"
+						searchQuery={props.searchQuery}
 						/>
 				</NavigationTree>
 				<NavigationToolbar
@@ -118,3 +117,81 @@ class Navigation extends React.Component {
 }
 
 export default Navigation;
+
+function Documentation(props) {
+	return (
+		<li className="docs">
+			<NavigationItem
+				active={props.active}
+				base={props.base}
+				component="ul"
+				linkTo={props.linkTo}
+				name="Documentation"
+				query={props.query}
+				symbol="documentation"
+				title="Navigate to documentation [ctrl+d]"
+				type="page"
+				/>
+			<ul className="docs-items">
+				{
+					props.items.children
+						.filter(i => i.id.toLowerCase() !== 'readme.md')
+						.map(item => {
+							if (item.type === 'directory' && item.children.length > 0) {
+								return (
+									<NavigationItem
+										active={false}
+										base={props.base}
+										id={item.id}
+										key={item.id}
+										linkTo={`/docs/`}
+										name={item.id}
+										query={props.query}
+										searchQuery={props.searchQuery}
+										symbol="folder"
+										symbolActive="folder-open"
+										type="directory"
+										hide={false}
+										>
+										<NavigationTree
+											base={props.base}
+											data={item.children}
+											id={item.id}
+											key={item.id}
+											query={props.query}
+											/>
+									</NavigationItem>
+								);
+							}
+							return (
+								<NavigationItem
+									active={false}
+									base={props.base}
+									hidden={false}
+									id={item.id}
+									key={item.id}
+									linkTo={`/docs/`}
+									name={item.id}
+									query={props.query}
+									searchQuery={props.searchQuery}
+									symbol="documentation"
+									type="docs"
+									hide={false}
+									/>
+							);
+						})
+				}
+			</ul>
+		</li>
+	);
+}
+
+Documentation.propTypes = {
+	active: t.bool.isRequired,
+	base: t.string.isRequired,
+	hide: t.bool.isRequired,
+	items: t.arrayOf(t.string).isRequired,
+	linkTo: t.string.isRequired,
+	query: t.object.isRequired,
+	searchQuery: t.string.isRequired
+};

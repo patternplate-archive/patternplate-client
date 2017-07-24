@@ -12,6 +12,7 @@ function mapProps(state, own) {
 		base: state.base,
 		description: selectDescription(state),
 		depth: state.depth,
+		docs: state.schema.docs || [],
 		expanded: state.expanded,
 		hide: state.hide,
 		hierarchy: state.config.hierarchy,

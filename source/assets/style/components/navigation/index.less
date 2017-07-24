@@ -22,13 +22,44 @@
 }
 
 .navigation-item {
-	&&--pattern {
-		.navigation-link {
+	&&--pattern, &&--directory {
+		> .navigation-link {
 			&.child-active {
 				border-color: @active-color;
 			}
 		}
 	}
+}
+
+.docs {
+	&::after {
+		content: '';
+		display: block;
+		width: calc(100% - 5px);
+		margin: 10px auto 0 auto;
+		border-bottom: 1px solid @border-color;
+	}
+}
+
+.docs > .navigation-item {
+	padding-left: 0;
+}
+
+.docs > .navigation-item.child-active:first-child {
+	> .navigation-link.child-active {
+		border-color: @active-color;
+	}
+	+ .docs-items {
+		margin-left: 2px;
+		width: ~'calc(100% - 2px)';
+		background-color: @sidebar-bg-sub;
+		border-left: @nav-stream-width solid fadeout(@active-color, 50%);
+	}
+}
+
+.docs-items {
+	list-style: none;
+	padding-left: 0;
 }
 
 .navigation-toolbar {
