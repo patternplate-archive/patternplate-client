@@ -1,4 +1,3 @@
-import path from 'path';
 import React, {PropTypes as t} from 'react';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
@@ -9,6 +8,7 @@ import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
 import SearchField from '../common/search-field';
 import Header from '../header';
+import {augmentItemData} from '../../utils/augment-hierarchy';
 
 @pure
 class Navigation extends React.Component {
@@ -75,9 +75,10 @@ class Navigation extends React.Component {
 					activePattern={props.activePattern}
 					base={props.base}
 					data={props.navigation}
-					query={props.query}
-					hierarchy={props.hierarchy}
 					hide={props.hide}
+					hierarchy={props.hierarchy}
+					prefix="/pattern"
+					query={props.query}
 					>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
@@ -95,14 +96,13 @@ class Navigation extends React.Component {
 							/>
 					</form>
 					<Documentation
-						active={props.pathname === '/' || props.pathname.startsWith('/docs')}
+						activePattern={props.activePattern}
 						base={props.base}
-						items={props.docs}
-						key="root"
-						linkTo="/"
+						docs={props.docs}
+						hide={props.hide}
+						hierarchy={props.hierarchy}
 						pathname={props.pathname}
 						query={props.query}
-						searchQuery={props.searchQuery}
 						/>
 				</NavigationTree>
 				<NavigationToolbar
@@ -121,86 +121,40 @@ class Navigation extends React.Component {
 export default Navigation;
 
 function Documentation(props) {
-	const frags = props.pathname.split(path.sep).filter(Boolean).slice(1);
-	const active = frags.join('/');
-	const direct = comp => path.join(...frags) === path.join(...comp);
-	const matches = comp => comp.every((c, i) => frags[i] === c);
+	const item = augmentItemData()(props.docs);
 
 	return (
-		<li className="docs">
+		<NavigationTree
+			active={props.pathname === '/' || props.pathname.indexOf('/docs') === 0}
+			activePattern={props.activePattern}
+			base={props.base}
+			className="docs-navigation"
+			data={props.docs.children}
+			hide={props.hide}
+			pathname={props.pathname}
+			prefix="/docs"
+			query={props.query}
+			>
 			<NavigationItem
-				active={props.active}
+				active={props.pathname === '/' || props.pathname === '/docs'}
 				base={props.base}
-				component="ul"
-				linkTo={props.linkTo}
-				name="Documentation"
-				query={props.query}
+				hidden={false}
+				id="/"
+				linkTo=""
+				type="doc"
+				key={item.id}
+				name={item.manifest.displayName || item.manifest.name || item.id}
 				symbol="documentation"
-				title="Navigate to documentation [ctrl+d]"
-				type="page"
 				/>
-			<ul className="docs-items">
-				{
-					props.items.children
-						.filter(i => i.id.toLowerCase() !== 'readme.md')
-						.map(item => {
-							if (item.type === 'directory' && item.children.length > 0) {
-								return (
-									<NavigationItem
-										active={matches(item.path)}
-										base={props.base}
-										id={path.join(...item.path)}
-										key={item.id}
-										linkTo={`/docs/`}
-										name={item.id}
-										query={props.query}
-										searchQuery={props.searchQuery}
-										symbol="folder"
-										symbolActive="folder-open"
-										type="directory"
-										hide={false}
-										>
-										<NavigationTree
-											activePattern={active}
-											base={props.base}
-											data={item.children}
-											id={path.join(...item.path)}
-											key={item.id}
-											query={props.query}
-											/>
-									</NavigationItem>
-								);
-							}
-							return (
-								<NavigationItem
-									active={direct(item.path)}
-									base={props.base}
-									hidden={false}
-									id={path.join(...item.path)}
-									key={item.id}
-									linkTo={`/docs/`}
-									name={item.id}
-									query={props.query}
-									searchQuery={props.searchQuery}
-									symbol="documentation"
-									type="docs"
-									hide={false}
-									/>
-							);
-						})
-				}
-			</ul>
-		</li>
+		</NavigationTree>
 	);
 }
 
 Documentation.propTypes = {
-	active: t.bool.isRequired,
+	activePattern: t.string.isRequired,
 	base: t.string.isRequired,
+	docs: t.object.isRequired,
 	hide: t.bool.isRequired,
-	items: t.arrayOf(t.string).isRequired,
-	linkTo: t.string.isRequired,
 	pathname: t.string.isRequired,
-	query: t.object.isRequired,
-	searchQuery: t.string.isRequired
+	query: t.string.isRequired
 };

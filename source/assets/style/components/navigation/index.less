@@ -31,7 +31,8 @@
 	}
 }
 
-.docs {
+.docs-navigation {
+	border-left: none!important;
 	&::after {
 		content: '';
 		display: block;
@@ -39,10 +40,6 @@
 		margin: 10px auto 0 auto;
 		border-bottom: 1px solid @border-color;
 	}
-}
-
-.docs > .navigation-item {
-	padding-left: 0;
 }
 
 .docs > .navigation-item.child-active:first-child {

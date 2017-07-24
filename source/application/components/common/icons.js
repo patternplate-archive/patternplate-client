@@ -88,6 +88,7 @@ export default {
 	'dark': () => dark,
 	'dependencies': () => dependencies,
 	'documentation': () => documentation,
+	'doc': () => documentation,
 	'ecospheres': () => ecospheres,
 	'environment': () => environment,
 	'folder-open': () => folderOpen,

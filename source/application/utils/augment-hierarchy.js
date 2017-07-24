@@ -6,23 +6,36 @@ function hierarchyCompare(a, b) {
 		a.order > b.order;
 }
 
-function augmentFolderData(hierarchy) {
+function augmentFolderData(hierarchy = {}) {
 	// extract displayName and order from hierarchy config for the folder
 	return folder => {
 		const splits = folder.id.split('/');
 		const key = splits[splits.length - 1];
 
+		const {manifest = {}} = folder;
+		const {options = {}} = manifest;
+		const {hidden = false} = options;
+		const displayName = manifest.displayName || manifest.name || folder.name || key;
+		const order = manifest.order || -1;
+		const icon = manifest.icon;
+		const iconActive = manifest.iconActive;
+
 		const defaultHierarchyEntry = {
-			order: -1,
-			displayName: key,
-			icon: 'folder',
-			iconActive: 'folder-open'
+			order,
+			displayName,
+			hidden,
+			icon,
+			iconActive
 		};
 
 		const hierarchyEntry = hierarchy[folder.id];
 
 		return assign(
-			{},
+			{
+				manifest: {
+					options: {}
+				}
+			},
 			folder,
 			defaultHierarchyEntry,
 			hierarchyEntry
@@ -36,13 +49,13 @@ const DEFAULT_ITEM = {
 	}
 };
 
-function augmentItemData() {
+export function augmentItemData() {
 	return function augment(item) {
 		const {manifest = {}} = item;
 		const {options = {}} = manifest;
 		const {hidden = false} = options;
 		const displayName = manifest.displayName || manifest.name || item.name || item.id;
-		return merge({}, DEFAULT_ITEM, item, {displayName}, {hidden});
+		return merge({}, DEFAULT_ITEM, item, {hidden, displayName});
 	};
 }
 
