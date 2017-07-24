@@ -103,6 +103,7 @@ class Navigation extends React.Component {
 						hierarchy={props.hierarchy}
 						pathname={props.pathname}
 						query={props.query}
+						searchQuery={props.searchQuery}
 						/>
 				</NavigationTree>
 				<NavigationToolbar
@@ -139,12 +140,16 @@ function Documentation(props) {
 				active={props.pathname === '/' || props.pathname === '/docs'}
 				base={props.base}
 				hidden={false}
+				hide={props.hide}
 				id="/"
-				linkTo=""
-				type="doc"
 				key={item.id}
-				name={item.manifest.displayName || item.manifest.name || item.id}
-				symbol="documentation"
+				linkTo=""
+				name={item.displayName}
+				query={props.query}
+				searchQuery={props.searchQuery}
+				type="doc"
+				symbol="doc"
+				symbolActive="doc"
 				/>
 		</NavigationTree>
 	);
@@ -156,5 +161,6 @@ Documentation.propTypes = {
 	docs: t.object.isRequired,
 	hide: t.bool.isRequired,
 	pathname: t.string.isRequired,
-	query: t.string.isRequired
+	query: t.string.isRequired,
+	searchQuery: t.string.isRequired
 };

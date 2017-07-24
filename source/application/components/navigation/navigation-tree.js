@@ -29,7 +29,7 @@ class NavigationTree extends Component {
 
 	render() {
 		const {props} = this;
-		const {folders, items} = getAugmentedChildren(props.data, props.hierarchy);
+		const items = getAugmentedChildren(props.data, props.hierarchy);
 		const frags = (props.pathname || '').split('/').filter(Boolean).slice(1);
 		const className = ['navigation-tree', props.className, props.active && 'navigation-tree--active'].filter(Boolean).join(' ');
 
@@ -42,75 +42,50 @@ class NavigationTree extends Component {
 				transitionLeaveTimeout={300}
 				>
 				{props.children}
-				{
-					folders.map(folder => {
-						const p = folder.path || [];
+				{items.map(item => {
+					const p = item.path || [];
 
-						const active = folder.expanded ||
-							p.length > 0 && p.every((f, i) => frags[i] === f) ||
-							props.activePattern.indexOf(folder.id) === 0;
+					const active = item.expanded ||
+						p.length > 0 && p.every((f, i) => frags[i] === f) ||
+						props.activePattern.indexOf(item.id) === 0;
 
-						return (
-							<NavigationItem
-								active={active || folder.expanded}
-								base={props.base}
-								hidden={props.hide ? folder.hidden : false}
-								id={folder.id}
-								key={folder.id}
-								linkTo={props.prefix}
-								name={folder.displayName}
-								pathname={props.pathname}
-								query={props.query}
-								searchQuery={props.searchQuery}
-								symbol={folder.icon || 'folder'}
-								symbolActive={folder.iconActive || 'folder-open'}
-								type="folder"
-								hide={props.hide}
-								>
-								<NavigationTree
-									activePattern={props.activePattern}
-									base={props.base}
-									data={folder.children}
-									hide={props.hide}
-									hierarchy={props.hierarchy}
-									id={folder.id}
-									prefix={props.prefix}
-									query={props.query}
-									searchQuery={props.searchQuery}
-									pathname={props.pathname}
-									/>
-							</NavigationItem>
-						);
-					})
-				}
-				{
-					items.map(item => {
-						const p = item.path || [];
+					const hidden = props.hide ? item.hidden : false;
 
-						const active = props.activePattern === item.id ||
-							item.expanded ||
-							p.length > 0 && p.every((f, i) => frags[i] === f);
-
-						return (
-							<NavigationItem
-								active={active}
-								base={props.base}
-								hidden={props.hide ? item.hidden : false}
-								hide={props.hide}
-								id={item.id}
-								key={item.id}
-								linkTo={props.prefix}
-								name={item.displayName}
-								query={props.query}
-								ref={this.getActiveReference}
-								searchQuery={props.searchQuery}
-								symbol={item.icon || item.type}
-								symbolActive={item.iconActive || item.type}
-								type={item.type}
-								/>
-							);
-					})
-				}
+					return (
+						<NavigationItem
+							active={active}
+							base={props.base}
+							hidden={hidden}
+							hide={props.hide}
+							id={item.id}
+							key={item.id}
+							linkTo={props.prefix}
+							name={item.displayName}
+							pathname={props.pathname}
+							query={props.query}
+							searchQuery={props.searchQuery}
+							symbol={item.icon}
+							symbolActive={item.iconActive}
+							type={item.type}
+							>
+							{
+								item.type === 'folder' &&
+									<NavigationTree
+										activePattern={props.activePattern}
+										base={props.base}
+										data={item.children}
+										hide={props.hide}
+										hierarchy={props.hierarchy}
+										id={item.id}
+										prefix={props.prefix}
+										query={props.query}
+										searchQuery={props.searchQuery}
+										pathname={props.pathname}
+										/>
+							}
+						</NavigationItem>
+					);
+				})}
 			</CSSTransitionGroup>
 		);
 	}

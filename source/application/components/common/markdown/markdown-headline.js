@@ -5,7 +5,7 @@ export default MarkdownHeadline;
 function MarkdownHeadline(props) {
 	const {tagName: TagName, ...p} = props;
 	const children = Array.isArray(p.children) ? p.children.join('') : p.children;
-	const id = children.split(' ').join('-').toLowerCase();
+	const id = (children || '').split(' ').join('-').toLowerCase();
 
 	return (
 		<TagName id={id}>

@@ -8,13 +8,15 @@ function Markdown(props) {
 	const className = join('markdown', props.className);
 	return (
 		<div className={className}>
-			{render(props.source, {
-				base: props.base,
-				hash: props.hash,
-				query: props.query,
-				pathname: props.pathname,
-				onHashChange: props.scrollTo
-			})}
+			{
+				render(props.source, {
+					base: props.base,
+					hash: props.hash,
+					query: props.query,
+					pathname: props.pathname,
+					onHashChange: props.scrollTo
+				})
+			}
 		</div>
 	);
 }

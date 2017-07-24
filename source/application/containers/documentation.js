@@ -3,6 +3,41 @@ import Documentation from '../components/documentation';
 
 export default connect(mapState)(Documentation);
 
-function mapState() {
-	return {};
+function mapState(state) {
+	const doc = find(state.schema.docs, state.doc);
+
+	return {
+		base: state.base,
+		doc: doc || {contents: notFound(state)},
+		id: state.doc
+	};
+}
+
+function find(tree, id, depth = 1) {
+	const frags = id.split('/').filter(Boolean);
+	const sub = frags.slice(0, depth);
+	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === s));
+
+	if (depth < frags.length) {
+		return find(match, id, depth + 1);
+	}
+
+	return match;
+}
+
+function notFound(state) {
+	const url = state.routing.locationBeforeTransitions.pathname;
+	return `
+# Nothing found
+
+> Pretty sure these aren't the hypertext documents you are looking for.
+
+We looked everywhere and could not find a single thing at \`${url}\`.
+
+You might want to navigate back to [Home](/) or use the search.
+
+---
+
+Help us to make this message more helpful on [GitHub](https://github.com/sinnerschrader/patternplate)
+`;
 }

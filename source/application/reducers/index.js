@@ -3,6 +3,7 @@ import base from './base';
 import depth from './depth';
 import demoContentDimensions from './demo-content-dimensions';
 import demoDimensions from './demo-dimensions';
+import doc from './doc';
 import environment from './environment';
 import expanded from './expanded';
 import id from './id';
@@ -36,6 +37,7 @@ export default {
 	demoContentDimensions,
 	demoDimensions,
 	depth,
+	doc,
 	environment,
 	expanded,
 	hide,
