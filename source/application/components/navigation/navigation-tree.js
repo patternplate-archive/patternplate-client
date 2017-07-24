@@ -6,6 +6,11 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
 
+const LINKS = {
+	doc: '/docs',
+	pattern: '/pattern'
+};
+
 @pure
 class NavigationTree extends Component {
 	displayName = 'NavigationTree';
@@ -28,7 +33,7 @@ class NavigationTree extends Component {
 
 	render() {
 		const {props} = this;
-		const {folders, patterns} = getAugmentedChildren(props.data, props.hierarchy);
+		const {folders, items} = getAugmentedChildren(props.data, props.hierarchy);
 
 		return (
 			<CSSTransitionGroup
@@ -73,31 +78,21 @@ class NavigationTree extends Component {
 					})
 				}
 				{
-					patterns.map(pattern => {
-						const {
-							displayName,
-							expanded,
-							type,
-							manifest
-						} = pattern;
-
-						const {options = {}} = manifest;
-						const {hidden = false} = options;
-						const hideItem = props.hide ? hidden : false;
-
+					items.map(item => {
 						return (
 							<NavigationItem
-								active={props.activePattern === pattern.id || expanded}
+								active={props.activePattern === item.id || item.expanded}
 								base={props.base}
-								hidden={hideItem}
-								id={pattern.id}
-								key={pattern.id}
-								name={displayName}
+								hidden={props.hide ? item.manifest.options.hidden : false}
+								id={item.id}
+								key={item.id}
+								linkTo={LINKS[item.type]}
+								name={item.displayName}
 								query={props.query}
 								ref={this.getActiveReference}
 								searchQuery={props.searchQuery}
-								symbol={type}
-								type={type}
+								symbol={item.type}
+								type={item.type}
 								hide={props.hide}
 								/>
 							);

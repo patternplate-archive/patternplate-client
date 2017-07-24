@@ -3,6 +3,7 @@ import {getDepth} from './depth';
 
 export function getBase(pathname) {
 	const depth = getDepth(pathname);
+
 	return depth > 0 ?
 		`/${pathname
 			.split('/')

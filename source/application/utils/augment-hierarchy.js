@@ -1,4 +1,4 @@
-import {assign} from 'lodash';
+import {assign, merge} from 'lodash';
 
 function hierarchyCompare(a, b) {
 	return (a.order === b.order) ?
@@ -30,11 +30,20 @@ function augmentFolderData(hierarchy) {
 	};
 }
 
-function augmentPatternData() {
-	return pattern => ({
-		...pattern,
-		displayName: pattern.manifest.displayName || pattern.manifest.name
-	});
+const DEFAULT_ITEM = {
+	manifest: {
+		options: {}
+	}
+};
+
+function augmentItemData() {
+	return function augment(item) {
+		const {manifest = {}} = item;
+		const {options = {}} = manifest;
+		const {hidden = false} = options;
+		const displayName = manifest.displayName || manifest.name || item.name || item.id;
+		return merge({}, DEFAULT_ITEM, item, {displayName}, {hidden});
+	};
 }
 
 export function getPatterns(data, hierarchy) {
@@ -45,18 +54,20 @@ export function getPatterns(data, hierarchy) {
 }
 
 export default function getAugmentedChildren(data, hierarchy) {
-	const folders = Object.values(data)
+	const values = Array.isArray(data) ? data : Object.values(data);
+
+	const folders = values
 		.filter(item => item.type === 'folder')
 		.map(augmentFolderData(hierarchy))
 		.sort(hierarchyCompare);
 
-	const patterns = Object.values(data)
-		.filter(item => item.type === 'pattern')
-		.map(augmentPatternData(hierarchy))
+	const items = values
+		.filter(item => item.type !== 'folder')
+		.map(augmentItemData(hierarchy))
 		.sort(hierarchyCompare);
 
 	return {
 		folders,
-		patterns
+		items
 	};
 }

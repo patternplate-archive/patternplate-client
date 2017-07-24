@@ -2,12 +2,12 @@ import {handleAction} from 'redux-actions';
 
 export function getDepth(pathname) {
 	const fragments = pathname.split('/').filter(Boolean);
-	const fragmentIndex = fragments.indexOf('pattern');
 
-	const index = fragmentIndex === -1 ?
-		fragments.length :
-		fragmentIndex;
+	const fragmentIndex = ['pattern', 'docs']
+		.map(known => fragments.indexOf(known))
+		.find(index => index !== -1);
 
+	const index = fragmentIndex === null ? fragments.length : fragmentIndex;
 	return fragments.slice(0, index).filter(Boolean).length;
 }
 

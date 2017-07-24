@@ -1,3 +1,4 @@
+import path from 'path';
 import React, {PropTypes as types} from 'react';
 import {Link} from 'react-router';
 import autobind from 'autobind-decorator';
@@ -6,17 +7,7 @@ import {omit} from 'lodash';
 import Icon from '../common/icon';
 
 function getPathName(...fragments) {
-	const raw = fragments
-		.join('/')
-		.split('/')
-		.filter(Boolean)
-		.map(fragment => fragment === '/' ? '' : fragment)
-		.filter(Boolean)
-		.join('/');
-	const rawish = raw === '' ? '/' : raw;
-	const pre = rawish[0] === '/' ? '' : '/';
-	const post = rawish[rawish.length - 1] === '/' ? '' : '/';
-	return `${pre}${rawish}${post}`;
+	return path.join(...fragments.filter(Boolean));
 }
 
 export default class NavigationItem extends React.Component {

@@ -1,3 +1,4 @@
+import path from 'path';
 import React, {PropTypes as t} from 'react';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
@@ -94,11 +95,12 @@ class Navigation extends React.Component {
 							/>
 					</form>
 					<Documentation
-						active={props.pathname === props.base}
+						active={props.pathname === '/' || props.pathname.startsWith('/docs')}
 						base={props.base}
 						items={props.docs}
 						key="root"
 						linkTo="/"
+						pathname={props.pathname}
 						query={props.query}
 						searchQuery={props.searchQuery}
 						/>
@@ -119,6 +121,11 @@ class Navigation extends React.Component {
 export default Navigation;
 
 function Documentation(props) {
+	const frags = props.pathname.split(path.sep).filter(Boolean).slice(1);
+	const active = frags.join('/');
+	const direct = comp => path.join(...frags) === path.join(...comp);
+	const matches = comp => comp.every((c, i) => frags[i] === c);
+
 	return (
 		<li className="docs">
 			<NavigationItem
@@ -140,9 +147,9 @@ function Documentation(props) {
 							if (item.type === 'directory' && item.children.length > 0) {
 								return (
 									<NavigationItem
-										active={false}
+										active={matches(item.path)}
 										base={props.base}
-										id={item.id}
+										id={path.join(...item.path)}
 										key={item.id}
 										linkTo={`/docs/`}
 										name={item.id}
@@ -154,9 +161,10 @@ function Documentation(props) {
 										hide={false}
 										>
 										<NavigationTree
+											activePattern={active}
 											base={props.base}
 											data={item.children}
-											id={item.id}
+											id={path.join(...item.path)}
 											key={item.id}
 											query={props.query}
 											/>
@@ -165,10 +173,10 @@ function Documentation(props) {
 							}
 							return (
 								<NavigationItem
-									active={false}
+									active={direct(item.path)}
 									base={props.base}
 									hidden={false}
-									id={item.id}
+									id={path.join(...item.path)}
 									key={item.id}
 									linkTo={`/docs/`}
 									name={item.id}
@@ -192,6 +200,7 @@ Documentation.propTypes = {
 	hide: t.bool.isRequired,
 	items: t.arrayOf(t.string).isRequired,
 	linkTo: t.string.isRequired,
+	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	searchQuery: t.string.isRequired
 };
