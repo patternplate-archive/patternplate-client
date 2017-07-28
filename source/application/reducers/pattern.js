@@ -1,8 +1,7 @@
+import path from 'path';
+import {merge} from 'lodash';
 import {handleAction} from 'redux-actions';
-
-import {
-	loadPatternData, loadPatternFile, loadPatternDemo
-} from '../actions';
+import {loadPatternData, loadPatternFile, loadPatternDemo, loadSchema} from '../actions';
 
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
@@ -94,10 +93,36 @@ const handleLoadPatternDemo = handleAction(loadPatternDemo, (state, {payload: lo
 	};
 });
 
+const handleLoadSchema = handlePromiseThunkAction(loadSchema, {
+	success(state, action) {
+		const match = find(action.payload.meta, state.id);
+		if (match) {
+			return merge({}, state, match);
+		}
+	}
+});
+
 const reducers = composeReducers(
 	handlePatternLoad,
 	handleSourceLoad,
-	handleLoadPatternDemo
+	handleLoadPatternDemo,
+	handleLoadSchema
 );
 
 export default reducers;
+
+function find(tree, id, depth = 1) {
+	const frags = id.split('/').filter(Boolean);
+	const sub = frags.slice(0, depth).map(strip);
+	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === strip(s)));
+
+	if (depth < frags.length) {
+		return find(match, id, depth + 1);
+	}
+
+	return match;
+}
+
+function strip(b) {
+	return path.basename(b, path.extname(b));
+}

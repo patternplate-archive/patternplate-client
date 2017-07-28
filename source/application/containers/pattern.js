@@ -1,6 +1,6 @@
 import path from 'path';
 
-import {includes, merge, noop, uniqBy} from 'lodash';
+import {includes, noop, uniqBy} from 'lodash';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import shortid from 'shortid';
@@ -148,8 +148,7 @@ function selectBreadCrumbs(state) {
 }
 
 function selectPattern(state) {
-	const cached = find(state.navigation, state.id);
-	return merge({}, cached, state.pattern);
+	return state.pattern;
 }
 
 function selectManifest(state) {
