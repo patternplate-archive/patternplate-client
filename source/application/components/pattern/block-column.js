@@ -4,28 +4,28 @@ import Block from './block';
 
 export default function BlockColumn(props) {
 	const {
-		activeBlock, align, base, items, x, y, location, connect, height, onClick,
+		activeBlock, align, x, y, location, connect, height, onClick,
 		onMouseEnter, onMouseLeave
 	} = props;
 
 	return (
 		<g>
 			{
-				items.map(({name, id, localName}, index) => {
-					const label = [name, localName].join('');
+				props.items.map((item, index) => {
+					const label = [item.name, item.localName].join('');
 					const width = Math.max(5, label.length * 0.8);
 					const offset = align === 'right' ? width + 1 : 0;
 					const n = (50 - width) / 3;
-					const key = [id, name, localName].filter(Boolean).join(':');
+					const key = [item.id, item.name, item.localName].filter(Boolean).join(':');
 
 					return (
 						<Block
 							active={activeBlock === key}
 							type="block"
-							base={base}
-							id={id}
+							base={props.base}
+							id={item.id}
 							blockId={key}
-							name={name}
+							name={item.name}
 							x={x - offset}
 							key={key}
 							y={y + index * (height + 1)}
@@ -41,7 +41,7 @@ export default function BlockColumn(props) {
 				})
 			}
 			{
-				items.map(({name, localName, id}, index) => {
+				props.items.map(({name, localName, id}, index) => {
 					const label = [name, localName].join('');
 					const text = align === 'right' ? localName : id;
 					const width = Math.max(5, label.length * 0.8);
@@ -64,7 +64,7 @@ export default function BlockColumn(props) {
 				})
 			}
 			{
-				items.map(item => {
+				props.items.map(item => {
 					const labelAlign = align === 'left' ? 'right' : 'left';
 					const text = align === 'right' ? item.id : item.localName;
 					const key = [item.id, item.name, item.localName].filter(Boolean).join(':');

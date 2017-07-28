@@ -13,6 +13,7 @@ class PatternDependencies extends Component {
 		activeBlock: t.string,
 		base: t.string.isRequired,
 		className: t.string,
+		dispatch: t.func.isRequired,
 		id: t.string.isRequired,
 		name: t.string.isRequired,
 		dependencies: t.arrayOf(t.shape({

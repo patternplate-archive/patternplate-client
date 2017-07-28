@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import shortid from 'shortid';
 
 import urlQuery from '../utils/url-query';
-import navigate from '../utils/navigate';
 import Pattern from '../components/pattern';
 
 import {
@@ -149,7 +148,7 @@ function selectBreadCrumbs(state) {
 }
 
 function selectPattern(state) {
-	const cached = navigate(state.id, state.navigation);
+	const cached = find(state.navigation, state.id);
 	return merge({}, cached, state.pattern);
 }
 
@@ -229,9 +228,9 @@ function selectDependentPatterns(state) {
 
 function selectDependents(state) {
 	return Object.values(selectDependentPatterns(state))
-		.filter(pattern => pattern.display)
+		.filter(pattern => (pattern.manifest.options || {}).hidden !== true)
 		.reduce((registry, pattern) => {
-			const navPattern = navigate(pattern.id, state.navigation) || {manifest: {}};
+			const navPattern = find(state.navigation, pattern.id) || {manifest: {}};
 			const patternEntries = Object.entries(navPattern.manifest.patterns || {});
 			const localNames = patternEntries
 				.filter(entry => entry[1] === state.id)
@@ -240,7 +239,7 @@ function selectDependents(state) {
 			const amend = localNames.map(localName => {
 				return {
 					id: pattern.id,
-					name: pattern.displayName || pattern.name,
+					name: pattern.manifest.displayName || pattern.manifest.name,
 					localName,
 					version: pattern.version
 				};
@@ -254,10 +253,10 @@ function selectDependencies(state) {
 	const rootPattern = selectPattern(state);
 	return Object.entries(rootPattern.dependencies || {})
 		.filter(entry => entry[0] !== 'Pattern')
-		.filter(entry => entry[1].manifest.display !== false)
+		.filter(entry => (entry[1].manifest.options || {}).hidden !== true)
 		.map(entry => {
 			const [localName, pattern] = entry;
-			const navPattern = navigate(pattern.id, state.navigation) || {manifest: {}};
+			const navPattern = find(state.navigation, pattern.id) || {manifest: {}};
 
 			return {
 				id: pattern.id,
@@ -388,4 +387,20 @@ function selectCode(state) {
 			types
 		};
 	});
+}
+
+function find(tree, id, depth = 1) {
+	const frags = id.split('/').filter(Boolean);
+	const sub = frags.slice(0, depth).map(strip);
+	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === strip(s)));
+
+	if (depth < frags.length) {
+		return find(match, id, depth + 1);
+	}
+
+	return match;
+}
+
+function strip(b) {
+	return path.basename(b, path.extname(b));
 }
