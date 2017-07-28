@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
 
-import {search, themeLoaded, toggleSearchFocus, toggleTheme, windowResize} from '../actions';
+import {listen, search, themeLoaded, toggleSearchFocus, toggleTheme, windowResize} from '../actions';
 
 export default connect(mapProps, mapDispatch)(Application);
 
@@ -35,6 +35,7 @@ function mapProps(state, own) {
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
+		onLoad: listen,
 		onResize: windowResize,
 		onSearch: search,
 		onThemeLoaded: themeLoaded,

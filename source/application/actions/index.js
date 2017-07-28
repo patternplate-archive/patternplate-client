@@ -7,13 +7,12 @@ export demoContentResize from './demo-content-resize';
 export dismissAllMessages from './dismiss-all-messages';
 export dismissMessage from './dismiss-message';
 
-/**
- * Pattern fetching related action
- **/
+export listen from './listen';
 export loadPattern from './load-pattern';
 export loadPatternData from './load-pattern-data';
 export loadPatternDemo from './load-pattern-demo';
 export loadPatternFile from './load-pattern-file';
+export loadSchema from './load-schema';
 export openDocumentation from './open-documentation';
 export openFullscreen from './open-fullscreen';
 export patchLocation from './patch-location';
@@ -25,9 +24,6 @@ export scrollTo from './scroll-to';
 export search from './search';
 export themeLoaded from './theme-loaded';
 
-/**
- * Automagic state toggles
- */
 export toggleConsole from './toggle-console';
 export toggleExpandMenu from './toggle-expand-menu';
 export toggleHide from './toggle-hide';

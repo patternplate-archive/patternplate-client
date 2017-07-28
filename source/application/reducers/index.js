@@ -19,6 +19,7 @@ import search from './search';
 import searchMatches from './search-matches';
 import scrollDemoX from './scroll-demo-x';
 import scrollDemoY from './scroll-demo-y';
+import schema from './schema';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
 import sourceType from './source-type';
@@ -50,7 +51,7 @@ export default {
 	opacity,
 	pattern,
 	rulers,
-	schema: ident,
+	schema,
 	scrollDemoX,
 	scrollDemoY,
 	search,

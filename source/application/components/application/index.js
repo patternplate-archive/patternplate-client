@@ -11,6 +11,7 @@ import Navigation from '../navigation';
 @autobind
 export default class Application extends Component {
 	componentDidMount() {
+		this.props.onLoad();
 		global.addEventListener('resize', this.onResize);
 	}
 
@@ -106,6 +107,7 @@ Application.propTypes = {
 	logo: t.string.isRequired,
 	menuEnabled: t.bool.isRequired,
 	navigation: t.object.isRequired,
+	onLoad: t.func.isRequired,
 	onResize: t.func.isRequired,
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
