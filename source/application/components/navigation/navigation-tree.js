@@ -1,9 +1,8 @@
+import path from 'path';
 import React, {Component, PropTypes as types} from 'react';
 import pure from 'pure-render-decorator';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import NavigationItem from './navigation-item';
-import getAugmentedChildren from '../../utils/augment-hierarchy';
 
 @pure
 class NavigationTree extends Component {
@@ -17,7 +16,7 @@ class NavigationTree extends Component {
 			types.arrayOf(types.node)
 		]),
 		config: types.object,
-		data: types.object,
+		data: types.array.isRequired,
 		hide: types.bool.isRequired,
 		hierarchy: types.object,
 		id: types.string,
@@ -29,27 +28,17 @@ class NavigationTree extends Component {
 
 	render() {
 		const {props} = this;
-		const items = getAugmentedChildren(props.data, props.hierarchy);
-		const frags = (props.pathname || '').split('/').filter(Boolean).slice(1);
 		const className = ['navigation-tree', props.className, props.active && 'navigation-tree--active'].filter(Boolean).join(' ');
 
 		return (
-			<CSSTransitionGroup
-				component="ul"
-				className={className}
-				transitionName="pattern-content-transition"
-				transitionEnterTimeout={300}
-				transitionLeaveTimeout={300}
-				>
+			<ul className={className}>
 				{props.children}
-				{items.map(item => {
-					const p = item.path || [];
-
-					const active = item.expanded ||
-						p.length > 0 && p.every((f, i) => frags[i] === f) ||
-						props.activePattern.indexOf(item.id) === 0;
-
-					const hidden = props.hide ? item.hidden : false;
+				{(props.data || []).map(item => {
+					const p = (props.pathname || '').split('/').filter(Boolean).slice(1).join('/');
+					const active = matches(item, p);
+					const hidden = props.hide ? item.manifest.options.hidden : false;
+					const icon = item.manifest.icon || item.type;
+					const iconActive = item.manifest.iconActive || icon;
 
 					return (
 						<NavigationItem
@@ -60,12 +49,12 @@ class NavigationTree extends Component {
 							id={item.id}
 							key={item.id}
 							linkTo={props.prefix}
-							name={item.displayName}
+							name={item.manifest.displayName}
 							pathname={props.pathname}
 							query={props.query}
 							searchQuery={props.searchQuery}
-							symbol={item.icon}
-							symbolActive={item.iconActive}
+							symbol={icon}
+							symbolActive={iconActive}
 							type={item.type}
 							>
 							{
@@ -86,9 +75,24 @@ class NavigationTree extends Component {
 						</NavigationItem>
 					);
 				})}
-			</CSSTransitionGroup>
+			</ul>
 		);
 	}
 }
 
 export default NavigationTree;
+
+function matches(tree, id) {
+	const frags = id.split('/').filter(Boolean);
+	const p = tree.path || [];
+
+	if (p.length > 0 && p.every((p, i) => frags[i] && strip(frags[i]) === strip(p))) {
+		return true;
+	}
+
+	return (tree.children || []).some(child => matches(child, id));
+}
+
+function strip(b) {
+	return path.basename(b, path.extname(b));
+}

@@ -8,7 +8,6 @@ import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
 import PatternFolder from '../pattern/pattern-folder';
 import PatternSection from '../pattern/pattern-section';
-import navigate from '../../utils/navigate';
 
 export default Content;
 
@@ -25,9 +24,8 @@ function Content(props) {
 	const fragments = id.split('/');
 	const depth = fragments.length - 1;
 	const up = depth > 0 ? fragments.slice(0, fragments.length - 1).join('/') : '';
-	const item = navigate(id, props.navigation);
 
-	if (!item) {
+	if (!props.item) {
 		return (
 			<div className="application-container application-container--pattern">
 				<div className="not-found-section">
@@ -38,12 +36,12 @@ function Content(props) {
 	}
 
 	const itemDefaults = {base, location};
-	const items = sortBy(sortBy(getItems(item, hierarchy, itemDefaults, props.hide), 'name'), rateType);
+	const items = sortBy(sortBy(getItems(props.item, hierarchy, itemDefaults, props.hide), 'name'), rateType);
 
 	return (
 		<div className="application-container application-container--pattern">
 			{
-				item.type === 'folder' &&
+				props.item.type === 'folder' &&
 					<PatternFolder
 						id={id}
 						location={location}
@@ -53,14 +51,14 @@ function Content(props) {
 						/>
 			}
 			{
-				item.type === 'pattern' &&
+				props.item.type === 'pattern' &&
 					<PatternSection
 						id={id}
 						data={props.pattern}
 						navigation={props.navigation}
 						config={props.config}
 						location={location}
-						type={item.type}
+						type={props.item.type}
 						onDataRequest={props.onLoad}
 						base={base}
 						/>
@@ -103,6 +101,7 @@ Content.propTypes = {
 	base: t.string.isRequired,
 	config: t.object.isRequired,
 	hide: t.bool.isRequired,
+	item: t.object.isRequired,
 	location: t.shape({
 		pathname: t.string.isRequired
 	}).isRequired,
@@ -110,7 +109,6 @@ Content.propTypes = {
 	onDismiss: t.func.isRequired,
 	onLoad: t.func.isRequired,
 	onRetry: t.func.isRequired,
-	pattern: t.object.isRequired,
 	messages: t.array.isRequired
 };
 

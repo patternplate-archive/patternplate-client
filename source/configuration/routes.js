@@ -18,7 +18,7 @@ const routes = {
 		},
 		docs: {
 			enabled: true,
-			path: '/docs/:path+'
+			path: '/doc/:path+'
 		},
 		component: {
 			enabled: true,

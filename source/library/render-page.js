@@ -1,7 +1,7 @@
 import url from 'url';
 import os from 'os';
 
-import {fill, merge, entries} from 'lodash';
+import {fill, merge} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
 import queryString from 'query-string';
@@ -27,11 +27,11 @@ const defaultData = {
 	messages: []
 };
 
-export default async function renderPage(application, pageUrl, filters = {}) {
+export default async function renderPage(application, pageUrl) {
 	const app = application.parent;
 	const client = application;
 	const server = app.server;
-	const filter = getFilter(filters);
+	// const filter = getFilter(filters);
 
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
@@ -42,9 +42,9 @@ export default async function renderPage(application, pageUrl, filters = {}) {
 
 	const schema = app ? await getSchema(app, client, server) : {};
 	const navigation = app ? await getNavigation(app, client, server) : {};
-	const filteredNavigation = applyFilters(navigation, filter);
+	// const filteredNavigation = applyFilters(navigation, filter);
 
-	const pattern = merge({}, navigate(id, filteredNavigation));
+	const pattern = merge({}, navigate(id, navigation));
 	const isPattern = pattern && pattern.type === 'pattern';
 
 	if (isPattern) {
@@ -64,7 +64,7 @@ export default async function renderPage(application, pageUrl, filters = {}) {
 		config
 	};
 
-	const serverData = {schema, navigation: filteredNavigation, pattern};
+	const serverData = {schema, navigation, pattern};
 	const data = merge({}, defaultData, options.data, serverData, {config}, {
 		schema: {
 			serverOsName: os.type(),
@@ -97,9 +97,9 @@ export default async function renderPage(application, pageUrl, filters = {}) {
 	});
 }
 
-const pass = () => true;
+// const pass = () => true;
 
-function applyFilters(raw, filter) {
+/* function applyFilters(raw, filter) {
 	return entries(raw).reduce((results, entry) => {
 		const [key, item] = entry;
 		if (item.type !== 'pattern') {
@@ -124,4 +124,4 @@ function getFilter(filters) {
 	return item => {
 		return flags.includes(item.flag);
 	};
-}
+} */

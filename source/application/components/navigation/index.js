@@ -8,7 +8,6 @@ import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
 import SearchField from '../common/search-field';
 import Header from '../header';
-import {augmentItemData} from '../../utils/augment-hierarchy';
 
 @pure
 class Navigation extends React.Component {
@@ -17,7 +16,6 @@ class Navigation extends React.Component {
 		base: t.string.isRequired,
 		docs: t.arrayOf(t.string).isRequired,
 		enabled: t.bool.isRequired,
-		expanded: t.bool.isRequired,
 		hierarchy: t.object,
 		hide: t.bool.isRequired,
 		icon: t.string.isRequired,
@@ -55,31 +53,29 @@ class Navigation extends React.Component {
 	render() {
 		const {props} = this;
 
-		const className = classnames('navigation application__navigation', {
-			'slim': !props.expanded,
-			'navigation--expanded': props.expanded
-		});
+		const className = classnames('navigation application__navigation navigation--expanded');
 
 		return (
 			<nav className={className}>
-				<Header
-					base={props.base}
-					icon={props.icon}
-					menuEnabled={props.menuEnabled}
-					pathname={props.pathname}
-					query={props.query}
-					title={props.title}
-					version={props.version}
-					/>
 				<NavigationTree
 					activePattern={props.activePattern}
 					base={props.base}
-					data={props.navigation}
+					data={props.navigation.children}
 					hide={props.hide}
 					hierarchy={props.hierarchy}
+					pathname={props.pathname}
 					prefix="/pattern"
 					query={props.query}
 					>
+					<Header
+						base={props.base}
+						icon={props.icon}
+						menuEnabled={props.menuEnabled}
+						pathname={props.pathname}
+						query={props.query}
+						title={props.title}
+						version={props.version}
+						/>
 					<form onSubmit={this.handleSearchSubmit} method="GET">
 						<SearchField
 							base={props.base}
@@ -122,29 +118,27 @@ class Navigation extends React.Component {
 export default Navigation;
 
 function Documentation(props) {
-	const item = augmentItemData()(props.docs);
-
 	return (
 		<NavigationTree
-			active={props.pathname === '/' || props.pathname.indexOf('/docs') === 0}
+			active={props.pathname === '/' || props.pathname.indexOf('/doc') === 0}
 			activePattern={props.activePattern}
 			base={props.base}
 			className="docs-navigation"
 			data={props.docs.children}
 			hide={props.hide}
 			pathname={props.pathname}
-			prefix="/docs"
+			prefix="/doc"
 			query={props.query}
 			>
 			<NavigationItem
-				active={props.pathname === '/' || props.pathname === '/docs'}
+				active={props.pathname === '/' || props.pathname === '/doc'}
 				base={props.base}
 				hidden={false}
 				hide={props.hide}
 				id="/"
-				key={item.id}
+				key="/"
 				linkTo=""
-				name={item.displayName}
+				name={props.docs.manifest.displayName}
 				query={props.query}
 				searchQuery={props.searchQuery}
 				type="doc"

@@ -13,7 +13,7 @@ export default function (store) {
 		<Route path={state.base} component={Application}>
 			<IndexRoute component={Home}/>
 			<Route path="pattern/*" component={Content}/>
-			<Route path="docs/*" component={Documentation}/>
+			<Route path="doc/*" component={Documentation}/>
 			<Route path="*" component={NotFound}/>
 		</Route>
 	);

@@ -6,10 +6,6 @@ import classnames from 'classnames';
 import {omit} from 'lodash';
 import Icon from '../common/icon';
 
-function getPathName(...fragments) {
-	return path.join(...fragments.filter(Boolean));
-}
-
 export default class NavigationItem extends React.Component {
 	static propTypes = {
 		base: types.string.isRequired,
@@ -63,7 +59,7 @@ export default class NavigationItem extends React.Component {
 		const pathname = getPathName(props.base, props.linkTo, props.id);
 		const to = {pathname, query: omit(props.query, ['menu-enabled'])};
 		const title = props.title || `Navigate to ${props.name} ${props.type}`;
-		const symbol = props.active && (props.symbol === 'folder') ? props.symbolActive : props.symbol;
+		const symbol = props.active ? props.symbolActive : props.symbol;
 
 		return (
 			<Component className={itemClassName}>
@@ -82,4 +78,12 @@ export default class NavigationItem extends React.Component {
 			</Component>
 		);
 	}
+}
+
+function getPathName(...fragments) {
+	return strip(path.join(...fragments.filter(Boolean)));
+}
+
+function strip(b) {
+	return path.join(path.dirname(b), path.basename(b, path.extname(b)));
 }

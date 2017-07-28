@@ -12,7 +12,7 @@ function mapProps(state, own) {
 		base: state.base,
 		description: selectDescription(state),
 		depth: state.depth,
-		docs: state.schema.docs || [],
+		docs: selectDocs(state),
 		expanded: state.expanded,
 		hide: state.hide,
 		hierarchy: state.config.hierarchy,
@@ -20,7 +20,7 @@ function mapProps(state, own) {
 		lightbox: state.lightbox,
 		logo: state.config.logo || 'patternplate',
 		menuEnabled: state.menuEnabled,
-		navigation: state.search ? state.searchMatches : selectNavigation(state),
+		navigation: selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,
 		search: own.location.query.search,
@@ -43,8 +43,52 @@ function mapDispatch(dispatch) {
 	}, dispatch);
 }
 
+function selectDocs(state) {
+	return {
+		id: state.schema.docs.id,
+		contents: state.schema.docs.contents,
+		children: selectChildren(state.schema.docs.children),
+		manifest: state.schema.docs.manifest
+	};
+}
+
 function selectNavigation(state) {
-	return sanitizeNavigationTreeData({children: state.navigation}, state.hide);
+	return {
+		children: selectChildren(state.navigation.children)
+	};
+}
+
+const WEIGHTS = {
+	folder: 0,
+	doc: 1,
+	pattern: 2
+};
+
+function selectChildren(children) {
+	return children
+		.filter(child => child.manifest.options.hidden !== false)
+		.sort((a, b) => {
+			const order = (a.manifest.options.order || 0) - (b.manifest.options.order || 0);
+			const weight = (WEIGHTS[a.type] || 0) - (WEIGHTS[b.type] || 0);
+			const comp = a.manifest.displayName.localeCompare(b.manifest.displayName);
+
+			if (order !== 0) {
+				return order;
+			}
+
+			if (weight !== 0) {
+				return weight;
+			}
+
+			return comp;
+		})
+		.map(c => {
+			if (!c.children) {
+				return c;
+			}
+			c.children = selectChildren(c.children);
+			return c;
+		});
 }
 
 function selectDescription(state) {
@@ -61,20 +105,4 @@ function selectSchema(state) {
 
 function selectThemeLoading(state) {
 	return state.styles.length > 1;
-}
-
-function sanitizeNavigationTreeData(data, hide) {
-	if (data.manifest) {
-		return hide && data.manifest.display === false ? null : data;
-	}
-
-	return Object.entries(data.children)
-		.reduce((results, entry) => {
-			const [name, child] = entry;
-			const grandChildren = sanitizeNavigationTreeData(child, hide);
-			if (grandChildren && Object.keys(grandChildren).length > 0) {
-				results[name] = child;
-			}
-			return results;
-		}, {});
 }
