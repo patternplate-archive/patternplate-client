@@ -37,8 +37,8 @@ class NavigationTree extends Component {
 					const p = (props.pathname || '').split('/').filter(Boolean).slice(1).join('/');
 					const active = matches(item, p);
 					const hidden = props.hide ? item.manifest.options.hidden : false;
-					const icon = item.manifest.icon || item.type;
-					const iconActive = item.manifest.iconActive || icon;
+					const icon = item.manifest.options.icon || item.type;
+					const iconActive = item.manifest.options.iconActive || icon;
 
 					return (
 						<NavigationItem
