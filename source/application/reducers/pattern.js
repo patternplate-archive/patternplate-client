@@ -94,12 +94,19 @@ const handleLoadPatternDemo = handleAction(loadPatternDemo, (state, {payload: lo
 });
 
 const handleLoadSchema = handlePromiseThunkAction(loadSchema, {
-	success(state, action) {
-		const match = find(action.payload.meta, state.id);
+	success(state, action, {id}) {
+		if (!id) {
+			return state;
+		}
+
+		const match = find(action.payload.meta, id);
+
 		if (match) {
 			return merge({}, state, match);
 		}
 	}
+}, {
+	dependencies: ['id']
 });
 
 const reducers = composeReducers(
@@ -112,11 +119,15 @@ const reducers = composeReducers(
 export default reducers;
 
 function find(tree, id, depth = 1) {
+	if (!tree || !id) {
+		return;
+	}
+
 	const frags = id.split('/').filter(Boolean);
 	const sub = frags.slice(0, depth).map(strip);
 	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === strip(s)));
 
-	if (depth < frags.length) {
+	if (match && depth < frags.length) {
 		return find(match, id, depth + 1);
 	}
 

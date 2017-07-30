@@ -4,6 +4,11 @@
 	z-index: 2;
 	display: flex;
 	flex-direction: column;
+	padding-top: 60px;
+	background: @root-background;
+	@media screen and (min-width: 500px) {
+		padding-top: 0;
+	}
 	> .navigation-tree {
 		flex-grow: 1;
 		flex-shrink: 1;
@@ -60,16 +65,12 @@
 }
 
 .navigation-toolbar {
+	position: relative;
 	z-index: 1;
 	display: flex;
 	min-height: @nav-toolbar-height;
 	background: @root-background;
 	box-shadow: @shadow-up;
-	.slim & {
-		flex-wrap: wrap;
-		justify-content: center;
-		padding: 10px 0;
-	}
 	&__container {
 		display: flex;
 		align-items: center;

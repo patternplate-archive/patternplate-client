@@ -39,29 +39,30 @@
 		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 		flex: 1;
 		overflow-x: hidden;
-		@media screen and (max-width: 500px) {
-			padding-top: @headerHeight;
+		.markdown {
+			@media screen and (max-width: 500px) {
+				padding-top: @headerHeight;
+			}
 		}
 	}
 	&__content {
 		.markdown {
+			width: 100%;
 			max-width: 800px;
-			margin: 3em auto;
-
+			padding: 1.5em .75em;
+			margin: 0 auto;
+			left: 100%;
 			div {
 				>:first-child {
 					margin-top: 0px;
 				}
 			}
-		}
-		@media screen and (max-width: 900px) {
-			width: 70%;
+			@media screen and (min-width: 900px) {
+				padding: 50px 1.5em;
+			}
 		}
 		@media screen and (max-width: 500px) {
-			width: 100%;
-			left: 100%;
-			transform: translateX(-100%);
-			// padding: 60px 15px 0 15px;
+			margin: 0 auto;
 		}
 	}
 	&__navigation {
@@ -70,16 +71,10 @@
 		transform: translateX(-100%);
 		@media screen and (min-width: 500px) {
 			width: @navWidthMedium;
+			max-width: 300px;
 			border-right: 1px solid @border-color;
 			transform: none;
 			transition: .3s .3s width ease-in-out;
-			&.slim {
-				width: @navWidthSlim;
-				transition: .3s width ease-in-out;
-			}
-		}
-		@media screen and (min-width: 900px) {
-			width: @navWidthWide;
 		}
 	}
 	&__header {

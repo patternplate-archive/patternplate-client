@@ -24,6 +24,7 @@ export function createPromiseThunkAction(name, rawCreator) {
 				dispatch(successAction(result));
 				return result;
 			} catch (error) {
+				console.error(error);
 				global.clearTimeout(delayedTimer);
 				dispatch(throwsAction(error));
 				return error;

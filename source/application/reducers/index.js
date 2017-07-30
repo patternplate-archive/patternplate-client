@@ -1,11 +1,13 @@
 import activeBlock from './active-block';
 import base from './base';
+import connection from './connection';
 import depth from './depth';
 import demoContentDimensions from './demo-content-dimensions';
 import demoDimensions from './demo-dimensions';
 import doc from './doc';
 import environment from './environment';
 import expanded from './expanded';
+import fetching from './fetching';
 import id from './id';
 import issue from './issue';
 import lightbox from './lightbox';
@@ -35,12 +37,14 @@ export default {
 	activeBlock,
 	base,
 	config: ident,
+	connection,
 	demoContentDimensions,
 	demoDimensions,
 	depth,
 	doc,
 	environment,
 	expanded,
+	fetching,
 	hide,
 	id,
 	issue,
@@ -66,6 +70,7 @@ export default {
 };
 
 export const dependencies = {
+	connection: getDependencies(connection),
 	pattern: getDependencies(pattern),
 	searchMatches: getDependencies(searchMatches),
 	styles: getDependencies(styles),

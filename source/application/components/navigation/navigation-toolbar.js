@@ -2,6 +2,7 @@ import React, {PropTypes as t} from 'react';
 import {Link} from 'react-router';
 
 import Icon from '../common/icon';
+import Indicator from '../../containers/indicator';
 
 export default function NavigationToolbar(props) {
 	// const {data} = props;
@@ -75,6 +76,7 @@ export default function NavigationToolbar(props) {
 						</button>
 					</li>
 				</ul>
+				<Indicator/>
 			</div>
 		</div>
 	);

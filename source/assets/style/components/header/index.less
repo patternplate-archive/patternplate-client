@@ -1,18 +1,25 @@
 .main-header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 	overflow: hidden;
-	position: relative;
 	z-index: 1;
 	display: flex;
 	flex-shrink: 0;
 	height: @headerHeight;
 	background-color: @root-background;
+	border-bottom: 1px solid @border-color;
+	@media screen and (min-width: 500px) {
+		position: relative;
+		border: none;
+	}
 	.logo {
 		display: none;
 		align-items: center;
-		min-width: @navWidthMedium;
+		min-width: @navWidthWide;
 		@media screen and (min-width: 900px) {
 			display: flex;
-			min-width: @navWidthWide;
 			width: 100%;
 		}
 		.icon {
