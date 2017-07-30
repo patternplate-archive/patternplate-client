@@ -51,7 +51,6 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
-		listen: actions.listen,
 		onConcernChange: actions.changeConcern,
 		onDemoContentResize: actions.demoContentResize,
 		onDemoError: actions.patternDemoError,

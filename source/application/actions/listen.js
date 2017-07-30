@@ -8,10 +8,7 @@ export default createPromiseThunkAction('LISTEN', (payload, dispatch, getState) 
 	const source = new global.EventSource(url.resolve(s.base, payload.url));
 
 	source.addEventListener('error', event => {
-		dispatch({
-			type: 'ERROR_HEARTBEAT',
-			payload: JSON.parse(event.data)
-		});
+		console.error(event);
 	});
 
 	source.addEventListener('heartbeat', async event => {

@@ -4,19 +4,8 @@ import PatternDemo from './pattern-demo';
 import PatternHeader from './pattern-header';
 import PatternToolbar from './pattern-toolbar';
 import unwrap from '../../utils/unwrap';
-import urlQuery from '../../utils/url-query';
 
 export default class Pattern extends React.Component {
-	componentDidMount() {
-		const {props} = this;
-		props.listen({
-			url: urlQuery.format({
-				pathname: `/api/pattern/${props.id}.json`,
-				query: {environment: props.environment}
-			})
-		});
-	}
-
 	render() {
 		const {props} = this;
 		const onReloadClick = props.reload;

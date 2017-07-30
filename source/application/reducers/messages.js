@@ -48,6 +48,9 @@ export default composeReducers(
 	handleAction(dismissAllMessages, () => {
 		return defaultValue;
 	}, {defaultValue}),
+	handleAction('LOAD_PATTERN_DEMO', (state, {payload}) => {
+		return state.filter(message => !message.pattern || message.pattern === payload.id);
+	}),
 	handleAction('PATTERN_DEMO_ERROR', (state, {payload: error}) => {
 		const message = createMessage(error, 1);
 		return [message, ...state.slice(0, 2)];
