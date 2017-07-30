@@ -36,7 +36,7 @@ function mapProps(state, own) {
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
-		onLoad: listen,
+		onLoad: () => listen({url: 'api'}),
 		onResize: windowResize,
 		onSearch: search,
 		onThemeLoaded: themeLoaded,

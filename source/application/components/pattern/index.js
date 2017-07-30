@@ -4,80 +4,92 @@ import PatternDemo from './pattern-demo';
 import PatternHeader from './pattern-header';
 import PatternToolbar from './pattern-toolbar';
 import unwrap from '../../utils/unwrap';
+import urlQuery from '../../utils/url-query';
 
-export default Pattern;
+export default class Pattern extends React.Component {
+	componentDidMount() {
+		const {props} = this;
+		props.listen({
+			url: urlQuery.format({
+				pathname: `/api/pattern/${props.id}.json`,
+				query: {environment: props.environment}
+			})
+		});
+	}
 
-function Pattern(props) {
-	const onReloadClick = props.reload;
+	render() {
+		const {props} = this;
+		const onReloadClick = props.reload;
 
-	const onConcernChange = unwrap(props.onConcernChange, 'target.value');
-	const onEnvironmentChange = unwrap(props.onEnvironmentChange, 'target.value');
-	const onTypeChange = unwrap(props.onTypeChange, 'target.value');
+		const onConcernChange = unwrap(props.onConcernChange, 'target.value');
+		const onEnvironmentChange = unwrap(props.onEnvironmentChange, 'target.value');
+		const onTypeChange = unwrap(props.onTypeChange, 'target.value');
 
-	return (
-		<div className="pattern">
-			<PatternHeader
-				automount={props.automount}
-				base={props.base}
-				breadcrumbs={props.breadcrumbs}
-				environment={props.environment}
-				errored={props.errored}
-				flag={props.flag}
-				id={props.id}
-				loading={props.loading}
-				location={props.location}
-				name={props.name}
-				opacity={props.opacity}
-				onReloadClick={onReloadClick}
-				reloadTime={props.reloadTime}
-				reloadedTime={props.reloadedTime}
-				rulers={props.rulers}
-				tags={props.tags}
-				version={props.version}
-				/>
-			<PatternDemo
-				base={props.base}
-				contentHeight={props.demoContentHeight}
-				contentWidth={props.demoContentWidth}
-				environment={props.environment}
-				height={props.demoHeight}
-				loading={props.loading}
-				onError={props.onDemoError}
-				onReady={props.onDemoReady}
-				onResize={props.onDemoContentResize}
-				onScroll={props.onDemoScroll}
-				opacity={props.opacity}
-				reloadTime={props.reloadTime}
-				resizeable={props.rulers}
-				resize={props.resize}
-				rulers={props.rulers}
-				rulerX={props.rulerX}
-				rulerY={props.rulerY}
-				rulerLengthX={props.rulerLengthX}
-				rulerLengthY={props.rulerLengthY}
-				target={props.id}
-				width={props.demoWidth}
-				/>
-			<PatternToolbar
-				activeSource={props.activeSource}
-				base={props.base}
-				code={props.code}
-				dependencies={props.dependencies}
-				dependents={props.dependents}
-				environment={props.environment}
-				environments={props.environments}
-				id={props.id}
-				loading={props.loading}
-				location={props.location}
-				name={props.name}
-				onConcernChange={onConcernChange}
-				onEnvironmentChange={onEnvironmentChange}
-				onFileRequest={props.onFileRequest}
-				onTypeChange={onTypeChange}
-				expanded={props.sourceExpanded}
-				/>
-		</div>
-	);
+		return (
+			<div className="pattern">
+				<PatternHeader
+					automount={props.automount}
+					base={props.base}
+					breadcrumbs={props.breadcrumbs}
+					environment={props.environment}
+					errored={props.errored}
+					flag={props.flag}
+					id={props.id}
+					loading={props.loading}
+					location={props.location}
+					name={props.name}
+					opacity={props.opacity}
+					onReloadClick={onReloadClick}
+					reloadTime={props.reloadTime}
+					reloadedTime={props.reloadedTime}
+					rulers={props.rulers}
+					tags={props.tags}
+					version={props.version}
+					/>
+				<PatternDemo
+					base={props.base}
+					contentHeight={props.demoContentHeight}
+					contentWidth={props.demoContentWidth}
+					environment={props.environment}
+					height={props.demoHeight}
+					loading={props.loading}
+					onError={props.onDemoError}
+					onReady={props.onDemoReady}
+					onResize={props.onDemoContentResize}
+					onScroll={props.onDemoScroll}
+					opacity={props.opacity}
+					reloadTime={props.reloadTime}
+					resizeable={props.rulers}
+					resize={props.resize}
+					rulers={props.rulers}
+					rulerX={props.rulerX}
+					rulerY={props.rulerY}
+					rulerLengthX={props.rulerLengthX}
+					rulerLengthY={props.rulerLengthY}
+					target={props.id}
+					width={props.demoWidth}
+					/>
+				<PatternToolbar
+					activeSource={props.activeSource}
+					base={props.base}
+					code={props.code}
+					dependencies={props.dependencies}
+					dependents={props.dependents}
+					environment={props.environment}
+					environments={props.environments}
+					id={props.id}
+					loading={props.loading}
+					location={props.location}
+					name={props.name}
+					onConcernChange={onConcernChange}
+					onEnvironmentChange={onEnvironmentChange}
+					onFileRequest={props.onFileRequest}
+					onTypeChange={onTypeChange}
+					expanded={props.sourceExpanded}
+					/>
+			</div>
+		);
+	}
 }
 
 Pattern.propTypes = {

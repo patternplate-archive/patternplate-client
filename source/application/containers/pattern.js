@@ -8,12 +8,7 @@ import shortid from 'shortid';
 import urlQuery from '../utils/url-query';
 import Pattern from '../components/pattern';
 
-import {
-	changeConcern, changeEnvironment, changeType, demoContentResize,
-	loadPattern, loadPatternDemo, loadPatternFile, resizeDemo, scrollDemo
-} from '../actions';
-
-import patternDemoError from '../actions/pattern-demo-error';
+import * as actions from '../actions';
 
 export default connect(mapState, mapDispatch)(Pattern);
 
@@ -24,10 +19,6 @@ function mapState(state) {
 		base: state.base,
 		breadcrumbs: selectBreadCrumbs(state),
 		code: selectCode(state),
-		rulerX: selectRulerXFraction(state),
-		rulerY: selectRulerYFraction(state),
-		rulerLengthX: selectRulerLengthX(state),
-		rulerLengthY: selectRulerLengthY(state),
 		demoContentHeight: selectDemoContentHeight(state),
 		demoContentWidth: selectDemoContentWidth(state),
 		demoHeight: selectHeight(state),
@@ -47,7 +38,11 @@ function mapState(state) {
 		opacity: state.opacity,
 		reloadedTime: selectReloadedTime(state),
 		reloadTime: selectReloadTime(state),
+		rulerLengthX: selectRulerLengthX(state),
+		rulerLengthY: selectRulerLengthY(state),
 		rulers: state.rulers,
+		rulerX: selectRulerXFraction(state),
+		rulerY: selectRulerYFraction(state),
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
 		version: selectVersion(state)
@@ -56,16 +51,17 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
-		onConcernChange: changeConcern,
-		onDemoError: patternDemoError,
-		onDemoReady: () => loadPatternDemo(false),
-		onDemoContentResize: demoContentResize,
-		onDemoScroll: scrollDemo,
-		onEnvironmentChange: changeEnvironment,
-		onFileRequest: loadPatternFile,
-		reload: loadPattern,
-		resize: resizeDemo,
-		onTypeChange: changeType
+		listen: actions.listen,
+		onConcernChange: actions.changeConcern,
+		onDemoContentResize: actions.demoContentResize,
+		onDemoError: actions.patternDemoError,
+		onDemoReady: () => actions.loadPatternDemo(false),
+		onDemoScroll: actions.scrollDemo,
+		onEnvironmentChange: actions.changeEnvironment,
+		onFileRequest: actions.loadPatternFile,
+		onTypeChange: actions.changeType,
+		reload: actions.loadPattern,
+		resize: actions.resizeDemo
 	}, dispatch);
 }
 

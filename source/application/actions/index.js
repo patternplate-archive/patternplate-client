@@ -6,7 +6,6 @@ export closeAllTheThings from './close-all-the-things';
 export demoContentResize from './demo-content-resize';
 export dismissAllMessages from './dismiss-all-messages';
 export dismissMessage from './dismiss-message';
-
 export listen from './listen';
 export loadPattern from './load-pattern';
 export loadPatternData from './load-pattern-data';
@@ -17,13 +16,11 @@ export openDocumentation from './open-documentation';
 export openFullscreen from './open-fullscreen';
 export patchLocation from './patch-location';
 export patternDemoError from './pattern-demo-error';
-
 export resizeDemo from './resize-demo';
 export scrollDemo from './scroll-demo';
 export scrollTo from './scroll-to';
 export search from './search';
 export themeLoaded from './theme-loaded';
-
 export toggleConsole from './toggle-console';
 export toggleExpandMenu from './toggle-expand-menu';
 export toggleHide from './toggle-hide';
@@ -33,5 +30,4 @@ export toggleOpacity from './toggle-opacity';
 export toggleRulers from './toggle-rulers';
 export toggleSearchFocus from './toggle-search-focus';
 export toggleTheme from './toggle-theme';
-
 export windowResize from './window-resize';
