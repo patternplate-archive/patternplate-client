@@ -11,6 +11,7 @@ const Dot = styled.div`
 	border-radius: 50%;
 	background: #42A5F5;
 	transition: background .4s ease-in-out, opacity .5s ease-in;
+	opacity: ${props => props.status ? 1 : 0};
 	${props => getGlow(props)}
 `;
 
@@ -70,6 +71,10 @@ function getOut(props) {
 }
 
 function getLabel(props) {
+	if (!props.status) {
+		return '';
+	}
+
 	return props.status === 'loaded' ? 'synced' : 'syncing';
 }
 

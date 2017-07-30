@@ -18,7 +18,13 @@ function handle(state = 'loading', action, {fetching}) {
 		return 'loading';
 	}
 
-	if (beat(action.payload) === 3) {
+	const count = beat(action.payload);
+
+	if (count === 0) {
+		return '';
+	}
+
+	if (count === 3) {
 		return 'loaded';
 	}
 
