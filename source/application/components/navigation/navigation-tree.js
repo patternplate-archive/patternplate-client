@@ -55,6 +55,7 @@ class NavigationTree extends Component {
 							searchQuery={props.searchQuery}
 							symbol={icon}
 							symbolActive={iconActive}
+							to={item.to}
 							type={item.type}
 							>
 							{

@@ -1,3 +1,4 @@
+import frontmatter from 'front-matter';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
@@ -87,7 +88,14 @@ function selectChildren(children) {
 			if (!c.children) {
 				return c;
 			}
+
 			c.children = selectChildren(c.children);
+			const body = frontmatter(c.contents || '').body;
+
+			if (c.children.length > 0 && !body) {
+				c.to = c.children[0].id;
+			}
+
 			return c;
 		});
 }
