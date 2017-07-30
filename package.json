@@ -1,6 +1,6 @@
 {
   "name": "patternplate-client",
-  "version": "1.5.0-1",
+  "version": "1.5.0-2",
   "description": "Universal javascript client application for patternplate",
   "main": "library/",
   "scripts": {
@@ -152,7 +152,6 @@
     "scrollparent": "^1.0.0",
     "shortid": "^2.2.6",
     "strip-ansi": "^3.0.1",
-    "styled-components": "^2.1.1",
     "topologically-combine-reducers": "0.0.5",
     "unescape-html": "^1.0.0",
     "unified": "^5.1.0",
@@ -192,6 +191,7 @@
     "less-plugin-npm-import": "^2.0.0",
     "minifyify": "^7.3.3",
     "scripty": "^1.6.0",
+    "styled-components": "^2.1.1",
     "watchify": "^3.7.0"
   }
 }
