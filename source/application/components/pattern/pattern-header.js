@@ -1,14 +1,74 @@
 import React, {PropTypes as t} from 'react';
+import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import join from 'classnames';
 import {noop} from 'lodash';
 
+import * as actions from '../../actions';
 import BreadCrumbs from '../bread-crumbs';
 import Headline from '../common/headline';
 import Icon from '../common/icon';
 import urlQuery from '../../utils/url-query';
 
 const autoMount = 'https://github.com/sinnerschrader/patternplate-transform-react-to-markup#component-auto-mounting';
+
+const withWiring = Component => {
+	const mapProps = state => {
+		return {
+			location: state.routing.locationBeforeTransitions,
+			pattern: state.pattern
+		};
+	};
+	const mapDispatch = dispatch => {
+		return bindActionCreators({
+			handleClick() {
+				return actions.loadPattern({
+					reloadTime: Date.now()
+				});
+			}
+		}, dispatch);
+	};
+	return connect(mapProps, mapDispatch)(Component);
+};
+
+const Reload = withWiring(props => {
+	const reloadTitle = `Reload demo for "${props.pattern.displayName}" [ctrl+r]`;
+	const reloadClassName = join(
+		'button',
+		'button--reload',
+		{
+			'reload--reloading': props.pattern.loading,
+			'button--is-active': props.pattern.loading,
+			'reload--error': props.errored
+		}
+	);
+	return (
+		<Link
+			className={reloadClassName}
+			title={reloadTitle}
+			disabled={props.loading}
+			onClick={props.loading ? noop : props.handleClick}
+			to={{
+				pathname: props.location.pathname,
+				query: {
+					...props.location.query,
+					reload: props.pattern.reloadTime
+				}
+			}}
+			>
+			<Icon symbol="reload"/>
+		</Link>
+	);
+});
+
+Reload.propTypes = {
+	loading: t.bool.isRequired,
+	errored: t.bool.isRequired,
+	onReloadClick: t.func.isRequired,
+	location: t.object.isRequired,
+	reloadTime: t.string.isRequired
+};
 
 export default function PatternHeader(props) {
 	const flagClassName = join(`pattern__flag`, {
@@ -22,17 +82,6 @@ export default function PatternHeader(props) {
 		}
 	});
 	const fullscreenTitle = `Open "${props.name}" in fullscreen [ctrl+f]`;
-
-	const reloadTitle = `Reload demo for "${props.name}" [ctrl+r]`;
-	const reloadClassName = join(
-		'button',
-		'button--reload',
-		{
-			'reload--reloading': props.loading,
-			'button--is-active': props.loading,
-			'reload--error': props.errored
-		}
-	);
 
 	const rulersTitle = props.rulers ?
 		`Disable rulers [ctrl+l]` :
@@ -115,21 +164,7 @@ export default function PatternHeader(props) {
 				}
 			</Headline>
 			<div className="pattern-header__actions">
-				<Link
-					className={reloadClassName}
-					title={reloadTitle}
-					disabled={props.loading}
-					onClick={props.loading ? noop : props.onReloadClick}
-					to={{
-						pathname: props.location.pathname,
-						query: {
-							...props.location.query,
-							reload: props.reloadTime
-						}
-					}}
-					>
-					<Icon symbol="reload"/>
-				</Link>
+				<Reload/>
 				<Link
 					className={rulersClassName}
 					title={rulersTitle}

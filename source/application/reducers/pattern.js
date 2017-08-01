@@ -1,122 +1,64 @@
 import path from 'path';
-import {merge} from 'lodash';
-import {handleAction} from 'redux-actions';
-import {loadPatternData, loadPatternFile, loadPatternDemo, loadSchema} from '../actions';
+import {handleActions} from 'redux-actions';
+import * as actions from '../actions';
 
+import {getBase} from './base';
+import getIdByPathname from '../utils/get-id-by-pathname';
+import handleDependentActions from '../actions/handle-dependent-actions';
 import {handlePromiseThunkAction} from '../actions/promise-thunk-action';
 import composeReducers from '../utils/compose-reducers';
 
-const handlePatternLoad = handlePromiseThunkAction(loadPatternData, {
-	start(state) {
-		return {
-			errors: state.errors,
-			dataErrored: false,
-			demoErrored: false,
-			sourceErrored: false,
-			dataLoading: true,
-			demoLoading: Boolean(state.id),
-			fileLoading: Boolean(state.sourceId),
-			reloadTime: state.reloadTime,
-			reloadedTime: state.reloadedTime,
-			sources: state.sources
-		};
-	},
-	success(state, {payload}, {id}) {
-		const sources = state ? state.sources : {};
-		const errors = state ? state.errors || [] : [];
+export default composeReducers(
+	handleDependentActions({
+		'@@router/LOCATION_CHANGE': (state, {payload}, {schema}) => {
+			const id = getIdByPathname(payload.pathname, getBase(payload.pathname));
 
-		if (id !== payload.id) {
-			return state;
-		}
-
-		return {
-			...state,
-			id: payload.id,
-			dependencies: payload.dependencies,
-			dependents: payload.dependents,
-			environments: payload.environments,
-			dataErrored: false,
-			dataLoading: false,
-			files: payload.files,
-			manifest: payload.manifest,
-			sources,
-			errors
-		};
-	},
-	throws(state, {payload}) {
-		return {
-			dataLoading: false,
-			errors: [...(state.errors || []), {file: null, id: state.id, payload}],
-			dataErrored: true
-		};
-	}
-}, {
-	defaultValue: {},
-	dependencies: ['id']
-});
-
-const handleSourceLoad = handlePromiseThunkAction(loadPatternFile, {
-	start(state) {
-		return {
-			...state,
-			sourceLoading: true,
-			sourceErrored: false
-		};
-	},
-	success(state, {payload}) {
-		return {
-			...state,
-			sourceLoading: false,
-			sourceErrored: false,
-			sources: {
-				...state.sources,
-				[payload.id]: payload.source
+			if (!id || !schema) {
+				return state;
 			}
-		};
-	},
-	throws(state, {payload: error}) {
-		return {
-			...state,
-			sourceLoading: false,
-			sourceErrored: true,
-			errors: [...state.errors, {id: state.id, payload: error.payload}]
-		};
-	}
-});
 
-const handleLoadPatternDemo = handleAction(loadPatternDemo, (state, {payload: loading}) => {
-	return {
-		...state,
-		demoErrored: false,
-		demoLoading: loading,
-		reloadTime: loading ? Date.now() : state.reloadTime
-	};
-});
-
-const handleLoadSchema = handlePromiseThunkAction(loadSchema, {
-	success(state, action, {id}) {
-		if (!id) {
-			return state;
+			return {...find(schema.meta, id), errored: state.errored, files: state.files, loading: state.loading, reloadTime: state.reloadTime};
 		}
+	}, {dependencies: ['schema']}),
+	handlePromiseThunkAction(actions.loadSchema, {
+		success(state, {payload}, {id}) {
+			if (!id) {
+				return state;
+			}
 
-		const match = find(action.payload.meta, id);
-
-		if (match) {
-			return merge({}, state, match);
+			return {...find(payload.meta, id), errored: state.errored, files: state.files, loading: state.loading, reloadTime: state.reloadTime};
 		}
-	}
-}, {
-	dependencies: ['id']
-});
-
-const reducers = composeReducers(
-	handlePatternLoad,
-	handleSourceLoad,
-	handleLoadPatternDemo,
-	handleLoadSchema
+	}, {dependencies: ['id']}),
+	handlePromiseThunkAction(actions.loadPatternData, {
+		start(state) {
+			if (state.loading) {
+				return state;
+			}
+			return {...state, loading: true};
+		},
+		success(state, {payload}, {id}) {
+			if (id !== payload.id) {
+				return state;
+			}
+			return {...state, files: payload.files};
+		},
+		error(state) {
+			return {...state, loading: false, errored: true};
+		}
+	}, {dependencies: ['id']}),
+	handleActions({
+		[actions.loadPatternDemo]: (state, {payload}) => {
+			const loading = Boolean(payload);
+			return {...state, loading, reloadTime: payload.reloadTime};
+		},
+		[actions.patternDemoError]: state => {
+			return {...state, errored: true, loading: false};
+		},
+		[actions.patternDemoLoaded]: state => {
+			return {...state, errored: false, loading: false};
+		}
+	})
 );
-
-export default reducers;
 
 function find(tree, id, depth = 1) {
 	if (!tree || !id) {

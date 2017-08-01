@@ -5,7 +5,7 @@ import urlQuery from '../utils/url-query';
 
 export default loadPattern;
 
-function loadPattern() {
+function loadPattern(payload) {
 	return async (dispatch, getState) => {
 		const state = getState();
 
@@ -18,19 +18,9 @@ function loadPattern() {
 		const type = path.basename(state.sourceId) === 'index.md' ?
 			'source' : state.sourceType;
 
-		const dataPayload = {
-			id: state.id,
-			query: {
-				environment
-			},
-			options: {
-				base: state.base
-			}
-		};
-
 		const actions = [
-			loadPatternData(dataPayload),
-			loadPatternDemo(true)
+			loadPatternData(),
+			loadPatternDemo(payload)
 		];
 
 		const jobs = actions.map(dispatch);

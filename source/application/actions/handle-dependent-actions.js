@@ -27,7 +27,7 @@ function handleDependentActions(actionHandlers, options) {
 			const missing = options.dependencies.filter(dependency => !(dependency in dependencies));
 			assert.ok(
 				missing.length === 0,
-				`dependencies must be present in state. missing: ${missing.join(',')}`
+				`dependencies for ${Object.keys(actionHandlers).join(', ')} must be present in state. missing: ${missing.join(',')}. available: ${Object.keys(dependencies)}`
 			);
 		}
 

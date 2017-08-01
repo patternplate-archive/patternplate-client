@@ -54,10 +54,11 @@ function mapDispatch(dispatch) {
 		onConcernChange: actions.changeConcern,
 		onDemoContentResize: actions.demoContentResize,
 		onDemoError: actions.patternDemoError,
-		onDemoReady: () => actions.loadPatternDemo(false),
+		onDemoReady: actions.patternDemoLoaded,
 		onDemoScroll: actions.scrollDemo,
 		onEnvironmentChange: actions.changeEnvironment,
 		onFileRequest: actions.loadPatternFile,
+		onMount: () => actions.loadPatternData(),
 		onTypeChange: actions.changeType,
 		reload: actions.loadPattern,
 		resize: actions.resizeDemo
@@ -320,7 +321,7 @@ function selectCode(state) {
 		}];
 	}, []), 'id');
 
-	return formats.map(format => {
+	return (formats || []).map(format => {
 		const formatFiles = files.filter(file => file.type === format.type);
 		const concerns = formatFiles.map(file => file.concern);
 

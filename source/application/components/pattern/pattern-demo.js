@@ -46,14 +46,14 @@ function PatternDemo(props) {
 			}
 			<Frame
 				className={demoClassName}
-				id={source}
 				height={props.height}
-				onLoad={props.onReady}
+				id={source}
 				onError={props.onError}
-				onScroll={props.onScroll}
+				onLoad={props.onReady}
 				onResize={props.onResize}
-				resizeable={props.rulers}
+				onScroll={props.onScroll}
 				resize={props.resize}
+				resizeable={props.rulers}
 				src={src}
 				width={props.width}
 				/>
@@ -66,8 +66,8 @@ PatternDemo.propTypes = {
 	environment: types.string.isRequired,
 	height: types.number,
 	onError: types.func.isRequired,
-	onReady: types.func.isRequired,
 	onResize: types.func.isRequired,
+	onReady: types.func.isRequired,
 	onScroll: types.func.isRequired,
 	opacity: types.bool.isRequired,
 	loading: types.bool.isRequired,

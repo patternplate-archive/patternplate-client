@@ -14,7 +14,6 @@ function mapState(state) {
 function mapDispatch(dispatch) {
 	return bindActionCreators({
 		onDismiss: dismissMessage,
-		onLoad: loadPattern,
 		onRetry: loadPattern
 	}, dispatch);
 }

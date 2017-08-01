@@ -33,7 +33,7 @@ export default createPromiseThunkAction('LISTEN', (payload, dispatch, getState) 
 		const state = getState();
 
 		if (state.id === payload.pattern) {
-			dispatch(loadPatternDemo(true));
+			dispatch(loadPatternDemo({reloadTime: Date.now()}));
 		}
 	});
 });

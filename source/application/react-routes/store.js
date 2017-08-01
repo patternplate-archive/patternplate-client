@@ -9,11 +9,16 @@ import reducers, {dependencies} from '../reducers';
 
 export default function configureStore(history, initial) {
 	const reducer = hydrateable(topology({routing, ...reducers}, dependencies));
+	const enhance = global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-	const middlewares = [thunk, promise, /* logger(),*/ routerMiddleware(history)];
+	const middlewares = [
+		thunk,
+		promise,
+		routerMiddleware(history)
+	].filter(fn => typeof fn === 'function');
 
 	const middleware = applyMiddleware(...middlewares);
-	const store = createStore(reducer, initial, compose(middleware));
+	const store = createStore(reducer, initial, enhance(middleware));
 
 	return store;
 }

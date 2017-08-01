@@ -7,7 +7,7 @@ import Message from '../common/message';
 import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
 import PatternFolder from '../pattern/pattern-folder';
-import PatternSection from '../pattern/pattern-section';
+import Pattern from '../../containers/pattern';
 
 export default Content;
 
@@ -52,16 +52,7 @@ function Content(props) {
 			}
 			{
 				props.item.type === 'pattern' &&
-					<PatternSection
-						id={id}
-						data={props.pattern}
-						navigation={props.navigation}
-						config={props.config}
-						location={location}
-						type={props.item.type}
-						onDataRequest={props.onLoad}
-						base={base}
-						/>
+					<Pattern/>
 			}
 			<CSSTransitionGroup
 				component="aside"
@@ -107,7 +98,6 @@ Content.propTypes = {
 	}).isRequired,
 	navigation: t.object.isRequired,
 	onDismiss: t.func.isRequired,
-	onLoad: t.func.isRequired,
 	onRetry: t.func.isRequired,
 	messages: t.array.isRequired
 };
