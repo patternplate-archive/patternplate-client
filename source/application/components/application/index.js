@@ -64,7 +64,6 @@ export default class Application extends Component {
 					menuEnabled={props.menuEnabled}
 					navigation={props.navigation}
 					onSearch={handleSearch}
-					onThemeChange={props.onThemeChange}
 					pathname={props.pathname}
 					query={props.query}
 					requestSearchBlur={props.requestSearchBlur}
@@ -111,7 +110,6 @@ Application.propTypes = {
 	onResize: t.func.isRequired,
 	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
-	onThemeChange: t.func.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	requestSearchBlur: t.func.isRequired,

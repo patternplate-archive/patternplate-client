@@ -5,7 +5,6 @@ import Icon from '../common/icon';
 import Indicator from '../../containers/indicator';
 
 export default function NavigationToolbar(props) {
-	// const {data} = props;
 	const issue = {
 		pathname: props.pathname,
 		query: {
@@ -23,7 +22,14 @@ export default function NavigationToolbar(props) {
 	};
 
 	const targetTheme = props.theme === 'dark' ? 'light' : 'dark';
-	const handleThemeChange = () => props.onThemeChange(targetTheme);
+
+	const themeChange = {
+		pathname: props.pathname,
+		query: {
+			...props.query,
+			theme: targetTheme
+		}
+	};
 
 	const styles = {
 		light: {display: targetTheme === 'light' ? 'block' : 'none'},
@@ -53,11 +59,10 @@ export default function NavigationToolbar(props) {
 						</Link>
 					</li>
 					<li className="navigation-toolbar__link">
-						<button
+						<Link
 							className="button"
-							type="button"
-							onClick={handleThemeChange}
 							title={`Switch to ${targetTheme} theme [ctrl+t]`}
+							to={themeChange}
 							>
 							<Icon
 								base={props.base}
@@ -73,7 +78,7 @@ export default function NavigationToolbar(props) {
 								>
 								Dark
 							</Icon>
-						</button>
+						</Link>
 					</li>
 				</ul>
 				<Indicator/>
@@ -86,7 +91,6 @@ NavigationToolbar.propTypes = {
 	base: t.string.isRequired,
 	children: t.any,
 	expanded: t.bool.isRequired,
-	onThemeChange: t.func.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	theme: t.string.isRequired

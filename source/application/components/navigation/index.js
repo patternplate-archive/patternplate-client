@@ -1,15 +1,11 @@
 import React, {PropTypes as t} from 'react';
-import autobind from 'autobind-decorator';
 import classnames from 'classnames';
-import pure from 'pure-render-decorator';
 
 import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
-import SearchField from '../common/search-field';
 import Header from '../header';
 
-@pure
 class Navigation extends React.Component {
 	static propTypes = {
 		activePattern: t.string.isRequired,
@@ -23,7 +19,6 @@ class Navigation extends React.Component {
 		navigation: t.object.isRequired,
 		onSearch: t.func,
 		onSearchBlur: t.func,
-		onThemeChange: t.func.isRequired,
 		pathname: t.string.isRequired,
 		query: t.object.isRequired,
 		requestSearchBlur: t.func.isRequired,
@@ -38,16 +33,6 @@ class Navigation extends React.Component {
 		onSearch: () => {},
 		onSearchBlur: () => {},
 		requestSearchBlur: () => {}
-	}
-
-	@autobind
-	handleSearchSubmit(e) {
-		e.preventDefault();
-	}
-
-	@autobind
-	handleSearchChange(e) {
-		this.props.onSearch(e.target.value);
 	}
 
 	render() {
@@ -76,21 +61,6 @@ class Navigation extends React.Component {
 						title={props.title}
 						version={props.version}
 						/>
-					<form onSubmit={this.handleSearchSubmit} method="GET">
-						<SearchField
-							base={props.base}
-							blur={this.props.requestSearchBlur}
-							className="navigation__search-field"
-							linkTo="/search"
-							name="search"
-							onBlur={this.handleSearchBlur}
-							onChange={this.handleSearchChange}
-							onFocus={this.handleSearchFocus}
-							placeholder="Search"
-							title="Search for patterns [ctrl+space]"
-							value={props.searchValue}
-							/>
-					</form>
 					<Documentation
 						activePattern={props.activePattern}
 						base={props.base}
@@ -105,7 +75,6 @@ class Navigation extends React.Component {
 				<NavigationToolbar
 					base={props.base}
 					expanded={props.expanded}
-					onThemeChange={props.onThemeChange}
 					pathname={props.pathname}
 					query={props.query}
 					theme={props.theme}

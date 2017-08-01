@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
 
-import {listen, search, themeLoaded, toggleSearchFocus, toggleTheme, windowResize} from '../actions';
+import {listen, search, themeLoaded, toggleSearchFocus, windowResize} from '../actions';
 
 export default connect(mapProps, mapDispatch)(Application);
 
@@ -40,7 +40,6 @@ function mapDispatch(dispatch) {
 		onResize: windowResize,
 		onSearch: search,
 		onThemeLoaded: themeLoaded,
-		onThemeChange: toggleTheme,
 		requestSearchBlur: () => toggleSearchFocus(false)
 	}, dispatch);
 }
