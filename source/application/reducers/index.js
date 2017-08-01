@@ -25,6 +25,7 @@ import schema from './schema';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
 import sourceType from './source-type';
+import sources from './sources';
 import styles from './styles';
 import theme from './theme';
 import hide from './hide';
@@ -63,6 +64,7 @@ export default {
 	sourceExpanded,
 	sourceId,
 	sourceType,
+	sources,
 	startBase: ident,
 	styles,
 	theme,

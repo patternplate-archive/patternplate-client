@@ -305,7 +305,7 @@ function selectPatternErrored(state) {
 
 function selectCode(state) {
 	const pattern = selectPattern(state);
-	const sources = pattern.sources || {};
+	const sources = state.sources || {};
 	const files = pattern.files || [];
 	const errors = selectPatternErrors(state);
 
@@ -353,7 +353,8 @@ function selectCode(state) {
 			}
 		});
 
-		const source = sources[id];
+		const source = (sources[id] || {}).source;
+
 		const active = state.sourceId === id;
 
 		const fileErrors = errors.filter(error => {
