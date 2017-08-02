@@ -53,8 +53,8 @@ export default function PatternHeader(props) {
 	);
 	const opacitySymbol = props.opacity ? 'checkers' : 'checkers-inverted';
 	const opacityTitle = props.opacity ?
-		'Show opacity [ctrl+o]' :
-		'Hide opacity [ctrl+o]';
+		'Hide opacity [ctrl+o]':
+		'Show opacity [ctrl+o]';
 
 	return (
 		<div className="pattern-header-container">
