@@ -47,7 +47,7 @@ export default class Application extends Component {
 							content: 'width=device-width, initial-scale=1'
 						}
 					]}
-					link={createLinks(props.styles, {base: props.startBase})}
+					link={createLinks(props.styles)}
 					title={props.title}
 					onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
 					/>
@@ -119,15 +119,15 @@ Application.propTypes = {
 	themeLoading: t.bool.isRequired
 };
 
-function createLinks(styles, options) {
-	return styles.map(createStyle(options));
+function createLinks(styles) {
+	return styles.map(createStyle());
 }
 
-function createStyle(options) {
+function createStyle() {
 	return style => {
 		return {
 			'rel': 'stylesheet',
-			'href': `${options.base}/style/${style}.css`,
+			'href': `/style/${style}.css`,
 			'data-style-id': style
 		};
 	};
