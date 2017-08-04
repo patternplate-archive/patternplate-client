@@ -19,10 +19,9 @@ async function getError(response) {
 
 export default createPromiseThunkAction('LOAD_PATTERN_DATA', async (_, __, getState) => {
 	const state = getState();
-	const sanitized = state.id.replace(state.base);
 
-	if (!sanitized.startsWith('/pattern')) {
-		return {};
+	if (!state.pattern.id) {
+		return state.pattern;
 	}
 
 	const uri = urlQuery.format({
