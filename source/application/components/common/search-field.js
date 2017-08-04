@@ -1,15 +1,56 @@
 import React, {Component, PropTypes as types} from 'react';
-import cx from 'classnames';
-import autobind from 'autobind-decorator';
-import pure from 'pure-render-decorator';
+import styled from 'styled-components';
 
 import Icon from './icon';
 
-@pure
-@autobind
-export default class SearchField extends Component {
-	static displayName = 'search-field';
+const StyledSearchField = styled.label`
+	display: flex;
+	align-items: center;
+	color: inherit;
+	height: 60px;
+	padding: 10px;
+	border: 1px solid;
+	border-color: inherit;
+`;
 
+const StyledIcon = styled(Icon)`
+	flex-grow: 0;
+	flex-shrink: 0;
+`;
+
+const StyledInput = styled.input`
+	position: relative;
+	z-index: 2;
+	width: 100%;
+	border: 0;
+	border-radius: 0;
+	background: transparent;
+	color: inherit;
+	line-height: inherit;
+	padding: 0;
+	:focus {
+		outline: none;
+	}
+`;
+
+const StyledInputContainer = styled.div`
+	position: relative;
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+	flex-shrink: 0;
+	margin-left: 10px;
+`;
+
+const StyledInputSuggestion = styled(p => <StyledInput {...p} readOnly/>)`
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	opacity: .3;
+`;
+
+export default class SearchField extends Component {
 	static propTypes = {
 		base: types.string.isRequired,
 		blur: types.func.isRequired,
@@ -19,8 +60,10 @@ export default class SearchField extends Component {
 		name: types.string.isRequired,
 		onBlur: types.func,
 		onChange: types.func,
+		onComplete: types.funct,
 		onFocus: types.func,
 		placeholder: types.string,
+		suggestion: types.string,
 		title: types.string,
 		value: types.string
 	};
@@ -33,11 +76,23 @@ export default class SearchField extends Component {
 		onBlur: () => {}
 	};
 
+	constructor(...args) {
+		super(...args);
+		this.handleKeyDown = this.handleKeyDown.bind(this);
+	}
+
+	handleKeyDown(e) {
+		const {target} = e;
+		const atEnd = target.selectionStart === target.value.length;
+		if ((e.which === 39) && atEnd) {
+			e.preventDefault();
+			this.props.onComplete(this.props.suggestion);
+		}
+	}
+
 	render() {
 		const {
 			base,
-			component: Component,
-			className: userClassName,
 			value,
 			name,
 			onChange,
@@ -47,17 +102,17 @@ export default class SearchField extends Component {
 			...props
 		} = this.props;
 
-		const {displayName} = SearchField;
-		const className = cx(displayName, userClassName);
-		const containerClassName = `${displayName}__container`;
-		const iconClassName = `${displayName}__icon`;
-		const inputClassName = `${displayName}__input`;
-
 		return (
-			<Component className={className}>
-				<label className={containerClassName}>
-					<input
-						className={inputClassName}
+			<StyledSearchField>
+				<StyledIcon
+					base={base}
+					symbol="search"
+					/>
+				<StyledInputContainer>
+					<StyledInputSuggestion
+						value={props.suggestion || ''}
+						/>
+					<StyledInput
 						value={value}
 						placeholder={placeholder}
 						title={props.title}
@@ -68,9 +123,8 @@ export default class SearchField extends Component {
 						onFocus={onFocus}
 						onKeyDown={this.handleKeyDown}
 						/>
-					<Icon base={base} className={iconClassName} symbol="search"/>
-				</label>
-			</Component>
+				</StyledInputContainer>
+			</StyledSearchField>
 		);
 	}
 }

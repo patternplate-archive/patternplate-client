@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import Application from '../components/application';
 
-import {listen, search, themeLoaded, toggleSearchFocus, windowResize} from '../actions';
+import {listen, themeLoaded, windowResize} from '../actions';
 
 export default connect(mapProps, mapDispatch)(Application);
 
@@ -24,7 +24,6 @@ function mapProps(state, own) {
 		navigation: selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,
-		search: own.location.query.search,
 		startBase: state.startBase,
 		styles: state.styles,
 		theme: state.theme,
@@ -38,9 +37,7 @@ function mapDispatch(dispatch) {
 	return bindActionCreators({
 		onLoad: () => listen({url: 'api'}),
 		onResize: windowResize,
-		onSearch: search,
-		onThemeLoaded: themeLoaded,
-		requestSearchBlur: () => toggleSearchFocus(false)
+		onThemeLoaded: themeLoaded
 	}, dispatch);
 }
 

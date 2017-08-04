@@ -1,5 +1,6 @@
 import React, {PropTypes as t} from 'react';
 import Markdown from '../containers/markdown';
+import Search from '../containers/search';
 
 export default Documentation;
 

@@ -34,12 +34,19 @@
 		}
 	}
 	&__content {
+		position: relative;
 		display: flex;
 		flex-direction: column;
 		min-width: 0%; // Weird fix for wrong layout as of FF 38.1.0
 		flex: 1;
 		overflow-x: hidden;
+		background: @root-background;
+		border-color: @border-color;
+		form {
+			border-color: @border-color;
+		}
 		.markdown {
+			padding-top: 60px;
 			@media screen and (max-width: 500px) {
 				padding-top: @headerHeight;
 			}
@@ -49,16 +56,13 @@
 		.markdown {
 			width: 100%;
 			max-width: 800px;
-			padding: 1.5em .75em;
+			padding: 60px 30px 30px 30px;
 			margin: 0 auto;
 			left: 100%;
 			div {
 				>:first-child {
 					margin-top: 0px;
 				}
-			}
-			@media screen and (min-width: 900px) {
-				padding: 50px 1.5em;
 			}
 		}
 		@media screen and (max-width: 500px) {
@@ -136,12 +140,8 @@
 	max-height: 100vh;
 	overflow-x: hidden;
 	-webkit-overflow-scrolling: touch;
-	&--home {
-		padding: 15px;
-		@media screen and (min-width: 500px) {
-			padding: 15px 30px;
-		}
-	}
+	border-color: @border-color;
+	background: @root-background;
 	&--pattern {
 		padding: 0 15px;
 		@media screen and (min-width: 500px) {

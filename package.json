@@ -148,6 +148,7 @@
     "remark-gemoji-to-emoji": "^1.0.0",
     "remark-vdom": "^3.0.1",
     "request-idle-callback": "^1.0.2",
+    "reselect": "^3.0.1",
     "scrollingelement": "^1.5.2",
     "scrollparent": "^1.0.0",
     "shortid": "^2.2.6",
@@ -155,6 +156,10 @@
     "topologically-combine-reducers": "0.0.5",
     "unescape-html": "^1.0.0",
     "unified": "^5.1.0",
+    "unist-util-filter": "^0.2.1",
+    "unist-util-find": "^1.0.1",
+    "unist-util-find-after": "^2.0.1",
+    "unist-util-find-before": "^2.0.1",
     "unist-util-select": "^1.5.0",
     "web-animations-js": "^2.2.2"
   },

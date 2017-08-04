@@ -3,13 +3,18 @@ import {patchLocation} from './';
 export default search;
 export const type = 'SEARCH';
 
-function search(search) {
+function search(payload) {
 	return dispatch => {
-		dispatch(patchLocation({
-			query: {
-				search
-			}
-		}));
+		if (payload.persist) {
+			dispatch(patchLocation({
+				query: {search: payload.value}
+			}));
+		} else {
+			dispatch({
+				type: 'PERFORM_SEARCH',
+				payload: payload.value
+			});
+		}
 	};
 }
 

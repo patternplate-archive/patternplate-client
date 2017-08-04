@@ -7,6 +7,7 @@ import ConsoleLightbox from '../../containers/console';
 import ProblemLightbox from '../../containers/problem';
 import ShortcutsLightbox from '../../containers/shortcuts';
 import Navigation from '../navigation';
+import Search from '../../containers/search';
 
 @autobind
 export default class Application extends Component {
@@ -28,7 +29,6 @@ export default class Application extends Component {
 
 	render() {
 		const {props} = this;
-		const handleSearch = props.onSearch;
 
 		const className = join('application', {
 			'application--menu-enabled': props.menuEnabled,
@@ -63,16 +63,16 @@ export default class Application extends Component {
 					icon={props.logo}
 					menuEnabled={props.menuEnabled}
 					navigation={props.navigation}
-					onSearch={handleSearch}
 					pathname={props.pathname}
 					query={props.query}
-					requestSearchBlur={props.requestSearchBlur}
-					searchValue={props.search}
 					theme={props.theme}
 					title={props.title}
 					version={props.version}
 					/>
 				<main className="application__content">
+					{props.searchEnabled &&
+						<Search/>
+					}
 					{props.children}
 				</main>
 				{
@@ -108,15 +108,12 @@ Application.propTypes = {
 	navigation: t.object.isRequired,
 	onLoad: t.func.isRequired,
 	onResize: t.func.isRequired,
-	onSearch: t.func.isRequired,
 	onThemeLoaded: t.func.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
-	requestSearchBlur: t.func.isRequired,
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
-	search: t.string,
 	styles: t.arrayOf(t.string).isRequired,
 	themeLoading: t.bool.isRequired
 };

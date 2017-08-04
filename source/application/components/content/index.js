@@ -1,6 +1,5 @@
 import React, {PropTypes as t} from 'react';
 import {sortBy} from 'lodash';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Markdown from '../common/markdown';
 import Message from '../common/message';
@@ -8,6 +7,7 @@ import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
 import PatternFolder from '../pattern/pattern-folder';
 import Pattern from '../../containers/pattern';
+import Search from '../../containers/search';
 
 export default Content;
 
@@ -54,13 +54,7 @@ function Content(props) {
 				props.item.type === 'pattern' &&
 					<Pattern/>
 			}
-			<CSSTransitionGroup
-				component="aside"
-				transitionName="pattern-content-transition"
-				className="messages"
-				transitionEnterTimeout={300}
-				transitionLeaveTimeout={300}
-				>
+			<div className="messages">
 				{
 					props.messages.map(message => {
 						return (
@@ -83,7 +77,7 @@ function Content(props) {
 						);
 					})
 				}
-			</CSSTransitionGroup>
+			</div>
 		</div>
 	);
 }
