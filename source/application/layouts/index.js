@@ -65,13 +65,7 @@ Content.propTypes = {
 };
 
 function State(props) {
-	return (
-		<script
-			data-application-state
-			dangerouslySetInnerHTML={{__html: props.data}}
-			type="application/json"
-			/>
-	);
+	return <textarea data-application-state>{props.data}</textarea>;
 }
 
 State.propTypes = {
