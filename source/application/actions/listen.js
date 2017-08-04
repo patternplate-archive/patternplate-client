@@ -19,12 +19,11 @@ export default createPromiseThunkAction('LISTEN', (payload, dispatch, getState) 
 	});
 
 	source.addEventListener('change', async event => {
-		const state = getState();
 		const payload = JSON.parse(event.data);
 		const file = payload.file || '';
 
 		if (file.startsWith('patterns')) {
-			dispatch(await loadSchema(state.base));
+			dispatch(await loadSchema());
 		}
 	});
 

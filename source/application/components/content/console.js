@@ -14,7 +14,8 @@ export default class ConsoleLightbox extends Component {
 		onApplyState: t.func.isRequired,
 		onClose: t.func.isRequired,
 		state: t.string.isRequired,
-		theme: t.oneOf(['dark', 'light']).isRequired
+		theme: t.oneOf(['dark', 'light']).isRequired,
+		shortcuts: t.object.isRequired
 	};
 
 	state = {
@@ -91,7 +92,7 @@ export default class ConsoleLightbox extends Component {
 								lightbox: false
 							}
 						}}
-						title="Close this lightbox [esc]"
+						title={`Close this lightbox ${props.shortcuts.close}`}
 						className="button console-lightbox__button console-lightbox__button--abort"
 						>
 						Close

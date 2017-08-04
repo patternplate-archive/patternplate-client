@@ -43,6 +43,7 @@ function mapState(state) {
 		rulers: state.rulers,
 		rulerX: selectRulerXFraction(state),
 		rulerY: selectRulerYFraction(state),
+		shortcuts: state.shortcuts,
 		sourceExpanded: state.sourceExpanded,
 		tags: selectTags(state),
 		version: selectVersion(state)

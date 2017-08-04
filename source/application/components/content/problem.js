@@ -13,13 +13,14 @@ import Markdown from '../../containers/markdown';
 export default class ProblemLightbox extends Component {
 	static propTypes = {
 		base: t.string.isRequired,
+		browserName: t.string.isRequired,
+		browserVersion: t.string.isRequired,
+		clientVersion: t.string.isRequired,
+		serverVersion: t.string.isRequired,
+		shortcuts: t.object.isRequired,
 		state: t.string.isRequired,
 		theme: t.oneOf(['dark', 'light']).isRequired,
-		version: t.string.isRequired,
-		serverVersion: t.string.isRequired,
-		clientVersion: t.string.isRequired,
-		browserName: t.string.isRequired,
-		browserVersion: t.string.isRequired
+		version: t.string.isRequired
 	};
 
 	render() {
@@ -36,7 +37,7 @@ export default class ProblemLightbox extends Component {
 						issue: false
 					}
 				}}
-				title="Close this lightbox [esc]"
+				title={`Close this lightbox ${props.shortcuts.close}`}
 				className="button lightbox__button"
 				>
 				Close

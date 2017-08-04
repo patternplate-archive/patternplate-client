@@ -43,7 +43,7 @@ export default function NavigationToolbar(props) {
 					<li className="navigation-toolbar__link">
 						<Link
 							className="button"
-							title="Report an issue [ctrl+i]"
+							title={`Report an issue ${props.shortcuts.toggleIssue.toString()}`}
 							to={issue}
 							>
 							<Icon symbol="issue"/>
@@ -52,7 +52,7 @@ export default function NavigationToolbar(props) {
 					<li className="navigation-toolbar__link">
 						<Link
 							className="button"
-							title="Show keyboard shortcuts [ctrl+k]"
+							title={`Show keyboard shortcuts ${props.shortcuts.toggleShortcuts.toString()}`}
 							to={cheatsheet}
 							>
 							<Icon symbol="command"/>
@@ -61,7 +61,7 @@ export default function NavigationToolbar(props) {
 					<li className="navigation-toolbar__link">
 						<Link
 							className="button"
-							title={`Switch to ${targetTheme} theme [ctrl+t]`}
+							title={`Switch to ${targetTheme} theme ${props.shortcuts.toggleTheme.toString()}`}
 							to={themeChange}
 							>
 							<Icon
@@ -93,5 +93,6 @@ NavigationToolbar.propTypes = {
 	expanded: t.bool.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
+	shortcuts: t.object.isRequired,
 	theme: t.string.isRequired
 };

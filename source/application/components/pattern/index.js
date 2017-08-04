@@ -34,6 +34,7 @@ export default class Pattern extends React.Component {
 						reloadTime={props.reloadTime}
 						reloadedTime={props.reloadedTime}
 						rulers={props.rulers}
+						shortcuts={props.shortcuts}
 						tags={props.tags}
 						version={props.version}
 						/>

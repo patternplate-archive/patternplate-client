@@ -5,6 +5,7 @@ import topology from 'topologically-combine-reducers';
 import promise from 'redux-promise';
 // import logger from 'redux-logger';
 
+import createShortcuts from './shortcuts';
 import reducers, {dependencies} from '../reducers';
 
 export default function configureStore(history, initial) {
@@ -18,7 +19,10 @@ export default function configureStore(history, initial) {
 	].filter(fn => typeof fn === 'function');
 
 	const middleware = applyMiddleware(...middlewares);
-	const store = createStore(reducer, initial, enhance(middleware));
+	const shortcuts = createShortcuts();
+	const store = createStore(reducer, {...initial, shortcuts}, enhance(middleware));
+
+	shortcuts(store);
 
 	return store;
 }

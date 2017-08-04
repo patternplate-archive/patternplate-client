@@ -21,6 +21,7 @@ import search from './search';
 import scrollDemoX from './scroll-demo-x';
 import scrollDemoY from './scroll-demo-y';
 import schema from './schema';
+import shortcuts from './shortcuts';
 import sourceExpanded from './source-expanded';
 import sourceId from './source-id';
 import sourceType from './source-type';
@@ -59,6 +60,7 @@ export default {
 	scrollDemoX,
 	scrollDemoY,
 	search,
+	shortcuts,
 	sourceExpanded,
 	sourceId,
 	sourceType,

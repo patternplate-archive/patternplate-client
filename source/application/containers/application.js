@@ -11,8 +11,8 @@ function mapProps(state, own) {
 	return {
 		activePattern: state.id,
 		base: state.base,
-		description: selectDescription(state),
 		depth: state.depth,
+		description: selectDescription(state),
 		docs: selectDocs(state),
 		expanded: state.expanded,
 		hide: state.hide,
@@ -24,6 +24,7 @@ function mapProps(state, own) {
 		navigation: selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,
+		shortcuts: state.shortcuts,
 		startBase: state.startBase,
 		styles: state.styles,
 		theme: state.theme,

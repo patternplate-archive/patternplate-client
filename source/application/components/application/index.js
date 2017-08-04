@@ -66,6 +66,7 @@ export default class Application extends Component {
 					pathname={props.pathname}
 					query={props.query}
 					theme={props.theme}
+					shortcuts={props.shortcuts}
 					title={props.title}
 					version={props.version}
 					/>
@@ -114,6 +115,7 @@ Application.propTypes = {
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
+	shortcuts: t.object.isRequired,
 	styles: t.arrayOf(t.string).isRequired,
 	themeLoading: t.bool.isRequired
 };

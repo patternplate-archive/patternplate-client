@@ -5,7 +5,10 @@ export default Indicator;
 
 function Indicator(props) {
 	return (
-		<StyledIndicator>
+		<StyledIndicator
+			onClick={props.onClick}
+			title={props.status ? `Force sync ${props.shortcut.toString()}` : ''}
+			>
 			<StyledLabel status={props.status}>{getLabel(props)}</StyledLabel>
 			<StyledDot status={props.status}/>
 		</StyledIndicator>
@@ -13,7 +16,9 @@ function Indicator(props) {
 }
 
 Indicator.propTypes = {
-	status: types.oneOf(['', 'loading', 'loaded'])
+	onClick: types.func,
+	status: types.oneOf(['', 'loading', 'loaded']).isRequired,
+	shortcut: types.object.isRequired
 };
 
 const StyledDot = styled.div`
@@ -27,12 +32,14 @@ const StyledDot = styled.div`
 	background: #42A5F5;
 	transition: background .4s ease-in-out, opacity .5s ease-in;
 	opacity: ${props => props.status ? 1 : 0};
+	cursor: ${props => props.status ? 'pointer' : ''};
 	${props => getGlow(props)}
 `;
 
 const StyledIndicator = styled.div`
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 `;
 
 const StyledLabel = styled.div`

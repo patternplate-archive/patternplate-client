@@ -24,7 +24,7 @@ function Header(props) {
 		<header className="main-header application__header">
 			<IndexLink
 				to={to}
-				title="Navigate to documentation [ctrl+d]"
+				title={`Navigate to documentation ${String(props.shortcuts.openDocumentation)}`}
 				className="logo"
 				>
 				<LiteralIcon icon={props.icon}/>
@@ -61,6 +61,7 @@ Header.propTypes = {
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	title: t.string.isRequired,
+	shortcuts: t.object.isRequired,
 	version: t.string.isRequired
 };
 

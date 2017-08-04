@@ -24,6 +24,7 @@ class Navigation extends React.Component {
 		requestSearchBlur: t.func.isRequired,
 		searchQuery: t.string,
 		searchValue: t.string,
+		shortcuts: t.object.isRequired,
 		theme: t.string.isRequired,
 		title: t.string.isRequired,
 		version: t.string.isRequired
@@ -58,6 +59,7 @@ class Navigation extends React.Component {
 						menuEnabled={props.menuEnabled}
 						pathname={props.pathname}
 						query={props.query}
+						shortcuts={props.shortcuts}
 						title={props.title}
 						version={props.version}
 						/>
@@ -77,6 +79,7 @@ class Navigation extends React.Component {
 					expanded={props.expanded}
 					pathname={props.pathname}
 					query={props.query}
+					shortcuts={props.shortcuts}
 					theme={props.theme}
 					/>
 			</nav>

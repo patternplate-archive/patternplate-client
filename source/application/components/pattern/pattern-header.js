@@ -17,7 +17,8 @@ const withWiring = Component => {
 	const mapProps = state => {
 		return {
 			location: state.routing.locationBeforeTransitions,
-			pattern: state.pattern
+			pattern: state.pattern,
+			shortcuts: state.shortcuts
 		};
 	};
 	const mapDispatch = dispatch => {
@@ -33,7 +34,7 @@ const withWiring = Component => {
 };
 
 const Reload = withWiring(props => {
-	const reloadTitle = `Reload demo for "${props.pattern.displayName}" [ctrl+r]`;
+	const reloadTitle = `Reload demo for "${props.pattern.manifest.displayName}" ${props.shortcuts.reload.toString()}`;
 	const reloadClassName = join(
 		'button',
 		'button--reload',
@@ -81,11 +82,11 @@ export default function PatternHeader(props) {
 			environment: props.environment
 		}
 	});
-	const fullscreenTitle = `Open "${props.name}" in fullscreen [ctrl+f]`;
+	const fullscreenTitle = `Open "${props.name}" in fullscreen ${props.shortcuts.openFullscreen}`;
 
 	const rulersTitle = props.rulers ?
-		`Disable rulers [ctrl+l]` :
-		`Enable rulers [ctrl+l]`;
+		`Disable rulers ${props.shortcuts.toggleRulers.toString()}` :
+		`Enable rulers ${props.shortcuts.toggleRulers.toString()}`;
 
 	const rulersClassName = join(
 		`button button--rulers`,
@@ -102,8 +103,8 @@ export default function PatternHeader(props) {
 	);
 	const opacitySymbol = props.opacity ? 'checkers' : 'checkers-inverted';
 	const opacityTitle = props.opacity ?
-		'Show opacity [ctrl+o]' :
-		'Hide opacity [ctrl+o]';
+		`Show opacity ${props.shortcuts.toggleOpacity.toString()}` :
+		`Hide opacity ${props.shortcuts.toggleOpacity.toString()}`;
 
 	return (
 		<div className="pattern-header-container">
@@ -231,6 +232,7 @@ PatternHeader.propTypes = {
 	reloadTime: t.number,
 	reloadedTime: t.number,
 	rulers: t.bool.isRequired,
+	shortcuts: t.object.isRequired,
 	tags: t.arrayOf(t.string),
 	version: t.string.isRequired
 };

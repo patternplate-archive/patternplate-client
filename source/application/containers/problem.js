@@ -6,6 +6,7 @@ export default connect(mapProps)(ProblemLightbox);
 function mapProps(state) {
 	return {
 		base: state.base,
+		shortcuts: state.shortcuts,
 		state: JSON.stringify(state, null, '  '),
 		theme: state.theme,
 		version: state.schema.appVersion,
