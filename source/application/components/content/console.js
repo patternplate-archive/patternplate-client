@@ -15,7 +15,7 @@ export default class ConsoleLightbox extends Component {
 		onClose: t.func.isRequired,
 		state: t.string.isRequired,
 		theme: t.oneOf(['dark', 'light']).isRequired,
-		shortcuts: t.object.isRequired
+		shortcuts: t.any.isRequired
 	};
 
 	state = {

@@ -232,7 +232,7 @@ PatternHeader.propTypes = {
 	reloadTime: t.number,
 	reloadedTime: t.number,
 	rulers: t.bool.isRequired,
-	shortcuts: t.object.isRequired,
+	shortcuts: t.any.isRequired,
 	tags: t.arrayOf(t.string),
 	version: t.string.isRequired
 };

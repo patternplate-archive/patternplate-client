@@ -10,7 +10,7 @@ class Navigation extends React.Component {
 	static propTypes = {
 		activePattern: t.string.isRequired,
 		base: t.string.isRequired,
-		docs: t.arrayOf(t.string).isRequired,
+		docs: t.object.isRequired,
 		enabled: t.bool.isRequired,
 		hierarchy: t.object,
 		hide: t.bool.isRequired,
@@ -24,7 +24,7 @@ class Navigation extends React.Component {
 		requestSearchBlur: t.func.isRequired,
 		searchQuery: t.string,
 		searchValue: t.string,
-		shortcuts: t.object.isRequired,
+		shortcuts: t.any.isRequired,
 		theme: t.string.isRequired,
 		title: t.string.isRequired,
 		version: t.string.isRequired
@@ -127,6 +127,6 @@ Documentation.propTypes = {
 	docs: t.object.isRequired,
 	hide: t.bool.isRequired,
 	pathname: t.string.isRequired,
-	query: t.string.isRequired,
-	searchQuery: t.string.isRequired
+	query: t.any,
+	searchQuery: t.string
 };

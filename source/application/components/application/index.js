@@ -98,7 +98,7 @@ Application.propTypes = {
 	base: t.string.isRequired,
 	children: t.any,
 	description: t.string.isRequired,
-	docs: t.arrayOf(t.sring).isRequired,
+	docs: t.object.isRequired,
 	expanded: t.bool.isRequired,
 	hierarchy: t.object.isRequired,
 	hide: t.bool.isRequired,
@@ -115,7 +115,7 @@ Application.propTypes = {
 	theme: t.string.isRequired,
 	title: t.string.isRequired,
 	version: t.string.isRequired,
-	shortcuts: t.object.isRequired,
+	shortcuts: t.any.isRequired,
 	styles: t.arrayOf(t.string).isRequired,
 	themeLoading: t.bool.isRequired
 };

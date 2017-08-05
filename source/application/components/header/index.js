@@ -61,7 +61,7 @@ Header.propTypes = {
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
 	title: t.string.isRequired,
-	shortcuts: t.object.isRequired,
+	shortcuts: t.any.isRequired,
 	version: t.string.isRequired
 };
 

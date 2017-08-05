@@ -60,7 +60,7 @@ export default class SearchField extends Component {
 		name: types.string.isRequired,
 		onBlur: types.func,
 		onChange: types.func,
-		onComplete: types.funct,
+		onComplete: types.func,
 		onFocus: types.func,
 		placeholder: types.string,
 		suggestion: types.string,

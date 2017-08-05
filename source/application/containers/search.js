@@ -196,9 +196,9 @@ Component.propTypes = {
 	onBlur: t.func.isRequired,
 	onChange: t.func.isRequired,
 	onComplete: t.func.isRequired,
-	onFocus: t.func.isRequired,
+	onFocus: t.func,
 	onSubmit: t.func.isRequired,
-	suggestion: t.string.isRequired,
+	suggestion: t.string,
 	value: t.string.isRequired
 };
 

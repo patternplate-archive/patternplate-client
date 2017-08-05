@@ -65,5 +65,5 @@ ShortcutsLightbox.propTypes = {
 		pathname: t.string.isRequired,
 		query: t.object.isRequired
 	}),
-	shortcuts: t.object.isRequired
+	shortcuts: t.any.isRequired
 };

@@ -17,7 +17,7 @@ export default class ProblemLightbox extends Component {
 		browserVersion: t.string.isRequired,
 		clientVersion: t.string.isRequired,
 		serverVersion: t.string.isRequired,
-		shortcuts: t.object.isRequired,
+		shortcuts: t.any.isRequired,
 		state: t.string.isRequired,
 		theme: t.oneOf(['dark', 'light']).isRequired,
 		version: t.string.isRequired

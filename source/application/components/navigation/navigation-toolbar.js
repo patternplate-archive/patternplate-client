@@ -93,6 +93,6 @@ NavigationToolbar.propTypes = {
 	expanded: t.bool.isRequired,
 	pathname: t.string.isRequired,
 	query: t.object.isRequired,
-	shortcuts: t.object.isRequired,
+	shortcuts: t.any,
 	theme: t.string.isRequired
 };
