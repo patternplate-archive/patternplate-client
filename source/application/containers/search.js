@@ -144,7 +144,7 @@ function Component(props) {
 					placeholder="Search"
 					suggestion={props.suggestion}
 					title="Search for patterns [ctrl+space]"
-					value={props.value}
+					value={props.value || ''}
 					/>
 				<HiddenSubmit/>
 				{

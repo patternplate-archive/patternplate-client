@@ -43,7 +43,6 @@ function ShortcutsLightbox(props) {
 		.join('\n');
 
 	const s = `${source}${keys}`;
-	console.log(s);
 
 	return (
 		<Lightbox

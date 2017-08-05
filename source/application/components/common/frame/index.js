@@ -70,6 +70,7 @@ export default class Frame extends Component {
 
 		const onLoad = e => {
 			bind(this.ref, this.props);
+			e.persist();
 			props.onLoad(e);
 		};
 

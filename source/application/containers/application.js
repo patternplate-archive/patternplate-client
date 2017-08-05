@@ -47,7 +47,9 @@ function selectDocs(state) {
 		id: state.schema.docs.id,
 		contents: state.schema.docs.contents,
 		children: selectChildren(state.schema.docs.children),
-		manifest: state.schema.docs.manifest
+		manifest: state.schema.docs.manifest || {
+			displayName: 'Documentation'
+		}
 	};
 }
 
