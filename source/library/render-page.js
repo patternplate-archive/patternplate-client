@@ -1,11 +1,8 @@
 import url from 'url';
-import os from 'os';
 
-import {fill, merge} from 'lodash';
+import {fill} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
-import queryString from 'query-string';
-import platform from 'platform';
 
 import router from '../application/react-routes/server';
 import layout from '../application/layouts';
@@ -17,75 +14,45 @@ const cwd = process.cwd();
 const resolve = id => resolveSync(id, {basedir: cwd});
 
 const getSchema = require(resolve('patternplate-server/library/get-schema'));
-const getNavigation = require(resolve('patternplate-server/library/get-navigation'));
-const getPatternMetaData = require(resolve('patternplate-server/library/get-pattern-meta-data'));
-
-const defaultData = {
-	schema: {},
-	navigation: {},
-	patterns: null,
-	messages: []
-};
 
 export default async function renderPage(application, pageUrl) {
 	const app = application.parent;
 	const client = application;
 	const server = app.server;
-	// const filter = getFilter(filters);
-
 	const parsed = url.parse(pageUrl);
 	const depth = parsed.pathname.split('/').filter(Boolean).length;
-	const query = queryString.parse(parsed.query);
 	const base = depth > 0 ? fill(Array(depth), '..').join('/') : '.';
-
 	const id = getIdByPathname(parsed.pathname);
-
-	const schema = app ? await getSchema(app, client, server) : {};
-	const navigation = app ? await getNavigation(app, client, server) : {};
-	// const filteredNavigation = applyFilters(navigation, filter);
-
-	const pattern = merge({}, navigate(id, navigation));
-	const isPattern = pattern && pattern.type === 'pattern';
-
-	if (isPattern) {
-		try {
-			const patternData = await getPatternMetaData(server, id);
-			merge(pattern, patternData);
-		} catch (error) {
-			application.log.error(error);
-		}
-	}
-
 	const config = application.configuration.ui;
-	const options = {
-		url: pageUrl,
-		title: application.configuration.ui.title || schema.name,
-		theme: query.theme || application.configuration.ui.theme,
-		config
+	const schema = await getSchema(app, client, server);
+	const pattern = navigate(id, schema.meta) || {};
+
+	const render = {
+		base,
+		config,
+		pattern,
+		schema,
+		startBase: base
 	};
 
-	const serverData = {schema, navigation, pattern};
-	const data = merge({}, defaultData, options.data, serverData, {config}, {
-		schema: {
-			serverOsName: os.type(),
-			serverOsVersion: os.release(),
-			serverRuntimeName: platform.name,
-			serverRuntimeVersion: platform.version
-		},
-		startPathname: pageUrl,
+	const transfer = {
+		base,
+		config,
+		pattern: {id},
 		startBase: base
-	});
+	};
 
-	const content = await router(options.url, data);
+	const {html, css} = await router(pageUrl, render);
 	const head = Helmet.rewind();
 	const icons = Icon.rewind();
 
 	return layout({
 		attributes: head.htmlAttributes,
 		base,
-		content,
+		css,
+		data: transfer,
+		html,
 		icons,
-		data: JSON.stringify(data),
 		link: head.link,
 		meta: head.meta,
 		style: head.style,
@@ -96,32 +63,3 @@ export default async function renderPage(application, pageUrl) {
 		]
 	});
 }
-
-// const pass = () => true;
-
-/* function applyFilters(raw, filter) {
-	return entries(raw).reduce((results, entry) => {
-		const [key, item] = entry;
-		if (item.type !== 'pattern') {
-			results[key] = item;
-			item.children = applyFilters(item.children, filter);
-			return results;
-		}
-		if (filter(item.manifest)) {
-			results[key] = item;
-		}
-		return results;
-	}, {});
-}
-
-function getFilter(filters) {
-	const flags = filters.flags || [];
-
-	if (flags.length === 0) {
-		return pass;
-	}
-
-	return item => {
-		return flags.includes(item.flag);
-	};
-} */

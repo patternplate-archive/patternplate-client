@@ -226,7 +226,7 @@ function selectDependents(state) {
 	return Object.values(selectDependentPatterns(state))
 		.filter(pattern => (pattern.manifest.options || {}).hidden !== true)
 		.reduce((registry, pattern) => {
-			const navPattern = find(state.navigation, pattern.id) || {manifest: {}};
+			const navPattern = find(state.schema.meta, pattern.id) || {manifest: {}};
 			const patternEntries = Object.entries(navPattern.manifest.patterns || {});
 			const localNames = patternEntries
 				.filter(entry => entry[1] === state.id)
@@ -252,7 +252,7 @@ function selectDependencies(state) {
 		.filter(entry => (entry[1].manifest.options || {}).hidden !== true)
 		.map(entry => {
 			const [localName, pattern] = entry;
-			const navPattern = find(state.navigation, pattern.id) || {manifest: {}};
+			const navPattern = find(state.schema.meta, pattern.id) || {manifest: {}};
 
 			return {
 				id: pattern.id,

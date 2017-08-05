@@ -35,9 +35,12 @@ export default class Shortcut {
 			}
 
 			const code = e.data ? e.data.keyCode : e.keyCode;
+
 			if (code !== this.code) {
 				return;
 			}
+
+			e.preventDefault();
 			store.dispatch(this.action());
 		});
 	}

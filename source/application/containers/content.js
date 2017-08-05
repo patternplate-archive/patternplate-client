@@ -7,8 +7,8 @@ import Content from '../components/content';
 export default connect(mapState, mapDispatch)(Content);
 
 function mapState(state) {
-	const {base, config, hide, navigation, messages, time} = state;
-	return {base, config, hide, item: selectItem(state), navigation, messages, time};
+	const {base, config, hide, schema: {meta}, messages, time} = state;
+	return {base, config, hide, item: selectItem(state), navigation: meta, messages, time};
 }
 
 function mapDispatch(dispatch) {
@@ -19,7 +19,7 @@ function mapDispatch(dispatch) {
 }
 
 function selectItem(state) {
-	return find(state.navigation, state.id);
+	return find(state.schema.meta, state.id);
 }
 
 function find(tree, id, depth = 1) {

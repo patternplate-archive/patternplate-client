@@ -146,6 +146,7 @@ function Component(props) {
 					title="Search for patterns [ctrl+space]"
 					value={props.value}
 					/>
+				<HiddenSubmit/>
 				{
 					withDocs &&
 						<StyledResultList>
@@ -322,4 +323,14 @@ const StyledMarkdown = styled(Markdown)`
 	width: 200%!important;
 	transform: scale(.5);
 	transform-origin: 0 0;
+`;
+
+const Submit = props => <input className={props.className} type="submit"/>;
+
+Submit.propTypes = {
+	className: t.string
+};
+
+const HiddenSubmit = styled(Submit)`
+	display: none;
 `;

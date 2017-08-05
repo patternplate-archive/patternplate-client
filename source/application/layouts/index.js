@@ -17,16 +17,13 @@ function Layout(props) {
 				{props.meta.toComponent()}
 				{props.link.toComponent()}
 				{props.style.toComponent()}
+				{props.css}
 			</head>
-			<body>
+			<body data-base={props.base}>
 				<IconRegistry>{props.icons}</IconRegistry>
-				<Content content={props.content}/>
+				<Content content={props.html}/>
 				<State data={props.data}/>
-				{
-					props.scripts.map(src => {
-						return <script key={src} src={src}/>;
-					})
-				}
+				{props.scripts.map(src => <script key={src} src={src}/>)}
 			</body>
 		</html>
 	);
@@ -34,8 +31,10 @@ function Layout(props) {
 
 Layout.propTypes = {
 	attributes: t.object.isRequired,
-	content: t.string.isRequired,
-	data: t.string.isRequired,
+	base: t.string.isRequired,
+	css: t.any,
+	html: t.string.isRequired,
+	data: t.object.isRequired,
 	icons: t.any.isRequired,
 	link: t.object.isRequired,
 	meta: t.object.isRequired,
@@ -54,9 +53,7 @@ IconRegistry.propTypes = {
 
 function Content(props) {
 	return (
-		<div data-application
-			dangerouslySetInnerHTML={{__html: props.content}}
-			/>
+		<div data-application dangerouslySetInnerHTML={{__html: props.content}}/>
 	);
 }
 
@@ -65,9 +62,10 @@ Content.propTypes = {
 };
 
 function State(props) {
-	return <textarea data-application-state>{props.data}</textarea>;
+	const value = JSON.stringify(props.data);
+	return <textarea data-application-state value={value} readOnly/>;
 }
 
 State.propTypes = {
-	data: t.string.isRequired
+	data: t.any
 };

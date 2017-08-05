@@ -53,7 +53,7 @@ function selectDocs(state) {
 
 function selectNavigation(state) {
 	return {
-		children: selectChildren(state.navigation.children)
+		children: selectSchema(state).meta.children
 	};
 }
 

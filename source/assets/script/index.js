@@ -1,32 +1,43 @@
+import url from 'url';
+import fetch from 'isomorphic-fetch';
 import platform from 'platform';
 import {merge} from 'lodash';
 
 import './polyfills';
 import router from '../../application/react-routes/client';
 
-const {document, location} = global;
+const {document} = global;
 
-main();
+main()
+	.catch(err => {
+		console.error(err);
+	});
 
-function main() {
-	const vault = document.query('[data-application-state]');
+async function main() {
 	const slot = document.query('[data-application]');
-	const data = getData(vault);
-
-	// For static builds, purge the app mount point before
-	// attaching to avoid React warning
-	if (data.startPathname !== location.pathname) {
-		empty(slot);
-	}
+	const vault = document.query('[data-application-state]');
+	const data = await getData(vault);
 
 	router(data, slot);
 }
 
-function getData(vault) {
-	const platformData = getPlatformData();
-	const windowData = getWindowData();
-	const vaultData = JSON.parse(vault.textContent);
-	return merge({}, vaultData, windowData, {schema: platformData});
+async function getData(vault) {
+	const data = JSON.parse(vault.textContent);
+	const schema = await getStateData(data.base);
+
+	return merge(
+		data,
+		getPlatformData(),
+		getWindowData(),
+		{
+			schema,
+			navigation: schema.meta
+		}
+	);
+}
+
+async function getStateData(base) {
+	return (await fetch(url.resolve(base, '/api'))).json();
 }
 
 function getPlatformData() {
@@ -45,10 +56,4 @@ function getWindowData() {
 			height: global.innerHeight
 		}
 	};
-}
-
-function empty(el) {
-	while (el.lastChild) {
-		el.lastChild.remove();
-	}
 }
