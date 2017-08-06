@@ -1,8 +1,10 @@
 import React, {PropTypes as t} from 'react';
 import {Link} from 'react-router';
+import styled from 'styled-components';
 
 import Icon from '../common/icon';
 import Indicator from '../../containers/indicator';
+import SearchButton from '../../containers/search-button';
 
 export default function NavigationToolbar(props) {
 	const issue = {
@@ -41,44 +43,28 @@ export default function NavigationToolbar(props) {
 			<div className="navigation-toolbar__container">
 				<ul className="navigation-toolbar__links">
 					<li className="navigation-toolbar__link">
-						<Link
-							className="button"
+						<SearchButton/>
+					</li>
+					<li className="navigation-toolbar__link">
+						<Button
+							icon="issue"
 							title={`Report an issue ${props.shortcuts.toggleIssue.toString()}`}
 							to={issue}
-							>
-							<Icon symbol="issue"/>
-						</Link>
+							/>
 					</li>
 					<li className="navigation-toolbar__link">
-						<Link
-							className="button"
+						<Button
+							icon="command"
 							title={`Show keyboard shortcuts ${props.shortcuts.toggleShortcuts.toString()}`}
 							to={cheatsheet}
-							>
-							<Icon symbol="command"/>
-						</Link>
+							/>
 					</li>
 					<li className="navigation-toolbar__link">
-						<Link
-							className="button"
+						<Button
+							icon={targetTheme}
 							title={`Switch to ${targetTheme} theme ${props.shortcuts.toggleTheme.toString()}`}
 							to={themeChange}
-							>
-							<Icon
-								base={props.base}
-								symbol="light"
-								style={styles.light}
-								>
-								Light
-							</Icon>
-							<Icon
-								base={props.base}
-								symbol="dark"
-								style={styles.dark}
-								>
-								Dark
-							</Icon>
-						</Link>
+							/>
 					</li>
 				</ul>
 				<Indicator/>
@@ -96,3 +82,19 @@ NavigationToolbar.propTypes = {
 	shortcuts: t.any,
 	theme: t.string.isRequired
 };
+
+const StyledButton = styled(Link)`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+`;
+
+function Button(props) {
+	return (
+		<StyledButton {...props}>
+			<Icon symbol={props.icon}/>
+		</StyledButton>
+	);
+}
