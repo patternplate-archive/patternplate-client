@@ -18,6 +18,7 @@ import opacity from './opacity';
 import pattern from './pattern';
 import rulers from './rulers';
 import search from './search';
+import searchEnabled from './search-enabled';
 import scrollDemoX from './scroll-demo-x';
 import scrollDemoY from './scroll-demo-y';
 import schema from './schema';
@@ -60,6 +61,7 @@ export default {
 	scrollDemoX,
 	scrollDemoY,
 	search,
+	searchEnabled,
 	shortcuts,
 	sourceExpanded,
 	sourceId,

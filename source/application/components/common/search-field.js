@@ -60,6 +60,7 @@ export default class SearchField extends Component {
 		name: types.string.isRequired,
 		onBlur: types.func,
 		onChange: types.func,
+		onClear: types.func,
 		onComplete: types.func,
 		onFocus: types.func,
 		placeholder: types.string,
@@ -83,10 +84,17 @@ export default class SearchField extends Component {
 
 	handleKeyDown(e) {
 		const {target} = e;
-		const atEnd = target.selectionStart === target.value.length;
+		const hasValue = target.value.length > 0;
+		const atEnd = hasValue && target.selectionStart === target.value.length;
 		if ((e.which === 39) && atEnd) {
+			e.stopPropagation();
 			e.preventDefault();
 			this.props.onComplete(this.props.suggestion);
+		}
+		if ((e.which === 27) && hasValue) {
+			e.stopPropagation();
+			e.preventDefault();
+			this.props.onClear();
 		}
 	}
 
@@ -113,17 +121,19 @@ export default class SearchField extends Component {
 						value={props.suggestion || ''}
 						/>
 					<StyledInput
-						value={value}
-						placeholder={placeholder}
-						title={props.title}
-						type="search"
+						autoFocus={props.autoFocus}
 						name={name}
 						onBlur={onBlur}
 						onChange={onChange}
 						onFocus={onFocus}
 						onKeyDown={this.handleKeyDown}
+						placeholder={placeholder}
+						title={props.title}
+						type="search"
+						value={value}
 						/>
 				</StyledInputContainer>
+				{props.children}
 			</StyledSearchField>
 		);
 	}

@@ -67,7 +67,7 @@ function createShortcuts() {
 	bind.toggleSearch = new Shortcut({
 		character: 'space',
 		description: 'Enable search',
-		action: actions.toggleSearchFocus
+		action: () => actions.toggleSearch()
 	});
 
 	bind.toggleTheme = new Shortcut({

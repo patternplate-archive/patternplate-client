@@ -24,6 +24,7 @@ function mapProps(state, own) {
 		navigation: selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,
+		searchEnabled: state.searchEnabled,
 		shortcuts: state.shortcuts,
 		startBase: state.startBase,
 		styles: state.styles,
