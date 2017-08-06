@@ -7,7 +7,7 @@ function Indicator(props) {
 	return (
 		<StyledIndicator
 			onClick={props.onClick}
-			title={props.status ? `Force sync ${props.shortcut.toString()}` : ''}
+			title={isValid(props.status) ? `Force sync ${props.shortcut.toString()}` : ''}
 			>
 			<StyledLabel status={props.status}>{getLabel(props)}</StyledLabel>
 			<StyledDot status={props.status}/>
@@ -17,7 +17,7 @@ function Indicator(props) {
 
 Indicator.propTypes = {
 	onClick: types.func,
-	status: types.oneOf(['', 'loading', 'loaded']).isRequired,
+	status: types.oneOf(['', 'error', 'loading', 'loaded']).isRequired,
 	shortcut: types.object.isRequired
 };
 
@@ -29,7 +29,7 @@ const StyledDot = styled.div`
 	width: 7.5px;
 	margin: 0 10px;
 	border-radius: 50%;
-	background: #42A5F5;
+	background: ${props => props.status === 'error' ? 'rgb(205, 63, 69)' : '#42A5F5'};
 	transition: background .4s ease-in-out, opacity .5s ease-in;
 	opacity: ${props => props.status ? 1 : 0};
 	cursor: ${props => props.status ? 'pointer' : ''};
@@ -56,7 +56,7 @@ function getGlow(props) {
 			height: 12px;
 			width: 12px;
 			filter: blur(3px);
-			background: ${props.status === 'stale' ? 'grey' : 'inherit'};
+			background: inherit;
 			transform: translate(-50%, -50%);
 			opacity: .6;
 			${getPulse(props)};
@@ -86,11 +86,16 @@ function getOut(props) {
 }
 
 function getLabel(props) {
-	if (!props.status) {
-		return '';
+	switch (props.status) {
+		case 'error':
+			return 'offline';
+		case 'loaded':
+			return 'synced';
+		case 'loading':
+			return 'syncing';
+		default:
+			return '';
 	}
-
-	return props.status === 'loaded' ? 'synced' : 'syncing';
 }
 
 function getPulse(props) {
@@ -120,4 +125,8 @@ function getPulse(props) {
 	return `
 			animation: pulse 1s infinite;
 		`;
+}
+
+function isValid(status) {
+	return ['loading', 'loaded'].includes(status);
 }
