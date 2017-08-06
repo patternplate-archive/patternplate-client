@@ -296,7 +296,7 @@ function ComponentResult(props) {
 			title={`Navigation to pattern ${props.name}`}
 			to={{
 				pathname: `/pattern/${props.id}`,
-				query: {...props.location.query, 'search-enabled': null}
+				query: {...props.location.query, 'search-enabled': false}
 			}}
 			>
 			{props.name}
@@ -316,7 +316,7 @@ function DocResult(props) {
 			title={`Navigation to doc ${props.name}`}
 			to={{
 				pathname: `/doc/${props.id}`,
-				query: {...props.location.query, 'search-enabled': null}
+				query: {...props.location.query, 'search-enabled': false}
 			}}
 			>
 			{props.name}
