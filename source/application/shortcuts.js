@@ -1,5 +1,5 @@
-import * as actions from '../actions';
-import Shortcut from '../utils/shortcut';
+import * as actions from './actions';
+import Shortcut from './utils/shortcut';
 
 export default createShortcuts;
 

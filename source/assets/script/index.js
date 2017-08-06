@@ -4,7 +4,7 @@ import platform from 'platform';
 import {merge} from 'lodash';
 
 import './polyfills';
-import router from '../../application/react-routes/client';
+import router from '../../application/client';
 
 const {document} = global;
 

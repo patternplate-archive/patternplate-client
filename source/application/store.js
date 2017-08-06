@@ -3,10 +3,9 @@ import {routerReducer as routing, routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import topology from 'topologically-combine-reducers';
 import promise from 'redux-promise';
-// import logger from 'redux-logger';
 
 import createShortcuts from './shortcuts';
-import reducers, {dependencies} from '../reducers';
+import reducers, {dependencies} from './reducers';
 
 export default function configureStore(history, initial) {
 	const reducer = hydrateable(topology({routing, ...reducers}, dependencies));

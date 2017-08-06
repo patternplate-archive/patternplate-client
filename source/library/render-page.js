@@ -4,7 +4,7 @@ import {fill} from 'lodash';
 import Helmet from 'react-helmet';
 import {sync as resolveSync} from 'resolve';
 
-import router from '../application/react-routes/server';
+import router from '../application/server';
 import layout from '../application/layouts';
 import getIdByPathname from '../application/utils/get-id-by-pathname';
 import navigate from '../application/utils/navigate';

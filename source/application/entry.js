@@ -6,10 +6,10 @@ import ReactDOMServer from 'react-dom/server';
 import Router, {DefaultRoute, Route} from 'react-router';
 import {EventEmitter} from 'events';
 
-import Application from '../components';
-import Content from '../components/content';
-import Documentation from '../components/documentation';
-import Home from '../components/content/home';
+import Application from './components';
+import Content from './components/content';
+import Documentation from './components/documentation';
+import Home from './components/content/home';
 
 function getRoutes(base = '/') {
 	return (
