@@ -7,7 +7,6 @@ import urlQuery from '../../utils/url-query';
 import getIdByPathname from '../../utils/get-id-by-pathname';
 import PatternFolder from '../pattern/pattern-folder';
 import Pattern from '../../containers/pattern';
-import Search from '../../containers/search';
 
 export default Content;
 

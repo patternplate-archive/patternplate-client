@@ -3,7 +3,7 @@ import handleDependentActions from '../actions/handle-dependent-actions';
 
 function handler(_, {payload}, {base}) {
 	const id = getIdByPathname(payload.pathname, base);
-	return id.split('/').filter(Boolean).slice(2).join('/');
+	return id.split('/').filter(Boolean).slice(2).join('/') || '/';
 }
 
 export default handleDependentActions({

@@ -8,13 +8,12 @@ import {EventEmitter} from 'events';
 
 import Application from './components';
 import Content from './components/content';
-import Documentation from './components/documentation';
-import Home from './components/content/home';
+import Documentation from './containers/documentation';
 
 function getRoutes(base = '/') {
 	return (
 		<Route name="root" path={base} handler={Application}>
-			<DefaultRoute handler={Home}/>
+			<DefaultRoute handler={Documentation}/>
 			<Route name="doc" path="/doc/*" handler={Documentation}/>
 			<Route name="pattern" path="/pattern/*" handler={Content}/>
 		</Route>

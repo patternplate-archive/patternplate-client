@@ -1,14 +1,17 @@
 import {connect} from 'react-redux';
-import Home from '../components/content/home';
+import Documentation from '../components/documentation';
 
 export default connect(state => {
 	return {
 		base: state.base,
-		readme: selectReadme(state)
+		id: state.id,
+		docs: {
+			contents: selectNotFound(state)
+		}
 	};
-})(Home);
+})(Documentation);
 
-function selectReadme(state) {
+function selectNotFound(state) {
 	const url = state.routing.locationBeforeTransitions.pathname;
 	return `
 # Nothing found
