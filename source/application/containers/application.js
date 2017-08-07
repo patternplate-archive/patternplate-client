@@ -20,7 +20,7 @@ const selectChildren = config => createSelector(
 		return children
 			.filter(child => child.manifest.options.hidden !== false)
 			.map(child => {
-				if (child.id in config.hierarchy) {
+				if (child.id in (config.hierarchy || {})) {
 					const o = config.hierarchy[child.id];
 					child.manifest.displayName = o.displayName || child.manifest.displayName;
 					child.manifest.options.order = o.order || child.manifest.options.order;
