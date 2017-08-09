@@ -233,6 +233,7 @@ const StyledResultList = styled.div`
 const StyledResultHeading = styled(Text)`
 	box-sizing: border-box;
 	position: sticky;
+	z-index: 1;
 	top: 0;
 	margin: 0;
 	font-size: 14px;
