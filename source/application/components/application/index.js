@@ -130,14 +130,12 @@ Lightbox.propTypes = {
 };
 
 const StyledApplication = styled.div`
+	box-sizing: border-box;
 	display: flex;
-	width: 100%;
+	width: calc(100% + ${props => props.navigationEnabled === true ? 0 : '300px'});
 	height: 100%;
 	background: ${props => props.theme.background};
 	transform: translateX(${props => props.navigationEnabled === true ? 0 : '-300px'});
-	@media screen and (min-width: 670px) {
-		width: calc(100% + ${props => props.navigationEnabled === true ? 0 : '300px'});
-	}
 `;
 
 const StyledHamburgerBox = styled.div`
