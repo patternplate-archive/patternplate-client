@@ -1,9 +1,15 @@
-import React, {PropTypes as types} from 'react';
-import join from 'classnames';
 import queryString from 'query-string';
+import React, {PropTypes as types} from 'react';
+import styled from 'styled-components';
+
 import urlQuery from '../../utils/url-query';
 import Frame from '../common/frame';
 import Ruler from './pattern-ruler';
+
+const StyledDemo = styled.div`
+	width: 100%;
+	height: 100%;
+`;
 
 function PatternDemo(props) {
 	const source = urlQuery.format({
@@ -16,15 +22,9 @@ function PatternDemo(props) {
 	});
 
 	const src = [source, query].filter(Boolean).join('?');
-	const className = join('pattern-demo-container', {
-		'pattern-demo-container--opacity': props.opacity
-	});
-	const demoClassName = join('pattern-demo', {
-		'pattern-demo--resizable': props.resizeable
-	});
 
 	return (
-		<div className={className}>
+		<StyledDemo>
 			{
 				props.rulers &&
 					<div className="rulers">
@@ -45,7 +45,6 @@ function PatternDemo(props) {
 					</div>
 			}
 			<Frame
-				className={demoClassName}
 				height={props.height}
 				id={source}
 				onError={props.onError}
@@ -57,7 +56,7 @@ function PatternDemo(props) {
 				src={src}
 				width={props.width}
 				/>
-		</div>
+		</StyledDemo>
 	);
 }
 

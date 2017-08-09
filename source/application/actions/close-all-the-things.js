@@ -4,7 +4,6 @@ export default closeAllTheThings;
 export const type = 'CLOSE_ALL_THE_THINGS';
 
 function closeAllTheThings() {
-	console.log('!');
 	return dispatch => {
 		dispatch(dismissAllMessages());
 		dispatch(patchLocation({

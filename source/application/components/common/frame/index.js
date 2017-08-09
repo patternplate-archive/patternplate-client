@@ -1,13 +1,24 @@
 import autobind from 'autobind-decorator';
-import join from 'classnames';
 import {noop} from 'lodash';
 import pure from 'pure-render-decorator';
 import React, {Component, PropTypes as types} from 'react';
 import {findDOMNode} from 'react-dom';
+import styled from 'styled-components';
 
 import bind from './bind';
 import Handles from './handles';
 import relay from './relay';
+
+const StyledFrame = styled.iframe`
+	width: 100%;
+	height: 100%;
+	border: 0;
+`;
+
+const StyledFrameBox = styled.div`
+	width: 100%;
+	height: 100%;
+`;
 
 @pure
 @autobind
@@ -74,34 +85,18 @@ export default class Frame extends Component {
 			props.onLoad(e);
 		};
 
-		const frameClassName = join(
-			'iframe',
-			{
-				'iframe--resizeable': props.resizeable
-			}
-		);
-
-		const frameResizeClassName = join(
-			'frame__resize-container',
-			'pattern__frame'
-		);
-
-		const style = props.resizeable ? {
-			width: props.width,
-			height: props.height
-		} : {};
-
 		return (
-			<div className={props.className}>
-				<div className={frameResizeClassName} style={style}>
-					<iframe
-						className={frameClassName}
-						onLoad={relay(onLoad, props.onError)}
-						ref={this.saveRef}
-						src={props.src}
-						sandbox={props.sandbox}
-						onKeyDown={this.handleKeyDown}
-						/>
+			<StyledFrameBox>
+				<StyledFrame
+					width={props.width}
+					height={props.width}
+					resizeable={props.resizeable}
+					onLoad={relay(onLoad, props.onError)}
+					ref={this.saveRef}
+					src={props.src}
+					sandbox={props.sandbox}
+					onKeyDown={this.handleKeyDown}
+					/>
 					{
 						props.resizeable &&
 							<Handles
@@ -114,8 +109,7 @@ export default class Frame extends Component {
 								width={props.width}
 								/>
 					}
-				</div>
-			</div>
+			</StyledFrameBox>
 		);
 	}
 }

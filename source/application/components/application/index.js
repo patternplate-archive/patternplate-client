@@ -1,19 +1,37 @@
-import React, {Component, PropTypes as t} from 'react';
 import autobind from 'autobind-decorator';
-import join from 'classnames';
+import React, {Component, PropTypes as t} from 'react';
 import Helmet from 'react-helmet';
+import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
-import ConsoleLightbox from '../../containers/console';
-import ProblemLightbox from '../../containers/problem';
-import ShortcutsLightbox from '../../containers/shortcuts';
+import Hamburger from '../../containers/hamburger';
 import Navigation from '../navigation';
 import Search from '../../containers/search';
+import * as themes from '../../themes';
 
 @autobind
 export default class Application extends Component {
 	componentDidMount() {
 		this.props.onLoad();
 		global.addEventListener('resize', this.onResize);
+	}
+
+	componentWillMount() {
+		/* eslint-disable no-unused-expressions */
+		injectGlobal`
+			html,
+			body {
+				height: 100%;
+				overflow: hidden;
+			}
+			body {
+				margin: 0;
+				height: 100%;
+			}
+			[data-application] {
+				height: 100%;
+			}
+		`;
+		/* eslint-enable */
 	}
 
 	componentWillUnmount() {
@@ -30,65 +48,45 @@ export default class Application extends Component {
 	render() {
 		const {props} = this;
 
-		const className = join('application', {
-			'application--menu-enabled': props.menuEnabled,
-			'application--theme-loading': props.themeLoading
-		});
-
 		return (
-			<div className={className}>
-				<Helmet
-					meta={[
-						{
-							name: 'description',
-							content: props.description
-						},
-						{
-							name: 'viewport',
-							content: 'width=device-width, initial-scale=1'
+			<ThemeProvider theme={themes[props.theme]}>
+				<StyledApplication navigationEnabled={props.navigationEnabled}>
+					<Helmet meta={meta(props)} title={props.title}/>
+					<ThemeProvider theme={themes.dark}>
+						<StyledNavigationBox>
+							<StyledHamburgerBox>
+								<Hamburger/>
+							</StyledHamburgerBox>
+							<Navigation
+								activePattern={props.activePattern}
+								docs={props.docs}
+								hierarchy={props.hierarchy}
+								hide={props.hide}
+								icon={props.logo}
+								navigation={props.navigation}
+								pathname={props.pathname}
+								theme={props.theme}
+								shortcuts={props.shortcuts}
+								title={props.title}
+								version={props.version}
+								/>
+						</StyledNavigationBox>
+					</ThemeProvider>
+					<StyledContent>
+						{props.children}
+						{props.searchEnabled &&
+							<ThemeProvider theme={themes.dark}>
+								<StyledSearchBox>
+									<StyledSearchFrame>
+										<Search/>
+									</StyledSearchFrame>
+								</StyledSearchBox>
+							</ThemeProvider>
 						}
-					]}
-					link={createLinks(props.styles, {base: props.startBase})}
-					title={props.title}
-					onChangeClientState={getThemeLoadedListener(props.onThemeLoaded)}
-					/>
-				<Navigation
-					activePattern={props.activePattern}
-					base={props.base}
-					docs={props.docs}
-					enabled={props.menuEnabled}
-					expanded={props.expanded}
-					hierarchy={props.hierarchy}
-					hide={props.hide}
-					icon={props.logo}
-					menuEnabled={props.menuEnabled}
-					navigation={props.navigation}
-					pathname={props.pathname}
-					query={props.query}
-					theme={props.theme}
-					shortcuts={props.shortcuts}
-					title={props.title}
-					version={props.version}
-					/>
-				<main className="application__content">
-					{props.searchEnabled &&
-						<Search/>
-					}
-					{props.children}
-				</main>
-				{
-					props.lightbox === 'console' &&
-						<ConsoleLightbox/>
-				}
-				{
-					props.lightbox === 'shortcuts' &&
-						<ShortcutsLightbox/>
-				}
-				{
-					props.issue &&
-						<ProblemLightbox/>
-				}
-			</div>
+					</StyledContent>
+					<Lightbox id={props.lightbox}/>
+				</StyledApplication>
+			</ThemeProvider>
 		);
 	}
 }
@@ -120,29 +118,70 @@ Application.propTypes = {
 	themeLoading: t.bool.isRequired
 };
 
-function createLinks(styles, options) {
-	return styles.map(createStyle(options));
+function Lightbox(props) {
+	switch (props.id) {
+		default:
+			return null;
+	}
 }
 
-function createStyle(options) {
-	return style => {
-		return {
-			'rel': 'stylesheet',
-			'href': `${options.base}/style/${style}.css`,
-			'data-style-id': style
-		};
-	};
-}
+Lightbox.propTypes = {
+	id: t.string.isRequired
+};
 
-function getThemeLoadedListener(fn) {
-	return (...args) => {
-		const [, {linkTags: added = []}] = args;
-		const tags = added.filter(tag => tag.rel === 'stylesheet');
-		const tag = tags[tags.length - 1];
-		if (tag) {
-			tag.onload = () => {
-				fn(tag.dataset.styleId);
-			};
-		}
-	};
+const StyledApplication = styled.div`
+	display: flex;
+	width: 100%;
+	height: 100%;
+	background: ${props => props.theme.background};
+	transform: translateX(${props => props.navigationEnabled === true ? 0 : '-300px'});
+	@media screen and (min-width: 670px) {
+		width: calc(100% + ${props => props.navigationEnabled === true ? 0 : '300px'});
+	}
+`;
+
+const StyledHamburgerBox = styled.div`
+	position: absolute;
+	left: 315px;
+	top: 10px;
+`;
+
+const StyledNavigationBox = styled.div`
+	position: relative;
+	z-index: 2;
+	flex: 0 0 300px;
+	width: 300px;
+	height: 100%;
+`;
+
+const StyledContent = styled.div`
+	width: 100%;
+	height: 100%;
+	position: relative;
+`;
+
+const StyledSearchBox = styled.div`
+	position: absolute;
+	top: 12.5vh;
+	bottom: 10vh;
+	right: 0;
+	left: 0;
+	width: 100%;
+	pointer-events: none;
+`;
+
+const StyledSearchFrame = styled.div`
+	width: 90%;
+	min-width: 320px;
+	max-width: 750px;
+	max-height: 100%;
+	margin: 0 auto;
+	overflow: hidden;
+`;
+
+function meta(props) {
+	return [
+		{name: 'description', content: props.description},
+		{name: 'viewport', content: 'width=device-width, initial-scale=1'}
+	];
 }

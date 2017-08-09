@@ -4,12 +4,18 @@ export default search;
 export const type = 'SEARCH';
 
 function search(payload) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		const state = getState();
+
 		if (payload.persist) {
 			dispatch(patchLocation({
-				query: {search: payload.value}
+				query: {
+					'search': payload.value,
+					'search-preview': state.search === payload.value ? state.searchPreview : 0
+				}
 			}));
-		} else {
+		}
+		if (state.search !== payload.value) {
 			dispatch({
 				type: 'PERFORM_SEARCH',
 				payload: payload.value

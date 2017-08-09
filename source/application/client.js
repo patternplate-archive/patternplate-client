@@ -10,6 +10,7 @@ import configureStore from './store';
 export default function (data, el) {
 	const store = configureStore(browserHistory, data);
 	const history = syncHistoryWithStore(browserHistory, store);
+
 	const router = (
 		<Provider store={store}>
 			<Router history={history}>

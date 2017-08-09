@@ -1,6 +1,7 @@
  /* eslint-disable react/no-danger */
 import React, {PropTypes as t} from 'react';
 import {renderToStaticMarkup as render} from 'react-dom/server';
+import styled from 'styled-components';
 
 export default layout;
 
@@ -63,9 +64,13 @@ Content.propTypes = {
 
 function State(props) {
 	const value = JSON.stringify(props.data);
-	return <textarea data-application-state value={value} readOnly/>;
+	return <StyledState data-application-state value={value} readOnly/>;
 }
 
 State.propTypes = {
 	data: t.any
 };
+
+const StyledState = styled.textarea`
+	display: none;
+`;

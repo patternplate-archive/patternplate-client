@@ -18,7 +18,7 @@ function toggleSearch(payload = {}) {
 			dispatch(search({persist: true, value: value()}));
 		}
 
-		dispatch(patchLocation({query: {'search-enabled': next}}));
+		dispatch(patchLocation({query: {'search-enabled': next, 'search-preview': 0}}));
 	};
 }
 
@@ -34,7 +34,7 @@ function focus(next) {
 	}
 
 	setTimeout(() => {
-		const el = global.document.query('input[type=search]');
+		const el = global.document.query('input[data-search]');
 		if (!el) {
 			return;
 		}
@@ -47,7 +47,7 @@ function value() {
 		return;
 	}
 
-	const el = global.document.query('input[type=search]');
+	const el = global.document.query('input[data-search]');
 
 	if (!el) {
 		return;

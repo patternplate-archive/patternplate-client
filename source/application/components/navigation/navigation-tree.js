@@ -28,10 +28,8 @@ class NavigationTree extends Component {
 
 	render() {
 		const {props} = this;
-		const className = ['navigation-tree', props.className, props.active && 'navigation-tree--active'].filter(Boolean).join(' ');
-
 		return (
-			<ul className={className}>
+			<div className={props.className}>
 				{props.children}
 				{(props.data || []).map(item => {
 					const p = (props.pathname || '').split('/').filter(Boolean).slice(1).join('/');
@@ -76,7 +74,7 @@ class NavigationTree extends Component {
 						</NavigationItem>
 					);
 				})}
-			</ul>
+			</div>
 		);
 	}
 }

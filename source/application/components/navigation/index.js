@@ -1,132 +1,120 @@
 import React, {PropTypes as t} from 'react';
-import classnames from 'classnames';
+import styled from 'styled-components';
 
 import NavigationTree from './navigation-tree';
 import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
-import Header from '../header';
 
-class Navigation extends React.Component {
-	static propTypes = {
-		activePattern: t.string.isRequired,
-		base: t.string.isRequired,
-		docs: t.object.isRequired,
-		enabled: t.bool.isRequired,
-		hierarchy: t.object,
-		hide: t.bool.isRequired,
-		icon: t.string.isRequired,
-		menuEnabled: t.bool.isRequired,
-		navigation: t.object.isRequired,
-		onSearch: t.func,
-		onSearchBlur: t.func,
-		pathname: t.string.isRequired,
-		query: t.object.isRequired,
-		requestSearchBlur: t.func.isRequired,
-		searchQuery: t.string,
-		searchValue: t.string,
-		shortcuts: t.any.isRequired,
-		theme: t.string.isRequired,
-		title: t.string.isRequired,
-		version: t.string.isRequired
-	};
+export default Navigation;
 
-	static defaultProps = {
-		onSearch: () => {},
-		onSearchBlur: () => {},
-		requestSearchBlur: () => {}
-	}
-
-	render() {
-		const {props} = this;
-
-		const className = classnames('navigation application__navigation navigation--expanded');
-
-		return (
-			<nav className={className}>
+function Navigation(props) {
+	return (
+		<StyledNavigation>
+			<StyledNavigationTree>
 				<NavigationTree
 					activePattern={props.activePattern}
-					base={props.base}
 					data={props.navigation.children}
 					hide={props.hide}
 					hierarchy={props.hierarchy}
 					pathname={props.pathname}
 					prefix="/pattern"
-					query={props.query}
 					>
-					<Header
-						base={props.base}
-						icon={props.icon}
-						menuEnabled={props.menuEnabled}
-						pathname={props.pathname}
-						query={props.query}
-						shortcuts={props.shortcuts}
-						title={props.title}
-						version={props.version}
-						/>
 					<Documentation
 						activePattern={props.activePattern}
-						base={props.base}
 						docs={props.docs}
 						hide={props.hide}
 						hierarchy={props.hierarchy}
 						pathname={props.pathname}
-						query={props.query}
-						searchQuery={props.searchQuery}
 						/>
 				</NavigationTree>
+			</StyledNavigationTree>
+			<StyledNavigationToolbar>
 				<NavigationToolbar
-					base={props.base}
-					expanded={props.expanded}
-					pathname={props.pathname}
-					query={props.query}
 					shortcuts={props.shortcuts}
 					theme={props.theme}
 					/>
-			</nav>
-		);
-	}
+			</StyledNavigationToolbar>
+		</StyledNavigation>
+	);
 }
 
-export default Navigation;
+Navigation.propTypes = {
+	activePattern: t.string.isRequired,
+	docs: t.object.isRequired,
+	enabled: t.bool.isRequired,
+	hierarchy: t.object,
+	hide: t.bool.isRequired,
+	icon: t.string.isRequired,
+	navigation: t.object.isRequired,
+	pathname: t.string.isRequired,
+	shortcuts: t.any.isRequired,
+	theme: t.string.isRequired,
+	title: t.string.isRequired,
+	version: t.string.isRequired
+};
+
+const StyledNavigation = styled.div`
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	justify-content: space-between;
+	position: relative;
+	background: ${props => props.theme.tint}
+`;
+
+const StyledNavigationTree = styled.div`
+	flex-grow: 1;
+	flex-shrink: 1;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	-webkit-overflow-scroll: touch;
+`;
+
+const StyledNavigationToolbar = styled.div`
+	flex-grow: 0;
+	flex-shrink: 0;
+`;
 
 function Documentation(props) {
 	return (
-		<NavigationTree
+		<StyledDocumentationTree
 			active={props.pathname === '/' || props.pathname.indexOf('/doc') === 0}
 			activePattern={props.activePattern}
-			base={props.base}
 			className="docs-navigation"
 			data={props.docs.children}
 			hide={props.hide}
 			pathname={props.pathname}
 			prefix="/doc"
-			query={props.query}
 			>
-			<NavigationItem
+			<StyledDocumentationItem
 				active={props.pathname === '/' || props.pathname === '/doc'}
-				base={props.base}
 				hidden={false}
 				hide={props.hide}
 				id="/"
 				key="/"
 				linkTo=""
 				name={props.docs.manifest.displayName}
-				query={props.query}
-				searchQuery={props.searchQuery}
 				type="doc"
 				symbol="doc"
 				symbolActive="doc"
 				/>
-		</NavigationTree>
+		</StyledDocumentationTree>
 	);
 }
 
 Documentation.propTypes = {
 	activePattern: t.string.isRequired,
-	base: t.string.isRequired,
 	docs: t.object.isRequired,
 	hide: t.bool.isRequired,
-	pathname: t.string.isRequired,
-	query: t.any,
-	searchQuery: t.string
+	pathname: t.string.isRequired
 };
+
+const StyledDocumentationTree = styled(NavigationTree)`
+	margin-bottom: 5px;
+	border-bottom: 1px solid ${props => props.theme.border};
+	padding-bottom: 5px;
+`;
+
+const StyledDocumentationItem = styled(NavigationItem)`
+	padding-top: 5px;
+`;

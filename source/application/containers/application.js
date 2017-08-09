@@ -94,7 +94,7 @@ function mapProps(state, own) {
 		issue: state.issue,
 		lightbox: state.lightbox,
 		logo: state.config.logo || 'patternplate',
-		menuEnabled: state.menuEnabled,
+		navigationEnabled: state.navigationEnabled,
 		navigation: selectNavigation(state),
 		pathname: own.location.pathname,
 		query: own.location.query,

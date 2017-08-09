@@ -1,56 +1,34 @@
 import React, {PropTypes as t} from 'react';
+import styled from 'styled-components';
 import Markdown from '../containers/markdown';
-import Search from '../containers/search';
 
 export default Documentation;
 
+const ScrollBox = styled.div`
+	height: 100%;
+	overflow: scroll;
+	-webkit-overflow-sroll: touch;
+`;
+
+const StyledDocumentation = styled.div`
+	margin: 0 auto;
+	width: 100%;
+	max-width: 900px;
+`;
+
 function Documentation(props) {
 	return (
-		<div className="application-container application-container--home">
-			{
-				props.withSearch &&
-					<Search/>
-			}
-			<Markdown
-				source={props.doc.contents}
-				base={props.base}
-				className="home"
-				/>
-		</div>
+		<ScrollBox>
+			<StyledDocumentation>
+				<Markdown source={props.doc.contents} base={props.base}/>
+			</StyledDocumentation>
+		</ScrollBox>
 	);
 }
 
 Documentation.propTypes = {
 	base: t.string.isRequired,
-	id: t.string.isRequired,
 	doc: t.shape({
 		contents: t.string.isRequired
-	}).isRequired,
-	withSearch: t.boolean
+	}).isRequired
 };
-
-/* import React, {Component, PropTypes as t} from 'react';
-import Markdown from '../../containers/markdown';
-import Search from '../../containers/search';
-
-// import Messages from './messages';
-// import pure from 'pure-render-decorator';
-
-class Home extends Component {
-	static propTypes = {
-		readme: t.string.isRequired,
-		base: t.string.isRequired
-	};
-
-	render() {
-		const {readme, base} = this.props;
-		return (
-			<div className="application-container application-container--home">
-				<Search inline/>
-				<Markdown source={readme} base={base} className="home"/>
-			</div>
-		);
-	}
-}
-
-export default Home; */

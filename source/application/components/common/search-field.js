@@ -1,3 +1,4 @@
+import {debounce} from 'lodash';
 import React, {Component, PropTypes as types} from 'react';
 import styled from 'styled-components';
 
@@ -6,16 +7,14 @@ import Icon from './icon';
 const StyledSearchField = styled.label`
 	display: flex;
 	align-items: center;
-	color: inherit;
 	height: 60px;
-	padding: 10px;
-	border: 1px solid;
-	border-color: inherit;
+	padding: 10px 15px;
 `;
 
 const StyledIcon = styled(Icon)`
 	flex-grow: 0;
 	flex-shrink: 0;
+	fill: ${props => props.theme.color};
 `;
 
 const StyledInput = styled.input`
@@ -25,9 +24,12 @@ const StyledInput = styled.input`
 	border: 0;
 	border-radius: 0;
 	background: transparent;
-	color: inherit;
-	line-height: inherit;
+	font-size: 16px;
+	color: ${props => props.theme.color};
 	padding: 0;
+	appearance: none;
+	border-radius: 0;
+	border: none;
 	:focus {
 		outline: none;
 	}
@@ -63,6 +65,10 @@ export default class SearchField extends Component {
 		onClear: types.func,
 		onComplete: types.func,
 		onFocus: types.func,
+		onKeyDown: types.func,
+		onUp: types.func,
+		onDown: types.func,
+		onStop: types.func,
 		placeholder: types.string,
 		suggestion: types.string,
 		title: types.string,
@@ -74,46 +80,58 @@ export default class SearchField extends Component {
 		component: 'div',
 		onChange: () => {},
 		onFocus: () => {},
-		onBlur: () => {}
+		onUp: () => {},
+		onDown: () => {},
+		onBlur: () => {},
+		onStop: () => {}
 	};
 
 	constructor(...args) {
 		super(...args);
+		this.handleChange = this.handleChange.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
+		this.handleStop = debounce(this.props.onStop, 100, {trailing: true});
+		this.timer = null;
+	}
+
+	handleChange(e) {
+		e.persist();
+		this.props.onChange(e);
+		this.handleStop(e);
 	}
 
 	handleKeyDown(e) {
 		const {target} = e;
 		const hasValue = target.value.length > 0;
 		const atEnd = hasValue && target.selectionStart === target.value.length;
-		if ((e.which === 39) && atEnd) {
-			e.stopPropagation();
-			e.preventDefault();
-			this.props.onComplete(this.props.suggestion);
-		}
+
 		if ((e.which === 27) && hasValue) {
 			e.stopPropagation();
 			e.preventDefault();
 			this.props.onClear();
 		}
+		if (e.which === 38) {
+			this.props.onUp(e);
+		}
+		if ((e.which === 39) && atEnd && this.props.suggestion) {
+			e.stopPropagation();
+			e.preventDefault();
+			this.props.onComplete(this.props.suggestion);
+		}
+		if ((e.which === 40) && atEnd) {
+			e.stopPropagation();
+			e.preventDefault();
+			this.props.onDown(e);
+		}
 	}
 
 	render() {
-		const {
-			base,
-			value,
-			name,
-			onChange,
-			onFocus,
-			onBlur,
-			placeholder,
-			...props
-		} = this.props;
+		const props = this.props;
 
 		return (
 			<StyledSearchField>
 				<StyledIcon
-					base={base}
+					base={props.base}
 					symbol="search"
 					/>
 				<StyledInputContainer>
@@ -122,15 +140,16 @@ export default class SearchField extends Component {
 						/>
 					<StyledInput
 						autoFocus={props.autoFocus}
-						name={name}
-						onBlur={onBlur}
-						onChange={onChange}
-						onFocus={onFocus}
+						name={props.name}
+						onBlur={props.onBlur}
+						onChange={this.handleChange}
+						onFocus={props.onFocus}
 						onKeyDown={this.handleKeyDown}
-						placeholder={placeholder}
+						placeholder={props.placeholder}
 						title={props.title}
-						type="search"
-						value={value}
+						type="text"
+						value={props.value}
+						data-search
 						/>
 				</StyledInputContainer>
 				{props.children}

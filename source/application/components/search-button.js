@@ -1,7 +1,8 @@
 import React, {PropTypes as t} from 'react';
-import {Link} from 'react-router';
 import styled from 'styled-components';
+
 import Icon from './common/icon';
+import Link from './common/link';
 
 export default SearchButton;
 
@@ -9,10 +10,10 @@ function SearchButton(props) {
 	return (
 		<StyledLink
 			title={`Enable search ${props.shortcut.toString()}`}
-			to={{...props.location, query: {...props.location.query, 'search-enabled': !props.enabled}}}
+			query={{'search-enabled': !props.enabled}}
 			>
 			Search
-			<Icon
+			<StyledIcon
 				base={props.base}
 				symbol="search"
 				/>
@@ -27,11 +28,10 @@ SearchButton.propTypes = {
 	shortcut: t.any
 };
 
+const StyledIcon = styled(Icon)`
+	fill: ${props => props.theme.color};
+`;
+
 const StyledLink = styled(Link)`
-	height: 34px;
-	width: 34px;
 	font-size: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 `;

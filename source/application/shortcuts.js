@@ -58,6 +58,12 @@ function createShortcuts() {
 		action: actions.toggleRulers
 	});
 
+	bind.toggleNavigation = new Shortcut({
+		character: 'n',
+		description: 'Toggle navigation',
+		action: actions.toggleNavigation
+	});
+
 	bind.reload = new Shortcut({
 		character: 'r',
 		description: 'Force a data sync',

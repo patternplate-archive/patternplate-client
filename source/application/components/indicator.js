@@ -1,5 +1,6 @@
 import React, {PropTypes as types} from 'react';
 import styled, {injectGlobal} from 'styled-components';
+import Text from './text';
 
 export default Indicator;
 
@@ -9,7 +10,7 @@ function Indicator(props) {
 			onClick={props.onClick}
 			title={isValid(props.status) ? `Force sync ${props.shortcut.toString()}` : ''}
 			>
-			<StyledLabel status={props.status}>{getLabel(props)}</StyledLabel>
+			<StyledLabel size="s" status={props.status}>{getLabel(props)}</StyledLabel>
 			<StyledDot status={props.status}/>
 		</StyledIndicator>
 	);
@@ -27,7 +28,7 @@ const StyledDot = styled.div`
 	flex-shrink: 0;
 	height: 7.5px;
 	width: 7.5px;
-	margin: 0 10px;
+	margin-right: 5px;
 	border-radius: 50%;
 	background: ${props => props.status === 'error' ? 'rgb(205, 63, 69)' : '#42A5F5'};
 	transition: background .4s ease-in-out, opacity .5s ease-in;
@@ -40,9 +41,13 @@ const StyledIndicator = styled.div`
 	display: flex;
 	align-items: center;
 	cursor: pointer;
+	position: relative;
 `;
 
-const StyledLabel = styled.div`
+const StyledLabel = styled(Text)`
+	position: absolute;
+	right: 20px;
+	color: ${props => props.theme.color};
 	${props => getOut(props)}
 `;
 
@@ -94,7 +99,7 @@ function getLabel(props) {
 		case 'loading':
 			return 'syncing';
 		default:
-			return '';
+			return 'test';
 	}
 }
 

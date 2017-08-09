@@ -23,7 +23,11 @@ export default function (location, data) {
 			if (error) {
 				return reject(error);
 			}
-			const context = sheet.collectStyles(<Provider store={store}><RouterContext {...props}/></Provider>);
+			const context = sheet.collectStyles(
+				<Provider store={store}>
+					<RouterContext {...props}/>
+				</Provider>
+			);
 			const html = renderToString(context);
 			const css = sheet.getStyleElement();
 			resolve({html, css});

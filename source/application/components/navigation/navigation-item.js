@@ -1,24 +1,22 @@
 import path from 'path';
+import color from 'color';
 import React, {PropTypes as types} from 'react';
-import {Link} from 'react-router';
-import autobind from 'autobind-decorator';
-import classnames from 'classnames';
-import {omit} from 'lodash';
+import tag from 'tag-hoc';
+import styled from 'styled-components';
+
 import Icon from '../common/icon';
+import Link from '../common/link';
 
 export default class NavigationItem extends React.Component {
 	static propTypes = {
-		base: types.string.isRequired,
-		component: types.node,
+		className: types.string,
 		active: types.bool,
 		hidden: types.bool,
 		anchored: types.bool,
 		linkTo: types.string,
 		name: types.string.isRequired,
-		query: types.object.isRequired,
 		symbol: types.string.isRequired,
 		symbolActive: types.string,
-		searchQuery: types.string,
 		to: types.string,
 		id: types.oneOfType([
 			types.string,
@@ -28,7 +26,6 @@ export default class NavigationItem extends React.Component {
 			types.node,
 			types.arrayOf(types.node)
 		]),
-		onClick: types.func,
 		type: types.string
 	};
 
@@ -36,54 +33,79 @@ export default class NavigationItem extends React.Component {
 		component: 'li',
 		active: false,
 		hidden: false,
-		linkTo: 'pattern',
-		onClick: () => {}
+		linkTo: 'pattern'
 	};
-
-	@autobind
-	handleClick(e) {
-		this.props.onClick(e, this);
-	}
 
 	render() {
 		const {props} = this;
-		const {component: Component} = props;
 
-		const modifiers = {
-			'child-active': props.active,
-			'hidden': props.hidden,
-			'anchored': props.anchored
-		};
+		if (props.hide && props.hidden) {
+			return null;
+		}
 
-		const itemClassName = classnames(`navigation-item navigation-item--${props.type}`, modifiers);
-		const linkClassName = classnames('navigation-link', modifiers);
-		const pathname = getPathName(props.base, props.linkTo, props.to || props.id);
-		const to = {pathname, query: omit(props.query, ['menu-enabled'])};
 		const title = props.title || `Navigate to ${props.name} ${props.type}`;
 		const symbol = props.active ? props.symbolActive : props.symbol;
 
 		return (
-			<Component className={itemClassName}>
-				<Link
-					onClick={this.handleClick}
-					to={to}
+			<StyledNavigationItem
+				active={props.active}
+				className={props.className}
+				type={props.type}
+				>
+				<StyledNavigationLink
+					active={props.active}
+					href={strip([props.linkTo, props.to || props.id].join('/'))}
+					type={props.type}
 					title={title}
-					className={linkClassName}
 					>
-					<Icon symbol={symbol}/>
+					<StyledIcon active={props.active} size="m" symbol={symbol}/>
 					<span>{props.name}</span>
-				</Link>
+				</StyledNavigationLink>
 				{
 					props.active && props.children
 				}
-			</Component>
+			</StyledNavigationItem>
 		);
 	}
 }
 
-function getPathName(...fragments) {
-	return strip(path.join(...fragments.filter(Boolean)));
-}
+const StyledIcon = styled(Icon)`
+	fill: ${props => props.theme.color};
+	${props => props.active && `fill: ${color(props.theme.active)}`};
+	margin: 5px 10px 5px 6px;
+`;
+
+const StyledNavigationItem = styled.div`
+	width: 100%;
+	box-sizing: border-box;
+	border-left: ${props => props.type === 'folder' && `3px solid transparent`};
+	margin-left: 1px;
+	background: ${props => props.theme.tint};
+	${props => props.active && `border-color: ${color(props.theme.active).fade(0.6).toString()}`};
+`;
+
+const LinkTag = tag(['active', 'type'])(Link);
+
+const StyledNavigationLink = styled(LinkTag)`
+	box-sizing: border-box;
+	display: flex;
+	width: 100%;
+	align-items: center;
+	text-decoration: none;
+	font-size: 16px;
+	line-height: 20px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	${props => props.active && `
+		margin-left: ${props.type === 'folder' ? '-3px' : '-4px'};
+		padding-left: ${props.type === 'folder' ? 0 : '1px'};
+		border-left: 3px solid ${props.theme.active};
+	`};
+	:link,
+	:visited {
+		color: ${props => props.theme.color};
+		${props => props.active && `color: ${color(props.theme.active)}`};
+	}
+`;
 
 function strip(b) {
 	return path.join(path.dirname(b), path.basename(b, path.extname(b)));

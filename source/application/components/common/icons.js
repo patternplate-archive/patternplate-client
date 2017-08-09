@@ -77,7 +77,15 @@ const command = [
 	'M8.375 14.25h7.25v1.5h-7.25zm-2.875-6H7v1.5H5.5zm2.875 0h1.5v1.5h-1.5zm2.875 0h1.5v1.5h-1.5zm5.75 0h1.5v1.5H17zm-2.875 0h1.5v1.5h-1.5zm-4.313 3h1.5v1.5h-1.5zm2.876 0h1.5v1.5h-1.5zm-7.188 0h2.938v1.5H5.5zm10.078 0h2.938v1.5h-2.938zm-10.078 3H7v1.5H5.5zm11.516 0h1.5v1.5h-1.5z'
 ];
 
-export default {
+const placeholder = [{
+	tagName: 'rect',
+	x: 0,
+	y: 0,
+	width: 24,
+	height: 24
+}];
+
+export const icons = {
 	'arrow-double-left': () => arrowDoubleLeft,
 	'arrow-double-right': () => arrowDoubleRight,
 	'arrow-left': () => arrowLeft,
@@ -116,6 +124,7 @@ export default {
 	'pattern': () => pattern,
 	'pattern-active': () => pattern,
 	'patternplate': () => patternplate,
+	'placeholder': () => placeholder,
 	'polymers': () => polymers,
 	'polymers-active': () => polymers,
 	'react': () => react,
@@ -124,6 +133,8 @@ export default {
 	'search': () => search,
 	'templates': () => templates
 };
+
+export const iconNames = Object.keys(icons);
 
 function checkers(inverted) {
 	const length = 20;

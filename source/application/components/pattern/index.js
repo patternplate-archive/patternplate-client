@@ -1,9 +1,23 @@
 import React, {PropTypes as t} from 'react';
+import styled from 'styled-components';
 
 import PatternDemo from './pattern-demo';
-import PatternHeader from './pattern-header';
-import PatternToolbar from './pattern-toolbar';
-import unwrap from '../../utils/unwrap';
+
+const StyledPattern = styled.div`
+	height: 100%;
+	width: 100%;
+	background: ${props => checkers(props)};
+	${() => `
+		background-size: 16px 16px;
+		background-position: 0 0, 8px 8px;`}
+`;
+
+const StyledPatternDemo = styled.div`
+	height: 100%;
+	width: 100%;
+	max-width: 1240px;
+	margin: 0 auto;
+`;
 
 export default class Pattern extends React.Component {
 	componentDidMount() {
@@ -12,32 +26,9 @@ export default class Pattern extends React.Component {
 
 	render() {
 		const {props} = this;
-		const onConcernChange = unwrap(props.onConcernChange, 'target.value');
-		const onEnvironmentChange = unwrap(props.onEnvironmentChange, 'target.value');
-		const onTypeChange = unwrap(props.onTypeChange, 'target.value');
-
 		return (
-			<div className="pattern-section">
-				<div className="pattern">
-					<PatternHeader
-						automount={props.automount}
-						base={props.base}
-						breadcrumbs={props.breadcrumbs}
-						environment={props.environment}
-						errored={props.errored}
-						flag={props.flag}
-						id={props.id}
-						loading={props.loading}
-						location={props.location}
-						name={props.name}
-						opacity={props.opacity}
-						reloadTime={props.reloadTime}
-						reloadedTime={props.reloadedTime}
-						rulers={props.rulers}
-						shortcuts={props.shortcuts}
-						tags={props.tags}
-						version={props.version}
-						/>
+			<StyledPattern>
+				<StyledPatternDemo>
 					<PatternDemo
 						base={props.base}
 						contentHeight={props.demoContentHeight}
@@ -49,7 +40,6 @@ export default class Pattern extends React.Component {
 						onReady={props.onDemoReady}
 						onResize={props.onDemoContentResize}
 						onScroll={props.onDemoScroll}
-						opacity={props.opacity}
 						reloadTime={props.reloadTime}
 						resize={props.resize}
 						resizeable={props.rulers}
@@ -61,26 +51,8 @@ export default class Pattern extends React.Component {
 						target={props.id}
 						width={props.demoWidth}
 						/>
-					<PatternToolbar
-						activeSource={props.activeSource}
-						base={props.base}
-						code={props.code}
-						dependencies={props.dependencies}
-						dependents={props.dependents}
-						environment={props.environment}
-						environments={props.environments}
-						id={props.id}
-						loading={props.loading}
-						location={props.location}
-						name={props.name}
-						onConcernChange={onConcernChange}
-						onEnvironmentChange={onEnvironmentChange}
-						onFileRequest={props.onFileRequest}
-						onTypeChange={onTypeChange}
-						expanded={props.sourceExpanded}
-						/>
-				</div>
-			</div>
+				</StyledPatternDemo>
+			</StyledPattern>
 		);
 	}
 }
@@ -159,3 +131,11 @@ Pattern.propTypes = {
 	version: t.string,
 	sourceExpanded: t.bool
 };
+
+function checkers(props) {
+	const fill = props.theme.border;
+	return `
+		linear-gradient(45deg, ${fill} 25%, transparent 25%, transparent 75%, ${fill} 75%, ${fill}),
+		linear-gradient(45deg, ${fill} 25%, transparent 25%, transparent 75%, ${fill} 75%, ${fill});
+	`;
+}

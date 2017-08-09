@@ -1,13 +1,12 @@
 import React, {PropTypes as t} from 'react';
-import join from 'classnames';
+import styled from 'styled-components';
 import render from './render';
 
 export default Markdown;
 
 function Markdown(props) {
-	const className = join('markdown', props.className);
 	return (
-		<div className={className}>
+		<StyledMarkdown>
 			{
 				render(props.source, {
 					base: props.base,
@@ -17,7 +16,7 @@ function Markdown(props) {
 					onHashChange: props.scrollTo
 				})
 			}
-		</div>
+		</StyledMarkdown>
 	);
 }
 
@@ -30,3 +29,7 @@ Markdown.propTypes = {
 	scrollTo: t.func.isRequired,
 	source: t.string
 };
+
+const StyledMarkdown = styled.div`
+
+`;
