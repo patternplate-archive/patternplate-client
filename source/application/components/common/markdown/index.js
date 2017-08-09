@@ -1,6 +1,11 @@
+import frontmatter from 'front-matter';
 import React, {PropTypes as t} from 'react';
+import remark from 'remark';
+import emoji from 'remark-gemoji-to-emoji';
+import reactRenderer from 'remark-react';
 import styled from 'styled-components';
-import render from './render';
+
+import MarkdownHeadline from './markdown-headline';
 
 export default Markdown;
 
@@ -8,13 +13,21 @@ function Markdown(props) {
 	return (
 		<StyledMarkdown>
 			{
-				render(props.source, {
-					base: props.base,
-					hash: props.hash,
-					query: props.query,
-					pathname: props.pathname,
-					onHashChange: props.scrollTo
-				})
+				remark()
+					.use(reactRenderer, {
+						sanitize: true,
+						remarkReactComponents: {
+							h1: is('h1')(MarkdownHeadline),
+							h2: is('h2')(MarkdownHeadline),
+							h3: is('h3')(MarkdownHeadline),
+							h4: is('h4')(MarkdownHeadline),
+							h5: is('h5')(MarkdownHeadline),
+							h6: is('h6')(MarkdownHeadline)
+						}
+					})
+					.use(emoji)
+					.processSync(frontmatter(props.source).body)
+					.contents
 			}
 		</StyledMarkdown>
 	);
@@ -33,3 +46,7 @@ Markdown.propTypes = {
 const StyledMarkdown = styled.div`
 
 `;
+
+function is(is) {
+	return Component => props => <Component is={is} {...props}/>;
+}

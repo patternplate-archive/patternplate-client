@@ -41,7 +41,8 @@ function mapProps(state, own) {
 	return {
 		href: url.format({
 			pathname: url.resolve(state.base, parsed.pathname),
-			query: {...location.query, ...parsed.query, ...query}
+			query: {...location.query, ...parsed.query, ...query},
+			hash: own.hash
 		}),
 		children: own.children,
 		className: own.className,

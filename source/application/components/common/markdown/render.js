@@ -45,7 +45,6 @@ function render(source, options) {
 	const sanitize = merge({}, gh);
 	sanitize.attributes = {
 		a: ['href', 'title'],
-		code: ['className'],
 		img: ['src', 'alt']
 	};
 
