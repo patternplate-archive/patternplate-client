@@ -29,10 +29,7 @@ function Navigation(props) {
 				</NavigationTree>
 			</StyledNavigationTree>
 			<StyledNavigationToolbar>
-				<NavigationToolbar
-					shortcuts={props.shortcuts}
-					theme={props.theme}
-					/>
+				<NavigationToolbar/>
 			</StyledNavigationToolbar>
 		</StyledNavigation>
 	);

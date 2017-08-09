@@ -126,7 +126,7 @@ function Lightbox(props) {
 }
 
 Lightbox.propTypes = {
-	id: t.string.isRequired
+	id: t.string
 };
 
 const StyledApplication = styled.div`

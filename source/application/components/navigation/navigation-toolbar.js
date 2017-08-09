@@ -1,4 +1,4 @@
-import React, {PropTypes as t} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import Icon from '../common/icon';
 import Indicator from '../../containers/indicator';
@@ -19,16 +19,6 @@ export default function NavigationToolbar() {
 		</StyledNavigationToolbar>
 	);
 }
-
-NavigationToolbar.propTypes = {
-	base: t.string.isRequired,
-	children: t.any,
-	expanded: t.bool.isRequired,
-	pathname: t.string.isRequired,
-	query: t.object.isRequired,
-	shortcuts: t.any,
-	theme: t.string.isRequired
-};
 
 function SettingsButton() {
 	return (

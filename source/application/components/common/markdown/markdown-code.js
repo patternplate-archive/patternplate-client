@@ -1,36 +1,12 @@
-import React, {PropTypes as t} from 'react';
+import styled from 'styled-components';
 import Code from '../code';
 
-export default MarkdownCode;
-
-function MarkdownCode(props) {
-	const language = parseLanguage(props.className);
-
-	if (!language) {
-		return (
-			<code>
-				{props.children}
-			</code>
-		);
-	}
-
-	const source = props.children.join('');
-	return (
-		<Code language={language}>
-			{source}
-		</Code>
-	);
-}
-
-MarkdownCode.propTypes = {
-	children: t.any.isRequired,
-	className: t.string
-};
-
-function parseLanguage(classNames = '') {
-	const matches = classNames.split(' ')
-		.map(className => className.split('-'))
-		.filter(entry => entry[0] === 'language')
-		.map(entry => entry[1]);
-	return matches[0];
-}
+export default styled(Code)`
+	display: inline;
+	padding: 0;
+	background: ${props => props.theme.backgroundSecondary};
+	border-radius: 3px;
+	font-size: 15.3px;
+	line-height: 23px;
+	padding: 3px;
+`;

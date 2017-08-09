@@ -10,14 +10,15 @@ function Code(props) {
 	const source = highlightCode(props.language, props.children);
 
 	return (
-		<StyledCode>
+		<StyledCode className={props.className}>
 			{source}
 		</StyledCode>
 	);
 }
 
 Code.propTypes = {
-	language: t.string.isRequired,
+	className: t.string,
+	language: t.string,
 	children: t.string.isRequired
 };
 
@@ -58,6 +59,7 @@ const StyledCode = styled.code`
 	overflow-x: auto;
 	padding: 0.5em;
 	color: ${themed('mono1')};
+	font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
 
 	.hljs-comment,
 	.hljs-quote {

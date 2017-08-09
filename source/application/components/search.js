@@ -355,6 +355,11 @@ Close.propTypes = {
 	shortcut: t.any
 };
 
+const StyledMarkdown = styled(Markdown)`
+	width: 80%;
+	margin: 0 auto;
+`;
+
 function ResultPreview(props) {
 	if (!props.item) {
 		return null;
@@ -363,7 +368,7 @@ function ResultPreview(props) {
 		case 'doc':
 			return (
 				<StyledResultPreview>
-					<Markdown source={props.item.contents}/>
+					<StyledMarkdown source={props.item.contents}/>
 				</StyledResultPreview>
 			);
 		default:

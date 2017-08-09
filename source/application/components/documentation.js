@@ -13,7 +13,8 @@ const ScrollBox = styled.div`
 const StyledDocumentation = styled.div`
 	margin: 0 auto;
 	width: 100%;
-	max-width: 900px;
+	max-width: 800px;
+	padding: 30px;
 `;
 
 function Documentation(props) {

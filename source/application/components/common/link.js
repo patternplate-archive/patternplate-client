@@ -40,7 +40,7 @@ function mapProps(state, own) {
 
 	return {
 		href: url.format({
-			pathname: url.resolve(state.base, parsed.pathname),
+			pathname: typeof parsed.pathname === 'string' ? url.resolve(state.base, parsed.pathname) : location.pathname,
 			query: {...location.query, ...parsed.query, ...query},
 			hash: own.hash
 		}),
@@ -69,5 +69,5 @@ LinkComponent.propTypes = {
 	className: t.string,
 	href: t.string.isRequired,
 	onClick: t.func,
-	title: t.string.isRequired
+	title: t.string
 };

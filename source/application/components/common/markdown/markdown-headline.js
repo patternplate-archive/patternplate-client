@@ -46,6 +46,9 @@ export default styled(MarkdownHeadline)`
 	&:hover ${StyledLink} {
 		display: block;
 	}
+	&:first-child {
+		margin-top: 0;
+	}
 `;
 
 function MarkdownHeadline(props) {
