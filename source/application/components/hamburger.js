@@ -12,7 +12,7 @@ function Hamburger(props) {
 			title={`${verb} navgiation ${props.shortcut.toString()}`}
 			to={{...props.location, query: {...props.location.query, 'navigation-enabled': !props.enabled}}}
 			>
-			<Icon
+			<StyledIcon
 				base={props.base}
 				symbol="menu"
 				/>
@@ -27,6 +27,10 @@ Hamburger.propTypes = {
 	location: t.any,
 	shortcut: t.any
 };
+
+const StyledIcon = styled(Icon)`
+	fill: ${props => props.theme.color};
+`;
 
 const StyledLink = styled(Link)`
 	font-size: 0;

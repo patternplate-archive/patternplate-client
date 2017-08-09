@@ -52,26 +52,26 @@ export default class Application extends Component {
 			<ThemeProvider theme={themes[props.theme]}>
 				<StyledApplication navigationEnabled={props.navigationEnabled}>
 					<Helmet meta={meta(props)} title={props.title}/>
-					<ThemeProvider theme={themes.dark}>
 						<StyledNavigationBox>
 							<StyledHamburgerBox>
 								<Hamburger/>
 							</StyledHamburgerBox>
-							<Navigation
-								activePattern={props.activePattern}
-								docs={props.docs}
-								hierarchy={props.hierarchy}
-								hide={props.hide}
-								icon={props.logo}
-								navigation={props.navigation}
-								pathname={props.pathname}
-								theme={props.theme}
-								shortcuts={props.shortcuts}
-								title={props.title}
-								version={props.version}
-								/>
+							<ThemeProvider theme={themes.dark}>
+								<Navigation
+									activePattern={props.activePattern}
+									docs={props.docs}
+									hierarchy={props.hierarchy}
+									hide={props.hide}
+									icon={props.logo}
+									navigation={props.navigation}
+									pathname={props.pathname}
+									theme={props.theme}
+									shortcuts={props.shortcuts}
+									title={props.title}
+									version={props.version}
+									/>
+							</ThemeProvider>
 						</StyledNavigationBox>
-					</ThemeProvider>
 					<StyledContent>
 						{props.children}
 						{props.searchEnabled &&
