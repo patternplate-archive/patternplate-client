@@ -26,14 +26,16 @@ const selectDocs = createSelector(
 	state => state.schema.docs,
 	state => state.id,
 	(tree, id) => {
-		tree.children.push({
-			contents: tree.contents,
-			href: '/',
-			id: tree.id,
-			manifest: tree.manifest,
-			path: ['/'],
-			type: 'doc'
-		});
+		if (!tree.children.some(i => i.id === 'root')) {
+			tree.children.push({
+				contents: tree.contents,
+				href: '/',
+				id: tree.id,
+				manifest: tree.manifest,
+				path: ['/'],
+				type: 'doc'
+			});
+		}
 
 		return sanitize(tree, {id, prefix: 'doc'});
 	}
