@@ -7,7 +7,6 @@ import Favicon from '../../containers/favicon';
 import Hamburger from '../../containers/hamburger';
 import Navigation from '../../containers/navigation';
 import Search from '../../containers/search';
-import * as themes from '../../themes';
 
 @autobind
 export default class Application extends Component {
@@ -50,7 +49,7 @@ export default class Application extends Component {
 		const {props} = this;
 
 		return (
-			<ThemeProvider theme={themes[props.theme]}>
+			<ThemeProvider theme={props.themes[props.theme]}>
 				<StyledApplication navigationEnabled={props.navigationEnabled}>
 					<Helmet meta={meta(props)} title={props.title}/>
 					<Favicon/>
@@ -60,7 +59,7 @@ export default class Application extends Component {
 						</StyledHamburgerBox>
 						{
 							props.navigationEnabled &&
-								<ThemeProvider theme={themes.dark}>
+								<ThemeProvider theme={props.themes.dark}>
 									<Navigation/>
 								</ThemeProvider>
 						}
@@ -68,7 +67,7 @@ export default class Application extends Component {
 					<StyledContent>
 						{props.children}
 						{props.searchEnabled &&
-							<ThemeProvider theme={themes.dark}>
+							<ThemeProvider theme={props.themes.dark}>
 								<StyledSearchBox>
 									<StyledSearchFrame>
 										<Search/>
@@ -93,6 +92,7 @@ Application.propTypes = {
 	onResize: t.func.isRequired,
 	searchEnabled: t.bool.isRequired,
 	theme: t.string.isRequired,
+	themes: t.any.isRequired,
 	title: t.string.isRequired
 };
 

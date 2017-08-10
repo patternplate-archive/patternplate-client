@@ -36,8 +36,6 @@ class Logo extends React.Component {
 			{rel: 'icon', href: svg.btoa(source), type: 'image/svg+xml'}
 		];
 
-		console.log(link);
-
 		return <Helmet link={link}/>;
 	}
 }

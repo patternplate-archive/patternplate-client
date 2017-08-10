@@ -30,7 +30,7 @@ const StyledDot = styled.div`
 	width: 7.5px;
 	margin-right: 5px;
 	border-radius: 50%;
-	background: ${props => props.status === 'error' ? 'rgb(205, 63, 69)' : '#42A5F5'};
+	background: ${props => props.status === 'error' ? 'rgb(205, 63, 69)' : props.theme.active};
 	transition: background .4s ease-in-out, opacity .5s ease-in;
 	opacity: ${props => props.status ? 1 : 0};
 	cursor: ${props => props.status ? 'pointer' : ''};
