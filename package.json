@@ -105,6 +105,7 @@
     "babel-polyfill": "^6.5.0",
     "babel-runtime": "^6.6.1",
     "boilerplate-server": "^0.12.1",
+    "btoa": "^1.1.2",
     "classnames": "^1.2.2",
     "color": "^2.0.0",
     "dom4": "^1.8.3",
@@ -170,7 +171,8 @@
     "unist-util-find-after": "^2.0.1",
     "unist-util-find-before": "^2.0.1",
     "unist-util-select": "^1.5.0",
-    "web-animations-js": "^2.2.2"
+    "web-animations-js": "^2.2.2",
+    "xmldom": "^0.1.27"
   },
   "devDependencies": {
     "babel-cli": "^6.11.4",

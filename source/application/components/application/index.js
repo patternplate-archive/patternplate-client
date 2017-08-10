@@ -3,6 +3,7 @@ import React, {Component, PropTypes as t} from 'react';
 import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
+import Favicon from '../../containers/favicon';
 import Hamburger from '../../containers/hamburger';
 import Navigation from '../../containers/navigation';
 import Search from '../../containers/search';
@@ -52,6 +53,7 @@ export default class Application extends Component {
 			<ThemeProvider theme={themes[props.theme]}>
 				<StyledApplication navigationEnabled={props.navigationEnabled}>
 					<Helmet meta={meta(props)} title={props.title}/>
+					<Favicon/>
 					<StyledNavigationBox>
 						<StyledHamburgerBox>
 							<Hamburger/>

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import NavigationTree from './navigation-tree';
 import NavigationToolbar from './navigation-toolbar';
+import Logo from '../../containers/logo';
 
 export default Navigation;
 
@@ -10,6 +11,7 @@ function Navigation(props) {
 	return (
 		<StyledNavigation>
 			<StyledNavigationTree>
+				<Logo/>
 				<NavigationTree
 					active={props.active}
 					data={props.navigation.children}
