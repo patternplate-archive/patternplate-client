@@ -2,7 +2,6 @@ import React, {PropTypes as t} from 'react';
 import styled from 'styled-components';
 
 import NavigationTree from './navigation-tree';
-import NavigationItem from './navigation-item';
 import NavigationToolbar from './navigation-toolbar';
 
 export default Navigation;
@@ -12,19 +11,17 @@ function Navigation(props) {
 		<StyledNavigation>
 			<StyledNavigationTree>
 				<NavigationTree
-					activePattern={props.activePattern}
+					active={props.active}
 					data={props.navigation.children}
 					hide={props.hide}
 					hierarchy={props.hierarchy}
-					pathname={props.pathname}
 					prefix="/pattern"
 					>
 					<Documentation
-						activePattern={props.activePattern}
+						active={props.active}
 						docs={props.docs}
 						hide={props.hide}
 						hierarchy={props.hierarchy}
-						pathname={props.pathname}
 						/>
 				</NavigationTree>
 			</StyledNavigationTree>
@@ -36,7 +33,7 @@ function Navigation(props) {
 }
 
 Navigation.propTypes = {
-	activePattern: t.string.isRequired,
+	active: t.string.isRequired,
 	docs: t.object.isRequired,
 	enabled: t.bool.isRequired,
 	hierarchy: t.object,
@@ -75,43 +72,23 @@ const StyledNavigationToolbar = styled.div`
 function Documentation(props) {
 	return (
 		<StyledDocumentationTree
-			active={props.pathname === '/' || props.pathname.indexOf('/doc') === 0}
-			activePattern={props.activePattern}
+			active={props.active}
 			className="docs-navigation"
 			data={props.docs.children}
 			hide={props.hide}
-			pathname={props.pathname}
 			prefix="/doc"
-			>
-			<StyledDocumentationItem
-				active={props.pathname === '/' || props.pathname === '/doc'}
-				hidden={false}
-				hide={props.hide}
-				id="/"
-				key="/"
-				linkTo=""
-				name={props.docs.manifest.displayName}
-				type="doc"
-				symbol="doc"
-				symbolActive="doc"
-				/>
-		</StyledDocumentationTree>
+			/>
 	);
 }
 
 Documentation.propTypes = {
-	activePattern: t.string.isRequired,
+	active: t.string.isRequired,
 	docs: t.object.isRequired,
-	hide: t.bool.isRequired,
-	pathname: t.string.isRequired
+	hide: t.bool.isRequired
 };
 
 const StyledDocumentationTree = styled(NavigationTree)`
 	margin-bottom: 5px;
 	border-bottom: 1px solid ${props => props.theme.border};
 	padding-bottom: 5px;
-`;
-
-const StyledDocumentationItem = styled(NavigationItem)`
-	padding-top: 5px;
 `;

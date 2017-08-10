@@ -12,7 +12,6 @@ export default composeReducers(
 	handleDependentActions({
 		'@@router/LOCATION_CHANGE': (state, {payload}, {schema}) => {
 			const id = getIdByPathname(payload.pathname, getBase(payload.pathname));
-
 			if (!id || !schema) {
 				return state;
 			}

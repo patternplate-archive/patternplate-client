@@ -99,7 +99,7 @@ function getLabel(props) {
 		case 'loading':
 			return 'syncing';
 		default:
-			return 'test';
+			return '';
 	}
 }
 

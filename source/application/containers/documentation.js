@@ -1,16 +1,12 @@
-import path from 'path';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import Documentation from '../components/documentation';
 
 export default connect(mapState)(Documentation);
 
-const selectId = state => state.doc;
-const selectDocs = state => state.schema.docs;
-
 const selectMatch = createSelector(
-	selectDocs,
-	selectId,
+	state => state.schema.docs,
+	state => state.id,
 	(docs, id) => find(docs, id)
 );
 
@@ -67,14 +63,14 @@ const selectDoc = createSelector(
 	selectNotFound,
 	(match, noDocs, notFound) => {
 		if (match && match.contents) {
-			return match;
+			return match.contents;
 		}
 
 		if (match && !match.contents) {
-			return {...match, contents: noDocs};
+			return noDocs;
 		}
 
-		return {id: 'root', contents: notFound};
+		return notFound;
 	}
 );
 
@@ -90,17 +86,18 @@ function find(tree, id, depth = 1) {
 		return tree;
 	}
 
-	const frags = id.split('/').filter(Boolean);
-	const sub = frags.slice(0, depth).map(strip);
-	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === strip(s)));
+	if (!id || !id.startsWith('doc/')) {
+		return null;
+	}
+
+	const frags = id.replace(/^doc\//, '').split('/').filter(Boolean);
+	const sub = frags.slice(0, depth);
+
+	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === s));
 
 	if (depth < frags.length) {
 		return find(match, id, depth + 1);
 	}
 
 	return match;
-}
-
-function strip(b) {
-	return path.basename(b, path.extname(b));
 }

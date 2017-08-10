@@ -90,7 +90,7 @@ export default class SearchField extends Component {
 		super(...args);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleKeyDown = this.handleKeyDown.bind(this);
-		this.handleStop = debounce(this.props.onStop, 100, {trailing: true});
+		this.handleStop = debounce(this.props.onStop, 300, {trailing: true});
 		this.timer = null;
 	}
 

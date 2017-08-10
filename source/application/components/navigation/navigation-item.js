@@ -1,4 +1,3 @@
-import path from 'path';
 import color from 'color';
 import React, {PropTypes as types} from 'react';
 import tag from 'tag-hoc';
@@ -13,7 +12,6 @@ export default class NavigationItem extends React.Component {
 		active: types.bool,
 		hidden: types.bool,
 		anchored: types.bool,
-		linkTo: types.string,
 		name: types.string.isRequired,
 		symbol: types.string.isRequired,
 		symbolActive: types.string,
@@ -32,8 +30,7 @@ export default class NavigationItem extends React.Component {
 	static defaultProps = {
 		component: 'li',
 		active: false,
-		hidden: false,
-		linkTo: 'pattern'
+		hidden: false
 	};
 
 	render() {
@@ -54,7 +51,7 @@ export default class NavigationItem extends React.Component {
 				>
 				<StyledNavigationLink
 					active={props.active}
-					href={strip([props.linkTo, props.to || props.id].join('/'))}
+					href={props.href}
 					type={props.type}
 					title={title}
 					>
@@ -106,7 +103,3 @@ const StyledNavigationLink = styled(LinkTag)`
 		${props => props.active && `color: ${color(props.theme.active)}`};
 	}
 `;
-
-function strip(b) {
-	return path.join(path.dirname(b), path.basename(b, path.extname(b)));
-}

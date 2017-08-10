@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 
 import Hamburger from '../../containers/hamburger';
-import Navigation from '../navigation';
+import Navigation from '../../containers/navigation';
 import Search from '../../containers/search';
 import * as themes from '../../themes';
 
@@ -52,26 +52,17 @@ export default class Application extends Component {
 			<ThemeProvider theme={themes[props.theme]}>
 				<StyledApplication navigationEnabled={props.navigationEnabled}>
 					<Helmet meta={meta(props)} title={props.title}/>
-						<StyledNavigationBox>
-							<StyledHamburgerBox>
-								<Hamburger/>
-							</StyledHamburgerBox>
-							<ThemeProvider theme={themes.dark}>
-								<Navigation
-									activePattern={props.activePattern}
-									docs={props.docs}
-									hierarchy={props.hierarchy}
-									hide={props.hide}
-									icon={props.logo}
-									navigation={props.navigation}
-									pathname={props.pathname}
-									theme={props.theme}
-									shortcuts={props.shortcuts}
-									title={props.title}
-									version={props.version}
-									/>
-							</ThemeProvider>
-						</StyledNavigationBox>
+					<StyledNavigationBox>
+						<StyledHamburgerBox>
+							<Hamburger/>
+						</StyledHamburgerBox>
+						{
+							props.navigationEnabled &&
+								<ThemeProvider theme={themes.dark}>
+									<Navigation/>
+								</ThemeProvider>
+						}
+					</StyledNavigationBox>
 					<StyledContent>
 						{props.children}
 						{props.searchEnabled &&
@@ -92,30 +83,15 @@ export default class Application extends Component {
 }
 
 Application.propTypes = {
-	activePattern: t.string.isRequired,
-	base: t.string.isRequired,
 	children: t.any,
 	description: t.string.isRequired,
-	docs: t.object.isRequired,
-	expanded: t.bool.isRequired,
-	hierarchy: t.object.isRequired,
-	hide: t.bool.isRequired,
-	issue: t.bool.isRequired,
 	lightbox: t.string,
-	logo: t.string.isRequired,
-	menuEnabled: t.bool.isRequired,
-	navigation: t.object.isRequired,
+	navigationEnabled: t.bool.isRequired,
 	onLoad: t.func.isRequired,
 	onResize: t.func.isRequired,
-	onThemeLoaded: t.func.isRequired,
-	pathname: t.string.isRequired,
-	query: t.object.isRequired,
+	searchEnabled: t.bool.isRequired,
 	theme: t.string.isRequired,
-	title: t.string.isRequired,
-	version: t.string.isRequired,
-	shortcuts: t.any.isRequired,
-	styles: t.arrayOf(t.string).isRequired,
-	themeLoading: t.bool.isRequired
+	title: t.string.isRequired
 };
 
 function Lightbox(props) {

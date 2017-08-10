@@ -12,12 +12,12 @@ import Search from '../components/search';
 const selectSearch = state => state.search;
 
 const selectDocs = createSelector(
-	state => state.schema.docs,
+	state => state.schema ? state.schema.docs : {},
 	flattenTree
 );
 
 const selectNavigation = createSelector(
-	state => state.schema.meta,
+	state => state.schema ? state.schema.meta : {},
 	flattenTree
 );
 
@@ -57,6 +57,24 @@ const selectMatches = createSelector(
 		const perform = apply(fuse, pool);
 		const query = parse(search);
 		return perform(query);
+	}
+);
+
+const selectSuggestion = createSelector(
+	state => state.searchValue,
+	selectPool,
+	(search, pool) => {
+		if (typeof search !== 'string' || search.length === 0) {
+			return '';
+		}
+
+		const match = pool.find(m => [m.id, m.name, m.manifest.displayName].some(k => k && k.startsWith(search)));
+
+		if (!match) {
+			return '';
+		}
+
+		return [match.id, match.name, match.manifest.displayName].find(k => k && k.startsWith(search)) || '';
 	}
 );
 
@@ -119,12 +137,6 @@ const selectFoundComponents = createSelector(
 	found => found.filter(f => f.type === 'pattern')
 );
 
-const selectSuggestion = createSelector(
-	selectSearch,
-	selectMatches,
-	(search, matches) => matches.find(m => m.startsWith(search))
-);
-
 const selectPreview = state => state.searchPreview;
 
 const selectActiveItem = createSelector(
@@ -179,37 +191,34 @@ function searchField(pool, {value, field}) {
 }
 
 function mapProps(state) {
-	const suggestion = selectSuggestion(state);
-
 	return {
 		activeItem: selectActiveItem(state),
 		base: state.base,
 		components: selectFoundComponents(state),
 		docs: selectFoundDocs(state),
 		enabled: state.searchEnabled,
-		location: state.routing.locationBeforeTransitions,
 		shortcuts: state.shortcuts,
-		value: state.search,
-		suggestion
+		value: state.searchValue,
+		suggestion: selectSuggestion(state)
 	};
 }
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
-		onChange: e => actions.search({persist: false, value: e.target.value}),
-		onClear: () => actions.search({persist: true, value: ''}),
-		onComplete: value => actions.search({persist: true, value}),
+		onChange: e => actions.search({persist: false, perform: false, value: e.target.value}),
+		onClear: () => actions.search({persist: true, perform: true, value: ''}),
+		onComplete: value => actions.search({persist: true, perform: true, value}),
 		onFocus: () => actions.toggleSearch({focus: true}),
 		onMount: () => actions.toggleSearch({sync: true}),
 		onNavigate: pathname => actions.patchLocation({pathname, query: {'search-enabled': false}}),
 		onSubmit: e => {
 			e.preventDefault();
-			return actions.search({persist: true, value: e.target.search.value});
+			return actions.search({persist: true, perform: true, value: e.target.search.value});
 		},
 		onUp: () => actions.searchPreview('up'),
 		onDown: () => actions.searchPreview('down'),
 		onActivate: index => actions.searchPreview(index),
-		onStop: e => actions.search({persist: true, value: e.target.value})
+		onStop: e => actions.search({persist: true, perform: true, value: e.target.value})
 	}, dispatch);
 }
 

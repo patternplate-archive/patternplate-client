@@ -16,40 +16,65 @@ import MarkdownItem from './markdown-item';
 import MarkdownList from './markdown-list';
 import MarkdownLink from './markdown-link';
 
-export default Markdown;
+export default class Markdown extends React.Component {
+	constructor(props, context) {
+		super(props, context);
+		this.state = props;
+	}
 
-function Markdown(props) {
-	return (
-		<StyledMarkdown className={props.className}>
-			{
-				remark()
-					.use(reactRenderer, {
-						sanitize: false,
-						remarkReactComponents: {
-							a: MarkdownLink,
-							blockquote: MarkdownBlockQuote,
-							code: MarkdownCode,
-							h1: is('h1')(MarkdownHeadline),
-							h2: is('h2')(MarkdownHeadline),
-							h3: is('h3')(MarkdownHeadline),
-							h4: is('h4')(MarkdownHeadline),
-							h5: is('h5')(MarkdownHeadline),
-							h6: is('h6')(MarkdownHeadline),
-							hr: MarkdownHr,
-							img: MarkdownImage,
-							li: MarkdownItem,
-							p: MarkdownCopy,
-							pre: MarkdownCodeBlock,
-							ul: is('ul')(MarkdownList),
-							ol: is('ol')(MarkdownList)
-						}
-					})
-					.use(emoji)
-					.processSync(frontmatter(props.source).body)
-					.contents
-			}
-		</StyledMarkdown>
-	);
+	componentWillUnmount() {
+		clearTimeout(this.timer);
+	}
+
+	componentWillReceiveProps(next) {
+		if (next.source === this.props.source) {
+			return;
+		}
+
+		clearTimeout(this.timer);
+
+		this.setState({
+			source: ''
+		});
+
+		setTimeout(() => this.setState(next));
+	}
+
+	render() {
+		const {props} = this;
+		return (
+			<StyledMarkdown className={props.className}>
+				{
+					this.state.source &&
+						remark()
+							.use(reactRenderer, {
+								sanitize: false,
+								remarkReactComponents: {
+									a: MarkdownLink,
+									blockquote: MarkdownBlockQuote,
+									code: MarkdownCode,
+									h1: is('h1')(MarkdownHeadline),
+									h2: is('h2')(MarkdownHeadline),
+									h3: is('h3')(MarkdownHeadline),
+									h4: is('h4')(MarkdownHeadline),
+									h5: is('h5')(MarkdownHeadline),
+									h6: is('h6')(MarkdownHeadline),
+									hr: MarkdownHr,
+									img: MarkdownImage,
+									li: MarkdownItem,
+									p: MarkdownCopy,
+									pre: MarkdownCodeBlock,
+									ul: is('ul')(MarkdownList),
+									ol: is('ol')(MarkdownList)
+								}
+							})
+							.use(emoji)
+							.processSync(frontmatter(this.state.source).body)
+							.contents
+				}
+			</StyledMarkdown>
+		);
+	}
 }
 
 Markdown.propTypes = {

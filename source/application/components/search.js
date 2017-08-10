@@ -86,7 +86,6 @@ export default class Search extends React.Component {
 							>
 							{props.enabled &&
 								<Close
-									location={props.location}
 									shortcut={props.shortcuts.close}
 									clears={String(props.value).length > 0}
 									/>
@@ -157,7 +156,6 @@ Search.propTypes = {
 	docs: t.array.isRequired,
 	enabled: t.bool.isRequired,
 	inline: t.bool,
-	location: t.object.isRequired,
 	onActivate: t.func.isRequired,
 	onBlur: t.func.isRequired,
 	onChange: t.func.isRequired,
@@ -351,7 +349,6 @@ function Close(props) {
 
 Close.propTypes = {
 	clears: t.bool,
-	location: t.object,
 	shortcut: t.any
 };
 

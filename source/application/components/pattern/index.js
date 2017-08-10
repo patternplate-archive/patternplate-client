@@ -48,7 +48,7 @@ export default class Pattern extends React.Component {
 						rulers={props.rulers}
 						rulerX={props.rulerX}
 						rulerY={props.rulerY}
-						target={props.id}
+						target={props.id.replace('pattern/', '')}
 						width={props.demoWidth}
 						/>
 				</StyledPatternDemo>
