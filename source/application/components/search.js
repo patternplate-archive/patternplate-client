@@ -213,7 +213,8 @@ const StyledResults = styled.div`
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: row;
-	overflow: hidden;
+	max-height: calc(75vh - 80px); /* ensure firefox scrolls result list */
+	/* overflow: hidden; position: sticky breaks when doing this*/
 `;
 
 const StyledResultPreview = styled.div`
