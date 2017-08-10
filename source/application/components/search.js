@@ -231,6 +231,7 @@ const StyledResultList = styled.div`
 
 const StyledResultHeading = styled(Text)`
 	box-sizing: border-box;
+	position: -webkit-sticky;
 	position: sticky;
 	z-index: 1;
 	top: 0;
