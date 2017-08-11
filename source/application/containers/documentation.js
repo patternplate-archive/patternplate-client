@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import Documentation from '../components/documentation';
+import find from '../utils/find';
 import themes from '../themes';
 
 export default connect(mapState)(Documentation);
@@ -8,7 +9,7 @@ export default connect(mapState)(Documentation);
 const selectMatch = createSelector(
 	state => state.schema.docs,
 	state => state.id,
-	(docs, id) => find(docs, id)
+	(docs, id) => find(docs, id, {type: 'doc'})
 );
 
 const selectNotFound = createSelector(
@@ -99,25 +100,4 @@ function mapState(state) {
 		themes: selectThemes(state),
 		type: selectType(state)
 	};
-}
-
-function find(tree, id, depth = 1) {
-	if (id === '/') {
-		return tree;
-	}
-
-	if (!id || !id.startsWith('doc/')) {
-		return null;
-	}
-
-	const frags = id.replace(/^doc\//, '').split('/').filter(Boolean);
-	const sub = frags.slice(0, depth);
-
-	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === s));
-
-	if (match && depth < frags.length) {
-		return find(match, id, depth + 1);
-	}
-
-	return match;
 }

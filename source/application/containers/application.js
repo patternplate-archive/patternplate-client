@@ -16,6 +16,7 @@ const selectThemes = createSelector(
 function mapProps(state) {
 	return {
 		description: state.schema.description,
+		infoEnabled: state.infoEnabled,
 		lightbox: state.lightbox,
 		navigationEnabled: state.navigationEnabled,
 		searchEnabled: state.searchEnabled,

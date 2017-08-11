@@ -4,6 +4,8 @@ import connection from './connection';
 import depth from './depth';
 import demoContentDimensions from './demo-content-dimensions';
 import demoDimensions from './demo-dimensions';
+import dependenciesEnabled from './dependencies-enabled';
+import dependentsEnabled from './dependents-enabled';
 import environment from './environment';
 import expanded from './expanded';
 import fetching from './fetching';
@@ -41,6 +43,8 @@ export default {
 	connection,
 	demoContentDimensions,
 	demoDimensions,
+	dependenciesEnabled,
+	dependentsEnabled,
 	depth,
 	environment,
 	expanded,

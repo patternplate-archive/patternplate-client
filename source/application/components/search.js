@@ -22,7 +22,9 @@ export default class Search extends React.Component {
 	}
 
 	componentDidMount() {
-		this.props.onMount();
+		if (typeof this.props.onMount === 'function') {
+			this.props.onMount();
+		}
 	}
 
 	handleActivate(e) {

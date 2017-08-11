@@ -22,7 +22,7 @@ function Info(props) {
 Info.propTypes = {
 	enabled: t.bool,
 	location: t.any,
-	shortcut: t.any,
+	shortcut: t.any
 };
 
 const StyledIcon = styled(Icon)`

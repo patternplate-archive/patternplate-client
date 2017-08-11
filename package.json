@@ -141,6 +141,7 @@
     "react-addons-shallow-compare": "15.3.1",
     "react-addons-text-content": "0.0.4",
     "react-dom": "^15.6.1",
+    "react-draggable": "^2.2.6",
     "react-helmet": "^3.1.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.6.1",

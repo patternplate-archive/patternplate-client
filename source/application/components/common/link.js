@@ -56,7 +56,6 @@ function mapDispatch(dispatch, own) {
 		onClick(e, href) {
 			if (own.onClick) {
 				own.onClick(e);
-				return;
 			}
 			e.preventDefault();
 			return push(href);

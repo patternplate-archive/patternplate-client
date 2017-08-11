@@ -1,5 +1,6 @@
 import autobind from 'autobind-decorator';
 import React, {Component, PropTypes as t} from 'react';
+import Draggable from 'react-draggable';
 import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
@@ -7,6 +8,7 @@ import tag from 'tag-hoc';
 import Favicon from '../../containers/favicon';
 import Hamburger from '../../containers/hamburger';
 import Info from '../../containers/info';
+import InfoPane from '../../containers/info-pane';
 import Navigation from '../../containers/navigation';
 import Search from '../../containers/search';
 
@@ -78,6 +80,16 @@ export default class Application extends Component {
 										<Search/>
 									</StyledSearchFrame>
 								</StyledSearchBox>
+							</ThemeProvider>
+						}
+						{props.infoEnabled &&
+							<ThemeProvider theme={props.themes.dark}>
+								<Draggable
+									axis="both"
+									bounds="parent"
+									>
+									<InfoPane/>
+								</Draggable>
 							</ThemeProvider>
 						}
 					</StyledContent>

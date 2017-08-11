@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
+import find from '../utils/find';
 import Pattern from '../components/pattern';
 
 import * as actions from '../actions';
@@ -39,7 +40,7 @@ Help us to make this message more helpful on [GitHub](https://github.com/sinners
 const selectPattern = createSelector(
 	state => state.schema.meta,
 	state => state.id,
-	(meta, id) => find(meta, id)
+	(meta, id) => find(meta, id, {type: 'pattern'})
 );
 
 const selectType = createSelector(
@@ -79,25 +80,4 @@ function mapDispatch(dispatch) {
 		onDemoError: actions.patternDemoError,
 		onDemoReady: actions.patternDemoLoaded
 	}, dispatch);
-}
-
-function find(tree, id, depth = 1) {
-	if (id === '/') {
-		return tree;
-	}
-
-	if (!id || !id.startsWith('pattern/')) {
-		return null;
-	}
-
-	const frags = id.replace(/^pattern\//, '').split('/').filter(Boolean);
-	const sub = frags.slice(0, depth);
-
-	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === s));
-
-	if (match && depth < frags.length) {
-		return find(match, id, depth + 1);
-	}
-
-	return match;
 }
