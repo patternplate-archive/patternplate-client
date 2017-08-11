@@ -8,7 +8,7 @@ import environment from './environment';
 import expanded from './expanded';
 import fetching from './fetching';
 import id from './id';
-import issue from './issue';
+import infoEnabled from './info-enabled';
 import lightbox from './lightbox';
 import messages from './messages';
 import navigationEnabled from './navigation-enabled';
@@ -47,7 +47,7 @@ export default {
 	fetching,
 	hide,
 	id,
-	issue,
+	infoEnabled,
 	lightbox,
 	messages,
 	navigationEnabled,

@@ -191,6 +191,7 @@ const StyledForm = styled.form`
 	display: flex;
 	flex-direction: column;
 	position: relative;
+	z-index: 2;
 	width: 100%;
 	max-height: 75vh;
 	&::before {

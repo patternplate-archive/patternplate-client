@@ -6,6 +6,7 @@ import tag from 'tag-hoc';
 
 import Favicon from '../../containers/favicon';
 import Hamburger from '../../containers/hamburger';
+import Info from '../../containers/info';
 import Navigation from '../../containers/navigation';
 import Search from '../../containers/search';
 
@@ -56,14 +57,17 @@ export default class Application extends Component {
 					<Favicon/>
 					<ThemeProvider theme={props.themes.dark}>
 						<StyledNavigationBox enabled={props.navigationEnabled}>
-							<StyledHamburgerBox enabled={props.navigationEnabled}>
-								<Hamburger/>
-							</StyledHamburgerBox>
 							{
 								props.navigationEnabled &&
 									<Navigation/>
 							}
 						</StyledNavigationBox>
+					</ThemeProvider>
+					<ThemeProvider theme={props.themes.dark}>
+						<StyledControlsBox enabled={props.navigationEnabled}>
+							<Hamburger/>
+							<Info/>
+						</StyledControlsBox>
 					</ThemeProvider>
 					<StyledContent navigationEnabled={props.navigationEnabled}>
 						{props.children}
@@ -116,18 +120,20 @@ const StyledApplication = styled.div`
 	background: ${props => props.theme.background};
 `;
 
-const StyledHamburgerBox = styled.div`
-	position: absolute;
-	left: ${props => props.enabled ? '315px' : '15px'};
-	top: 10px;
-`;
-
 const StyledNavigationBox = styled(tag(['enabled'])('div'))`
 	position: relative;
 	z-index: 2;
 	height: 100%;
 	width: ${props => props.enabled ? '300px' : 0};
 	flex: 0 0 ${props => props.enabled ? '300px' : 0};
+`;
+
+const StyledControlsBox = styled.div`
+	position: relative;
+	z-index: 2;
+	box-sizing: border-box;
+	flex: 0 0 60px;
+	padding: 15px;
 `;
 
 const StyledContent = styled.div`

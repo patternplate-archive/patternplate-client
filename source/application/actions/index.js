@@ -26,7 +26,7 @@ export searchPreview from './search-preview';
 export themeLoaded from './theme-loaded';
 export toggleConsole from './toggle-console';
 export toggleHide from './toggle-hide';
-export toggleIssue from './toggle-issue';
+export toggleInfo from './toggle-info';
 export toggleKeyboardShortcuts from './toggle-keyboard-shortcuts';
 export toggleNavigation from './toggle-navigation';
 export toggleOpacity from './toggle-opacity';

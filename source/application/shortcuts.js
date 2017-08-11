@@ -34,10 +34,10 @@ function createShortcuts() {
 		action: actions.toggleHide
 	});
 
-	bind.toggleIssue = new Shortcut({
+	bind.info = new Shortcut({
 		character: 'i',
-		description: 'Toggle issue reportng helper',
-		action: actions.toggleIssue
+		description: 'Toggle info pattern',
+		action: actions.toggleInfo
 	});
 
 	bind.toggleOpacity = new Shortcut({

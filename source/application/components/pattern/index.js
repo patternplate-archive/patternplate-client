@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 import Markdown from '../common/markdown';
 import PatternDemo from './pattern-demo';
@@ -9,11 +9,22 @@ const StyledPattern = styled.div`
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	padding-left: 60px;
-	background: ${props => checkers(props)};
-	${() => `
-		background-size: 16px 16px;
-		background-position: 0 0, 8px 8px;`}
+	&::before {
+		${() => css`
+			content: '';
+			position: absolute;
+			z-index: 1;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: -60px;
+			width: calc(100% + 60px);
+			height: 100%;
+			background: ${props => checkers(props)};
+			background-size: 16px 16px;
+			background-position: 0 0, 8px 8px;
+		`}
+	}
 `;
 
 const StyledPatternFolder = styled.div`
@@ -30,6 +41,8 @@ const StyledPatternDoc = styled.div`
 `;
 
 const StyledPatternDemo = styled.div`
+	position: relative;
+	z-index: 2;
 	width: 100%;
 	height: 100%;
 	max-width: 1240px;
