@@ -54,11 +54,7 @@ const StyledInputSuggestion = styled(p => <StyledInput {...p} readOnly/>)`
 
 export default class SearchField extends Component {
 	static propTypes = {
-		base: types.string.isRequired,
-		blur: types.func.isRequired,
 		className: types.string,
-		component: types.node,
-		linkTo: types.string.isRequired,
 		name: types.string.isRequired,
 		onBlur: types.func,
 		onChange: types.func,
@@ -77,7 +73,6 @@ export default class SearchField extends Component {
 
 	static defaultProps = {
 		blur: () => {},
-		component: 'div',
 		onChange: () => {},
 		onFocus: () => {},
 		onUp: () => {},
@@ -130,10 +125,7 @@ export default class SearchField extends Component {
 
 		return (
 			<StyledSearchField>
-				<StyledIcon
-					base={props.base}
-					symbol="search"
-					/>
+				<StyledIcon symbol="search"/>
 				<StyledInputContainer>
 					<StyledInputSuggestion
 						value={props.suggestion || ''}

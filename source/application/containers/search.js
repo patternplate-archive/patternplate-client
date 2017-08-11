@@ -192,14 +192,13 @@ function searchField(pool, {value, field}) {
 
 function mapProps(state) {
 	return {
-		activeItem: selectActiveItem(state),
-		base: state.base,
-		components: selectFoundComponents(state),
-		docs: selectFoundDocs(state),
-		enabled: state.searchEnabled,
-		shortcuts: state.shortcuts,
-		value: state.searchValue,
-		suggestion: selectSuggestion(state)
+		activeItem: selectActiveItem(state), // used for highloght in list
+		components: selectFoundComponents(state), // list of components matching state.components
+		docs: selectFoundDocs(state), // list of docs matching state.search
+		enabled: state.searchEnabled, // if search is to be displayed
+		shortcuts: state.shortcuts, // reference to global shortcuts for help texts
+		suggestion: selectSuggestion(state), // the backdrop search suggestion string
+		value: state.searchValue // the synchronous search input value
 	};
 }
 

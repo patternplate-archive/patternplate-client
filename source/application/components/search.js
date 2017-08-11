@@ -67,7 +67,6 @@ export default class Search extends React.Component {
 				<StyledForm onSubmit={this.handleSubmit} method="GET">
 					<StyledSearchFieldBox>
 						<SearchField
-							base={props.base}
 							className="navigation__search-field"
 							linkTo="/search"
 							name="search"
@@ -117,7 +116,7 @@ export default class Search extends React.Component {
 										))
 									}
 									{withComponents > 0 &&
-										<StyledResultHeading>
+										<StyledResultHeading navigationEnabled={props.navigationEnabled}>
 											Components ({props.components.length})
 										</StyledResultHeading>
 									}
@@ -151,7 +150,6 @@ export default class Search extends React.Component {
 
 Search.propTypes = {
 	activeItem: t.any.string,
-	base: t.string.isRequired,
 	components: t.array.isRequired,
 	docs: t.array.isRequired,
 	enabled: t.bool.isRequired,
@@ -160,12 +158,12 @@ Search.propTypes = {
 	onBlur: t.func.isRequired,
 	onChange: t.func.isRequired,
 	onComplete: t.func.isRequired,
+	onDown: t.func.isRequired,
 	onFocus: t.func,
 	onMount: t.func.isRequired,
-	onUp: t.func.isRequired,
-	onDown: t.func.isRequired,
 	onNavigate: t.func.isRequired,
 	onSubmit: t.func.isRequired,
+	onUp: t.func.isRequired,
 	suggestion: t.string,
 	value: t.string.isRequired
 };
@@ -286,7 +284,6 @@ const StyledResult = styled.div`
 		opacity: 1;
 	}
 `;
-
 
 function Result(props) {
 	return (
