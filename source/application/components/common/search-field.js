@@ -141,7 +141,7 @@ export default class SearchField extends Component {
 						title={props.title}
 						type="text"
 						value={props.value}
-						data-search
+						data-search={props.mark}
 						/>
 				</StyledInputContainer>
 				{props.children}

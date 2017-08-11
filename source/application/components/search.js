@@ -8,6 +8,9 @@ import Link from './common/link';
 import Markdown from './common/markdown';
 import SearchField from './common/search-field';
 import Text from './text';
+import Outside from './outside';
+
+const NOOP = () => {};
 
 export default class Search extends React.Component {
 	constructor(...args) {
@@ -58,10 +61,13 @@ export default class Search extends React.Component {
 		const {props} = this;
 		const withComponents = props.components.length > 0;
 		const withDocs = props.docs.length > 0;
+
 		return (
 			<StyledFormBox
 				enabled={props.enabled}
 				inline={props.inline}
+				onClickOutside={props.inline || !props.enabled ? NOOP : props.onClickOutside}
+				onClick={props.inline && !props.enabled ? props.onFocus : NOOP}
 				value={props.value}
 				>
 				<StyledForm onSubmit={this.handleSubmit} method="GET">
@@ -69,15 +75,16 @@ export default class Search extends React.Component {
 						<SearchField
 							className="navigation__search-field"
 							linkTo="/search"
-							name="search"
-							onBlur={props.onBlur}
-							onChange={props.onChange}
-							onClear={props.onClear}
-							onComplete={props.onComplete}
-							onFocus={props.onFocus}
-							onStop={props.onStop}
-							onUp={this.handleUp}
-							onDown={this.handleDown}
+							mark={props.inline ? null : true}
+							name={props.inline ? 'inline-search' : 'search'}
+							onBlur={props.inline ? NOOP : props.onBlur}
+							onChange={props.inline ? NOOP : props.onChange}
+							onClear={props.inline ? NOOP : props.onClear}
+							onComplete={props.inline ? NOOP : props.onComplete}
+							onFocus={props.inline ? NOOP : props.onFocus}
+							onStop={props.inline ? NOOP : props.onStop}
+							onUp={props.inline ? NOOP : this.handleUp}
+							onDown={props.inline ? NOOP : this.handleDown}
 							placeholder="Search"
 							suggestion={props.suggestion}
 							title={`Search for patterns ${props.shortcuts.toggleSearch.toString()}`}
@@ -157,6 +164,7 @@ Search.propTypes = {
 	onActivate: t.func.isRequired,
 	onBlur: t.func.isRequired,
 	onChange: t.func.isRequired,
+	onClickOutside: t.func.isRequired,
 	onComplete: t.func.isRequired,
 	onDown: t.func.isRequired,
 	onFocus: t.func,
@@ -168,13 +176,15 @@ Search.propTypes = {
 	value: t.string.isRequired
 };
 
-const StyledFormBox = styled.div`
+const StyledFormBox = styled(tag(['inline', 'enabled'])(Outside))`
 	width: 100%;
 	height: 100%;
 	border-radius: 10px;
 	overflow: hidden;
 	pointer-events: all;
 	overflow: hidden;
+	margin: ${props => props.inline ? `calc(12.5vh - 30px) 0 60px 0` : 'none'};
+	opacity: ${props => props.inline && props.enabled ? '0' : '1'};
 `;
 
 const StyledForm = styled.form`

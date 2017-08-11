@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import Markdown from '../common/markdown';
 import PatternDemo from './pattern-demo';
+import Search from '../../containers/search';
 
 const StyledPattern = styled.div`
 	height: 100%;
@@ -23,6 +24,7 @@ const StyledPatternDoc = styled.div`
 	max-width: 800px;
 	margin: 0 auto;
 	padding: 30px;
+	box-sizing: border-box;
 `;
 
 const StyledPatternDemo = styled.div`
@@ -54,10 +56,19 @@ export default class Pattern extends React.Component {
 					</StyledPattern>
 				);
 			case 'folder':
+				return (
+					<StyledPatternFolder>
+						<StyledPatternDoc>
+							<Markdown source={props.contents}/>
+						</StyledPatternDoc>
+					</StyledPatternFolder>
+				);
+			case 'not-found':
 			default:
 				return (
 					<StyledPatternFolder>
 						<StyledPatternDoc>
+							<Search inline/>
 							<Markdown source={props.contents}/>
 						</StyledPatternDoc>
 					</StyledPatternFolder>

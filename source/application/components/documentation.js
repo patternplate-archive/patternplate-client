@@ -1,11 +1,16 @@
 import React, {PropTypes as t} from 'react';
 import styled from 'styled-components';
+
+import Search from '../containers/search';
 import Markdown from '../containers/markdown';
 
 export default function Documentation(props) {
 	return (
 		<ScrollBox>
 			<StyledDocumentation>
+				{props.type === 'not-found' &&
+					<Search inline/>
+				}
 				<Markdown source={props.doc}/>
 			</StyledDocumentation>
 		</ScrollBox>
@@ -13,7 +18,8 @@ export default function Documentation(props) {
 }
 
 Documentation.propTypes = {
-	doc: t.string.isRequired
+	doc: t.string.isRequired,
+	type: t.string.isRequired
 };
 
 const ScrollBox = styled.div`

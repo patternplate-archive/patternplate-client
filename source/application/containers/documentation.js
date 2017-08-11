@@ -1,6 +1,7 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import Documentation from '../components/documentation';
+import themes from '../themes';
 
 export default connect(mapState)(Documentation);
 
@@ -74,10 +75,29 @@ const selectDoc = createSelector(
 	}
 );
 
+const selectType = createSelector(
+	selectMatch,
+	match => {
+		if (match && match.contents) {
+			return 'doc';
+		}
+		if (match && !match.contents) {
+			return 'fallback';
+		}
+		return 'not-found';
+	}
+);
+
+const selectThemes = createSelector(
+	state => state.config.color,
+	color => themes(color)
+);
+
 function mapState(state) {
 	return {
-		base: state.base,
-		doc: selectDoc(state)
+		doc: selectDoc(state),
+		themes: selectThemes(state),
+		type: selectType(state)
 	};
 }
 
