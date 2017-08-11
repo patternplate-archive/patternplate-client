@@ -2,6 +2,7 @@ import autobind from 'autobind-decorator';
 import React, {Component, PropTypes as t} from 'react';
 import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
+import tag from 'tag-hoc';
 
 import Favicon from '../../containers/favicon';
 import Hamburger from '../../containers/hamburger';
@@ -50,21 +51,21 @@ export default class Application extends Component {
 
 		return (
 			<ThemeProvider theme={props.themes[props.theme]}>
-				<StyledApplication navigationEnabled={props.navigationEnabled}>
+				<StyledApplication>
 					<Helmet meta={meta(props)} title={props.title}/>
 					<Favicon/>
-					<StyledNavigationBox>
-						<StyledHamburgerBox>
-							<Hamburger/>
-						</StyledHamburgerBox>
-						{
-							props.navigationEnabled &&
-								<ThemeProvider theme={props.themes.dark}>
+					<ThemeProvider theme={props.themes.dark}>
+						<StyledNavigationBox enabled={props.navigationEnabled}>
+							<StyledHamburgerBox enabled={props.navigationEnabled}>
+								<Hamburger/>
+							</StyledHamburgerBox>
+							{
+								props.navigationEnabled &&
 									<Navigation/>
-								</ThemeProvider>
-						}
-					</StyledNavigationBox>
-					<StyledContent>
+							}
+						</StyledNavigationBox>
+					</ThemeProvider>
+					<StyledContent navigationEnabled={props.navigationEnabled}>
 						{props.children}
 						{props.searchEnabled &&
 							<ThemeProvider theme={props.themes.dark}>
@@ -110,28 +111,28 @@ Lightbox.propTypes = {
 const StyledApplication = styled.div`
 	box-sizing: border-box;
 	display: flex;
-	width: calc(100% + ${props => props.navigationEnabled === true ? 0 : '300px'});
+	width: 100%;
 	height: 100%;
 	background: ${props => props.theme.background};
-	transform: translateX(${props => props.navigationEnabled === true ? 0 : '-300px'});
 `;
 
 const StyledHamburgerBox = styled.div`
 	position: absolute;
-	left: 315px;
+	left: ${props => props.enabled ? '315px' : '15px'};
 	top: 10px;
 `;
 
-const StyledNavigationBox = styled.div`
+const StyledNavigationBox = styled(tag(['enabled'])('div'))`
 	position: relative;
 	z-index: 2;
-	flex: 0 0 300px;
-	width: 300px;
 	height: 100%;
+	width: ${props => props.enabled ? '300px' : 0};
+	flex: 0 0 ${props => props.enabled ? '300px' : 0};
 `;
 
 const StyledContent = styled.div`
-	width: 100%;
+	flex: 1 1 ${props => props.navigationEnabled ? 'calc(100% - 300px)' : '100%'};
+	width: ${props => props.navigationEnabled ? 'calc(100% - 300px)' : '100%'};
 	height: 100%;
 	position: relative;
 `;

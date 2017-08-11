@@ -6,8 +6,10 @@ import PatternDemo from './pattern-demo';
 import Search from '../../containers/search';
 
 const StyledPattern = styled.div`
+	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
+	padding-left: 60px;
 	background: ${props => checkers(props)};
 	${() => `
 		background-size: 16px 16px;

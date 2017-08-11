@@ -29,7 +29,7 @@ Hamburger.propTypes = {
 };
 
 const StyledIcon = styled(Icon)`
-	fill: ${props => props.theme.color};
+	fill: ${props => props.theme.tint};
 `;
 
 const StyledLink = styled(Link)`
