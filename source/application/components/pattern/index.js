@@ -1,16 +1,17 @@
 import React, {PropTypes as t} from 'react';
 import styled, {css} from 'styled-components';
+import tag from 'tag-hoc';
 
 import Markdown from '../common/markdown';
 import PatternDemo from './pattern-demo';
 import Search from '../../containers/search';
 
-const StyledPattern = styled.div`
+const StyledPattern = styled(tag(['checkers'])('div'))`
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	&::before {
-		${() => css`
+	${props => props.checkers && css`
+		&::before {
 			content: '';
 			position: absolute;
 			z-index: 1;
@@ -55,7 +56,7 @@ export default class Pattern extends React.Component {
 		switch (props.type) {
 			case 'pattern':
 				return (
-					<StyledPattern>
+					<StyledPattern checkers={props.opacity}>
 						<StyledPatternDemo>
 							<PatternDemo
 								base={props.base}
@@ -94,6 +95,7 @@ export default class Pattern extends React.Component {
 
 Pattern.propTypes = {
 	id: t.string.isRequired,
+	opacity: t.bool.isRequired,
 	pattern: t.any.isRequired,
 	type: t.string.isRequired,
 	contents: t.string

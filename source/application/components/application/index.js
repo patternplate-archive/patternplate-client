@@ -10,6 +10,7 @@ import Hamburger from '../../containers/hamburger';
 import Info from '../../containers/info';
 import InfoPane from '../../containers/info-pane';
 import Navigation from '../../containers/navigation';
+import Opacity from '../../containers/opacity';
 import Search from '../../containers/search';
 
 @autobind
@@ -69,6 +70,7 @@ export default class Application extends Component {
 						<StyledControlsBox enabled={props.navigationEnabled}>
 							<Hamburger/>
 							<Info/>
+							<Opacity/>
 						</StyledControlsBox>
 					</ThemeProvider>
 					<StyledContent navigationEnabled={props.navigationEnabled}>

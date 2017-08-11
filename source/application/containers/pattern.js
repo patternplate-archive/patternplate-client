@@ -69,6 +69,7 @@ function mapState(state) {
 		base: state.base,
 		contents: selectContents(state),
 		id: state.id || '',
+		opacity: state.opacity,
 		pattern: selectPattern(state),
 		reloadTime: selectReloadTime(state),
 		type: selectType(state)
