@@ -108,7 +108,7 @@ function enrich(child, {id, config, prefix}) {
 	}
 
 	// If there is no special content in a folder show the first child
-	if (child.children && (!child.contents || !frontmatter(child.contents).body)) {
+	if (child.children && child.children.length > 0 && (!child.contents || !frontmatter(child.contents).body)) {
 		child.href = child.children[0].href;
 	}
 

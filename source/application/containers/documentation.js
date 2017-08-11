@@ -95,7 +95,7 @@ function find(tree, id, depth = 1) {
 
 	const match = tree.children.find(child => child.path.every((s, i) => sub[i] === s));
 
-	if (depth < frags.length) {
+	if (match && depth < frags.length) {
 		return find(match, id, depth + 1);
 	}
 

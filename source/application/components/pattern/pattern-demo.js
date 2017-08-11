@@ -82,4 +82,11 @@ PatternDemo.propTypes = {
 	width: types.number
 };
 
+PatternDemo.defaultProps = {
+	onError: () => {},
+	onLoad: () => {},
+	onResize: () => {},
+	onScroll: () => {}
+};
+
 export default PatternDemo;

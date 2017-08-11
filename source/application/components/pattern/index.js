@@ -1,6 +1,7 @@
 import React, {PropTypes as t} from 'react';
 import styled from 'styled-components';
 
+import Markdown from '../common/markdown';
 import PatternDemo from './pattern-demo';
 
 const StyledPattern = styled.div`
@@ -12,53 +13,65 @@ const StyledPattern = styled.div`
 		background-position: 0 0, 8px 8px;`}
 `;
 
-const StyledPatternDemo = styled.div`
+const StyledPatternFolder = styled.div`
 	height: 100%;
 	width: 100%;
+`;
+
+const StyledPatternDoc = styled.div`
+	width: 100%;
+	max-width: 800px;
+	margin: 0 auto;
+	padding: 30px;
+`;
+
+const StyledPatternDemo = styled.div`
+	width: 100%;
+	height: 100%;
 	max-width: 1240px;
 	margin: 0 auto;
 `;
 
 export default class Pattern extends React.Component {
-	componentDidMount() {
-		this.props.onMount();
-	}
-
 	render() {
 		const {props} = this;
-		return (
-			<StyledPattern>
-				<StyledPatternDemo>
-					<PatternDemo
-						base={props.base}
-						contentHeight={props.demoContentHeight}
-						contentWidth={props.demoContentWidth}
-						environment={props.environment}
-						height={props.demoHeight}
-						loading={props.loading}
-						onError={props.onDemoError}
-						onReady={props.onDemoReady}
-						onResize={props.onDemoContentResize}
-						onScroll={props.onDemoScroll}
-						reloadTime={props.reloadTime}
-						resize={props.resize}
-						resizeable={props.rulers}
-						rulerLengthX={props.rulerLengthX}
-						rulerLengthY={props.rulerLengthY}
-						rulers={props.rulers}
-						rulerX={props.rulerX}
-						rulerY={props.rulerY}
-						target={props.id.replace('pattern/', '')}
-						width={props.demoWidth}
-						/>
-				</StyledPatternDemo>
-			</StyledPattern>
-		);
+		switch (props.type) {
+			case 'pattern':
+				return (
+					<StyledPattern>
+						<StyledPatternDemo>
+							<PatternDemo
+								base={props.base}
+								height={props.demoHeight}
+								loading={props.loading}
+								onError={props.onDemoError}
+								onReady={props.onDemoReady}
+								onResize={props.onDemoContentResize}
+								reloadTime={props.reloadTime}
+								target={props.id.replace('pattern/', '')}
+								/>
+						</StyledPatternDemo>
+					</StyledPattern>
+				);
+			case 'folder':
+			default:
+				return (
+					<StyledPatternFolder>
+						<StyledPatternDoc>
+							<Markdown source={props.contents}/>
+						</StyledPatternDoc>
+					</StyledPatternFolder>
+				);
+		}
 	}
 }
 
 Pattern.propTypes = {
-	automount: t.bool.isRequired,
+	id: t.string.isRequired,
+	pattern: t.any.isRequired,
+	type: t.string.isRequired,
+	contents: t.string
+	/* automount: t.bool.isRequired,
 	activeSource: t.string.isRequired,
 	base: t.string.isRequired,
 	breadcrumbs: t.arrayOf(t.shape({
@@ -129,7 +142,7 @@ Pattern.propTypes = {
 	rulerLengthY: t.number.isRequired,
 	tags: t.arrayOf(t.string).isRequired,
 	version: t.string,
-	sourceExpanded: t.bool
+	sourceExpanded: t.bool */
 };
 
 function checkers(props) {
