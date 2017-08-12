@@ -1,6 +1,5 @@
 import autobind from 'autobind-decorator';
 import React, {Component, PropTypes as t} from 'react';
-import Draggable from 'react-draggable';
 import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
@@ -86,12 +85,7 @@ export default class Application extends Component {
 						}
 						{props.infoEnabled &&
 							<ThemeProvider theme={props.themes.dark}>
-								<Draggable
-									axis="both"
-									bounds="parent"
-									>
-									<InfoPane/>
-								</Draggable>
+								<InfoPane/>
 							</ThemeProvider>
 						}
 					</StyledContent>

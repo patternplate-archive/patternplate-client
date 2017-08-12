@@ -3,11 +3,13 @@ import React, {PropTypes as t} from 'react';
 import semver from 'semver';
 import styled from 'styled-components';
 import text from 'react-addons-text-content';
+import Code from './common/code';
 import Icon from './common/icon';
 import Link from './common/link';
 import Text from './text';
 
 export default InfoPane;
+export {InnerInfoPane};
 
 const StyledInfoPane = styled.div`
 	position: absolute;
@@ -16,7 +18,6 @@ const StyledInfoPane = styled.div`
 	left: -45px; /* safe zone of 60px minus 15px margin */
 	width: 300px;
 	box-sizing: border-box;
-	cursor: grab;
 	&::before {
 		content: '';
 		position: absolute;
@@ -235,82 +236,20 @@ function InfoPane(props) {
 			onTouchEnd={props.onTouchEnd}
 			style={props.style}
 			>
-			<StyledInnerPane>
-				<StyledName>
-					<StyledIcon symbol={props.icon}/>
-					<StyledDisplayName>{props.name}</StyledDisplayName>
-					<StyledId>{props.id}</StyledId>
-				</StyledName>
-				<StyledData>
-					<tbody>
-						<tr>
-							<StyledDataCell>
-								<StyledKey>Version</StyledKey>
-							</StyledDataCell>
-							<StyledDataCell>
-								<StyledVersion field="version" search={props.version}>
-									{props.version}
-								</StyledVersion>
-							</StyledDataCell>
-						</tr>
-						<tr>
-							<StyledDataCell>
-								<StyledKey>Flag</StyledKey>
-							</StyledDataCell>
-							<StyledDataCell>
-								<StyledFlag field="flag" search={props.flag}>
-									<Text>{props.flag}</Text>
-								</StyledFlag>
-							</StyledDataCell>
-						</tr>
-						{
-							props.tags && props.tags.length > 0 &&
-								<tr>
-									<StyledDataCell>
-										<StyledKey>Tags</StyledKey>
-									</StyledDataCell>
-									<StyledDataCell>
-										{props.tags.map(t => <StyledTag key={t} tag={t}/>)}
-									</StyledDataCell>
-								</tr>
-						}
-					</tbody>
-				</StyledData>
-				{
-					props.dependencies && props.dependencies.length > 0 &&
-						<StyledToggleHead
-							name="dependencies"
-							enabled={props.dependenciesEnabled}
-							>
-							Dependencies ({props.dependencies.length})
-						</StyledToggleHead>
-				}
-				{
-					props.dependencies && props.dependencies.length > 0 && props.dependenciesEnabled &&
-						<StyledToggleBody>
-							<PatternList>
-								{props.dependencies.map(d => <PatternItem key={d.id} pattern={d}/>)}
-							</PatternList>
-						</StyledToggleBody>
-				}
-				{
-					props.dependents && props.dependents.length > 0 &&
-						<StyledToggleHead
-							name="dependents"
-							enabled={props.dependentsEnabled}
-							>
-							Dependents ({props.dependents.length})
-						</StyledToggleHead>
-				}
-				{
-					props.dependents && props.dependents.length > 0 && props.dependentsEnabled &&
-						<StyledToggleBody>
-							<PatternList>
-								{props.dependents.map(d => <PatternItem key={d.id} pattern={d}/>)}
-							</PatternList>
-						</StyledToggleBody>
-				}
-			</StyledInnerPane>
+			<InnerInfoPane
+				dependencies={props.dependencies}
+				dependenciesEnabled={props.dependenciesEnabled}
+				dependents={props.dependents}
+				dependentsEnabled={props.dependentsEnabled}
+				flag={props.flag}
+				icon={props.icon}
+				id={props.id}
+				name={props.name}
+				manifest={props.manifest}
+				manifestEnabled={props.manifestEnabled}
+				tags={props.tags}
+				version={props.version}
+				/>
 		</StyledInfoPane>
 	);
 }
@@ -326,10 +265,106 @@ InfoPane.propTypes = {
 	icon: t.string.isRequired,
 	id: t.string.isRequired,
 	name: t.string.isRequired,
+	manifest: t.string.isRequired,
+	manifestEnabled: t.bool.isRequired,
 	onMouseDown: t.func,
 	onMouseUp: t.func,
 	onTouchStart: t.func,
 	onTouchEnd: t.func,
+	style: t.string,
+	tags: t.array.isRequired,
+	version: t.string.isRequired
+};
+
+function InnerInfoPane(props) {
+	const withDeps = props.dependencies && props.dependencies.length;
+	const withDepe = props.dependents && props.dependents.length;
+
+	return (
+		<StyledInnerPane className={props.className}>
+			<StyledName>
+				<StyledIcon symbol={props.icon}/>
+				<StyledDisplayName>{props.name}</StyledDisplayName>
+				<StyledId>{props.id}</StyledId>
+			</StyledName>
+			<StyledData>
+				<tbody>
+					<tr>
+						<StyledDataCell>
+							<StyledKey>Version</StyledKey>
+						</StyledDataCell>
+						<StyledDataCell>
+							<StyledVersion field="version" search={props.version}>
+								{props.version}
+							</StyledVersion>
+						</StyledDataCell>
+					</tr>
+					<tr>
+						<StyledDataCell>
+							<StyledKey>Flag</StyledKey>
+						</StyledDataCell>
+						<StyledDataCell>
+							<StyledFlag field="flag" search={props.flag}>
+								<Text>{props.flag}</Text>
+							</StyledFlag>
+						</StyledDataCell>
+					</tr>
+					{
+						props.tags && props.tags.length > 0 &&
+							<tr>
+								<StyledDataCell>
+									<StyledKey>Tags</StyledKey>
+								</StyledDataCell>
+								<StyledDataCell>
+									{props.tags.map(t => <StyledTag key={t} tag={t}/>)}
+								</StyledDataCell>
+							</tr>
+					}
+				</tbody>
+			</StyledData>
+			{
+				withDeps &&
+					<Toggle
+						head={`Dependencies (${props.dependencies.length})`}
+						enabled={props.dependenciesEnabled}
+						name="dependencies"
+						>
+						<PatternList>
+							{props.dependencies.map(d => <PatternItem key={d.id} pattern={d}/>)}
+						</PatternList>
+					</Toggle>
+			}
+			{
+				withDepe &&
+					<Toggle
+						head={`Dependents (${props.dependents.length})`}
+						enabled={props.dependentsEnabled}
+						name="dependents"
+						>
+						<PatternList>
+							{props.dependents.map(d => <PatternItem key={d.id} pattern={d}/>)}
+						</PatternList>
+					</Toggle>
+			}
+			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
+				<Code language="json">{props.manifest}</Code>
+			</Toggle>
+		</StyledInnerPane>
+	);
+}
+
+InnerInfoPane.propTypes = {
+	className: t.string,
+	dependents: t.array.isRequired,
+	dependentsEnabled: t.bool.isRequired,
+	dependencies: t.array.isRequired,
+	dependenciesEnabled: t.bool.isRequired,
+	flag: t.string.isRequired,
+	icon: t.string.isRequired,
+	id: t.string.isRequired,
+	manifest: t.string.isRequired,
+	manifestEnabled: t.bool.isRequired,
+	name: t.string.isRequired,
 	style: t.string,
 	tags: t.array.isRequired,
 	version: t.string.isRequired
@@ -427,4 +462,26 @@ function PatternItem(props) {
 
 PatternItem.propTypes = {
 	pattern: t.any
+};
+
+function Toggle(props) {
+	return (
+		<div>
+			<StyledToggleHead name={props.name} enabled={props.enabled}>
+				{props.head}
+			</StyledToggleHead>
+			{props.enabled &&
+				<StyledToggleBody>
+					{props.children}
+				</StyledToggleBody>
+			}
+		</div>
+	);
+}
+
+Toggle.propTypes = {
+	name: t.string,
+	enabled: t.bool,
+	head: t.any,
+	children: t.any
 };

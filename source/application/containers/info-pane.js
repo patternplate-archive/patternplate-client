@@ -6,6 +6,7 @@ import find from '../utils/find';
 import InfoPane from '../components/info-pane';
 import selectPatterns from '../selectors/navigation';
 import selectDocs from '../selectors/docs';
+import withToggleStates from '../connectors/with-toggle-states';
 
 const selectType = createSelector(
 	state => state.id,
@@ -30,7 +31,8 @@ const selectItem = createSelector(
 
 const selectActive = createSelector(
 	selectItem,
-	item => item !== null && typeof item !== 'undefined'
+	state => state.searchEnabled,
+	(item, search) => !search && item !== null && typeof item !== 'undefined'
 );
 
 const selectIcon = createSelector(
@@ -68,21 +70,25 @@ const selectDependents = createSelector(
 	item => item ? values(item.dependents).filter(i => (i.manifest.options || {}).hidden !== true) : []
 );
 
+const selectManifest = createSelector(
+	selectItem,
+	item => item ? JSON.stringify(item.manifest, null, '  ') : ''
+);
+
 function mapProps(state) {
 	return {
 		active: selectActive(state),
 		dependencies: selectDependencies(state),
-		dependenciesEnabled: state.dependenciesEnabled,
 		dependents: selectDependents(state),
-		dependentsEnabled: state.dependentsEnabled,
 		flag: selectFlag(state),
 		id: state => state.id,
 		icon: selectIcon(state),
 		type: selectType(state),
 		name: selectName(state),
+		manifest: selectManifest(state),
 		tags: selectTags(state),
 		version: selectVersion(state)
 	};
 }
 
-export default connect(mapProps)(InfoPane);
+export default withToggleStates(connect(mapProps)(InfoPane));

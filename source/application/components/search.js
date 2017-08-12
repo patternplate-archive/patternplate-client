@@ -2,13 +2,16 @@ import React, {PropTypes as t} from 'react';
 import styled from 'styled-components';
 import tag from 'tag-hoc';
 
-import Code from './common/code';
 import Icon from './common/icon';
+import {InnerInfoPane} from './info-pane';
 import Link from './common/link';
 import Markdown from './common/markdown';
+import Outside from './outside';
 import SearchField from './common/search-field';
 import Text from './text';
-import Outside from './outside';
+import withToggleStates from '../connectors/with-toggle-states';
+
+const InfoPane = withToggleStates(InnerInfoPane);
 
 const NOOP = () => {};
 
@@ -178,7 +181,7 @@ Search.propTypes = {
 	value: t.string.isRequired
 };
 
-const StyledFormBox = styled(tag(['inline', 'enabled'])(Outside))`
+const StyledFormBox = styled(Outside)`
 	width: 100%;
 	height: 100%;
 	border-radius: 10px;
@@ -384,7 +387,16 @@ function ResultPreview(props) {
 		default:
 			return (
 				<StyledResultPreview>
-					<Code language="json">{JSON.stringify(props.item, null, '  ')}</Code>
+					<InfoPane
+						active
+						flag={props.item.manifest.flag}
+						icon={props.item.manifest.options.icon || props.item.type}
+						id={props.item.id}
+						name={props.item.manifest.displayName}
+						manifest={JSON.stringify(props.item.manifest, null, '  ')}
+						tags={props.item.manifest.tags}
+						version={props.item.manifest.version}
+						/>
 				</StyledResultPreview>
 			);
 	}

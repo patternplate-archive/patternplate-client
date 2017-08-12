@@ -12,6 +12,7 @@ import fetching from './fetching';
 import id from './id';
 import infoEnabled from './info-enabled';
 import lightbox from './lightbox';
+import manifestEnabled from './manifest-enabled';
 import messages from './messages';
 import navigationEnabled from './navigation-enabled';
 import opacity from './opacity';
@@ -53,6 +54,7 @@ export default {
 	id,
 	infoEnabled,
 	lightbox,
+	manifestEnabled,
 	messages,
 	navigationEnabled,
 	opacity,

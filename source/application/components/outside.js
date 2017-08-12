@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 export default class ClickOutside extends Component {
 	static propTypes = {
+		className: PropTypes.string,
 		onClickOutside: PropTypes.func.isRequired
 	};
 
@@ -16,8 +17,7 @@ export default class ClickOutside extends Component {
 	}
 
 	render() {
-		const {children, onClickOutside, ...props} = this.props;
-		return <div {...props} ref={this.getContainer}>{children}</div>;
+		return <div className={this.props.className} ref={this.getContainer}>{this.props.children}</div>;
 	}
 
 	componentDidMount() {
