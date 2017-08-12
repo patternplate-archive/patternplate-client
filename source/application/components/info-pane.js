@@ -348,7 +348,7 @@ function InnerInfoPane(props) {
 							</tr>
 					}
 					{
-						has(props.envs) &&
+						has(props.envs) && props.envs.length > 1 &&
 							<tr>
 								<StyledDataCell>
 									<StyledKey>Environment</StyledKey>
