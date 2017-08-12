@@ -55,7 +55,7 @@ export function sanitize(tree, context) {
 	return enrich(tree, {id, config, prefix});
 }
 
-function enrich(child, {id, config, prefix}) {
+export function enrich(child, {id, config, prefix}) {
 	const p = prefix.split('/');
 	const fragments = id.split('/').filter((f, i) => p[i] !== f);
 
