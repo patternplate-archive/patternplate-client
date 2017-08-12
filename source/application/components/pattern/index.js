@@ -60,6 +60,7 @@ export default class Pattern extends React.Component {
 						<StyledPatternDemo>
 							<PatternDemo
 								base={props.base}
+								environment={props.env.name}
 								height={props.demoHeight}
 								loading={props.loading}
 								onError={props.onDemoError}
@@ -94,6 +95,7 @@ export default class Pattern extends React.Component {
 }
 
 Pattern.propTypes = {
+	env: t.any.isRequired,
 	id: t.string.isRequired,
 	opacity: t.bool.isRequired,
 	pattern: t.any.isRequired,

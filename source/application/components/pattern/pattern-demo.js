@@ -61,7 +61,7 @@ function PatternDemo(props) {
 }
 
 PatternDemo.propTypes = {
-	base: types.string.isRequired,
+	/* base: types.string.isRequired,
 	environment: types.string.isRequired,
 	height: types.number,
 	onError: types.func.isRequired,
@@ -79,7 +79,7 @@ PatternDemo.propTypes = {
 	rulerY: types.number.isRequired,
 	rulerLengthY: types.number.isRequired,
 	target: types.string.isRequired,
-	width: types.number
+	width: types.number*/
 };
 
 PatternDemo.defaultProps = {

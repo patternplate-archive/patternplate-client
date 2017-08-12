@@ -3,6 +3,7 @@ import {sortBy} from 'lodash';
 import {createSelector} from 'reselect';
 import selectPool from './pool';
 import {apply, parse} from './search';
+import createRelationSelector from './relation';
 
 const selectFuse = createSelector(
 	selectPool,
@@ -80,13 +81,20 @@ export const selectSuggestion = createSelector(
 );
 
 export const selectActiveItem = createSelector(
+	state => state,
 	selectFound,
 	state => state.searchPreview,
-	(found, preview) => {
+	(state, found, preview) => {
 		const index = Math.min(preview, found.length - 1);
 		const item = found[index];
 		if (item) {
+			const selectItem = () => item;
+			const rel = key => createRelationSelector(key, selectItem)(state);
 			item.index = index;
+			item.demoDependents = rel('demoDependents');
+			item.demoDependencies = rel('demoDependencies');
+			item.dependents = rel('dependents');
+			item.dependencies = rel('dependencies');
 		}
 		return item;
 	}

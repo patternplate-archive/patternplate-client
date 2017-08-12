@@ -263,12 +263,15 @@ function InfoPane(props) {
 				dependenciesEnabled={props.dependenciesEnabled}
 				dependents={props.dependents}
 				dependentsEnabled={props.dependentsEnabled}
+				env={props.env}
+				envs={props.envs}
 				flag={props.flag}
 				icon={props.icon}
 				id={props.id}
 				name={props.name}
 				manifest={props.manifest}
 				manifestEnabled={props.manifestEnabled}
+				onEnvChange={props.onEnvChange}
 				standalone
 				tags={props.tags}
 				version={props.version}
@@ -304,11 +307,6 @@ InfoPane.propTypes = {
 };
 
 function InnerInfoPane(props) {
-	const withDemoDepe = props.demoDependents && props.demoDependents.length > 0;
-	const withDemoDeps = props.demoDependencies && props.demoDependencies.length > 0;
-	const withDeps = props.dependencies && props.dependencies.length > 0;
-	const withDepe = props.dependents && props.dependents.length > 0;
-
 	return (
 		<StyledInnerPane className={props.className}>
 			<StyledName>
@@ -339,7 +337,7 @@ function InnerInfoPane(props) {
 						</StyledDataCell>
 					</tr>
 					{
-						props.tags && props.tags.length > 0 &&
+						has(props.tags) &&
 							<tr>
 								<StyledDataCell>
 									<StyledKey>Tags</StyledKey>
@@ -349,10 +347,29 @@ function InnerInfoPane(props) {
 								</StyledDataCell>
 							</tr>
 					}
+					{
+						has(props.envs) &&
+							<tr>
+								<StyledDataCell>
+									<StyledKey>Environment</StyledKey>
+								</StyledDataCell>
+								<StyledDataCell>
+									<Select
+										name="environment"
+										onChange={props.onEnvChange}
+										value={props.env.name}
+										>
+										{
+											props.envs.map(e => (<option key={e.name} value={e.name}>{e.displayName}</option>))
+										}
+									</Select>
+								</StyledDataCell>
+							</tr>
+					}
 				</tbody>
 			</StyledData>
 			{
-				withDeps &&
+				has(props.dependencies) &&
 					<Toggle
 						compact={props.standalone}
 						head={`Dependencies (${props.dependencies.length})`}
@@ -365,7 +382,7 @@ function InnerInfoPane(props) {
 					</Toggle>
 			}
 			{
-				withDepe &&
+				has(props.dependents) &&
 					<Toggle
 						compact={props.standalone}
 						head={`Dependents (${props.dependents.length})`}
@@ -378,7 +395,7 @@ function InnerInfoPane(props) {
 					</Toggle>
 			}
 			{
-				withDemoDeps &&
+				has(props.demoDependencies) &&
 					<Toggle
 						compact={props.standalone}
 						head={`Demo Dependencies (${props.demoDependencies.length})`}
@@ -391,7 +408,7 @@ function InnerInfoPane(props) {
 					</Toggle>
 			}
 			{
-				withDemoDepe &&
+				has(props.demoDependents) &&
 					<Toggle
 						compact={props.standalone}
 						head={`Demo Dependents (${props.demoDependents.length})`}
@@ -431,6 +448,48 @@ InnerInfoPane.propTypes = {
 	tags: t.array.isRequired,
 	version: t.string.isRequired
 };
+
+const StyledSelectContainer = styled.div`
+	position: relative;
+	&::after {
+		position: absolute;
+		right: 0;
+		top: 50%;
+		z-index: 1;
+		content: '▼';
+		font-size: 0.8em;
+		color: ${props => props.theme.color};
+		transform: translateY(-50%);
+	}
+`;
+
+const StyledSelect = styled.select`
+	position: relative;
+	z-index: 2;
+	appearance: none;
+	color: ${props => props.theme.color};
+	background: transparent;
+	font-size: 16px;
+	border: none;
+	border-radius: none;
+	padding-right: 20px;
+	&:focus {
+		outline: none;
+	}
+`;
+
+function Select(props) {
+	return (
+		<StyledSelectContainer className={props.className}>
+			<StyledSelect
+				onChange={props.onChange}
+				value={props.value}
+				>
+				{props.children}
+			</StyledSelect>
+		</StyledSelectContainer>
+	);
+}
 
 function Version(props) {
 	return (
@@ -549,3 +608,7 @@ Toggle.propTypes = {
 	head: t.any,
 	name: t.string
 };
+
+function has(val) {
+	return Array.isArray(val) && val.length > 0;
+}

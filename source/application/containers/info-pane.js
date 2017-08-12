@@ -1,7 +1,9 @@
-import {values} from 'lodash';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 
+import * as actions from '../actions';
+import createRelationSelector from '../selectors/relation';
 import find from '../utils/find';
 import InfoPane from '../components/info-pane';
 import selectPatterns from '../selectors/navigation';
@@ -65,33 +67,46 @@ const selectFilter = createSelector(
 	hide => filter(hide)
 );
 
-const selectDemoDependencies = createSelector(
-	selectItem,
-	selectFilter,
-	(item, filter) => item ? values(item.demoDependencies).filter(filter) : []
-);
+const relation = key => createRelationSelector(key, selectItem, selectFilter);
 
-const selectDemoDependents = createSelector(
-	selectItem,
-	selectFilter,
-	(item, filter) => item ? values(item.demoDependents).filter(filter) : []
-);
-
-const selectDependencies = createSelector(
-	selectItem,
-	selectFilter,
-	item => item ? values(item.dependencies).filter(filter) : []
-);
-
-const selectDependents = createSelector(
-	selectItem,
-	selectFilter,
-	item => item ? values(item.dependents).filter(filter) : []
-);
+const selectDemoDependencies = relation('demoDependencies');
+const selectDemoDependents = relation('demoDependents');
+const selectDependencies = relation('dependencies');
+const selectDependents = relation('dependents');
 
 const selectManifest = createSelector(
 	selectItem,
 	item => item ? JSON.stringify(item.manifest, null, '  ') : ''
+);
+
+const selectEnv = createSelector(
+	state => state.environment,
+	state => state.schema.envs,
+	(env, envs) => {
+		const found = envs.find(e => e.name === env);
+		return {
+			name: found.name,
+			displayName: found.displayName
+		};
+	}
+);
+
+const selectEnvs = createSelector(
+	selectItem,
+	state => state.schema.envs,
+	(item, envs) => {
+		if (!item) {
+			return [];
+		}
+
+		return item.envs.map(e => {
+			const found = envs.find(env => env.name === e);
+			return {
+				name: found.name,
+				displayName: found.displayName
+			};
+		});
+	}
 );
 
 function mapProps(state) {
@@ -101,6 +116,8 @@ function mapProps(state) {
 		demoDependents: selectDemoDependents(state),
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
+		env: selectEnv(state),
+		envs: selectEnvs(state),
 		flag: selectFlag(state),
 		id: state => state.id,
 		icon: selectIcon(state),
@@ -112,7 +129,12 @@ function mapProps(state) {
 	};
 }
 
-export default withToggleStates(connect(mapProps)(InfoPane));
+export function mapDispatch(dispatch) {
+	return bindActionCreators({
+		onEnvChange: e => actions.changeEnvironment(e.target.value)
+	}, dispatch);
+}
+export default withToggleStates(connect(mapProps, mapDispatch)(InfoPane));
 
 function filter(hidden) {
 	return hidden ? item => (item.manifest.options || {}).hidden !== true : i => i;
