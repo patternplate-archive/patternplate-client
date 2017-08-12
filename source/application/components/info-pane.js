@@ -196,9 +196,17 @@ const StyledToggleHead = styled(ToggleHead)`
 const StyledToggleBody = styled.div`
 	display: flex;
 	color: ${props => props.theme.color};
+	box-sizing: border-box;
+	width: 100%;
+	max-height: 200px;
 	padding: 5px 15px 5px 20px;
+	overflow: scroll;
 	box-sizing: border-box;
 	background: ${props => props.theme.tint};
+`;
+
+const StyledCode = styled(Code)`
+	width: 100%;
 `;
 
 function getFlagColor(flag, theme) {
@@ -381,7 +389,7 @@ function InnerInfoPane(props) {
 					</Toggle>
 			}
 			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
-				<Code language="json">{props.manifest}</Code>
+				<StyledCode language="json">{props.manifest}</StyledCode>
 			</Toggle>
 		</StyledInnerPane>
 	);

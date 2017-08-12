@@ -34,7 +34,7 @@ export default createPromiseThunkAction('LISTEN', (payload, dispatch, getState) 
 		const payload = JSON.parse(event.data);
 		const state = getState();
 
-		if (state.id === payload.pattern) {
+		if (state.id === `pattern/${payload.pattern}`) {
 			dispatch(loadPatternDemo({reloadTime: Date.now()}));
 		}
 	});
