@@ -1,15 +1,14 @@
 import {values} from 'lodash';
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
+
 import find from '../utils/find';
 import InfoPane from '../components/info-pane';
-
-const selectId = state => state.id;
-const selectDocs = state => state.schema.docs;
-const selectPatterns = state => state.schema.meta;
+import selectPatterns from '../selectors/navigation';
+import selectDocs from '../selectors/docs';
 
 const selectType = createSelector(
-	selectId,
+	state => state.id,
 	id => id.split('/').find(f => typeof f === 'string' && f)
 );
 
@@ -17,7 +16,7 @@ const selectItem = createSelector(
 	selectDocs,
 	selectPatterns,
 	selectType,
-	selectId,
+	state => state.id,
 	(docs, patterns, type, id) => {
 		switch (type) {
 			case 'pattern':
@@ -61,12 +60,12 @@ const selectFlag = createSelector(
 
 const selectDependencies = createSelector(
 	selectItem,
-	item => item ? values(item.dependencies).filter(i => (i.manifest.option || {}).hidden !== true) : []
+	item => item ? values(item.dependencies).filter(i => (i.manifest.options || {}).hidden !== true) : []
 );
 
 const selectDependents = createSelector(
 	selectItem,
-	item => item ? values(item.dependents).filter(i => (i.manifest.option || {}).hidden !== true) : []
+	item => item ? values(item.dependents).filter(i => (i.manifest.options || {}).hidden !== true) : []
 );
 
 function mapProps(state) {
@@ -77,7 +76,7 @@ function mapProps(state) {
 		dependents: selectDependents(state),
 		dependentsEnabled: state.dependentsEnabled,
 		flag: selectFlag(state),
-		id: selectId(state),
+		id: state => state.id,
 		icon: selectIcon(state),
 		type: selectType(state),
 		name: selectName(state),

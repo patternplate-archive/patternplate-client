@@ -6,65 +6,46 @@ import styled from 'styled-components';
 import Icon from '../common/icon';
 import Link from '../common/link';
 
-export default class NavigationItem extends React.Component {
-	static propTypes = {
-		className: types.string,
-		active: types.bool,
-		hidden: types.bool,
-		anchored: types.bool,
-		name: types.string.isRequired,
-		symbol: types.string.isRequired,
-		symbolActive: types.string,
-		to: types.string,
-		id: types.oneOfType([
-			types.string,
-			types.number
-		]),
-		children: types.oneOfType([
-			types.node,
-			types.arrayOf(types.node)
-		]),
-		type: types.string
-	};
+export default NavigationItem;
 
-	static defaultProps = {
-		component: 'li',
-		active: false,
-		hidden: false
-	};
+function NavigationItem(props) {
+	const title = props.title || `Navigate to ${props.name} ${props.type}`;
+	const symbol = props.active ? props.symbolActive : props.symbol;
 
-	render() {
-		const {props} = this;
-
-		if (props.hide && props.hidden) {
-			return null;
-		}
-
-		const title = props.title || `Navigate to ${props.name} ${props.type}`;
-		const symbol = props.active ? props.symbolActive : props.symbol;
-
-		return (
-			<StyledNavigationItem
+	return (
+		<StyledNavigationItem
+			active={props.active}
+			className={props.className}
+			type={props.type}
+			>
+			<StyledNavigationLink
 				active={props.active}
-				className={props.className}
+				href={props.href}
 				type={props.type}
+				title={title}
 				>
-				<StyledNavigationLink
-					active={props.active}
-					href={props.href}
-					type={props.type}
-					title={title}
-					>
-					<StyledIcon active={props.active} size="m" symbol={symbol}/>
-					<span>{props.name}</span>
-				</StyledNavigationLink>
-				{
-					props.active && props.children
-				}
-			</StyledNavigationItem>
-		);
-	}
+				<StyledIcon active={props.active} size="m" symbol={symbol}/>
+				<span>{props.name}</span>
+			</StyledNavigationLink>
+			{
+				props.active && props.children
+			}
+		</StyledNavigationItem>
+	);
 }
+
+NavigationItem.propTypes = {
+	active: types.bool,
+	children: types.any,
+	className: types.string,
+	href: types.string.isRequired,
+	id: types.string.isRequired,
+	name: types.string.isRequired,
+	symbol: types.string.isRequired,
+	symbolActive: types.string,
+	title: types.string,
+	type: types.string.isRequired
+};
 
 const StyledIcon = styled(Icon)`
 	fill: ${props => props.theme.color};

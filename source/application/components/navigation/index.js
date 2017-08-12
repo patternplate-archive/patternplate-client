@@ -15,15 +15,11 @@ function Navigation(props) {
 				<NavigationTree
 					active={props.active}
 					data={props.navigation.children}
-					hide={props.hide}
-					hierarchy={props.hierarchy}
 					prefix="/pattern"
 					>
 					<Documentation
 						active={props.active}
 						docs={props.docs}
-						hide={props.hide}
-						hierarchy={props.hierarchy}
 						/>
 				</NavigationTree>
 			</StyledNavigationTree>
@@ -37,16 +33,7 @@ function Navigation(props) {
 Navigation.propTypes = {
 	active: t.string.isRequired,
 	docs: t.object.isRequired,
-	enabled: t.bool.isRequired,
-	hierarchy: t.object,
-	hide: t.bool.isRequired,
-	icon: t.string.isRequired,
-	navigation: t.object.isRequired,
-	pathname: t.string.isRequired,
-	shortcuts: t.any.isRequired,
-	theme: t.string.isRequired,
-	title: t.string.isRequired,
-	version: t.string.isRequired
+	navigation: t.object.isRequired
 };
 
 const StyledNavigation = styled.div`
@@ -77,7 +64,6 @@ function Documentation(props) {
 			active={props.active}
 			className="docs-navigation"
 			data={props.docs.children}
-			hide={props.hide}
 			prefix="/doc"
 			/>
 	);
@@ -85,8 +71,7 @@ function Documentation(props) {
 
 Documentation.propTypes = {
 	active: t.string.isRequired,
-	docs: t.object.isRequired,
-	hide: t.bool.isRequired
+	docs: t.object.isRequired
 };
 
 const StyledDocumentationTree = styled(NavigationTree)`
