@@ -60,14 +60,33 @@ const selectFlag = createSelector(
 	item => item ? item.manifest.flag : ''
 );
 
+const selectFilter = createSelector(
+	state => state.hide,
+	hide => filter(hide)
+);
+
+const selectDemoDependencies = createSelector(
+	selectItem,
+	selectFilter,
+	(item, filter) => item ? values(item.demoDependencies).filter(filter) : []
+);
+
+const selectDemoDependents = createSelector(
+	selectItem,
+	selectFilter,
+	(item, filter) => item ? values(item.demoDependents).filter(filter) : []
+);
+
 const selectDependencies = createSelector(
 	selectItem,
-	item => item ? values(item.dependencies).filter(i => (i.manifest.options || {}).hidden !== true) : []
+	selectFilter,
+	item => item ? values(item.dependencies).filter(filter) : []
 );
 
 const selectDependents = createSelector(
 	selectItem,
-	item => item ? values(item.dependents).filter(i => (i.manifest.options || {}).hidden !== true) : []
+	selectFilter,
+	item => item ? values(item.dependents).filter(filter) : []
 );
 
 const selectManifest = createSelector(
@@ -78,6 +97,8 @@ const selectManifest = createSelector(
 function mapProps(state) {
 	return {
 		active: selectActive(state),
+		demoDependencies: selectDemoDependencies(state),
+		demoDependents: selectDemoDependents(state),
 		dependencies: selectDependencies(state),
 		dependents: selectDependents(state),
 		flag: selectFlag(state),
@@ -92,3 +113,7 @@ function mapProps(state) {
 }
 
 export default withToggleStates(connect(mapProps)(InfoPane));
+
+function filter(hidden) {
+	return hidden ? item => (item.manifest.options || {}).hidden !== true : i => i;
+}

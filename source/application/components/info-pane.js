@@ -237,6 +237,10 @@ function InfoPane(props) {
 			style={props.style}
 			>
 			<InnerInfoPane
+				demoDependencies={props.demoDependencies}
+				demoDependenciesEnabled={props.demoDependenciesEnabled}
+				demoDependents={props.demoDependents}
+				demoDependentsEnabled={props.demoDependentsEnabled}
 				dependencies={props.dependencies}
 				dependenciesEnabled={props.dependenciesEnabled}
 				dependents={props.dependents}
@@ -257,6 +261,10 @@ function InfoPane(props) {
 InfoPane.propTypes = {
 	active: t.bool.isRequired,
 	className: t.string,
+	demoDependents: t.array.isRequired,
+	demoDependentsEnabled: t.bool.isRequired,
+	demoDependencies: t.array.isRequired,
+	demoDependenciesEnabled: t.bool.isRequired,
 	dependents: t.array.isRequired,
 	dependentsEnabled: t.bool.isRequired,
 	dependencies: t.array.isRequired,
@@ -277,8 +285,10 @@ InfoPane.propTypes = {
 };
 
 function InnerInfoPane(props) {
-	const withDeps = props.dependencies && props.dependencies.length;
-	const withDepe = props.dependents && props.dependents.length;
+	const withDemoDepe = props.demoDependents && props.demoDependents.length > 0;
+	const withDemoDeps = props.demoDependencies && props.demoDependencies.length > 0;
+	const withDeps = props.dependencies && props.dependencies.length > 0;
+	const withDepe = props.dependents && props.dependents.length > 0;
 
 	return (
 		<StyledInnerPane className={props.className}>
@@ -346,6 +356,30 @@ function InnerInfoPane(props) {
 						</PatternList>
 					</Toggle>
 			}
+			{
+				withDemoDeps &&
+					<Toggle
+						head={`Demo Dependencies (${props.demoDependencies.length})`}
+						enabled={props.demoDependenciesEnabled}
+						name="demo-dependencies"
+						>
+						<PatternList>
+							{props.demoDependencies.map(d => <PatternItem key={d.id} pattern={d}/>)}
+						</PatternList>
+					</Toggle>
+			}
+			{
+				withDemoDepe &&
+					<Toggle
+						head={`Demo Dependents (${props.demoDependents.length})`}
+						enabled={props.demoDependentsEnabled}
+						name="demo-dependents"
+						>
+						<PatternList>
+							{props.demoDependents.map(d => <PatternItem key={d.id} pattern={d}/>)}
+						</PatternList>
+					</Toggle>
+			}
 			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
 				<Code language="json">{props.manifest}</Code>
 			</Toggle>
@@ -355,6 +389,10 @@ function InnerInfoPane(props) {
 
 InnerInfoPane.propTypes = {
 	className: t.string,
+	demoDependents: t.array.isRequired,
+	demoDependentsEnabled: t.bool.isRequired,
+	demoDependencies: t.array.isRequired,
+	demoDependenciesEnabled: t.bool.isRequired,
 	dependents: t.array.isRequired,
 	dependentsEnabled: t.bool.isRequired,
 	dependencies: t.array.isRequired,
