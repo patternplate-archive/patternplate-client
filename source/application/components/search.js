@@ -22,6 +22,28 @@ export default class Search extends React.Component {
 		this.handleUp = this.handleUp.bind(this);
 		this.handleDown = this.handleDown.bind(this);
 		this.handleActivate = this.handleActivate.bind(this);
+		this.handleScrollRequest = this.handleScrollRequest.bind(this);
+		this.getListRef = this.getListRef.bind(this);
+	}
+
+	handleScrollRequest(e) {
+		if (!this.list) {
+			return;
+		}
+		const l = this.list.getBoundingClientRect();
+		const i = e.target.getBoundingClientRect();
+
+		if (i.bottom > l.bottom) {
+			this.list.scrollTop = e.target.offsetTop - l.height + i.height;
+		}
+
+		if (i.top < l.top) {
+			this.list.scrollTop = e.target.offsetTop - 30;
+		}
+	}
+
+	getListRef(ref) {
+		this.list = ref;
 	}
 
 	componentDidMount() {
@@ -107,7 +129,7 @@ export default class Search extends React.Component {
 					<StyledResults>
 						{
 							(withComponents || withDocs) &&
-								<StyledResultList>
+								<StyledResultList innerRef={this.getListRef}>
 									{withDocs > 0 &&
 										<StyledResultHeading>
 											Docs ({props.docs.length})
@@ -123,6 +145,7 @@ export default class Search extends React.Component {
 												name={d.manifest.displayName}
 												key={d.id}
 												onActivate={this.handleActivate}
+												onScrollRequest={this.handleScrollRequest}
 												type="doc"
 												/>
 										))
@@ -142,6 +165,7 @@ export default class Search extends React.Component {
 												name={d.manifest.displayName}
 												key={d.id}
 												onActivate={this.handleActivate}
+												onScrollRequest={this.handleScrollRequest}
 												type="pattern"
 												/>
 										))
@@ -301,22 +325,41 @@ const StyledResult = styled.div`
 	}
 `;
 
-function Result(props) {
-	return (
-		<StyledResult
-			active={props.active}
-			title={`Navigation to pattern ${props.name}`}
-			data-id={props.id}
-			>
-			<StyledResultLink active={props.active} href={`/${props.type}/${props.id}`} query={{'search-enabled': false}}>
-				<StyledIcon active={props.active} size="m" symbol={props.icon}/>
-				<Text active={props.active} size="l">{props.name}</Text>
-			</StyledResultLink>
-			<StyledPreviewLink active={props.active} query={{'search-preview': props.index}}>
-				<Text active={props.active} size="s">Preview</Text>
-			</StyledPreviewLink>
-		</StyledResult>
-	);
+class Result extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.getRef = this.getRef.bind(this);
+	}
+
+	getRef(ref) {
+		this.ref = ref;
+	}
+
+	componentWillUpdate(next) {
+		if (next.active && this.ref) {
+			this.props.onScrollRequest({target: this.ref});
+		}
+	}
+
+	render() {
+		const {props} = this;
+		return (
+			<StyledResult
+				innerRef={this.getRef}
+				active={props.active}
+				title={`Navigation to pattern ${props.name}`}
+				data-id={props.id}
+				>
+				<StyledResultLink active={props.active} href={`/${props.type}/${props.id}`} query={{'search-enabled': false}}>
+					<StyledIcon active={props.active} size="m" symbol={props.icon}/>
+					<Text active={props.active} size="l">{props.name}</Text>
+				</StyledResultLink>
+				<StyledPreviewLink active={props.active} query={{'search-preview': props.index}}>
+					<Text active={props.active} size="s">Preview</Text>
+				</StyledPreviewLink>
+			</StyledResult>
+		);
+	}
 }
 
 Result.propTypes = {
@@ -326,7 +369,12 @@ Result.propTypes = {
 	index: t.number.isRequired,
 	name: t.string.isRequired,
 	type: t.string.isRequired,
-	onHover: t.func
+	onHover: t.func,
+	onScrollRequest: t.func
+};
+
+Result.defaultProps = {
+	onScrollRequest: () => {}
 };
 
 const Submit = props => <input className={props.className} type="submit"/>;
