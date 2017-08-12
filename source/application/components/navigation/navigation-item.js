@@ -6,32 +6,49 @@ import styled from 'styled-components';
 import Icon from '../common/icon';
 import Link from '../common/link';
 
-export default NavigationItem;
+export default class NavigationItem extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.getRef = this.getRef.bind(this);
+	}
 
-function NavigationItem(props) {
-	const title = props.title || `Navigate to ${props.name} ${props.type}`;
-	const symbol = props.active ? props.symbolActive : props.symbol;
+	getRef(ref) {
+		this.ref = ref;
+	}
 
-	return (
-		<StyledNavigationItem
-			active={props.active}
-			className={props.className}
-			type={props.type}
-			>
-			<StyledNavigationLink
+	componentWillUpdate(next) {
+		if (!this.props.active && next.active && this.ref) {
+			this.props.onScrollRequest({target: this.ref, props: next});
+		}
+	}
+
+	render() {
+		const {props} = this;
+		const title = props.title || `Navigate to ${props.name} ${props.type}`;
+		const symbol = props.active ? props.symbolActive : props.symbol;
+
+		return (
+			<StyledNavigationItem
 				active={props.active}
-				href={props.href}
+				className={props.className}
+				innerRef={this.getRef}
 				type={props.type}
-				title={title}
 				>
-				<StyledIcon active={props.active} size="m" symbol={symbol}/>
-				<span>{props.name}</span>
-			</StyledNavigationLink>
-			{
-				props.active && props.children
-			}
-		</StyledNavigationItem>
-	);
+				<StyledNavigationLink
+					active={props.active}
+					href={props.href}
+					type={props.type}
+					title={title}
+					>
+					<StyledIcon active={props.active} size="m" symbol={symbol}/>
+					<span>{props.name}</span>
+				</StyledNavigationLink>
+				{
+					props.active && props.children
+				}
+			</StyledNavigationItem>
+		);
+	}
 }
 
 NavigationItem.propTypes = {
@@ -41,6 +58,7 @@ NavigationItem.propTypes = {
 	href: types.string.isRequired,
 	id: types.string.isRequired,
 	name: types.string.isRequired,
+	onScrollRequest: types.func,
 	symbol: types.string.isRequired,
 	symbolActive: types.string,
 	title: types.string,

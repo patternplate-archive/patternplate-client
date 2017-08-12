@@ -20,6 +20,7 @@ function NavigationTree(props) {
 						id={item.id}
 						key={item.id}
 						name={item.manifest.displayName}
+						onScrollRequest={props.onScrollRequest}
 						prefix={props.prefix}
 						symbol={icon}
 						symbolActive={iconActive}
@@ -31,6 +32,7 @@ function NavigationTree(props) {
 									active={props.active}
 									data={item.children}
 									id={item.id}
+									onScrollRequest={props.onScrollRequest}
 									prefix={item.prefix}
 									/>
 						}
@@ -47,5 +49,6 @@ NavigationTree.propTypes = {
 	children: types.any,
 	data: types.array.isRequired,
 	id: types.string.isRequired,
+	onScrollRequest: types.func,
 	prefix: types.string.isRequired
 };

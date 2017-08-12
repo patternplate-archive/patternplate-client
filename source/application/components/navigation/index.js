@@ -5,29 +5,54 @@ import NavigationTree from './navigation-tree';
 import NavigationToolbar from './navigation-toolbar';
 import Logo from '../../containers/logo';
 
-export default Navigation;
+export default class Navigation extends React.Component {
+	constructor(...args) {
+		super(...args);
+		this.getRef = this.getRef.bind(this);
+		this.handleScrollRequest = this.handleScrollRequest.bind(this);
+	}
 
-function Navigation(props) {
-	return (
-		<StyledNavigation>
-			<StyledNavigationTree>
-				<Logo/>
-				<NavigationTree
-					active={props.active}
-					data={props.navigation.children}
-					prefix="/pattern"
-					>
-					<Documentation
+	handleScrollRequest(e) {
+		const item = e.target.getBoundingClientRect();
+		const list = this.ref.getBoundingClientRect();
+
+		if (e.props.type !== 'folder' && item.bottom > list.bottom) {
+			this.ref.scrollTop = e.target.offsetTop - list.height + item.height;
+		}
+
+		if (item.top < list.top) {
+			this.ref.scrollTop = e.target.offsetTop;
+		}
+	}
+
+	getRef(ref) {
+		this.ref = ref;
+	}
+
+	render() {
+		const {props} = this;
+		return (
+			<StyledNavigation>
+				<StyledNavigationTree innerRef={this.getRef}>
+					<Logo/>
+					<NavigationTree
 						active={props.active}
-						docs={props.docs}
-						/>
-				</NavigationTree>
-			</StyledNavigationTree>
-			<StyledNavigationToolbar>
-				<NavigationToolbar/>
-			</StyledNavigationToolbar>
-		</StyledNavigation>
-	);
+						data={props.navigation.children}
+						onScrollRequest={this.handleScrollRequest}
+						prefix="/pattern"
+						>
+						<Documentation
+							active={props.active}
+							docs={props.docs}
+							/>
+					</NavigationTree>
+				</StyledNavigationTree>
+				<StyledNavigationToolbar>
+					<NavigationToolbar/>
+				</StyledNavigationToolbar>
+			</StyledNavigation>
+		);
+	}
 }
 
 Navigation.propTypes = {
