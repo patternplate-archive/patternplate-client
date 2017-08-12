@@ -3,13 +3,17 @@ import Helmet from 'react-helmet';
 import styled from 'styled-components';
 import * as svg from '../utils/svg';
 
-class Logo extends React.Component {
+class FavIcon extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.state = {};
 	}
 
 	componentDidMount() {
+		if (typeof this.props.source !== 'string') {
+			return;
+		}
+
 		const [purged] = svg.purge([svg.parse(this.props.source)]);
 		const source = svg.stringify(purged);
 
@@ -40,7 +44,7 @@ class Logo extends React.Component {
 	}
 }
 
-export default styled(Logo)`
+export default styled(FavIcon)`
 	width: 100%;
 	height: auto;
 	stroke: ${props => props.theme.color};
@@ -48,7 +52,7 @@ export default styled(Logo)`
 	fill: ${props => props.theme.color};
 `;
 
-Logo.propTypes = {
+FavIcon.propTypes = {
 	className: t.string,
 	source: t.string
 };
