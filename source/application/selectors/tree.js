@@ -13,11 +13,15 @@ export function flatten(tree) {
 	}
 
 	const init = tree.id === 'root' ? [] : [{
-		id: tree.id,
-		name: tree.name,
-		type: tree.type,
 		contents: tree.contents,
-		manifest: tree.manifest
+		demoDependencies: tree.demoDependencies,
+		demoDependents: tree.demoDependents,
+		dependencies: tree.dependencies,
+		dependents: tree.dependents,
+		id: tree.id,
+		manifest: tree.manifest,
+		name: tree.name,
+		type: tree.type
 	}];
 
 	return (tree.children || [])

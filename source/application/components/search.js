@@ -1,3 +1,4 @@
+import {values} from 'lodash';
 import React, {PropTypes as t} from 'react';
 import styled from 'styled-components';
 import tag from 'tag-hoc';
@@ -437,11 +438,15 @@ function ResultPreview(props) {
 				<StyledResultPreview>
 					<InfoPane
 						active
+						demoDependencies={values(props.item.demoDependencies)}
+						demoDependents={values(props.item.demoDependents)}
+						dependencies={values(props.item.dependencies)}
+						dependents={values(props.item.dependents)}
 						flag={props.item.manifest.flag}
 						icon={props.item.manifest.options.icon || props.item.type}
 						id={props.item.id}
-						name={props.item.manifest.displayName}
 						manifest={JSON.stringify(props.item.manifest, null, '  ')}
+						name={props.item.manifest.displayName}
 						tags={props.item.manifest.tags}
 						version={props.item.manifest.version}
 						/>

@@ -198,11 +198,14 @@ const StyledToggleBody = styled.div`
 	color: ${props => props.theme.color};
 	box-sizing: border-box;
 	width: 100%;
-	max-height: 200px;
 	padding: 5px 15px 5px 20px;
-	overflow: scroll;
 	box-sizing: border-box;
 	background: ${props => props.theme.tint};
+	${props => props.compact && `
+		max-height: 200px;
+		overflow: scroll;
+		-webkit-overflow-scrolling: touch;
+	`}
 `;
 
 const StyledCode = styled(Code)`
@@ -259,6 +262,7 @@ function InfoPane(props) {
 				name={props.name}
 				manifest={props.manifest}
 				manifestEnabled={props.manifestEnabled}
+				standalone
 				tags={props.tags}
 				version={props.version}
 				/>
@@ -343,6 +347,7 @@ function InnerInfoPane(props) {
 			{
 				withDeps &&
 					<Toggle
+						compact={props.standalone}
 						head={`Dependencies (${props.dependencies.length})`}
 						enabled={props.dependenciesEnabled}
 						name="dependencies"
@@ -355,6 +360,7 @@ function InnerInfoPane(props) {
 			{
 				withDepe &&
 					<Toggle
+						compact={props.standalone}
 						head={`Dependents (${props.dependents.length})`}
 						enabled={props.dependentsEnabled}
 						name="dependents"
@@ -367,6 +373,7 @@ function InnerInfoPane(props) {
 			{
 				withDemoDeps &&
 					<Toggle
+						compact={props.standalone}
 						head={`Demo Dependencies (${props.demoDependencies.length})`}
 						enabled={props.demoDependenciesEnabled}
 						name="demo-dependencies"
@@ -379,6 +386,7 @@ function InnerInfoPane(props) {
 			{
 				withDemoDepe &&
 					<Toggle
+						compact={props.standalone}
 						head={`Demo Dependents (${props.demoDependents.length})`}
 						enabled={props.demoDependentsEnabled}
 						name="demo-dependents"
@@ -411,6 +419,7 @@ InnerInfoPane.propTypes = {
 	manifest: t.string.isRequired,
 	manifestEnabled: t.bool.isRequired,
 	name: t.string.isRequired,
+	standalone: t.bool.isRequired,
 	style: t.string,
 	tags: t.array.isRequired,
 	version: t.string.isRequired
@@ -472,11 +481,7 @@ ToggleHead.propTypes = {
 };
 
 const StyledPatternList = styled.div`
-	max-height: 100px;
 	width: 100%;
-	margin-bottom: 10px;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
 `;
 
 function PatternList(props) {
@@ -517,7 +522,7 @@ function Toggle(props) {
 				{props.head}
 			</StyledToggleHead>
 			{props.enabled &&
-				<StyledToggleBody>
+				<StyledToggleBody compcat={props.compact}>
 					{props.children}
 				</StyledToggleBody>
 			}
@@ -526,8 +531,9 @@ function Toggle(props) {
 }
 
 Toggle.propTypes = {
-	name: t.string,
+	children: t.any,
+	compact: t.bool,
 	enabled: t.bool,
 	head: t.any,
-	children: t.any
+	name: t.string
 };
