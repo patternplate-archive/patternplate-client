@@ -13,10 +13,14 @@ export default class Navigation extends React.Component {
 	}
 
 	handleScrollRequest(e) {
+		if (!this.ref || !e.target) {
+			return;
+		}
+
 		const item = e.target.getBoundingClientRect();
 		const list = this.ref.getBoundingClientRect();
 
-		if (e.props.type !== 'folder' && item.bottom > list.bottom) {
+		if (item.bottom > list.bottom) {
 			this.ref.scrollTop = e.target.offsetTop - list.height + item.height;
 		}
 
@@ -44,6 +48,7 @@ export default class Navigation extends React.Component {
 						<Documentation
 							active={props.active}
 							docs={props.docs}
+							onScrollRequest={this.handleScrollRequest}
 							/>
 					</NavigationTree>
 				</StyledNavigationTree>
@@ -89,6 +94,7 @@ function Documentation(props) {
 			active={props.active}
 			className="docs-navigation"
 			data={props.docs.children}
+			onScrollRequest={props.onScrollRequest}
 			prefix="/doc"
 			/>
 	);
@@ -96,7 +102,8 @@ function Documentation(props) {
 
 Documentation.propTypes = {
 	active: t.string.isRequired,
-	docs: t.object.isRequired
+	docs: t.object.isRequired,
+	onScrollRequest: t.func.isRequireds
 };
 
 const StyledDocumentationTree = styled(NavigationTree)`
