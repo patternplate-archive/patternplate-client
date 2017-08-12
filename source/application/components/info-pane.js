@@ -18,6 +18,9 @@ const StyledInfoPane = styled.div`
 	left: -45px; /* safe zone of 60px minus 15px margin */
 	width: 300px;
 	box-sizing: border-box;
+	border-radius: 10px;
+	overflow: hidden;
+	max-height: 90vh;
 	&::before {
 		content: '';
 		position: absolute;
@@ -32,12 +35,15 @@ const StyledInfoPane = styled.div`
 `;
 
 const StyledInnerPane = styled.div`
+	display: flex;
+	flex-direction: column;
 	position: relative;
 	z-index: 2;
 `;
 
 const StyledName = styled.div`
 	display: flex;
+	flex: 0 0 auto;
 	align-items: center;
 	margin-bottom: 10px;
 	padding: 10px 15px 0 15px;
@@ -65,6 +71,7 @@ const StyledIcon = styled(Icon)`
 `;
 
 const StyledData = styled.table`
+	flex: 0 0 auto;
 	width: 100%;
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -396,7 +403,7 @@ function InnerInfoPane(props) {
 						</PatternList>
 					</Toggle>
 			}
-			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
+			<Toggle compact={props.standalone} head="Manifest" enabled={props.manifestEnabled} name="manifest">
 				<StyledCode language="json">{props.manifest}</StyledCode>
 			</Toggle>
 		</StyledInnerPane>
@@ -515,18 +522,23 @@ PatternItem.propTypes = {
 	pattern: t.any
 };
 
+const StyledToggle = styled.div`
+	flex: 1 1 auto;
+	min-height: 30px;
+`;
+
 function Toggle(props) {
 	return (
-		<div>
+		<StyledToggle>
 			<StyledToggleHead name={props.name} enabled={props.enabled}>
 				{props.head}
 			</StyledToggleHead>
 			{props.enabled &&
-				<StyledToggleBody compcat={props.compact}>
+				<StyledToggleBody compact={props.compact}>
 					{props.children}
 				</StyledToggleBody>
 			}
-		</div>
+		</StyledToggle>
 	);
 }
 
