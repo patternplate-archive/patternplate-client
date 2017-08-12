@@ -35,10 +35,17 @@ function focus(next) {
 
 	setTimeout(() => {
 		const el = global.document.query('input[data-search]');
+
 		if (!el) {
 			return;
 		}
-		el.focus();
+
+		if (global.document.activeElement !== el) {
+			el.focus();
+		}
+
+		const range = el.value.length;
+		el.setSelectionRange(range, range);
 	}, 100);
 }
 
