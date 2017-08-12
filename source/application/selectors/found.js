@@ -42,10 +42,12 @@ export const selectFound = createSelector(
 	selectMatches,
 	(pool, matches) => {
 		const sorted = sortBy(matches.map(match => pool.find(p => p.id === match)), 'type');
-		return sorted.map((s, i) => {
-			s.index = i;
-			return s;
-		});
+		return sorted
+			.filter(s => s.type !== 'folder')
+			.map((s, i) => {
+				s.index = i;
+				return s;
+			});
 	}
 );
 
