@@ -5,6 +5,7 @@ import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
 
 import Favicon from '../../containers/favicon';
+import Fullscreen from '../../containers/fullscreen';
 import Hamburger from '../../containers/hamburger';
 import Info from '../../containers/info';
 import InfoPane from '../../containers/info-pane';
@@ -70,6 +71,7 @@ export default class Application extends Component {
 							<Hamburger/>
 							<Info/>
 							<Opacity/>
+							<Fullscreen/>
 						</StyledControlsBox>
 					</ThemeProvider>
 					<StyledContent navigationEnabled={props.navigationEnabled}>

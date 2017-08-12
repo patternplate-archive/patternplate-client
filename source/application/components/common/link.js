@@ -18,6 +18,8 @@ class LinkComponent extends React.Component {
 		const {props} = this;
 		return (
 			<a
+				target={props.external ? '_blank' : 'self'}
+				rel="noopener noreferrer"
 				className={props.className}
 				href={props.href}
 				onClick={this.handleClick}
@@ -39,7 +41,7 @@ function mapProps(state, own) {
 	const query = own.query || location.query;
 
 	return {
-		href: url.format({
+		href: own.external ? own.href : url.format({
 			pathname: typeof parsed.pathname === 'string' ? url.resolve(state.base, parsed.pathname) : location.pathname,
 			query: {...location.query, ...parsed.query, ...query},
 			hash: own.hash
@@ -57,8 +59,10 @@ function mapDispatch(dispatch, own) {
 			if (own.onClick) {
 				own.onClick(e);
 			}
-			e.preventDefault();
-			return push(href);
+			if (!own.external) {
+				e.preventDefault();
+				return push(href);
+			}
 		}
 	}, dispatch);
 }
@@ -66,6 +70,7 @@ function mapDispatch(dispatch, own) {
 LinkComponent.propTypes = {
 	children: t.any.isRequired,
 	className: t.string,
+	external: t.bool,
 	href: t.string.isRequired,
 	onClick: t.func,
 	title: t.string
