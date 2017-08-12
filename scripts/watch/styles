@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-npm run build:styles && \
-chokidar 'source/assets/style/**/*.less' -c 'npm run build:styles'
