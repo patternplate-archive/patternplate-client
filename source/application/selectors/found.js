@@ -70,7 +70,7 @@ export const selectSuggestion = createSelector(
 			return '';
 		}
 
-		const match = pool.find(m => [m.id, m.name, m.manifest.displayName].some(k => k && k.startsWith(search)));
+		const match = pool.find(m => [m.id, m.name, (m.manifest || {}).displayName].some(k => k && k.startsWith(search)));
 
 		if (!match) {
 			return '';

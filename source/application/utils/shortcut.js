@@ -1,18 +1,22 @@
 const CODES = {
-	esc: 27,
-	space: 32,
-	c: 67,
-	d: 68,
-	e: 69,
-	f: 70,
-	h: 72,
-	i: 73,
-	o: 79,
-	k: 75,
-	l: 76,
-	n: 78,
-	r: 82,
-	t: 84
+	'arrow-up': 38,
+	'arrow-right': 39,
+	'arrow-down': 40,
+	'arrow-left': 37,
+	'esc': 27,
+	'space': 32,
+	'c': 67,
+	'd': 68,
+	'e': 69,
+	'f': 70,
+	'h': 72,
+	'i': 73,
+	'o': 79,
+	'k': 75,
+	'l': 76,
+	'n': 78,
+	'r': 82,
+	't': 84
 };
 
 export default class Shortcut {

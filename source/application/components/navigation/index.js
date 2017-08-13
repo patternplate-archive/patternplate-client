@@ -36,7 +36,7 @@ export default class Navigation extends React.Component {
 	render() {
 		const {props} = this;
 		return (
-			<StyledNavigation>
+			<StyledNavigation onKeyDown={this.handleKeyDown}>
 				<StyledNavigationTree innerRef={this.getRef}>
 					<Logo/>
 					<NavigationTree

@@ -21,10 +21,11 @@ export function apply(fuse, pool) {
 
 export function match(fuse, pool) {
 	return term => {
-		const [field, value] = term.split(':');
+		const [f, value] = term.split('=').map(t => t.trim());
+		const field = f.replace(/!$/, '');
 
 		if (field && value) {
-			return searchField(pool, {field, value});
+			return searchField(pool, {field, value, negated: f !== field});
 		}
 
 		return fuse.search(term);
@@ -39,21 +40,28 @@ export function parse(search) {
 	}
 }
 
-function searchField(pool, {value, field}) {
+function searchField(pool, {value, field, negated}) {
+	const tester = test(field, value);
+
 	return pool
-		.filter(item => {
-			switch (field) {
-				case 'options.automount':
-					return (item.manifest.options || {}).automount;
-				case 'tag':
-				case 'tags':
-					return (item.manifest.tags || []).includes(value);
-				case 'version':
-					return semver.valid(item.manifest.version) ? semver.satisfies(item.manifest.version, value) : false;
-				case 'flag':
-				default:
-					return item[field] === value || item.manifest[field] === value;
-			}
-		})
+		.filter(item => typeof item.manifest === 'object')
+		.filter(item => negated ? !tester(item) : tester(item))
 		.map(i => i.id);
+}
+
+function test(field, value) {
+	return item => {
+		switch (field) {
+			case 'options.automount':
+				return (item.manifest.options || {}).automount;
+			case 'tag':
+			case 'tags':
+				return (item.manifest.tags || []).includes(value);
+			case 'version':
+				return semver.valid(item.manifest.version) ? semver.satisfies(item.manifest.version, value) : false;
+			case 'flag':
+			default:
+				return item[field] === value || item.manifest[field] === value;
+		}
+	};
 }

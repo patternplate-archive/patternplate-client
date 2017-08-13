@@ -4,32 +4,14 @@ import {createSelector} from 'reselect';
 
 import * as actions from '../actions';
 import createRelationSelector from '../selectors/relation';
-import find from '../utils/find';
 import InfoPane from '../components/info-pane';
-import selectPatterns from '../selectors/navigation';
-import selectDocs from '../selectors/docs';
+import selectItem from '../selectors/item';
 import withToggleStates from '../connectors/with-toggle-states';
 
 const selectType = createSelector(
-	state => state.id,
-	id => id.split('/').find(f => typeof f === 'string' && f)
+	selectItem,
+	item => item.type
 );
-
-const selectItem = createSelector(
-	selectDocs,
-	selectPatterns,
-	selectType,
-	state => state.id,
-	(docs, patterns, type, id) => {
-		switch (type) {
-			case 'pattern':
-				return find(patterns, id, {type});
-			case 'doc':
-				return find(docs, id, {type});
-			default:
-				return null;
-		}
-	});
 
 const selectActive = createSelector(
 	selectItem,
@@ -99,7 +81,7 @@ const selectEnvs = createSelector(
 			return [];
 		}
 
-		return item.envs.map(e => {
+		return (item.envs || []).map(e => {
 			const found = envs.find(env => env.name === e);
 			return {
 				name: found.name,

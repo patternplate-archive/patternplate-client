@@ -63,13 +63,15 @@ export default class Search extends React.Component {
 	}
 
 	handleUp(e) {
+		e.stopPropagation();
 		if (this.props.activeItem && this.props.activeItem.index > 0) {
 			e.preventDefault();
 			this.props.onUp();
 		}
 	}
 
-	handleDown() {
+	handleDown(e) {
+		e.stopPropagation();
 		const available = this.props.components.length + this.props.docs.length - 2;
 
 		if (this.props.activeItem && available >= this.props.activeItem.index) {

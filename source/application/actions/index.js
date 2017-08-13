@@ -1,3 +1,4 @@
+export arrow from './arrow';
 export applyState from './apply-state';
 export changeConcern from './change-concern';
 export changeEnvironment from './change-environment';

@@ -12,15 +12,23 @@ export function flatten(tree) {
 		return [];
 	}
 
-	const init = tree.id === 'root' ? [] : [{
+	/**
+	 * This defines the schema of items to be found
+	 * in all tree and pool representations of patterns,
+	 * docs and folders
+	 */
+	const init = [{
 		contents: tree.contents,
 		demoDependencies: tree.demoDependencies,
 		demoDependents: tree.demoDependents,
 		dependencies: tree.dependencies,
 		dependents: tree.dependents,
+		envs: tree.envs,
+		href: tree.href,
 		id: tree.id,
 		manifest: tree.manifest,
 		name: tree.name,
+		path: tree.path,
 		type: tree.type
 	}];
 

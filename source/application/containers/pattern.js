@@ -1,7 +1,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
-import find from '../utils/find';
+import selectItem from '../selectors/item';
 import Pattern from '../components/pattern';
 
 import * as actions from '../actions';
@@ -37,19 +37,13 @@ You might want to navigate back to [Home](/) or use the search.
 Help us to make this message more helpful on [GitHub](https://github.com/sinnerschrader/patternplate)
 `;
 
-const selectPattern = createSelector(
-	state => state.schema.meta,
-	state => state.id,
-	(meta, id) => find(meta, id, {type: 'pattern'})
-);
-
 const selectType = createSelector(
-	selectPattern,
+	selectItem,
 	pattern => pattern ? pattern.type : 'not-found'
 );
 
 const selectContents = createSelector(
-	selectPattern,
+	selectItem,
 	selectType,
 	(pattern, type) => {
 		if (type === 'not-found') {
@@ -77,7 +71,7 @@ function mapState(state) {
 		env: selectEnv(state),
 		id: state.id || '',
 		opacity: state.opacity,
-		pattern: selectPattern(state),
+		pattern: selectItem(state),
 		reloadTime: selectReloadTime(state),
 		type: selectType(state)
 	};

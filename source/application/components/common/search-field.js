@@ -100,8 +100,10 @@ export default class SearchField extends Component {
 		const hasValue = target.value.length > 0;
 		const atEnd = hasValue && target.selectionStart === target.value.length;
 
-		if ((e.which === 27) && hasValue) {
+		if (e.which !== 27) {
 			e.stopPropagation();
+		}
+		if ((e.which === 27) && hasValue) {
 			e.preventDefault();
 			this.props.onClear();
 		}
@@ -109,12 +111,10 @@ export default class SearchField extends Component {
 			this.props.onUp(e);
 		}
 		if ((e.which === 39) && atEnd && this.props.suggestion) {
-			e.stopPropagation();
 			e.preventDefault();
 			this.props.onComplete(this.props.suggestion);
 		}
 		if ((e.which === 40) && atEnd) {
-			e.stopPropagation();
 			e.preventDefault();
 			this.props.onDown(e);
 		}

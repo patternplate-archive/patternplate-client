@@ -1,16 +1,10 @@
 import {connect} from 'react-redux';
 import {createSelector} from 'reselect';
 import Documentation from '../components/documentation';
-import find from '../utils/find';
+import selectItem from '../selectors/item';
 import themes from '../themes';
 
 export default connect(mapState)(Documentation);
-
-const selectMatch = createSelector(
-	state => state.schema.docs,
-	state => state.id,
-	(docs, id) => find(docs, id, {type: 'doc'})
-);
 
 const selectNotFound = createSelector(
 	state => state.routing.locationBeforeTransitions.pathname,
@@ -60,7 +54,7 @@ Help us to make this message more helpful on [GitHub](https://github.com/sinners
 `;
 
 const selectDoc = createSelector(
-	selectMatch,
+	selectItem,
 	selectNoDocs,
 	selectNotFound,
 	(match, noDocs, notFound) => {
@@ -77,7 +71,7 @@ const selectDoc = createSelector(
 );
 
 const selectType = createSelector(
-	selectMatch,
+	selectItem,
 	match => {
 		if (match && match.contents) {
 			return 'doc';
