@@ -10,7 +10,6 @@ export default function createRelationSelector(key, selectItem) {
 			if (!item) {
 				return [];
 			}
-
 			return (item[key] || [])
 				.map(id => find(patterns, `pattern/${id}`, {type: 'pattern'}))
 				.filter(Boolean);

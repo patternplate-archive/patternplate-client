@@ -1,3 +1,6 @@
 {
-	"extends": ["xo/esnext", "xo-react"]
+  "extends": ["xo/esnext", "xo-react"],
+  "rules": {
+    "react/prop-types": [0]
+  }
 }

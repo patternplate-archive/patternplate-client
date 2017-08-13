@@ -1,9 +1,9 @@
-import color from 'color';
 import React, {PropTypes as t} from 'react';
 import semver from 'semver';
 import styled from 'styled-components';
 import text from 'react-addons-text-content';
 import Code from './common/code';
+import Flag from './flag';
 import Icon from './common/icon';
 import Link from './common/link';
 import Text from './text';
@@ -135,13 +135,6 @@ SearchTrigger.propTypes = {
 	title: t.string.isRequired
 };
 
-const StyledSearchTrigger = styled(SearchTrigger)`
-	&:link, &:visited {
-		text-decoration: none;
-		color: ${props => props.theme.color};
-	}
-`;
-
 const StyledVersion = styled(Version)`
 	&:link, &:visited {
 		text-decoration: none;
@@ -161,31 +154,19 @@ const StyledVersion = styled(Version)`
 	}
 `;
 
-const StyledFlag = styled(StyledSearchTrigger)`
-	display: inline-block;
-	padding: 2px 4px;
-	border: 1px solid ${props => props.theme.border};
-	border-radius: 1px;
-	background: ${props => getFlagColor(text(props.children), props.theme)};
-	&:link, &:visited, &:active {
-		color: ${props => {
-			const flag = getFlagColor(text(props.children), props.theme);
-			return contrast(flag, props.theme.color) >= contrast(flag, props.theme.colorNegated) ?
-				props.theme.color :
-				props.theme.colorNegated;
-		}}
-	}
-`;
-
 const StyledTag = styled(Tag)`
 	display: inline-block;
 	padding: 2px 4px;
-	margin: 0 2px 2px 0;
-	border: 1px solid ${props => props.theme.border};
-	border-radius: 1px;
+	margin-top: 1.5px;
+	margin-bottom: 1.5px;
+	border: 1px solid ${props => props.theme.color};
+	border-radius: 3px;
 	&:link, &:visited, &:active {
 		text-decoration: none;
 		color: ${props => props.theme.color};
+	}
+	&:nth-child(2n) {
+		margin-left: 3px;
 	}
 `;
 
@@ -218,27 +199,6 @@ const StyledToggleBody = styled.div`
 const StyledCode = styled(Code)`
 	width: 100%;
 `;
-
-function getFlagColor(flag, theme) {
-	switch (flag) {
-		case 'alpha':
-			return theme.error;
-		case 'beta':
-			return theme.warning;
-		case 'rc':
-			return theme.info;
-		case 'stable':
-			return theme.success;
-		case 'deprecated':
-			return theme.error;
-		default:
-			return theme.error;
-	}
-}
-
-function contrast(a, b) {
-	return color(a).contrast(color(b));
-}
 
 function InfoPane(props) {
 	if (!props.active) {
@@ -331,9 +291,11 @@ function InnerInfoPane(props) {
 							<StyledKey>Flag</StyledKey>
 						</StyledDataCell>
 						<StyledDataCell>
-							<StyledFlag field="flag" search={props.flag}>
-								<Text>{props.flag}</Text>
-							</StyledFlag>
+							<SearchTrigger field="flag" search={props.flag}>
+								<Flag>
+									{props.flag}
+								</Flag>
+							</SearchTrigger>
 						</StyledDataCell>
 					</tr>
 					{
