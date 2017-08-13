@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import {sortBy} from 'lodash';
+import {uniqBy, sortBy} from 'lodash';
 import {createSelector} from 'reselect';
 import selectPool from './pool';
 import {apply, parse} from './search';
@@ -42,7 +42,7 @@ export const selectFound = createSelector(
 	selectPool,
 	selectMatches,
 	(pool, matches) => {
-		const sorted = sortBy(matches.map(match => pool.find(p => p.id === match)), 'type');
+		const sorted = uniqBy(sortBy(matches.map(match => pool.find(p => p.id === match)), 'type'), 'id');
 		return sorted
 			.filter(s => s.type !== 'folder')
 			.map((s, i) => {
