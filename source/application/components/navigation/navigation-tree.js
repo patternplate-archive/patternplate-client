@@ -1,4 +1,5 @@
 import React, {PropTypes as types} from 'react';
+import Flag from '../flag';
 import NavigationItem from './navigation-item';
 
 export default NavigationTree;
@@ -19,6 +20,13 @@ function NavigationTree(props) {
 						href={item.href}
 						id={item.id}
 						key={item.id}
+						meta={item.warnings.map(warning => {
+							switch (warning.type) {
+								case 'flag':
+								default:
+									return <Flag key={warning.value} title={warning.message}>{warning.value}</Flag>;
+							}
+						})}
 						name={item.manifest.displayName}
 						onScrollRequest={props.onScrollRequest}
 						prefix={props.prefix}

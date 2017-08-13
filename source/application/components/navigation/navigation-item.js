@@ -5,38 +5,19 @@ import styled from 'styled-components';
 
 import Icon from '../common/icon';
 import Link from '../common/link';
-import Text from '../text';
 
 export default class NavigationItem extends React.Component {
 	constructor(...args) {
 		super(...args);
 		this.getRef = this.getRef.bind(this);
-		this.getLinkRef = this.getLinkRef.bind(this);
-		this.handleInterSection = this.handleInterSection.bind(this);
-		this.state = {
-			intersects: true
-		};
 	}
 
 	getRef(ref) {
 		this.ref = ref;
 	}
 
-	getLinkRef(ref) {
-		this.link = ref;
-	}
-
-	componentWillUnmount() {
-		if (this.observer && this.link) {
-			this.observer.unobserve(this.link);
-		}
-	}
-
 	componentDidMount() {
-		if (this.props.active && this.ref && this.link) {
-			this.observer = new global.IntersectionObserver(this.handleInterSection);
-			this.observer.observe(this.link);
-
+		if (this.props.active && this.ref) {
 			setTimeout(() => {
 				this.props.onScrollRequest({target: this.ref, props: this.props});
 			});
@@ -52,17 +33,6 @@ export default class NavigationItem extends React.Component {
 		}
 	}
 
-	handleInterSection([e]) {
-		if (!this.props.active || !this.props.type === 'folder') {
-			return;
-		}
-		if (this.state.intersects !== e.isIntersecting) {
-			this.setState({
-				intersects: e.isIntersecting
-			});
-		}
-	}
-
 	render() {
 		const {props} = this;
 		const title = props.title || `Navigate to ${props.name} ${props.type}`;
@@ -75,23 +45,19 @@ export default class NavigationItem extends React.Component {
 				innerRef={this.getRef}
 				type={props.type}
 				>
-				{(props.type === 'folder' && props.active && !this.state.intersects) &&
-					<StyledNavigationLabel>
-						<Text>{props.name}</Text>
-					</StyledNavigationLabel>
-				}
-				<div ref={this.getLinkRef}>
-					<StyledNavigationLink
-						active={props.active}
-						href={props.href}
-						sticky={props.type === 'folder' && props.active}
-						type={props.type}
-						title={title}
-						>
-						<StyledIcon active={props.active} size="m" symbol={symbol}/>
-						<span>{props.name}</span>
-					</StyledNavigationLink>
-				</div>
+				<StyledNavigationLink
+					active={props.active}
+					href={props.href}
+					sticky={props.type === 'folder' && props.active}
+					type={props.type}
+					title={title}
+					>
+					<StyledIcon active={props.active} size="m" symbol={symbol}/>
+					<StyledName>{props.name}</StyledName>
+					{props.meta &&
+						<StyledMeta active={props.active}>{props.meta}</StyledMeta>
+					}
+				</StyledNavigationLink>
 				{
 					props.active && props.children
 				}
@@ -115,9 +81,19 @@ NavigationItem.propTypes = {
 };
 
 const StyledIcon = styled(Icon)`
+	flex: 0 0 auto;
 	fill: ${props => props.theme.color};
 	${props => props.active && `fill: ${color(props.theme.active)}`};
 	margin: 5px 10px 5px 6px;
+`;
+
+const StyledName = styled.div`
+	flex: 1 1 100%;
+`;
+
+const StyledMeta = styled.div`
+	flex: 1 0  auto;
+	margin: 0 ${props => props.active ? 6 : 10}px 0 auto;
 `;
 
 const StyledNavigationItem = styled.div`
@@ -149,20 +125,4 @@ const StyledNavigationLink = styled(LinkTag)`
 		color: ${props => props.theme.color};
 		${props => props.active && `color: ${color(props.theme.active)}`};
 	}
-`;
-
-const StyledNavigationLabel = styled.div`
-	box-sizing: border-box;
-	position: -webkit-sticky;
-	position: sticky;
-	z-index: 1;
-	top: 0;
-	margin: 0;
-	font-size: 14px;
-	padding: 3px 15px;
-	border-width: 1px 0;
-	border-style: solid;
-	border-color: ${props => props.theme.border};
-	color: ${props => props.theme.color};
-	background: ${props => props.theme.background};
 `;

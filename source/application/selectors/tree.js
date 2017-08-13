@@ -68,12 +68,21 @@ export function enrich(child, {id, config, prefix}) {
 		(child.path || ['/']).every((f, i) => fragments[i] === f);
 
 	child.href = child.href || path.join(prefix, child.id);
+	child.warnings = child.warnings || [];
 
 	if (child.id in config) {
 		const o = config[child.id];
 		child.manifest.displayName = o.displayName || child.manifest.displayName;
 		child.manifest.options.order = o.order || child.manifest.options.order;
 		child.manifest.options.icon = o.icon || child.manifest.options.icon;
+	}
+
+	if (child.manifest && child.type === 'pattern' && (child.manifest.flag === 'alpha' || child.manifest.flag === 'deprecated')) {
+		child.warnings.push({
+			type: 'flag',
+			value: child.manifest.flag,
+			message: `${child.manifest.displayName} is flagged as ${child.manifest.flag}.`
+		});
 	}
 
 	// If there is no special content in a folder show the first child
