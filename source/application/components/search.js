@@ -286,6 +286,7 @@ const StyledResultHeading = styled(Text)`
 `;
 
 const StyledIcon = styled(tag(['active'])(Icon))`
+	flex: 0 0 auto;
 	fill: ${props => props.active ? props.theme.active : props.theme.color};
 	margin-right: 10px;
 `;
@@ -321,6 +322,10 @@ const StyledResult = styled.div`
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
+	&:hover ${StyledResultLink} {
+		mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 75px, rgba(0, 0, 0, 1) 125px);
+		-webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 0) 75px, rgba(0, 0, 0, 1) 125px);
+	}
 	&:hover ${StyledPreviewLink} {
 		opacity: 1;
 	}
