@@ -19,26 +19,12 @@ export function apply(fuse, pool) {
 	};
 }
 
-const OPERATORS = /([^!><\^~\n=]+)(!)?(>|<|\^|~)?(=)?([^!><\^~\n=]+)/;
-
 export function match(fuse, pool) {
 	return term => {
-		const found = term.match(OPERATORS) || [];
-		const [raw, field, negator, modifier, equality, value] = found;
+		const parsed = parseTerm(term);
 
-		if (field && value) {
-			return searchField(pool, {
-				field,
-				value,
-				raw,
-				operators: [modifier, equality].join(''),
-				negated: negator === '!',
-				greater: modifier === '>',
-				lower: modifier === '<',
-				startsWith: equality === '=' && modifier === '^',
-				includes: equality === '=' && modifier === '~',
-				equals: equality === '='
-			});
+		if (parsed.valid) {
+			return searchField(pool, parsed);
 		}
 
 		return fuse.search(term);
@@ -51,6 +37,28 @@ export function parse(search) {
 	} catch (err) {
 		return {type: 'and', values: []};
 	}
+}
+
+const OPERATORS = /([^!><\^~\n=]+)?((!)?(>|<|\^|~)?(=)?)([^!><\^~\n=]+)?/;
+
+export function parseTerm(term) {
+	const found = term.match(OPERATORS) || [];
+	const [raw, field, negator, expression, modifier, equality, value] = found;
+
+	return {
+		field,
+		value,
+		raw,
+		expression,
+		operators: [modifier, equality].join(''),
+		negated: negator === '!',
+		greater: modifier === '>',
+		lower: modifier === '<',
+		startsWith: equality === '=' && modifier === '^',
+		includes: equality === '=' && modifier === '~',
+		equals: equality === '=',
+		valid: Boolean(field && value && (typeof modifier === 'string' || typeof equality === 'string'))
+	};
 }
 
 function searchField(pool, options) {
@@ -88,7 +96,7 @@ function test(field, value, options) {
 	};
 }
 
-const FLAGS = {
+export const FLAGS = {
 	deprecated: 0,
 	alpha: 0,
 	beta: 1,
@@ -101,8 +109,8 @@ const flag = item => manifest(item).flag;
 const index = item => FLAGS[flag(item)] || 0;
 const version = item => manifest(item).version;
 const tags = item => manifest(item).tags || [];
-const depends = item => item.dependencies || [];
-const dependents = item => item.dependents || [];
+const depends = item => (item.dependencies || []).filter(i => typeof i === 'string');
+const dependents = item => (item.dependents || []).filter(i => typeof i === 'string');
 
 function matchDepends(value, options) {
 	if (options.startsWith) {

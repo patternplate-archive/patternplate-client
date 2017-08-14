@@ -128,6 +128,7 @@ export default class Search extends React.Component {
 							}
 						</SearchField>
 						<HiddenSubmit/>
+						<SearchLegend name={props.legend.name} items={props.legend.items}/>
 					</StyledSearchFieldBox>
 					<StyledResults>
 						{
@@ -226,20 +227,7 @@ const StyledForm = styled.form`
 	z-index: 2;
 	width: 100%;
 	max-height: 75vh;
-	&::before {
-		content: '';
-		position: absolute;
-		z-index: 0;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background: ${props => props.theme.tint};
-		border-radius: 10px;
-		opacity: 0.975;
-	}
+	${props => withTint(props)}
 `;
 
 const StyledSearchFieldBox = styled.div`
@@ -465,3 +453,95 @@ function ResultPreview(props) {
 ResultPreview.propTypes = {
 	item: t.any
 };
+
+const StyledSearchLegend = styled.div`
+	display: flex;
+	align-items: center;
+	height: 30px;
+	position: relative;
+	box-sizing: border-box;
+	width: 100%;
+	padding: 0 15px;
+	border: 1px solid ${props => props.theme.border};
+	color: ${props => props.theme.color};
+	${props => withTint(props)}
+`;
+
+const StyledSearchLegendBox = styled.div`
+	display: flex;
+	overflow: scroll;
+	-webkit-overflow-scrolling: touch;
+	width: 100%;
+	position: relative;
+	z-index: 1;
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
+
+const StyledField = styled(Text)`
+	padding: 0 10px;
+	color: ${props => props.theme.color};
+	&:first-child {
+		padding-left: 0;
+	}
+`;
+
+const StyledLegendName = styled(StyledField)`
+	padding-right: 20px;
+	font-weight: bold;
+	color: ${props => props.theme.color};
+	position: relative;
+	z-index: 1;
+`;
+
+const StyledFieldLink = styled(Link)`
+	white-space: nowrap;
+	&:link, &:active, &:visited, &:hover {
+		color: ${props => props.theme.color};
+		text-decoration: none;
+	}
+`;
+
+function SearchLegend(props) {
+	return (
+		<StyledSearchLegend className={props.className}>
+			{props.name &&
+				<StyledLegendName>
+					{props.name}
+				</StyledLegendName>
+			}
+			<StyledSearchLegendBox>
+				{(props.items || []).map(l => {
+					switch (l.type) {
+						case 'field':
+						default:
+							return (
+								<StyledField key={l.key}>
+									<StyledFieldLink title={l.description} query={{search: `${l.value}`}}>{l.key}</StyledFieldLink>
+								</StyledField>
+							);
+					}
+				})}
+			</StyledSearchLegendBox>
+		</StyledSearchLegend>
+	);
+}
+
+function withTint(props) {
+	return `
+		&::before {
+			content: '';
+			position: absolute;
+			z-index: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: ${props.theme.tint};
+			opacity: 0.975;
+		}
+	`;
+}

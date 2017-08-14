@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {createSelector} from 'reselect';
 
 import * as actions from '../actions';
 import Search from '../components/search';
@@ -11,6 +12,7 @@ function mapProps(state) {
 		components: found.selectPatterns(state), // list of components matching state.components
 		docs: found.selectDocs(state), // list of docs matching state.search
 		enabled: state.searchEnabled, // if search is to be displayed
+		legend: found.selectLegend(state),
 		shortcuts: state.shortcuts, // reference to global shortcuts for help texts
 		suggestion: found.selectSuggestion(state), // the backdrop search suggestion string
 		value: state.searchValue // the synchronous search input value

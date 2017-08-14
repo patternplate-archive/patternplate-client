@@ -147,8 +147,8 @@ const StyledControlsBox = styled.div`
 `;
 
 const StyledContent = styled.div`
-	flex: 1 1 ${props => props.navigationEnabled ? 'calc(100% - 300px)' : '100%'};
-	width: ${props => props.navigationEnabled ? 'calc(100% - 300px)' : '100%'};
+	flex: 1 1 ${props => props.navigationEnabled ? 'calc(100% - 360px)' : 'calc(100% - 60px)'};
+	width: ${props => props.navigationEnabled ? 'calc(100% - 360px)' : 'calc(100% - 60px)'};
 	height: 100%;
 	position: relative;
 `;
