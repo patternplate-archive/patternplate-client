@@ -367,17 +367,15 @@ export const selectActiveItem = createSelector(
 	(state, found, preview) => {
 		const index = Math.min(preview, found.length - 1);
 		const item = found[index];
-		if (item) {
-			const selectItem = () => item;
-			const rel = key => createRelationSelector(key, selectItem)(state);
-			Immutable.merge(item, {
-				index,
-				demoDependents: rel('demoDependents'),
-				demoDependencies: rel('demoDependencies'),
-				dependents: rel('dependents'),
-				dependencies: rel('dependencies')
-			});
-		}
-		return item;
+		const selectItem = () => item;
+		const rel = item ? key => createRelationSelector(key, selectItem)(state) : i => i;
+
+		return Immutable.merge(item, {
+			index,
+			demoDependents: rel('demoDependents'),
+			demoDependencies: rel('demoDependencies'),
+			dependents: rel('dependents'),
+			dependencies: rel('dependencies')
+		});
 	}
 );
