@@ -1,4 +1,5 @@
 import Fuse from 'fuse.js';
+import Immutable from 'seamless-immutable';
 import {flatten, uniq, uniqBy, sortBy} from 'lodash';
 import {createSelector} from 'reselect';
 import semver from 'semver';
@@ -205,10 +206,7 @@ export const selectFound = createSelector(
 		const sorted = uniqBy(sortBy(matches.map(match => pool.find(p => p.id === match)), 'type'), 'id');
 		return sorted
 			.filter(s => s.type !== 'folder')
-			.map((s, i) => {
-				s.index = i;
-				return s;
-			});
+			.map((s, i) => Immutable.set(s, 'index', i));
 	}
 );
 
@@ -372,11 +370,13 @@ export const selectActiveItem = createSelector(
 		if (item) {
 			const selectItem = () => item;
 			const rel = key => createRelationSelector(key, selectItem)(state);
-			item.index = index;
-			item.demoDependents = rel('demoDependents');
-			item.demoDependencies = rel('demoDependencies');
-			item.dependents = rel('dependents');
-			item.dependencies = rel('dependencies');
+			Immutable.merge(item, {
+				index,
+				demoDependents: rel('demoDependents'),
+				demoDependencies: rel('demoDependencies'),
+				dependents: rel('dependents'),
+				dependencies: rel('dependencies')
+			});
 		}
 		return item;
 	}
