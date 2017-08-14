@@ -370,12 +370,14 @@ export const selectActiveItem = createSelector(
 		const selectItem = () => item;
 		const rel = item ? key => createRelationSelector(key, selectItem)(state) : i => i;
 
-		return Immutable.merge(item, {
-			index,
-			demoDependents: rel('demoDependents'),
-			demoDependencies: rel('demoDependencies'),
-			dependents: rel('dependents'),
-			dependencies: rel('dependencies')
-		});
+		return item ?
+			Immutable.merge(item, {
+				index,
+				demoDependents: rel('demoDependents'),
+				demoDependencies: rel('demoDependencies'),
+				dependents: rel('dependents'),
+				dependencies: rel('dependencies')
+			}) :
+			item;
 	}
 );
