@@ -1,4 +1,6 @@
+import {merge} from 'lodash';
 import {createSelector} from 'reselect';
+import Immutable from 'seamless-immutable';
 import {enrich, flatten, sanitize} from './tree';
 
 const docs = createSelector(
@@ -6,7 +8,7 @@ const docs = createSelector(
 	state => state.id,
 	state => state.hide,
 	(tree, id, hide) => {
-		const t = sanitize(tree, {hide, id, prefix: 'doc'});
+		const t = sanitize(merge({}, tree), {hide, id, prefix: 'doc'});
 
 		if (!t.children.some(i => i.id === 'root')) {
 			const doc = enrich({
@@ -18,10 +20,10 @@ const docs = createSelector(
 				type: 'doc'
 			}, {id, config: {}, prefix: '/'});
 
-			tree.children.push(doc);
+			t.children.push(doc);
 		}
 
-		return t;
+		return Immutable.from(t);
 	}
 );
 

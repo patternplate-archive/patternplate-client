@@ -9,8 +9,9 @@ const selectActive = createSelector(
 );
 
 const selectHref = createSelector(
+	selectActive,
 	selectItem,
-	item => `/demo/${item.id}/index.html`
+	(active, item) => active ? `/demo/${item.id}/index.html` : ''
 );
 
 function mapProps(state) {

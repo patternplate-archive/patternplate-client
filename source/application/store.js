@@ -17,6 +17,10 @@ export default function configureStore(history, initial) {
 		routerMiddleware(history)
 	].filter(fn => typeof fn === 'function');
 
+	if (process.env.NODE_ENV !== 'production') {
+		middlewares.push(require('redux-freeze'));
+	}
+
 	const middleware = applyMiddleware(...middlewares);
 	const shortcuts = createShortcuts();
 	const store = createStore(reducer, {...initial, shortcuts}, enhance(middleware));

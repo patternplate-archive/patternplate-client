@@ -10,7 +10,7 @@ import withToggleStates from '../connectors/with-toggle-states';
 
 const selectType = createSelector(
 	selectItem,
-	item => item.type
+	item => item ? item.type : ''
 );
 
 const selectActive = createSelector(
