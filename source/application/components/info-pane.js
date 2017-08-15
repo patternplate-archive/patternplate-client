@@ -116,7 +116,7 @@ class SearchTrigger extends React.Component {
 			<Link
 				className={props.className}
 				onClick={this.handleClick}
-				query={{'search-enabled': true, 'search': `${props.field}:${props.search}`}}
+				query={{'search-enabled': true, 'search': `${props.field}=${props.search}`}}
 				title={`Search other patterns with ${props.field} "${props.search}"`}
 				>
 				{props.children}

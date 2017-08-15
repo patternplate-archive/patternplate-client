@@ -88,18 +88,22 @@ export default class Application extends Component {
 						</StyledContent>
 						<ThemeProvider theme={props.themes.dark}>
 							<StyledControlsBox enabled={props.navigationEnabled}>
-								<StyledControlsItem>
-									<Hamburger/>
-								</StyledControlsItem>
-								<StyledControlsItem>
-									<Info/>
-								</StyledControlsItem>
-								<StyledControlsItem>
-									<Opacity/>
-								</StyledControlsItem>
-								<StyledControlsItem>
-									<Fullscreen/>
-								</StyledControlsItem>
+								<StyledControlsArea orient="left">
+									<StyledControlsItem>
+										<Hamburger/>
+									</StyledControlsItem>
+									<StyledControlsItem>
+										<Info/>
+									</StyledControlsItem>
+								</StyledControlsArea>
+								<StyledControlsArea orient="right">
+									<StyledControlsItem>
+										<Opacity/>
+									</StyledControlsItem>
+									<StyledControlsItem>
+										<Fullscreen/>
+									</StyledControlsItem>
+								</StyledControlsArea>
 							</StyledControlsBox>
 						</ThemeProvider>
 					</StyledContentContainer>
@@ -136,6 +140,11 @@ Lightbox.propTypes = {
 
 const WIDTH = 300;
 const NAVIGATION_WIDTH = props => props.enabled ? WIDTH : 0;
+const TOOLBAR_HEIGHT = 60;
+const ORIENTATION = props => {
+	const direction = props.orient === 'right' ? 'left' : 'right';
+	return `margin-${direction}: auto`;
+};
 
 const StyledApplication = styled.div`
 	box-sizing: border-box;
@@ -153,14 +162,19 @@ const StyledNavigationBox = styled(tag(['enabled'])('div'))`
 	flex: 0 0 ${NAVIGATION_WIDTH}px;
 `;
 
+const StyledControlsArea = styled.div`
+	display: flex;
+	${ORIENTATION};
+`;
+
 const StyledControlsBox = styled.div`
 	display: flex;
 	align-items: center;
-	flex: 0 0 60px;
+	flex: 0 0 ${TOOLBAR_HEIGHT}px;
 	position: relative;
 	z-index: 2;
 	box-sizing: border-box;
-	height: 60px;
+	height: ${TOOLBAR_HEIGHT}px;
 	padding: 0 15px;
 `;
 
