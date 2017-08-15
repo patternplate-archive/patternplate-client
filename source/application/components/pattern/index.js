@@ -1,30 +1,31 @@
 import React, {PropTypes as t} from 'react';
-import styled, {css} from 'styled-components';
+import styled from 'styled-components';
 import tag from 'tag-hoc';
 
 import Markdown from '../common/markdown';
 import PatternDemo from './pattern-demo';
 import Search from '../../containers/search';
 
+const VISIBILITY = props => props.checkers ? 'block' : 'none';
+
 const StyledPattern = styled(tag(['checkers'])('div'))`
 	box-sizing: border-box;
 	height: 100%;
 	width: 100%;
-	${props => props.checkers && css`
-		&::before {
-			content: '';
-			position: absolute;
-			z-index: 1;
-			top: 0;
-			right: 0;
-			bottom: 0;
-			left: -60px;
-			width: calc(100% + 60px);
-			height: 100%;
-			background: ${props => checkers(props)};
-			background-size: 16px 16px;
-			background-position: 0 0, 8px 8px;
-		`}
+	&::before {
+		content: '';
+		display: ${VISIBILITY};
+		position: absolute;
+		z-index: 1;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: ${props => checkers(props)};
+		background-size: 16px 16px;
+		background-position: 0 0, 8px 8px;
 	}
 `;
 
@@ -175,10 +176,14 @@ Pattern.propTypes = {
 	sourceExpanded: t.bool */
 };
 
+function grad(fill) {
+	return `linear-gradient(45deg, ${fill} 25%, transparent 25%, transparent 75%, ${fill} 75%, ${fill})`;
+}
+
 function checkers(props) {
 	const fill = props.theme.border;
 	return `
-		linear-gradient(45deg, ${fill} 25%, transparent 25%, transparent 75%, ${fill} 75%, ${fill}),
-		linear-gradient(45deg, ${fill} 25%, transparent 25%, transparent 75%, ${fill} 75%, ${fill});
+		${grad(fill)},
+		${grad(fill)};
 	`;
 }

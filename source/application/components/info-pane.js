@@ -15,7 +15,6 @@ const StyledInfoPane = styled.div`
 	position: absolute;
 	z-index: 2;
 	bottom: 15px;
-	left: -45px; /* safe zone of 60px minus 15px margin */
 	width: 300px;
 	box-sizing: border-box;
 	border-radius: 10px;

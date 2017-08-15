@@ -26,6 +26,8 @@ const ScrollBox = styled.div`
 	height: 100%;
 	overflow: scroll;
 	-webkit-overflow-sroll: touch;
+	mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 50px);
+	-webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1) 50px);
 `;
 
 const StyledDocumentation = styled.div`

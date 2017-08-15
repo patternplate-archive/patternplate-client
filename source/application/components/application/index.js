@@ -66,31 +66,43 @@ export default class Application extends Component {
 							}
 						</StyledNavigationBox>
 					</ThemeProvider>
-					<ThemeProvider theme={props.themes.dark}>
-						<StyledControlsBox enabled={props.navigationEnabled}>
-							<Hamburger/>
-							<Info/>
-							<Opacity/>
-							<Fullscreen/>
-						</StyledControlsBox>
-					</ThemeProvider>
-					<StyledContent navigationEnabled={props.navigationEnabled}>
-						{props.children}
-						{props.searchEnabled &&
-							<ThemeProvider theme={props.themes.dark}>
-								<StyledSearchBox>
-									<StyledSearchFrame>
-										<Search/>
-									</StyledSearchFrame>
-								</StyledSearchBox>
-							</ThemeProvider>
-						}
-						{props.infoEnabled &&
-							<ThemeProvider theme={props.themes.dark}>
-								<InfoPane/>
-							</ThemeProvider>
-						}
-					</StyledContent>
+					<StyledContentContainer>
+						<StyledContent navigationEnabled={props.navigationEnabled}>
+							{props.children}
+							{props.searchEnabled &&
+								<ThemeProvider theme={props.themes.dark}>
+									<StyledSearchBox>
+										<StyledSearchFrame>
+											<Search/>
+										</StyledSearchFrame>
+									</StyledSearchBox>
+								</ThemeProvider>
+							}
+							{props.infoEnabled &&
+								<ThemeProvider theme={props.themes.dark}>
+									<StyledInfoBox>
+										<InfoPane/>
+									</StyledInfoBox>
+								</ThemeProvider>
+							}
+						</StyledContent>
+						<ThemeProvider theme={props.themes.dark}>
+							<StyledControlsBox enabled={props.navigationEnabled}>
+								<StyledControlsItem>
+									<Hamburger/>
+								</StyledControlsItem>
+								<StyledControlsItem>
+									<Info/>
+								</StyledControlsItem>
+								<StyledControlsItem>
+									<Opacity/>
+								</StyledControlsItem>
+								<StyledControlsItem>
+									<Fullscreen/>
+								</StyledControlsItem>
+							</StyledControlsBox>
+						</ThemeProvider>
+					</StyledContentContainer>
 					<Lightbox id={props.lightbox}/>
 				</StyledApplication>
 			</ThemeProvider>
@@ -122,6 +134,9 @@ Lightbox.propTypes = {
 	id: t.string
 };
 
+const WIDTH = 300;
+const NAVIGATION_WIDTH = props => props.enabled ? WIDTH : 0;
+
 const StyledApplication = styled.div`
 	box-sizing: border-box;
 	display: flex;
@@ -134,23 +149,41 @@ const StyledNavigationBox = styled(tag(['enabled'])('div'))`
 	position: relative;
 	z-index: 2;
 	height: 100%;
-	width: ${props => props.enabled ? '300px' : 0};
-	flex: 0 0 ${props => props.enabled ? '300px' : 0};
+	width: ${NAVIGATION_WIDTH}px;
+	flex: 0 0 ${NAVIGATION_WIDTH}px;
 `;
 
 const StyledControlsBox = styled.div`
+	display: flex;
+	align-items: center;
+	flex: 0 0 60px;
 	position: relative;
 	z-index: 2;
 	box-sizing: border-box;
-	flex: 0 0 60px;
-	padding: 15px;
+	height: 60px;
+	padding: 0 15px;
+`;
+
+const StyledControlsItem = styled.div`
+	& + & {
+		padding-left: 10px;
+	}
 `;
 
 const StyledContent = styled.div`
-	flex: 1 1 ${props => props.navigationEnabled ? 'calc(100% - 360px)' : 'calc(100% - 60px)'};
-	width: ${props => props.navigationEnabled ? 'calc(100% - 360px)' : 'calc(100% - 60px)'};
-	height: 100%;
+	flex: 1 1 100%;
+	width: 100%;
+	height: calc(100% - 60px);
 	position: relative;
+`;
+
+const StyledContentContainer = styled.div`
+	display: flex;
+	flex: 1 1 calc(100% - ${NAVIGATION_WIDTH}px);
+	width: calc(100% - ${NAVIGATION_WIDTH}px);
+	height: 100%;
+	flex-direction: column;
+	overflow: hidden;
 `;
 
 const StyledSearchBox = styled.div`
@@ -170,6 +203,10 @@ const StyledSearchFrame = styled.div`
 	max-height: 100%;
 	margin: 0 auto;
 	overflow: hidden;
+`;
+
+const StyledInfoBox = styled.div`
+	padding: 0 15px;
 `;
 
 function meta(props) {
