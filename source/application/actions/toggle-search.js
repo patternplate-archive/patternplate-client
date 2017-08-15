@@ -1,7 +1,7 @@
 import {patchLocation, search} from './';
 export default toggleSearch;
 
-export const type = 'TOGGLE_SEARCH';
+export const type = 'TOGGLE_SEARCH_ENABLED';
 
 function toggleSearch(payload = {}) {
 	return (dispatch, getState) => {
@@ -23,6 +23,8 @@ function toggleSearch(payload = {}) {
 }
 
 toggleSearch.type = type;
+toggleSearch.key = 'search-enabled';
+toggleSearch.property = 'searchEnabled';
 
 function focus(next) {
 	if (!next) {

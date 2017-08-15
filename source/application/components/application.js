@@ -4,15 +4,15 @@ import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
 
-import Code from '../../containers/code';
-import Favicon from '../../containers/favicon';
-import Fullscreen from '../../containers/fullscreen';
-import Hamburger from '../../containers/hamburger';
-import Info from '../../containers/info';
-import InfoPane from '../../containers/info-pane';
-import Navigation from '../../containers/navigation';
-import Opacity from '../../containers/opacity';
-import Search from '../../containers/search';
+import Code from '../containers/code';
+import Favicon from '../containers/favicon';
+import Fullscreen from '../containers/fullscreen';
+import Hamburger from '../containers/hamburger';
+import Info from '../containers/info';
+import InfoPane from '../containers/info-pane';
+import Navigation from '../containers/navigation';
+import Opacity from '../containers/opacity';
+import Search from '../containers/search';
 
 @autobind
 export default class Application extends Component {

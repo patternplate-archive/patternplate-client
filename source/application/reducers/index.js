@@ -1,5 +1,6 @@
 import activeBlock from './active-block';
 import base from './base';
+import codeEnabled from './code-enabled';
 import connection from './connection';
 import depth from './depth';
 import demoContentDimensions from './demo-content-dimensions';
@@ -33,7 +34,7 @@ import sourceId from './source-id';
 import sourceType from './source-type';
 import sources from './sources';
 import theme from './theme';
-import hide from './hide';
+import hideEnabled from './hide-enabled';
 import window from './window';
 
 const ident = (state = {}) => state;
@@ -42,6 +43,7 @@ const getDependencies = (reducer = {}) => reducer.dependencies || [];
 export default {
 	activeBlock,
 	base,
+	codeEnabled,
 	config: ident,
 	connection,
 	demoContentDimensions,
@@ -54,7 +56,7 @@ export default {
 	environment,
 	expanded,
 	fetching,
-	hide,
+	hideEnabled,
 	id,
 	infoEnabled,
 	lightbox,

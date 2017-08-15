@@ -1,11 +1,4 @@
-import {handleActions} from 'redux-actions';
+import * as actions from '../actions';
+import toggle from './toggle';
 
-const defaultValue = false;
-
-function onLocationChange(_, action) {
-	return action.payload.query['dependencies-enabled'] === 'true';
-}
-
-export default handleActions({
-	'@@router/LOCATION_CHANGE': onLocationChange
-}, defaultValue);
+export default toggle(actions.toggleDependencies, {defaultValue: false});

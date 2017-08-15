@@ -1,11 +1,4 @@
-import {handleActions} from 'redux-actions';
+import * as actions from '../actions';
+import toggle from './toggle';
 
-const defaultValue = false;
-
-function onInfoEnabledLocationChange(_, action) {
-	return action.payload.query['info-enabled'] === 'true';
-}
-
-export default handleActions({
-	'@@router/LOCATION_CHANGE': onInfoEnabledLocationChange
-}, defaultValue);
+export default toggle(actions.toggleInfo, {defaultValue: false});

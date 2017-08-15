@@ -8,7 +8,7 @@ const s = values(shortcuts());
 export default function withToggle(action) {
 	const shortcut = s.find(i => i.key === action.key);
 
-	assert(shortcut, `${action} passed to withToggle has no shortcut available`);
+	assert(shortcut, `${action} passed to withToggle has no matching shortcut found for ${action.key}`);
 
 	return Component => {
 		const mapProps = state => {

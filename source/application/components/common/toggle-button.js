@@ -1,4 +1,3 @@
-import assert from 'assert';
 import React, {PropTypes as t} from 'react';
 import Link from './link';
 

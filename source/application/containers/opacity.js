@@ -1,13 +1,7 @@
-import {connect} from 'react-redux';
+import * as actions from '../actions';
 import Opacity from '../components/opacity';
+import withToggle from '../connectors/with-toggle';
+import withActiveForPattern from '../connectors/with-active-for-pattern';
 
-function mapProps(state) {
-	return {
-		active: state.id.startsWith('pattern/'),
-		enabled: state.opacity,
-		location: state.routing.locationBeforeTransitions,
-		shortcut: state.shortcuts.toggleOpacity
-	};
-}
-
-export default connect(mapProps)(Opacity);
+const OpacityToggle = withToggle(actions.toggleOpacity)(Opacity);
+export default withActiveForPattern(OpacityToggle);

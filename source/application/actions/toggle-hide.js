@@ -1,3 +1,3 @@
 import {toggle} from './toggle';
 
-export default toggle('hide');
+export default toggle('hide-enabled');

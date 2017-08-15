@@ -1,11 +1,4 @@
-import {handleActions} from 'redux-actions';
+import * as actions from '../actions';
+import toggle from './toggle';
 
-const defaultValue = false;
-
-const navigationEnabledlocationChangeHandler = (_, {payload}) => {
-	return payload.query['manifest-enabled'] === 'true';
-};
-
-export default handleActions({
-	'@@router/LOCATION_CHANGE': navigationEnabledlocationChangeHandler
-}, defaultValue);
+export default toggle(actions.toggleManifest, {defaultValue: false});

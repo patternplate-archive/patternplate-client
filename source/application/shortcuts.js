@@ -70,16 +70,21 @@ function createShortcuts() {
 		action: actions.toggleNavigation
 	});
 
+	const reload = () => actions.reload({reloadTime: Date.now()});
+	reload.type = actions.reload.type;
+	reload.key = actions.reload.key;
+	reload.property = actions.reload.property;
+
 	bind.reload = new Shortcut({
 		character: 'r',
 		description: () => `Force sync`,
-		action: () => actions.reload({reloadTime: Date.now()})
+		action: reload
 	});
 
 	bind.toggleSearch = new Shortcut({
 		character: 'space',
 		description: props => `${props.enabled ? 'Disable' : 'Enable'} search`,
-		action: () => actions.toggleSearch()
+		action: actions.toggleSearch
 	});
 
 	bind.toggleTheme = new Shortcut({

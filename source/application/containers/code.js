@@ -1,12 +1,7 @@
-import {connect} from 'react-redux';
-import Code from '../components/code-button';
+import * as actions from '../actions';
+import CodeButton from '../components/code-button';
+import withToggle from '../connectors/with-toggle';
+import withActiveForPattern from '../connectors/with-active-for-pattern';
 
-function mapProps(state) {
-	return {
-		base: state.base,
-		enabled: state.codeEnabled,
-		shortcut: state.shortcuts.toggleCode
-	};
-}
-
-export default connect(mapProps)(Code);
+const CodeToggle = withToggle(actions.toggleCode)(CodeButton);
+export default withActiveForPattern(CodeToggle);

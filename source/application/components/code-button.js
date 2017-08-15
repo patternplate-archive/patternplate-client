@@ -11,16 +11,9 @@ function CodeButton(props) {
 		return null;
 	}
 
-	const verb = props.enabled ? 'Hide' : 'Show';
-	const title = `${verb} code view`;
-
 	return (
-		<StyledToggleButton
-			enabled={props.enabled}
-			property="code-enabled"
-			title={`${title} ${props.shortcut.toString()}`}
-			>
-			<StyledIcon symbol="opacity"/>{title}
+		<StyledToggleButton title={props.shortcut.toString()} enabled={props.enabled} shortcut={props.shortcut}>
+			<StyledIcon symbol="code"/> {props.shortcut.toString()}
 		</StyledToggleButton>
 	);
 }

@@ -6,7 +6,7 @@ import {enrich, flatten, sanitize} from './tree';
 const docs = createSelector(
 	state => state.schema.docs,
 	state => state.id,
-	state => state.hide,
+	state => state.hideEnabled,
 	(tree, id, hide) => {
 		const t = sanitize(merge({}, tree), {hide, id, prefix: 'doc'});
 
