@@ -204,7 +204,7 @@ function InfoPane(props) {
 
 	return (
 		<StyledInfoPane className={className}>
-			<InnerInfoPane {...rest}/>
+			<InnerInfoPane {...rest} standalone/>
 		</StyledInfoPane>
 	);
 }

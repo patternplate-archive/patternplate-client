@@ -49,19 +49,31 @@ export const selectActive = createSelector(
 	(item, search) => !search && item !== null && typeof item !== 'undefined'
 );
 
+const selectOptions = createSelector(
+	selectItem,
+	item => item.manifest.options || {}
+);
+
+const selectReactToMarkup = createSelector(
+	selectOptions,
+	options => options['react-to-markup'] || {}
+);
+
+const selectReactToMarkupOpts = createSelector(
+	selectReactToMarkup,
+	r => r.opts || {}
+);
+
 export const selectAutomount = createSelector(
-	selectManifest,
+	selectReactToMarkupOpts,
+	state => state.schema.automount,
 	state => state.mountEnabled,
-	(manifest, enabled) => {
+	(opts, globalConfig, enabled) => {
 		if (enabled !== null) {
 			return enabled;
 		}
 
-		if (!manifest || !manifest.options || !manifest.options['react-to-markup'] || !manifest.options['react-to-markup'].opts) {
-			return false;
-		}
-
-		return manifest.options['react-to-markup'].opts.automount;
+		return 'automount' in opts ? opts.automount : globalConfig;
 	}
 );
 
