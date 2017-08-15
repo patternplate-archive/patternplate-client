@@ -37,6 +37,7 @@ const getPatternFileOrError = withErrorHandling(getPatternFile);
 
 export default function patternRouteFactory(application) {
 	return async function patternRoute() {
+		const server = application.parent.server;
 		const parsed = urlQuery.parse(this.params.id);
 		const id = getPatternId(parsed.pathname);
 		const extension = getPatternExtension(parsed.pathname);
@@ -50,7 +51,9 @@ export default function patternRouteFactory(application) {
 		};
 
 		if (type === 'html' && extension === 'html') {
-			const [error, demo] = await getPatternDemoOrError(application.parent.server, id, filters, environment);
+			const [error, demo] = await getPatternDemoOrError(server, id, filters, environment, {
+				mount: this.query.mount !== 'false'
+			});
 
 			if (error) {
 				console.log(error);
