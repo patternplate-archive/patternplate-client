@@ -1,13 +1,3 @@
-import {patchLocation} from './';
+import {toggle} from './toggle';
 
-export default toggleOpacity;
-export const type = 'TOGGLE_OPACITY';
-
-function toggleOpacity() {
-	return (dispatch, getState) => {
-		const opacity = getState().opacity;
-		dispatch(patchLocation({query: {opacity: !opacity}}));
-	};
-}
-
-toggleOpacity.type = type;
+export default toggle('opacity');

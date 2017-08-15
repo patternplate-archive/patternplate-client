@@ -1,13 +1,5 @@
-import {connect} from 'react-redux';
+import * as actions from '../actions';
 import SearchButton from '../components/search-button';
+import withToggle from '../connectors/with-toggle';
 
-function mapProps(state) {
-	return {
-		base: state.base,
-		enabled: state.searchEnabled,
-		location: state.routing.locationBeforeTransitions,
-		shortcut: state.shortcuts.toggleSearch
-	};
-}
-
-export default connect(mapProps)(SearchButton);
+export default withToggle(actions.toggleSearch)(SearchButton);

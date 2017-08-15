@@ -12,3 +12,7 @@ function reload() {
 		await Promise.all(actions.map(dispatch));
 	};
 }
+
+reload.type = 'RELOAD';
+reload.key = '';
+reload.property = '';

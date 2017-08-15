@@ -6,7 +6,7 @@ export const type = 'OPEN_FULLSCREEN';
 function openFullscreen() {
 	return (dispatch, getState) => {
 		const {base, id, environment} = getState();
-		if (id === '..' || !window.open) {
+		if (id === '..' || !global.open) {
 			return;
 		}
 
@@ -15,8 +15,10 @@ function openFullscreen() {
 			query: {environment}
 		});
 
-		window.open(href, '_blank');
+		global.open(href, '_blank');
 	};
 }
 
+openFullscreen.key = '';
+openFullscreen.property = '';
 openFullscreen.type = type;

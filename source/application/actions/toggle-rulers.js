@@ -1,13 +1,3 @@
-import {patchLocation} from './';
+import {toggle} from './toggle';
 
-export default toggleRulers;
-export const type = 'TOGGLE_RULERS';
-
-function toggleRulers() {
-	return (dispatch, getState) => {
-		const rulers = getState().rulers;
-		dispatch(patchLocation({query: {rulers: !rulers}}));
-	};
-}
-
-toggleRulers.type = type;
+export default toggle('rulers');

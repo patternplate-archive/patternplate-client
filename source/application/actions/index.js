@@ -25,6 +25,7 @@ export scrollTo from './scroll-to';
 export search from './search';
 export searchPreview from './search-preview';
 export themeLoaded from './theme-loaded';
+export toggleCode from './toggle-code';
 export toggleConsole from './toggle-console';
 export toggleHide from './toggle-hide';
 export toggleInfo from './toggle-info';

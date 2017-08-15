@@ -1,12 +1,3 @@
-import {patchLocation} from './';
+import {toggle} from './toggle';
 
-export default toggleInfo;
-export const type = 'TOGGLE_INFO';
-
-function toggleInfo() {
-	return (dispatch, getState) => {
-		dispatch(patchLocation({query: {'info-enabled': !getState().infoEnabled}}));
-	};
-}
-
-toggleInfo.type = type;
+export default toggle('info-enabled');

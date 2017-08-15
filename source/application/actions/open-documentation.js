@@ -11,4 +11,6 @@ function openDocumentation() {
 	};
 }
 
+openDocumentation.key = '';
+openDocumentation.property = '';
 openDocumentation.type = type;

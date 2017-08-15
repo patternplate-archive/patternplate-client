@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
 
+import Code from '../../containers/code';
 import Favicon from '../../containers/favicon';
 import Fullscreen from '../../containers/fullscreen';
 import Hamburger from '../../containers/hamburger';
@@ -94,6 +95,9 @@ export default class Application extends Component {
 									</StyledControlsItem>
 									<StyledControlsItem>
 										<Info/>
+									</StyledControlsItem>
+									<StyledControlsItem>
+										<Code/>
 									</StyledControlsItem>
 								</StyledControlsArea>
 								<StyledControlsArea orient="right">

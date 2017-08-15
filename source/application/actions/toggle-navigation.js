@@ -1,16 +1,3 @@
-import {patchLocation} from './';
+import {toggle} from './toggle';
 
-export default toggleNavigation;
-export const type = 'TOGGLE_NAVIGATION';
-
-function toggleNavigation() {
-	return (dispatch, getState) => {
-		dispatch(patchLocation({
-			query: {
-				'navigation-enabled': !getState().navigationEnabled
-			}
-		}));
-	};
-}
-
-toggleNavigation.type = type;
+export default toggle('navigation-enabled');

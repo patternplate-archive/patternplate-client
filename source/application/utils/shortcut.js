@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 const CODES = {
 	'arrow-up': 38,
 	'arrow-right': 39,
@@ -14,6 +16,7 @@ const CODES = {
 	'o': 79,
 	'k': 75,
 	'l': 76,
+	'm': 77,
 	'n': 78,
 	'r': 82,
 	't': 84
@@ -24,6 +27,7 @@ export default class Shortcut {
 		this.character = character;
 		this.code = CODES[character];
 		this.action = action;
+		this.key = this.action.key;
 		this.active = ('document' in global);
 		this.description = description;
 		this.modifiers = modifiers || ['ctrlKey', 'altKey'];

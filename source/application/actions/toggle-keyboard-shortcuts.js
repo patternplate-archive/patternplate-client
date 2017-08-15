@@ -1,13 +1,3 @@
-import {patchLocation} from './';
+import {toggle} from './toggle';
 
-export default toggleKeyboardShortcuts;
-export const type = 'TOGGLE_KEYBOARD_SHORTCUTS';
-
-function toggleKeyboardShortcuts() {
-	return (dispatch, getState) => {
-		const lightbox = getState().lightbox === 'shortcuts' ? null : 'shortcuts';
-		dispatch(patchLocation({query: {lightbox}}));
-	};
-}
-
-toggleKeyboardShortcuts.type = type;
+export default toggle('shortcuts');
