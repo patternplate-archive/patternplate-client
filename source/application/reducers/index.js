@@ -17,6 +17,7 @@ import infoEnabled from './info-enabled';
 import lightbox from './lightbox';
 import manifestEnabled from './manifest-enabled';
 import messages from './messages';
+import mountEnabled from './mount-enabled';
 import navigationEnabled from './navigation-enabled';
 import opacity from './opacity';
 import pattern from './pattern';
@@ -62,6 +63,7 @@ export default {
 	lightbox,
 	manifestEnabled,
 	messages,
+	mountEnabled,
 	navigationEnabled,
 	opacity,
 	pattern,

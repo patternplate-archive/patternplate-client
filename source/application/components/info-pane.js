@@ -200,66 +200,14 @@ const StyledCode = styled(Code)`
 `;
 
 function InfoPane(props) {
+	const {className, ...rest} = props;
+
 	return (
-		<StyledInfoPane
-			className={props.className}
-			onMouseDown={props.onMouseDown}
-			onMouseUp={props.onMouseUp}
-			onTouchStart={props.onTouchStart}
-			onTouchEnd={props.onTouchEnd}
-			style={props.style}
-			>
-			<InnerInfoPane
-				demoDependencies={props.demoDependencies}
-				demoDependenciesEnabled={props.demoDependenciesEnabled}
-				demoDependents={props.demoDependents}
-				demoDependentsEnabled={props.demoDependentsEnabled}
-				dependencies={props.dependencies}
-				dependenciesEnabled={props.dependenciesEnabled}
-				dependents={props.dependents}
-				dependentsEnabled={props.dependentsEnabled}
-				env={props.env}
-				envs={props.envs}
-				flag={props.flag}
-				icon={props.icon}
-				id={props.id}
-				name={props.name}
-				manifest={props.manifest}
-				manifestEnabled={props.manifestEnabled}
-				onEnvChange={props.onEnvChange}
-				standalone
-				tags={props.tags}
-				version={props.version}
-				/>
+		<StyledInfoPane className={className}>
+			<InnerInfoPane {...rest}/>
 		</StyledInfoPane>
 	);
 }
-
-InfoPane.propTypes = {
-	active: t.bool.isRequired,
-	className: t.string,
-	demoDependents: t.array.isRequired,
-	demoDependentsEnabled: t.bool.isRequired,
-	demoDependencies: t.array.isRequired,
-	demoDependenciesEnabled: t.bool.isRequired,
-	dependents: t.array.isRequired,
-	dependentsEnabled: t.bool.isRequired,
-	dependencies: t.array.isRequired,
-	dependenciesEnabled: t.bool.isRequired,
-	flag: t.string.isRequired,
-	icon: t.string.isRequired,
-	id: t.string.isRequired,
-	name: t.string.isRequired,
-	manifest: t.string.isRequired,
-	manifestEnabled: t.bool.isRequired,
-	onMouseDown: t.func,
-	onMouseUp: t.func,
-	onTouchStart: t.func,
-	onTouchEnd: t.func,
-	style: t.string,
-	tags: t.array.isRequired,
-	version: t.string.isRequired
-};
 
 function InnerInfoPane(props) {
 	return (
@@ -322,6 +270,16 @@ function InnerInfoPane(props) {
 									</Select>
 								</StyledDataCell>
 							</tr>
+					}
+					{
+						<tr>
+							<StyledDataCell>
+								<StyledKey>Mount</StyledKey>
+							</StyledDataCell>
+							<StyledDataCell>
+								<input type="checkbox" checked={props.mount} onChange={props.onMountChange}/>
+							</StyledDataCell>
+						</tr>
 					}
 				</tbody>
 			</StyledData>

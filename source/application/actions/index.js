@@ -33,6 +33,7 @@ export toggleHide from './toggle-hide';
 export toggleInfo from './toggle-info';
 export toggleKeyboardShortcuts from './toggle-keyboard-shortcuts';
 export toggleManifest from './toggle-manifest';
+export toggleMount from './toggle-mount';
 export toggleNavigation from './toggle-navigation';
 export toggleOpacity from './toggle-opacity';
 export toggleRulers from './toggle-rulers';

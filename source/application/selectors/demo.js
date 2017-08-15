@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import {createSelector} from 'reselect';
 import urlQuery from '../utils/url-query';
 import selectItem from './item';
@@ -13,15 +14,22 @@ export const selectSrc = createSelector(
 	state => state.base,
 	selectEnv,
 	state => state.pattern,
-	(item, base, env, pattern) => {
+	state => state.mountEnabled,
+	(item, base, env, pattern, mount) => {
 		if (!item) {
 			return null;
 		}
+
 		const pathname = urlQuery.format({
 			pathname: `${base}demo/${item.id}/index.html`,
 			query: {environment: env.name}
 		});
 
-		return `${pathname}?reload-time=${pattern.reloadTime}`;
+		const query = queryString.stringify({
+			reloadTime: pattern.reloadTime,
+			mount
+		});
+
+		return `${pathname}?${query}`;
 	}
 );
