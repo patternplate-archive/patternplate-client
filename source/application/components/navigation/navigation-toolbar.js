@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Icon from '../common/icon';
 import Indicator from '../../containers/indicator';
-import SearchButton from '../../containers/search-button';
+import ToggleSearch from '../../containers/toggle-search';
 
 export default function NavigationToolbar() {
 	return (
@@ -11,7 +11,7 @@ export default function NavigationToolbar() {
 				<SettingsButton/>
 			</StyledSettings>
 			<StyledSearch>
-				<SearchButton/>
+				<ToggleSearch/>
 			</StyledSearch>
 			<StyledIndicator>
 				<Indicator/>

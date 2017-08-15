@@ -63,6 +63,7 @@ function mapDispatch(dispatch, own) {
 				e.preventDefault();
 				return push(href);
 			}
+			return {type: 'noop', payload: {}};
 		}
 	}, dispatch);
 }

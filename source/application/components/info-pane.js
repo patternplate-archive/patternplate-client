@@ -200,10 +200,6 @@ const StyledCode = styled(Code)`
 `;
 
 function InfoPane(props) {
-	if (!props.active) {
-		return null;
-	}
-
 	return (
 		<StyledInfoPane
 			className={props.className}

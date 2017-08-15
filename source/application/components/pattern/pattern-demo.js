@@ -12,17 +12,6 @@ const StyledDemo = styled.div`
 `;
 
 function PatternDemo(props) {
-	const source = urlQuery.format({
-		pathname: `${props.base}demo/${props.target}/index.html`,
-		query: {environment: props.environment}
-	});
-
-	const query = queryString.stringify({
-		'reload-time': props.reloadTime
-	});
-
-	const src = [source, query].filter(Boolean).join('?');
-
 	return (
 		<StyledDemo>
 			{
@@ -46,14 +35,14 @@ function PatternDemo(props) {
 			}
 			<Frame
 				height={props.height}
-				id={source}
+				id={props.src}
 				onError={props.onError}
 				onLoad={props.onReady}
 				onResize={props.onResize}
 				onScroll={props.onScroll}
 				resize={props.resize}
 				resizeable={props.rulers}
-				src={src}
+				src={props.src}
 				width={props.width}
 				/>
 		</StyledDemo>

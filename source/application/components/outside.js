@@ -29,7 +29,7 @@ export default class ClickOutside extends Component {
 	}
 
 	handle = e => {
-		const {onClickOutside} = this.props
+		const {onClickOutside} = this.props;
 		const el = this.container;
 		if (!el.contains(e.target)) {
 			onClickOutside(e);

@@ -1,7 +1,8 @@
 import * as actions from '../actions';
-import Opacity from '../components/opacity';
+import Opacity from '../components/toggle-opacity';
 import withToggle from '../connectors/with-toggle';
 import withActiveForPattern from '../connectors/with-active-for-pattern';
+import {skippable} from '../components/behaviours';
 
 const OpacityToggle = withToggle(actions.toggleOpacity)(Opacity);
-export default withActiveForPattern(OpacityToggle);
+export default withActiveForPattern(skippable(OpacityToggle));

@@ -2,6 +2,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 import selectItem from '../selectors/item';
+import * as demo from '../selectors/demo';
 import Pattern from '../components/pattern';
 
 import * as actions from '../actions';
@@ -53,26 +54,11 @@ const selectContents = createSelector(
 	}
 );
 
-const selectEnv = createSelector(
-	state => state.environment,
-	state => state.schema.envs,
-	(env, envs) => envs.find(e => e.name === env)
-);
-
-const selectReloadTime = createSelector(
-	state => state.pattern,
-	pattern => pattern.reloadTime
-);
-
 function mapState(state) {
 	return {
-		base: state.base,
 		contents: selectContents(state),
-		env: selectEnv(state),
-		id: state.id || '',
+		demoSrc: demo.selectSrc(state),
 		opacity: state.opacity,
-		pattern: selectItem(state),
-		reloadTime: selectReloadTime(state),
 		type: selectType(state)
 	};
 }

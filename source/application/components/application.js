@@ -4,14 +4,14 @@ import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
 
-import Code from '../containers/code';
 import Favicon from '../containers/favicon';
-import Fullscreen from '../containers/fullscreen';
-import Hamburger from '../containers/hamburger';
-import Info from '../containers/info';
+import Fullscreen from '../containers/trigger-fullscreen';
 import InfoPane from '../containers/info-pane';
 import Navigation from '../containers/navigation';
-import Opacity from '../containers/opacity';
+import ToggleCode from '../containers/toggle-code';
+import ToggleInfoPane from '../containers/toggle-info-pane';
+import ToggleNavigation from '../containers/toggle-navigation';
+import ToggleOpacity from '../containers/toggle-opacity';
 import Search from '../containers/search';
 
 @autobind
@@ -91,18 +91,18 @@ export default class Application extends Component {
 							<StyledControlsBox enabled={props.navigationEnabled}>
 								<StyledControlsArea orient="left">
 									<StyledControlsItem>
-										<Hamburger/>
+										<ToggleNavigation/>
 									</StyledControlsItem>
 									<StyledControlsItem>
-										<Info/>
+										<ToggleInfoPane/>
 									</StyledControlsItem>
 									<StyledControlsItem>
-										<Code/>
+										<ToggleCode/>
 									</StyledControlsItem>
 								</StyledControlsArea>
 								<StyledControlsArea orient="right">
 									<StyledControlsItem>
-										<Opacity/>
+										<ToggleOpacity/>
 									</StyledControlsItem>
 									<StyledControlsItem>
 										<Fullscreen/>

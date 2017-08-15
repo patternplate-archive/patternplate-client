@@ -7,10 +7,6 @@ import ToggleButton from './common/toggle-button';
 export default CodeButton;
 
 function CodeButton(props) {
-	if (!props.active) {
-		return null;
-	}
-
 	return (
 		<StyledToggleButton title={props.shortcut.toString()} enabled={props.enabled} shortcut={props.shortcut}>
 			<StyledIcon symbol="code"/> {props.shortcut.toString()}

@@ -12,11 +12,11 @@ function SearchButton(props) {
 			title={`Enable search ${props.shortcut.toString()}`}
 			query={{'search-enabled': !props.enabled}}
 			>
-			Search
 			<StyledIcon
 				base={props.base}
 				symbol="search"
 				/>
+			Search
 		</StyledLink>
 	);
 }

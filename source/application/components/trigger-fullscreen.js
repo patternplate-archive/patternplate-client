@@ -7,10 +7,6 @@ import Link from './common/link';
 export default Fullscreen;
 
 function Fullscreen(props) {
-	if (!props.active) {
-		return null;
-	}
-
 	return (
 		<StyledLink
 			external
