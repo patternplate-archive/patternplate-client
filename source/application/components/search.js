@@ -142,7 +142,7 @@ export default class Search extends React.Component {
 									{
 										props.docs.map(d => (
 											<Result
-												active={props.activeItem === d}
+												active={(props.activeItem || {}).id === d.id}
 												id={d.id}
 												index={d.index}
 												icon={d.manifest.icon || d.type}
@@ -162,7 +162,7 @@ export default class Search extends React.Component {
 									{
 										props.components.map(d => (
 											<Result
-												active={props.activeItem === d}
+												active={(props.activeItem || {}).id === d.id}
 												id={d.id}
 												index={d.index}
 												icon={d.manifest.icon || d.type}
@@ -209,6 +209,10 @@ Search.propTypes = {
 	value: t.string.isRequired
 };
 
+const SEARCH_HEIGHT = '60vh';
+const SEARCH_FIELD_HEIGHT = '80px';
+const SEARCH_LEGEND_HEIGHT = '30px';
+
 const StyledFormBox = styled(Outside)`
 	width: 100%;
 	height: 100%;
@@ -226,7 +230,7 @@ const StyledForm = styled.form`
 	position: relative;
 	z-index: 2;
 	width: 100%;
-	max-height: 75vh;
+	max-height: ${SEARCH_HEIGHT};
 	${props => withTint(props)}
 `;
 
@@ -242,7 +246,7 @@ const StyledResults = styled.div`
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: row;
-	max-height: calc(75vh - 80px); /* ensure firefox scrolls result list */
+	max-height: calc(${SEARCH_HEIGHT} - ${SEARCH_FIELD_HEIGHT} - ${SEARCH_LEGEND_HEIGHT}); /* ensure firefox scrolls result list */
 	/* overflow: hidden; position: sticky breaks when doing this*/
 `;
 

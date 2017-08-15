@@ -1,6 +1,5 @@
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {createSelector} from 'reselect';
 
 import * as actions from '../actions';
 import Search from '../components/search';
