@@ -1,4 +1,3 @@
-import url from 'url';
 import patch from './patch-location';
 import selectItem from '../selectors/item';
 import selectPool from '../selectors/pool';
@@ -30,8 +29,8 @@ function arrow(payload) {
 				const i = selectItem(state);
 				const p = selectPool(state);
 				const id = i.path.slice(0, i.path.length - 1).join('/');
-				const next = p.find(i => i.id === id).href;
-				return next && go(dispatch)(next);
+				const next = p.find(i => i.id === id);
+				return next && next.href && go(dispatch)(next.href);
 			}
 			case 'up':
 			case 'down':
@@ -53,6 +52,10 @@ function go(dispatch) {
 }
 
 function jump(pool, start, offset) {
+	if (!start) {
+		return '';
+	}
+
 	if (offset === 0) {
 		return start;
 	}

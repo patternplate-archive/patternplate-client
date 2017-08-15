@@ -19,13 +19,14 @@ export default class Navigation extends React.Component {
 
 		const item = e.target.getBoundingClientRect();
 		const list = this.ref.getBoundingClientRect();
+		const pad = getPadding(this.ref);
 
-		if (item.bottom > list.bottom) {
-			this.ref.scrollTop = e.target.offsetTop - list.height + item.height;
+		if (item.bottom > list.bottom - pad('bottom')) {
+			this.ref.scrollTop = e.target.offsetTop - list.height + pad('bottom') + item.height;
 		}
 
-		if (item.top < list.top) {
-			this.ref.scrollTop = e.target.offsetTop;
+		if (item.top < list.top + pad('top')) {
+			this.ref.scrollTop = e.target.offsetTop + pad('top');
 		}
 	}
 
@@ -66,6 +67,11 @@ Navigation.propTypes = {
 	navigation: t.object.isRequired
 };
 
+function getPadding(el) {
+	const style = global.getComputedStyle(el, null);
+	return direction => parseInt(style.getPropertyValue(`padding-${direction}`), 10);
+}
+
 const StyledNavigation = styled.div`
 	display: flex;
 	height: 100%;
@@ -75,12 +81,17 @@ const StyledNavigation = styled.div`
 	background: ${props => props.theme.tint}
 `;
 
+const PASSAGE_HEIGHT = 50;
+
 const StyledNavigationTree = styled.div`
 	flex-grow: 1;
 	flex-shrink: 1;
+	padding-bottom: 50px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	-webkit-overflow-scroll: touch;
+	mask-image: linear-gradient(to top,rgba(0,0,0,0),rgba(0,0,0,1) ${PASSAGE_HEIGHT}px);
+	-webkit-mask-image: linear-gradient(to top,rgba(0,0,0,0),rgba(0,0,0,1) ${PASSAGE_HEIGHT}px);
 `;
 
 const StyledNavigationToolbar = styled.div`
