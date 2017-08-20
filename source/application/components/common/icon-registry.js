@@ -1,4 +1,4 @@
-import {uniq, noop} from 'lodash';
+import {uniq} from 'lodash';
 import React, {PropTypes as t} from 'react';
 import ReactDOM from 'react-dom';
 import withSideEffect from 'react-side-effect';
@@ -35,35 +35,11 @@ function getRegistryMountPoint() {
 	return created;
 }
 
-const HiddenSVG = styled.svg`
-	position: 'fixed';
-	height: 0;
-	width: 0;
-	overflow: 'hidden';
-	padding: 0;
-	visibility: 'hidden';
-`;
-
 class IconRegistry extends React.Component {
-	componentWillMount() {
-		/* eslint-disable */
-		injectGlobal`
-			[data-icon-registry] {
-				position: 'fixed';
-				height: 0;
-				width: 0;
-				overflow: 'hidden';
-				padding: 0;
-				visibility: 'hidden';
-			}
-		`;
-		/* eslint-disable */
-	}
-
 	render() {
 		const {props} = this;
 		return (
-			<HiddenSVG>
+			<svg style={{display: 'none'}}>
 				{
 					props.symbols
 						.map(symbol => {
@@ -72,7 +48,7 @@ class IconRegistry extends React.Component {
 							return <Symbol id={symbol} key={symbol} definition={paths}/>;
 						})
 				}
-			</HiddenSVG>
+			</svg>
 		);
 	}
 }

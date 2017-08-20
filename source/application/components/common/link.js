@@ -18,8 +18,8 @@ class LinkComponent extends React.Component {
 		const {props} = this;
 		return (
 			<a
-				target={props.external ? '_blank' : 'self'}
-				rel="noopener noreferrer"
+				target={props.external ? '_blank' : null}
+				rel={props.external ? 'noopener noreferrer' : null}
 				className={props.className}
 				href={props.href}
 				onClick={this.handleClick}

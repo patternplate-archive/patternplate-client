@@ -28,23 +28,6 @@ export default composeReducers(
 			return {...find(payload.meta, id), errored: state.errored, files: state.files, loading: state.loading, reloadTime: state.reloadTime};
 		}
 	}, {dependencies: ['id']}),
-	handlePromiseThunkAction(actions.loadPatternData, {
-		start(state) {
-			if (state.loading) {
-				return state;
-			}
-			return {...state, loading: true};
-		},
-		success(state, {payload}, {id}) {
-			if (id !== payload.id) {
-				return state;
-			}
-			return {...state, files: payload.files};
-		},
-		error(state) {
-			return {...state, loading: false, errored: true};
-		}
-	}, {dependencies: ['id']}),
 	handleActions({
 		[actions.loadPatternDemo]: (state, {payload}) => {
 			const loading = Boolean(payload);

@@ -4,6 +4,7 @@ import {createSelector} from 'reselect';
 
 import * as actions from '../actions';
 import Application from '../components/application';
+import * as item from '../selectors/item';
 import themes from '../themes';
 
 export default connect(mapProps, mapDispatch)(Application);
@@ -15,6 +16,7 @@ const selectThemes = createSelector(
 
 function mapProps(state) {
 	return {
+		codeEnabled: state.codeEnabled && item.selectType(state) === 'pattern',
 		description: state.schema.description,
 		infoEnabled: state.infoEnabled,
 		lightbox: state.lightbox,

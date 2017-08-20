@@ -60,21 +60,11 @@ export default class Pattern extends React.Component {
 					<StyledPattern checkers={props.opacity}>
 						<StyledPatternDemo>
 							<PatternDemo
-								onError={props.onDemoError}
-								onReady={props.onDemoReady}
-								onResize={props.onDemoContentResize}
-								src={props.demoSrc}
+								contents={props.contents}
+								loading={props.loading}
 								/>
 						</StyledPatternDemo>
 					</StyledPattern>
-				);
-			case 'folder':
-				return (
-					<StyledPatternFolder>
-						<StyledPatternDoc>
-							<Markdown source={props.contents}/>
-						</StyledPatternDoc>
-					</StyledPatternFolder>
 				);
 			case 'not-found':
 			default:
@@ -82,7 +72,7 @@ export default class Pattern extends React.Component {
 					<StyledPatternFolder>
 						<StyledPatternDoc>
 							<Search inline/>
-							<Markdown source={props.contents}/>
+							<Markdown source={props.docs}/>
 						</StyledPatternDoc>
 					</StyledPatternFolder>
 				);
@@ -97,78 +87,6 @@ Pattern.propTypes = {
 	pattern: t.any.isRequired,
 	type: t.string.isRequired,
 	contents: t.string
-	/* automount: t.bool.isRequired,
-	activeSource: t.string.isRequired,
-	base: t.string.isRequired,
-	breadcrumbs: t.arrayOf(t.shape({
-		id: t.string.isRequired,
-		name: t.string.isRequired,
-		target: t.shape({
-			pathname: t.string.isRequired,
-			query: t.object.isRequired
-		}).isRequired
-	})),
-	code: t.arrayOf(t.shape({
-		active: t.bool.isRequired,
-		extname: t.string.isRequired,
-		concern: t.string.isRequired,
-		concerns: t.arrayOf(t.string).isRequired,
-		id: t.string.isRequired,
-		language: t.string.isRequired,
-		name: t.string.isRequired,
-		source: t.string,
-		type: t.string,
-		types: t.arrayOf(t.string).isRequired
-	})).isRequired,
-	demoContentWidth: t.number.isRequired,
-	demoContentHeight: t.number.isRequired,
-	demoWidth: t.number,
-	demoHeight: t.number,
-	dependencies: t.arrayOf(t.shape({
-		id: t.string.isRequired,
-		name: t.string.isRequired,
-		localName: t.string.isRequired
-	})).isRequired,
-	dependents: t.arrayOf(t.shape({
-		id: t.string.isRequired,
-		name: t.string.isRequired
-	})).isRequired,
-	environment: t.string.isRequired,
-	environments: t.arrayOf(t.shape({
-		id: t.string.isRequired,
-		name: t.string.isRequired
-	})).isRequired,
-	errored: t.bool.isRequired,
-	flag: t.string,
-	id: t.string.isRequired,
-	loading: t.bool.isRequired,
-	location: t.shape({
-		pathname: t.string.isRequired,
-		query: t.object.isRequired
-	}).isRequired,
-	name: t.string.isRequired,
-	onDemoContentResize: t.func.isRequired,
-	onDemoError: t.func.isRequired,
-	onDemoReady: t.func.isRequired,
-	onDemoScroll: t.func.isRequired,
-	onEnvironmentChange: t.func.isRequired,
-	onConcernChange: t.func.isRequired,
-	onFileRequest: t.func.isRequired,
-	onMount: t.func.isRequired,
-	onTypeChange: t.func.isRequired,
-	opacity: t.bool.isRequired,
-	reload: t.func.isRequired,
-	reloadTime: t.number,
-	reloadedTime: t.number,
-	resize: t.func.isRequired,
-	rulers: t.bool.isRequired,
-	rulerX: t.number.isRequired,
-	rulerY: t.number.isRequired,
-	rulerLengthX: t.number.isRequired,
-	rulerLengthY: t.number.isRequired,
-	tags: t.arrayOf(t.string).isRequired,
-	version: t.string,
-	sourceExpanded: t.bool */
 };
 
 function grad(fill) {

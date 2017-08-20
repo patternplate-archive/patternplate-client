@@ -102,6 +102,11 @@ export const selectFlag = createSelector(
 	item => item ? item.manifest.flag : ''
 );
 
+export const selectId = createSelector(
+	selectItem,
+	item => item ? item.id : ''
+);
+
 export const selectEnv = createSelector(
 	state => state.environment,
 	state => state.schema.envs,

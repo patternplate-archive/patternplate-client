@@ -11,36 +11,31 @@ import Text from './text';
 export default InfoPane;
 export {InnerInfoPane};
 
+const BORDER_RADIUS = 10;
+
 const StyledInfoPane = styled.div`
-	position: absolute;
-	z-index: 2;
-	bottom: 15px;
+	position: relative;
 	width: 300px;
+	min-height: 300px;
+	height: 100%;
 	box-sizing: border-box;
-	border-radius: 10px;
-	overflow: hidden;
-	max-height: 90vh;
-	&::before {
-		content: '';
-		position: absolute;
-		z-index: 1;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		left: 0;
-		border-radius: 10px;
-		background: ${props => props.theme.tint};
-	}
+	border-radius: ${props => props.hermit ? `${BORDER_RADIUS}px` : `${BORDER_RADIUS}px 0 0 ${BORDER_RADIUS}px`};
+	border-right: 1px solid ${props => props.theme.border};
+	border-right-width: ${props => props.hermit ? 0 : 1}px;
+	overflow: scroll;
+	overflow-x: hidden;
+	background: ${props => props.theme.tint};
 `;
 
 const StyledInnerPane = styled.div`
-	display: flex;
-	flex-direction: column;
 	position: relative;
-	z-index: 2;
+	z-index: 1;
+	background: ${props => props.theme.tint};
 `;
 
 const StyledName = styled.div`
+	position: relative;
+	z-index: 1;
 	display: flex;
 	flex: 0 0 auto;
 	align-items: center;
@@ -70,6 +65,8 @@ const StyledIcon = styled(Icon)`
 `;
 
 const StyledData = styled.table`
+	position: relative;
+	z-index: 1;
 	flex: 0 0 auto;
 	width: 100%;
 	border-collapse: collapse;
@@ -188,11 +185,6 @@ const StyledToggleBody = styled.div`
 	padding: 5px 15px 5px 20px;
 	box-sizing: border-box;
 	background: ${props => props.theme.tint};
-	${props => props.compact && `
-		max-height: 200px;
-		overflow: scroll;
-		-webkit-overflow-scrolling: touch;
-	`}
 `;
 
 const StyledCode = styled(Code)`
@@ -203,7 +195,7 @@ function InfoPane(props) {
 	const {className, ...rest} = props;
 
 	return (
-		<StyledInfoPane className={className}>
+		<StyledInfoPane className={className} hermit={props.hermit}>
 			<InnerInfoPane {...rest} standalone/>
 		</StyledInfoPane>
 	);
@@ -211,7 +203,7 @@ function InfoPane(props) {
 
 function InnerInfoPane(props) {
 	return (
-		<StyledInnerPane className={props.className}>
+		<StyledInnerPane standalone={props.standalone} className={props.className}>
 			<StyledName>
 				<StyledIcon symbol={props.icon}/>
 				<StyledDisplayName>{props.name}</StyledDisplayName>
@@ -286,7 +278,6 @@ function InnerInfoPane(props) {
 			{
 				has(props.dependencies) &&
 					<Toggle
-						compact={props.standalone}
 						head={`Dependencies (${props.dependencies.length})`}
 						enabled={props.dependenciesEnabled}
 						name="dependencies"
@@ -299,7 +290,6 @@ function InnerInfoPane(props) {
 			{
 				has(props.dependents) &&
 					<Toggle
-						compact={props.standalone}
 						head={`Dependents (${props.dependents.length})`}
 						enabled={props.dependentsEnabled}
 						name="dependents"
@@ -312,7 +302,6 @@ function InnerInfoPane(props) {
 			{
 				has(props.demoDependencies) &&
 					<Toggle
-						compact={props.standalone}
 						head={`Demo Dependencies (${props.demoDependencies.length})`}
 						enabled={props.demoDependenciesEnabled}
 						name="demo-dependencies"
@@ -325,7 +314,6 @@ function InnerInfoPane(props) {
 			{
 				has(props.demoDependents) &&
 					<Toggle
-						compact={props.standalone}
 						head={`Demo Dependents (${props.demoDependents.length})`}
 						enabled={props.demoDependentsEnabled}
 						name="demo-dependents"
@@ -335,7 +323,7 @@ function InnerInfoPane(props) {
 						</PatternList>
 					</Toggle>
 			}
-			<Toggle compact={props.standalone} head="Manifest" enabled={props.manifestEnabled} name="manifest">
+			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
 				<StyledCode language="json">{props.manifest}</StyledCode>
 			</Toggle>
 		</StyledInnerPane>
@@ -497,6 +485,8 @@ PatternItem.propTypes = {
 };
 
 const StyledToggle = styled.div`
+	position: relative;
+	z-index: 1;
 	flex: 1 1 auto;
 	min-height: 30px;
 `;
@@ -508,7 +498,7 @@ function Toggle(props) {
 				{props.head}
 			</StyledToggleHead>
 			{props.enabled &&
-				<StyledToggleBody compact={props.compact}>
+				<StyledToggleBody>
 					{props.children}
 				</StyledToggleBody>
 			}
@@ -518,7 +508,6 @@ function Toggle(props) {
 
 Toggle.propTypes = {
 	children: t.any,
-	compact: t.bool,
 	enabled: t.bool,
 	head: t.any,
 	name: t.string

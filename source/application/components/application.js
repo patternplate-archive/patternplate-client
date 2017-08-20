@@ -4,6 +4,7 @@ import Helmet from 'react-helmet';
 import styled, {ThemeProvider, injectGlobal} from 'styled-components';
 import tag from 'tag-hoc';
 
+import CodePane from '../containers/code-pane';
 import Favicon from '../containers/favicon';
 import Fullscreen from '../containers/trigger-fullscreen';
 import InfoPane from '../containers/info-pane';
@@ -79,13 +80,20 @@ export default class Application extends Component {
 									</StyledSearchBox>
 								</ThemeProvider>
 							}
-							{props.infoEnabled &&
-								<ThemeProvider theme={props.themes.dark}>
-									<StyledInfoBox>
-										<InfoPane/>
-									</StyledInfoBox>
-								</ThemeProvider>
-							}
+							<ThemeProvider theme={props.themes.dark}>
+								<StyledFloatingBox>
+									{props.infoEnabled &&
+										<StyledInfoPane>
+											<InfoPane hermit={!props.codeEnabled}/>
+										</StyledInfoPane>
+									}
+									{props.codeEnabled &&
+										<StyledCodePane hermit={!props.infoEnabled} infoEnabled={props.infoEnabled}>
+											<CodePane hermit={!props.infoEnabled}/>
+										</StyledCodePane>
+									}
+								</StyledFloatingBox>
+							</ThemeProvider>
 						</StyledContent>
 						<ThemeProvider theme={props.themes.dark}>
 							<StyledControlsBox enabled={props.navigationEnabled}>
@@ -223,8 +231,28 @@ const StyledSearchFrame = styled.div`
 	overflow: hidden;
 `;
 
-const StyledInfoBox = styled.div`
-	padding: 0 15px;
+const StyledFloatingBox = styled.div`
+	position: absolute;
+	z-index: 2;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	padding: 10px 15px;
+	height: 300px;
+	display: flex;
+`;
+
+const StyledInfoPane = styled.div`
+	flex: 0 0 auto;
+	box-sizing: border-box;
+`;
+
+const StyledCodePane = styled.div`
+	flex: 1 1 auto;
+	box-sizing: border-box;
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
 `;
 
 function meta(props) {

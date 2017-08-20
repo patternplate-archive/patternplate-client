@@ -10,9 +10,11 @@ function Code(props) {
 	const source = highlightCode(props.language, props.children);
 
 	return (
-		<StyledCode className={props.className}>
-			{source}
-		</StyledCode>
+		<pre>
+			<StyledCode className={props.className}>
+				{source}
+			</StyledCode>
+		</pre>
 	);
 }
 
@@ -54,7 +56,6 @@ const themes = {
 const themed = key => props => themes[props.theme.name][key];
 
 const StyledCode = styled.code`
-	white-space: pre;
 	display: block;
 	overflow-x: auto;
 	padding: 0.5em;

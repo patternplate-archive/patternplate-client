@@ -2,7 +2,6 @@ import {createStore, compose, applyMiddleware} from 'redux';
 import {routerReducer as routing, routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import topology from 'topologically-combine-reducers';
-import promise from 'redux-promise';
 
 import createShortcuts from './shortcuts';
 import reducers, {dependencies} from './reducers';
@@ -13,9 +12,8 @@ export default function configureStore(history, initial) {
 
 	const middlewares = [
 		thunk,
-		promise,
 		routerMiddleware(history)
-	].filter(fn => typeof fn === 'function');
+	];
 
 	if (process.env.NODE_ENV !== 'production') {
 		middlewares.push(require('redux-freeze'));

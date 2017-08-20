@@ -1,6 +1,5 @@
 import {includes} from 'lodash';
 import low from 'lowlight/lib/core';
-import {pd as pretty} from 'pretty-data';
 
 import css from 'highlight.js/lib/languages/css.js';
 import less from 'highlight.js/lib/languages/less.js';
@@ -46,13 +45,10 @@ const languages = [
 	'typescript', 'json', 'html', 'xml', 'md', 'markdown', 'bash'
 ];
 
-const prettyPrinted = ['xml', 'html'];
-
 export default function highlight(language, source) {
 	if (!includes(languages, language)) {
 		return source;
 	}
-	const code = includes(prettyPrinted, language) ? pretty.xml(source) : source;
-	const {value: children} = low.highlight(language, code);
+	const {value: children} = low.highlight(language, source);
 	return children;
 }

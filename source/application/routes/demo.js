@@ -53,7 +53,7 @@ export default function patternRouteFactory(application) {
 		if (type === 'html' && extension === 'html') {
 			const [error, demo] = await getPatternDemoOrError(server, id, filters, environment, {
 				mount: this.query.mount !== 'false'
-			});
+			}, `/${this.request.url}`);
 
 			if (error) {
 				console.log(error);

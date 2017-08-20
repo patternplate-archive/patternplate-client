@@ -1,81 +1,19 @@
-import queryString from 'query-string';
-import React, {PropTypes as types} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
-import urlQuery from '../../utils/url-query';
-import Frame from '../common/frame';
-import Ruler from './pattern-ruler';
+// import Frame from '../common/frame';
+// import Ruler from './pattern-ruler';
 
-const StyledDemo = styled.div`
+const StyledDemo = styled.iframe`
 	width: 100%;
 	height: 100%;
+	border: 0;
 `;
 
 function PatternDemo(props) {
 	return (
-		<StyledDemo>
-			{
-				props.rulers &&
-					<div className="rulers">
-						<Ruler
-							type="vertical"
-							step={10}
-							length={props.rulerLengthY}
-							markers={[props.height]}
-							offset={props.rulerY}
-							/>
-						<Ruler
-							type="horizontal"
-							step={10}
-							length={props.rulerLengthX}
-							markers={[props.width]}
-							offset={props.rulerX}
-							/>
-					</div>
-			}
-			<Frame
-				height={props.height}
-				id={props.src}
-				onError={props.onError}
-				onLoad={props.onReady}
-				onResize={props.onResize}
-				onScroll={props.onScroll}
-				resize={props.resize}
-				resizeable={props.rulers}
-				src={props.src}
-				width={props.width}
-				/>
-		</StyledDemo>
+		<StyledDemo srcDoc={props.contents} seamless/>
 	);
 }
-
-PatternDemo.propTypes = {
-	/* base: types.string.isRequired,
-	environment: types.string.isRequired,
-	height: types.number,
-	onError: types.func.isRequired,
-	onResize: types.func.isRequired,
-	onReady: types.func.isRequired,
-	onScroll: types.func.isRequired,
-	opacity: types.bool.isRequired,
-	loading: types.bool.isRequired,
-	reloadTime: types.number,
-	resizeable: types.bool.isRequired,
-	resize: types.func.isRequired,
-	rulers: types.bool.isRequired,
-	rulerX: types.number.isRequired,
-	rulerLengthX: types.number.isRequired,
-	rulerY: types.number.isRequired,
-	rulerLengthY: types.number.isRequired,
-	target: types.string.isRequired,
-	width: types.number*/
-};
-
-PatternDemo.defaultProps = {
-	onError: () => {},
-	onLoad: () => {},
-	onResize: () => {},
-	onScroll: () => {}
-};
 
 export default PatternDemo;

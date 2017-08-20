@@ -1,13 +1,39 @@
+import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
-import selectItem from '../selectors/item';
 import * as demo from '../selectors/demo';
+import selectItem, {selectType} from '../selectors/item';
 import Pattern from '../components/pattern';
 
 import * as actions from '../actions';
 
-export default connect(mapState, mapDispatch)(Pattern);
+class PatternContainer extends React.Component {
+	componentDidMount() {
+		this.props.onChange();
+	}
+
+	componentWillReceiveProps(next) {
+		if (this.props.src !== next.src && next.src) {
+			this.props.onChange();
+		}
+	}
+
+	render() {
+		const {props} = this;
+		return (
+			<Pattern
+				contents={props.contents}
+				docs={props.docs}
+				loading={props.loading}
+				opacity={props.opacity}
+				type={props.type}
+				/>
+		);
+	}
+}
+
+export default connect(mapState, mapDispatch)(PatternContainer);
 
 const DEFAULT_CONTENTS = `
 # :construction: Add documentation
@@ -38,12 +64,7 @@ You might want to navigate back to [Home](/) or use the search.
 Help us to make this message more helpful on [GitHub](https://github.com/sinnerschrader/patternplate)
 `;
 
-const selectType = createSelector(
-	selectItem,
-	pattern => pattern ? pattern.type : 'not-found'
-);
-
-const selectContents = createSelector(
+const selectDocs = createSelector(
 	selectItem,
 	selectType,
 	(pattern, type) => {
@@ -56,16 +77,17 @@ const selectContents = createSelector(
 
 function mapState(state) {
 	return {
-		contents: selectContents(state),
-		demoSrc: demo.selectSrc(state),
+		docs: selectDocs(state),
+		contents: state.demo.contents,
+		loading: state.demo.loading,
 		opacity: state.opacity,
+		src: demo.selectSrc(state),
 		type: selectType(state)
 	};
 }
 
 function mapDispatch(dispatch) {
 	return bindActionCreators({
-		onDemoError: actions.patternDemoError,
-		onDemoReady: actions.patternDemoLoaded
+		onChange: actions.loadPatternDemo
 	}, dispatch);
 }

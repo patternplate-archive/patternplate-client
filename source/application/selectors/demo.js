@@ -22,7 +22,9 @@ export const selectSrc = createSelector(
 
 		const pathname = urlQuery.format({
 			pathname: `${base}demo/${item.id}/index.html`,
-			query: {environment: env.name}
+			query: {
+				environment: env.name
+			}
 		});
 
 		const query = queryString.stringify({

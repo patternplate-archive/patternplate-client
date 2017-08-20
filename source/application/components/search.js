@@ -11,6 +11,7 @@ import Outside from './outside';
 import SearchField from './common/search-field';
 import Text from './text';
 import withToggleStates from '../connectors/with-toggle-states';
+import PassThrough from '../containers/pass-through';
 
 const InfoPane = withToggleStates(InnerInfoPane);
 
@@ -127,6 +128,7 @@ export default class Search extends React.Component {
 									/>
 							}
 						</SearchField>
+						<PassThrough query={{'search-enabled': true, 'search': null}}/>
 						<HiddenSubmit/>
 						<SearchLegend name={props.legend.name} items={props.legend.items}/>
 					</StyledSearchFieldBox>
