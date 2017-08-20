@@ -24,6 +24,7 @@ function Layout(props) {
 				<IconRegistry>{props.icons}</IconRegistry>
 				<Content content={props.html}/>
 				<State data={props.data}/>
+				<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Array.prototype.includes"/>
 				{props.scripts.map(src => <script key={src} src={src}/>)}
 			</body>
 		</html>

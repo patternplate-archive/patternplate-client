@@ -17,11 +17,6 @@ import Search from '../containers/search';
 
 @autobind
 export default class Application extends Component {
-	componentDidMount() {
-		this.props.onLoad();
-		global.addEventListener('resize', this.onResize);
-	}
-
 	componentWillMount() {
 		/* eslint-disable no-unused-expressions */
 		injectGlobal`
@@ -39,17 +34,6 @@ export default class Application extends Component {
 			}
 		`;
 		/* eslint-enable */
-	}
-
-	componentWillUnmount() {
-		global.removeEventListener('resize', this.onResize);
-	}
-
-	onResize() {
-		this.props.onResize({
-			width: global.innerWidth,
-			height: global.innerHeight
-		});
 	}
 
 	render() {

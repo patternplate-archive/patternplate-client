@@ -18,7 +18,7 @@ function mapProps(state) {
 	return {
 		codeEnabled: state.codeEnabled && item.selectType(state) === 'pattern',
 		description: state.schema.description,
-		infoEnabled: state.infoEnabled,
+		infoEnabled: state.infoEnabled && item.selectType(state) === 'pattern',
 		lightbox: state.lightbox,
 		navigationEnabled: state.navigationEnabled,
 		searchEnabled: state.searchEnabled,

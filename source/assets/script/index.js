@@ -1,9 +1,9 @@
+import 'dom4';
+
 import url from 'url';
 import fetch from 'isomorphic-fetch';
 import platform from 'platform';
 import {merge} from 'lodash';
-
-import './polyfills';
 import router from '../../application/client';
 
 const {document} = global;
