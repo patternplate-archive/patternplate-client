@@ -102,9 +102,8 @@ export default class Search extends React.Component {
 				value={props.value}
 				>
 				<StyledForm onSubmit={this.handleSubmit} method="GET">
-					<StyledSearchFieldBox>
+					<StyledSearchFieldBox onClick={props.inline ? props.onClick : NOOP}>
 						<SearchField
-							className="navigation__search-field"
 							linkTo="/search"
 							mark={props.inline ? null : true}
 							name={props.inline ? 'inline-search' : 'search'}

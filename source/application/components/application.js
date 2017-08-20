@@ -217,6 +217,7 @@ const StyledSearchFrame = styled.div`
 
 const StyledFloatingBox = styled.div`
 	position: absolute;
+	pointer-events: none;
 	z-index: 2;
 	right: 0;
 	bottom: 0;
@@ -229,6 +230,7 @@ const StyledFloatingBox = styled.div`
 const StyledInfoPane = styled.div`
 	flex: 0 0 auto;
 	box-sizing: border-box;
+	pointer-events: all;
 `;
 
 const StyledCodePane = styled.div`
@@ -237,6 +239,7 @@ const StyledCodePane = styled.div`
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
+	pointer-events: all;
 `;
 
 function meta(props) {

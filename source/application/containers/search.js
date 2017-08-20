@@ -22,6 +22,7 @@ function mapDispatch(dispatch) {
 	return bindActionCreators({
 		onChange: e => actions.search({persist: false, perform: false, value: e.target.value}),
 		onClear: () => actions.search({persist: true, perform: true, value: ''}),
+		onClick: () => actions.toggleSearch({focus: true}),
 		onClickOutside: () => actions.toggleSearch({focus: false}),
 		onComplete: value => actions.search({persist: true, perform: true, value}),
 		onFocus: () => actions.toggleSearch({focus: true}),

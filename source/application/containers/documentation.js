@@ -15,7 +15,7 @@ const selectNotFound = createSelector(
 
 We looked everywhere and could not find a single thing at \`${url}\`.
 
-You might want to navigate back to [Home](/) or use the search.
+You might want to navigate back to [Home](/) or use the [Search](?search-enabled=true).
 
 ---
 
