@@ -36,6 +36,7 @@
       "production": {
         "plugins": [
           "add-module-exports",
+          "add-react-display-name",
           "transform-decorators-legacy",
           "transform-react-remove-prop-types",
           "transform-react-router-optimize",
@@ -183,6 +184,7 @@
     "babel-cli": "^6.11.4",
     "babel-eslint": "^6.0.2",
     "babel-plugin-add-module-exports": "^0.1.2",
+    "babel-plugin-add-react-displayname": "0.0.4",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-transform-react-remove-prop-types": "^0.2.10",
     "babel-plugin-transform-react-router-optimize": "^1.0.1",

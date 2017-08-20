@@ -8,6 +8,7 @@ import CodePane from '../containers/code-pane';
 import Favicon from '../containers/favicon';
 import Fullscreen from '../containers/trigger-fullscreen';
 import InfoPane from '../containers/info-pane';
+import Message from '../containers/message';
 import Navigation from '../containers/navigation';
 import ToggleCode from '../containers/toggle-code';
 import ToggleInfoPane from '../containers/toggle-info-pane';
@@ -54,6 +55,9 @@ export default class Application extends Component {
 					</ThemeProvider>
 					<StyledContentContainer>
 						<StyledContent navigationEnabled={props.navigationEnabled}>
+							<StyledMessageBox>
+								<Message/>
+							</StyledMessageBox>
 							{props.children}
 							{props.searchEnabled &&
 								<ThemeProvider theme={props.themes.dark}>
@@ -156,6 +160,14 @@ const StyledNavigationBox = styled(tag(['enabled'])('div'))`
 	height: 100%;
 	width: ${NAVIGATION_WIDTH}px;
 	flex: 0 0 ${NAVIGATION_WIDTH}px;
+`;
+
+const StyledMessageBox = styled.div`
+	position: absolute;
+	box-sizing: border-box;
+	z-index: 2;
+	padding: 15px;
+	width: 100%;
 `;
 
 const StyledControlsArea = styled.div`

@@ -13,8 +13,6 @@ export loadSchema from './load-schema';
 export openDocumentation from './open-documentation';
 export openFullscreen from './open-fullscreen';
 export patchLocation from './patch-location';
-export patternDemoError from './pattern-demo-error';
-export patternDemoLoaded from './pattern-demo-loaded';
 export reload from './reload';
 export resizeDemo from './resize-demo';
 export scrollDemo from './scroll-demo';

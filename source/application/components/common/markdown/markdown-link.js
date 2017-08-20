@@ -11,8 +11,6 @@ function MarkdownLink(props) {
 	const href = abs ? props.href : parsed.pathname;
 	const query = abs ? {} : queryString.parse(parsed.query);
 
-	console.log(href, abs);
-
 	return (
 		<StyledLink
 			external={abs}

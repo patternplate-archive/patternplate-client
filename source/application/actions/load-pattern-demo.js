@@ -1,4 +1,3 @@
-import {merge} from 'lodash';
 import fetch from 'isomorphic-fetch';
 import * as demo from '../selectors/demo';
 
@@ -23,7 +22,7 @@ export default () => {
 		if (response.status >= 400) {
 			return dispatch({
 				type: 'LOAD_PATTERN_DEMO_ERROR',
-				payload: {id: uri, error: await getError(response)}
+				payload: {id: uri, error: await response.text()}
 			});
 		}
 
@@ -35,17 +34,3 @@ export default () => {
 		});
 	};
 };
-
-async function getError(response) {
-	try {
-		const json = await response.json();
-		const error = new Error(json.message);
-		return merge(error, json);
-	} catch (error) {
-		error.message = [
-			`Request for ${response.uri} failed with code ${response.status}: ${response.statusText}`,
-			error.message
-		].join('\n');
-		return error;
-	}
-}
