@@ -19,7 +19,6 @@ const selectActive = createSelector(
 );
 
 function mapState(state) {
-	console.log(state);
 	return {
 		active: selectActive(state),
 		message: selectMessage(state)

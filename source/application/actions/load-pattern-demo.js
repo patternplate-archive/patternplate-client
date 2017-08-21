@@ -3,8 +3,8 @@ import * as demo from '../selectors/demo';
 
 export default () => {
 	return async (dispatch, getState) => {
-		const state = getState();
-		const uri = demo.selectSrc(state);
+		const getSrc = src(getState);
+		const uri = getSrc();
 
 		if (!uri) {
 			return;
@@ -19,18 +19,32 @@ export default () => {
 			headers: {Accept: 'text/html'}
 		});
 
+		// Bail if the src changed in the meantime
+		if (uri !== getSrc()) {
+			return;
+		}
+
+		const body = await response.text();
+
+		// Bail if the src changed in the meantime
+		if (uri !== getSrc()) {
+			return;
+		}
+
 		if (response.status >= 400) {
 			return dispatch({
 				type: 'LOAD_PATTERN_DEMO_ERROR',
-				payload: {id: uri, error: await response.text()}
+				payload: {id: uri, error: body}
 			});
 		}
 
-		const contents = await response.text();
-
 		dispatch({
 			type: 'LOAD_PATTERN_DEMO_SUCCESS',
-			payload: {id: uri, contents}
+			payload: {id: uri, contents: body}
 		});
 	};
 };
+
+function src(getState) {
+	return () => demo.selectSrc(getState());
+}
