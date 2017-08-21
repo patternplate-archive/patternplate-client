@@ -134,7 +134,7 @@ function Application(props) {
 										</InfoPane>
 									</StyledInfoPane>
 								}
-								{(props.codeEnabled || props.docEnabled) &&
+								{props.infoEnabled && (props.codeEnabled || props.docEnabled) &&
 									<StyledPane hermit={!props.infoEnabled} infoEnabled={props.infoEnabled}>
 										{(props.codeEnabled && !props.docEnabled) &&
 											<CodePane hermit={!props.infoEnabled}/>
