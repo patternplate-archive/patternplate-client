@@ -16,9 +16,15 @@ function createShortcuts() {
 		action: actions.toggleConsole
 	});
 
-	bind.openDocumentation = new Shortcut({
+	bind.toggleDoc = new Shortcut({
 		character: 'd',
-		description: () => `Open documentation`,
+		description: () => `Open documentation for this pattern`,
+		action: actions.toggleDoc
+	});
+
+	bind.openDocumentation = new Shortcut({
+		character: '7',
+		description: () => `Navigate back to / route`,
 		action: actions.openDocumentation
 	});
 

@@ -9,13 +9,13 @@ export default Code;
 function Code(props) {
 	const source = highlightCode(props.language, props.children);
 
-	return (
-		<pre>
-			<StyledCode className={props.className}>
-				{source}
-			</StyledCode>
-		</pre>
+	const code = (
+		<StyledCode className={props.className}>
+			{source}
+		</StyledCode>
 	);
+
+	return props.block ? <pre>{code}</pre> : code;
 }
 
 Code.propTypes = {

@@ -8,7 +8,7 @@ export default Hamburger;
 
 function Hamburger(props) {
 	return (
-		<StyledToggleButton title={props.shortcut.toString()} enabled={props.enabled} shortcut={props.shortcut}>
+		<StyledToggleButton enabled={props.enabled} shortcut={props.shortcut}>
 			<StyledIcon symbol="hamburger"/> {props.shortcut.toString()}
 		</StyledToggleButton>
 	);

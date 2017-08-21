@@ -43,6 +43,14 @@ const StyledName = styled.div`
 	padding: 10px 15px 0 15px;
 `;
 
+const StyledToolbar = styled.div`
+	display: flex;
+	position: relative;
+	z-index: 1;
+	align-items: center;
+	padding: 0 15px 10px 15px;
+`;
+
 const StyledDisplayName = styled(Text)`
 	flex: 1 0 auto;
 	color: ${props => props.theme.color};
@@ -209,6 +217,11 @@ function InnerInfoPane(props) {
 				<StyledDisplayName>{props.name}</StyledDisplayName>
 				<StyledId>{props.id}</StyledId>
 			</StyledName>
+			{props.children &&
+				<StyledToolbar>
+					{props.children}
+				</StyledToolbar>
+			}
 			<StyledData>
 				<tbody>
 					<tr>
@@ -227,9 +240,7 @@ function InnerInfoPane(props) {
 						</StyledDataCell>
 						<StyledDataCell>
 							<SearchTrigger field="flag" search={props.flag}>
-								<Flag>
-									{props.flag}
-								</Flag>
+								<Flag>{props.flag}</Flag>
 							</SearchTrigger>
 						</StyledDataCell>
 					</tr>

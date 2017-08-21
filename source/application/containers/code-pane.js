@@ -10,14 +10,6 @@ import * as item from '../selectors/item';
 
 export default connect(mapProps)(skippable(mountable(CodePane)));
 
-function mapProps(state) {
-	return {
-		active: item.selectType(state) === 'pattern',
-		env: item.selectEnv(state),
-		source: selectSource(state)
-	};
-}
-
 const parser = new DOMParser();
 const serializer = new XMLSerializer();
 
@@ -40,8 +32,15 @@ const selectSource = createSelector(
 	contents => typeof contents === 'string' ? pretty(contents) : contents
 );
 
-
 function findContainer(doc) {
 	const body = [...doc.documentElement.childNodes].find(node => node.nodeName.toLowerCase() === 'body');
 	return [...body.childNodes].find(node => node.nodeName.toLowerCase() === 'div');
+}
+
+function mapProps(state) {
+	return {
+		active: item.selectType(state) === 'pattern',
+		env: item.selectEnv(state),
+		source: selectSource(state)
+	};
 }

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {createSelector} from 'reselect';
 import * as demo from '../selectors/demo';
-import selectItem, {selectType} from '../selectors/item';
+import selectItem, * as items from '../selectors/item';
 import Pattern from '../components/pattern';
 
 import * as actions from '../actions';
@@ -66,12 +66,13 @@ Help us to make this message more helpful on [GitHub](https://github.com/sinners
 
 const selectDocs = createSelector(
 	selectItem,
-	selectType,
-	(pattern, type) => {
+	items.selectType,
+	items.selectContents,
+	(pattern, type, contents) => {
 		if (type === 'not-found') {
 			return NOT_FOUND;
 		}
-		return pattern.contents || DEFAULT_CONTENTS;
+		return contents || DEFAULT_CONTENTS;
 	}
 );
 
@@ -82,7 +83,7 @@ function mapState(state) {
 		loading: state.demo.loading,
 		opacity: state.opacity,
 		src: demo.selectSrc(state),
-		type: selectType(state)
+		type: items.selectType(state)
 	};
 }
 

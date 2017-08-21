@@ -2,7 +2,6 @@ import {uniq} from 'lodash';
 import React, {PropTypes as t} from 'react';
 import ReactDOM from 'react-dom';
 import withSideEffect from 'react-side-effect';
-import styled, {injectGlobal} from 'styled-components';
 import {icons, iconNames} from './icons';
 
 export function withRegistry(Component) {

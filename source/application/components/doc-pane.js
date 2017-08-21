@@ -1,25 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Code from './common/code';
+import Markdown from './common/markdown';
 
-export default CodePane;
+export default DocPane;
 
-function CodePane(props) {
+function DocPane(props) {
 	return (
-		<StyledCodePane className={props.className} hermit={props.hermit}>
+		<StyledDocPane className={props.className} hermit={props.hermit}>
 			<StyledScrollbox>
-				<Code block language="html">
-					{props.source}
-				</Code>
+				<Markdown source={props.doc} linkable={false}/>
 			</StyledScrollbox>
-		</StyledCodePane>
+		</StyledDocPane>
 	);
 }
 
 const BORDER_RADIUS = 10;
 
-const StyledCodePane = styled.div`
+const StyledDocPane = styled.div`
 	position: relative;
 	height: 100%;
 	width: 100%;
@@ -45,4 +43,5 @@ const StyledScrollbox = styled.div`
 	box-sizing: border-box;
 	overflow: scroll;
 	-webkit-overflow-scrolling: touch;
+	padding: 10px 15px;
 `;

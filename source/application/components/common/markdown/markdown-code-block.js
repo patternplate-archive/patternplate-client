@@ -15,7 +15,7 @@ export default styled(MarkdownCodeBlock)`
 function MarkdownCodeBlock(props) {
 	const lang = getLanguage(props.children);
 	const code = textContent(props.children);
-	return <Code className={props.className} language={lang}>{code}</Code>;
+	return <Code block className={props.className} language={lang}>{code}</Code>;
 }
 
 MarkdownCodeBlock.propTypes = {

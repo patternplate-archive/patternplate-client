@@ -136,3 +136,13 @@ export const selectEnvs = createSelector(
 		});
 	}
 );
+
+export const selectContents = createSelector(
+	selectItem,
+	item => {
+		if (!item) {
+			return null;
+		}
+		return typeof item.contents === 'string' ? item.contents : null;
+	}
+);

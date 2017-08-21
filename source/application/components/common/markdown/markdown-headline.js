@@ -58,9 +58,11 @@ function MarkdownHeadline(props) {
 	return (
 		<Text is={props.is} className={props.className} id={id}>
 			{props.children}
-			<MarkdownHeadlineLink name={children} id={id}>
-				<Icon size="s" symbol="anchor"/>
-			</MarkdownHeadlineLink>
+			{props.linkable &&
+				<MarkdownHeadlineLink name={children} id={id}>
+					<Icon size="s" symbol="anchor"/>
+				</MarkdownHeadlineLink>
+			}
 		</Text>
 	);
 }

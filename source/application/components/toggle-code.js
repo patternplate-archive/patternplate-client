@@ -8,8 +8,8 @@ export default CodeButton;
 
 function CodeButton(props) {
 	return (
-		<StyledToggleButton title={props.shortcut.toString()} enabled={props.enabled} shortcut={props.shortcut}>
-			<StyledIcon symbol="code"/> {props.shortcut.toString()}
+		<StyledToggleButton enabled={props.enabled} shortcut={props.shortcut}>
+			<StyledIcon enabled={props.enabled} symbol="code"/> {props.shortcut.toString()}
 		</StyledToggleButton>
 	);
 }
@@ -20,8 +20,10 @@ CodeButton.propTypes = {
 	shortcut: t.any
 };
 
+const COLOR = props => props.enabled ? props.theme.active : props.theme.color;
+
 const StyledIcon = styled(Icon)`
-	fill: ${props => props.theme.tint};
+	fill: ${COLOR};
 `;
 
 const StyledToggleButton = styled(ToggleButton)`

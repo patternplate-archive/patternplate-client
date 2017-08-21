@@ -8,6 +8,7 @@ import demoDependenciesEnabled from './demo-dependencies-enabled';
 import demoDependentsEnabled from './demo-dependents-enabled';
 import dependenciesEnabled from './dependencies-enabled';
 import dependentsEnabled from './dependents-enabled';
+import docEnabled from './doc-enabled';
 import environment from './environment';
 import fetching from './fetching';
 import id from './id';
@@ -44,6 +45,7 @@ export default {
 	dependenciesEnabled,
 	dependentsEnabled,
 	depth,
+	docEnabled,
 	environment,
 	fetching,
 	hideEnabled,

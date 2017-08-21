@@ -42,6 +42,8 @@ export default class Markdown extends React.Component {
 
 	render() {
 		const {props} = this;
+		const Headline = prop('linkable', props.linkable)(MarkdownHeadline);
+
 		return (
 			<StyledMarkdown className={props.className}>
 				{
@@ -53,12 +55,12 @@ export default class Markdown extends React.Component {
 									a: MarkdownLink,
 									blockquote: MarkdownBlockQuote,
 									code: MarkdownCode,
-									h1: is('h1')(MarkdownHeadline),
-									h2: is('h2')(MarkdownHeadline),
-									h3: is('h3')(MarkdownHeadline),
-									h4: is('h4')(MarkdownHeadline),
-									h5: is('h5')(MarkdownHeadline),
-									h6: is('h6')(MarkdownHeadline),
+									h1: is('h1')(Headline),
+									h2: is('h2')(Headline),
+									h3: is('h3')(Headline),
+									h4: is('h4')(Headline),
+									h5: is('h5')(Headline),
+									h6: is('h6')(Headline),
 									hr: MarkdownHr,
 									img: MarkdownImage,
 									li: MarkdownItem,
@@ -120,4 +122,8 @@ const StyledMarkdown = styled.div`
 
 function is(is) {
 	return Component => props => <Component is={is} {...props}/>;
+}
+
+function prop(name, value) {
+	return Component => props => <Component {...props} {...{[name]: value}}/>;
 }

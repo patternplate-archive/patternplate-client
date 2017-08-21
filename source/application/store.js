@@ -3,6 +3,7 @@ import {routerReducer as routing, routerMiddleware} from 'react-router-redux';
 import thunk from 'redux-thunk';
 import topology from 'topologically-combine-reducers';
 
+import * as actions from './actions';
 import createShortcuts from './shortcuts';
 import reducers, {dependencies} from './reducers';
 
@@ -23,6 +24,7 @@ export default function configureStore(history, initial) {
 	const shortcuts = createShortcuts();
 	const store = createStore(reducer, {...initial, shortcuts}, enhance(middleware));
 
+	listen(store, {url: '/api'});
 	shortcuts(store);
 
 	return store;
@@ -37,4 +39,8 @@ function hydrateable(reducer) {
 				return reducer(state, action);
 		}
 	};
+}
+
+function listen(store, options) {
+	store.dispatch(actions.listen({url: options.url}));
 }

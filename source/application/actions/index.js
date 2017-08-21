@@ -24,6 +24,7 @@ export toggleCode from './toggle-code';
 export toggleConsole from './toggle-console';
 export toggleDependencies from './toggle-dependencies';
 export toggleDependents from './toggle-dependents';
+export toggleDoc from './toggle-doc';
 export toggleHide from './toggle-hide';
 export toggleInfo from './toggle-info';
 export toggleKeyboardShortcuts from './toggle-keyboard-shortcuts';

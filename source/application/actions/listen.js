@@ -4,6 +4,10 @@ import loadPatternDemo from './load-pattern-demo';
 import loadSchema from './load-schema';
 
 export default createPromiseThunkAction('LISTEN', (payload, dispatch, getState) => {
+	if (!global.EventSource) {
+		return;
+	}
+
 	const s = getState();
 	const source = new global.EventSource(url.resolve(s.base, payload.url));
 
