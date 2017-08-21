@@ -25,6 +25,13 @@ const FIELDS = [
 	},
 	{
 		type: 'field',
+		key: 'has',
+		value: 'has',
+		description: 'pattern featuring data of [value]',
+		operators: ['=', '!=']
+	},
+	{
+		type: 'field',
 		key: 'provides',
 		value: 'provides',
 		description: 'patterns providing for id',
@@ -196,7 +203,14 @@ const selectOps = createSelector(
 const selectOpsHit = createSelector(
 	selectParsedQuery,
 	selectOps,
-	(query, ops) => ops.find(i => i.key === query.operators)
+	(query, ops) => {
+		return ops.find(i => {
+			if (query.negated) {
+				return i.key === `!${query.operators}`;
+			}
+			return i.key === query.operators;
+		});
+	}
 );
 
 export const selectFound = createSelector(
@@ -231,6 +245,33 @@ const selectOptions = createSelector(
 		}
 
 		switch (field.key) {
+			case 'has':
+				return [
+					{
+						type: 'quality',
+						key: 'docs',
+						value: [field.key, op.key, 'docs'].join(''),
+						description: 'patterns with documentation'
+					},
+					{
+						type: 'quality',
+						key: 'dependencies',
+						value: [field.key, op.key, 'dependencies'].join(''),
+						description: 'patterns with dependencies'
+					},
+					{
+						type: 'quality',
+						key: 'dependents',
+						value: [field.key, op.key, 'dependents'].join(''),
+						description: 'patterns with dependents'
+					},
+					{
+						type: 'quality',
+						key: 'tags',
+						value: [field.key, op.key, 'tags'].join(''),
+						description: 'patterns with tags'
+					}
+				];
 			case 'depends':
 			case 'provides':
 				return patterns

@@ -335,7 +335,7 @@ function InnerInfoPane(props) {
 					</Toggle>
 			}
 			<Toggle head="Manifest" enabled={props.manifestEnabled} name="manifest">
-				<StyledCode language="json">{props.manifest}</StyledCode>
+				<StyledCode block language="json">{props.manifest}</StyledCode>
 			</Toggle>
 		</StyledInnerPane>
 	);

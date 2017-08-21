@@ -39,17 +39,16 @@ export function parse(search) {
 	}
 }
 
-const OPERATORS = /([^!><\^~\n=]+)?((!)?(>|<|\^|~)?(=)?)([^!><\^~\n=]+)?/;
+const OPERATORS = /([^!><\^~\n=]+)?(?:(!)?(>|<|\^|~)?(=)?)([^!><\^~\n=]+)?/;
 
 export function parseTerm(term) {
 	const found = term.match(OPERATORS) || [];
-	const [raw, field, negator, expression, modifier, equality, value] = found;
+	const [raw, field, negator, modifier, equality, value] = found;
 
 	return {
 		field,
 		value,
 		raw,
-		expression,
 		operators: [modifier, equality].join(''),
 		negated: negator === '!',
 		greater: modifier === '>',
@@ -72,6 +71,7 @@ function searchField(pool, options) {
 
 function test(field, value, options) {
 	const depends = matchDepends(value, options);
+	const has = matchHas(value, options);
 	const provides = matchProvides(value, options);
 	const flag = matchFlag(value, options);
 	const tags = matchTags(value, options);
@@ -81,6 +81,8 @@ function test(field, value, options) {
 		switch (field) {
 			case 'depends':
 				return depends(item);
+			case 'has':
+				return has(item);
 			case 'provides':
 				return provides(item);
 			case 'tag':
@@ -111,6 +113,24 @@ const version = item => manifest(item).version;
 const tags = item => manifest(item).tags || [];
 const depends = item => (item.dependencies || []).filter(i => typeof i === 'string');
 const dependents = item => (item.dependents || []).filter(i => typeof i === 'string');
+
+function matchHas(value) {
+	return item => {
+		switch (value) {
+			case 'dependencies':
+				return (item.dependencies || []).length > 0;
+			case 'dependents':
+				return (item.dependents || []).length > 0;
+			case 'doc':
+			case 'docs':
+				return Boolean(item.contents);
+			case 'tags':
+				return (item.manifest.tags || []).length > 0;
+			default:
+				return false;
+		}
+	};
+}
 
 function matchDepends(value, options) {
 	if (options.startsWith) {
