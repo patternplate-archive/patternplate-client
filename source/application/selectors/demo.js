@@ -6,7 +6,7 @@ import selectItem from './item';
 const selectEnv = createSelector(
 	state => state.environment,
 	state => state.schema.envs,
-	(env, envs) => envs.find(e => e.name === env)
+	(env, envs) => Array.isArray(envs) ? envs.find(e => e.name === env) : {name: 'index'}
 );
 
 export const selectSrc = createSelector(

@@ -8,7 +8,7 @@ function NavigationTree(props) {
 	return (
 		<div className={props.className}>
 			{props.children}
-			{(props.data || []).map(item => {
+			{(props.data || []).filter(item => typeof item.manifest === 'object').map(item => {
 				const hidden = (item.manifest.options || {}).hidden || false;
 				const icon = item.manifest.options.icon || item.type;
 				const iconActive = item.manifest.options.iconActive || icon;
