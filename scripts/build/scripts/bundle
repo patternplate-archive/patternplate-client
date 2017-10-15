@@ -30,7 +30,6 @@ function bundle() {
 		$FLAG whatwg-fetch \
 		$FLAG react-router-redux \
 		$FLAG core-js \
-		$FLAG react-router \
 		$FLAG react-addons-shallow-compare \
 		$FLAG react-addons-css-transition-group \
 		$FLAG fuse.js \
