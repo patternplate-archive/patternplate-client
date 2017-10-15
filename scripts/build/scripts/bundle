@@ -31,7 +31,7 @@ function bundle() {
 		$FLAG react-router-redux \
 		$FLAG core-js \
 		$FLAG react-addons-shallow-compare \
-		$FLAG react-addons-css-transition-group \
+		$FLAG react-transition-group \
 		$FLAG fuse.js \
 		$FLAG redux-promise \
 		$FLAG md5 \
