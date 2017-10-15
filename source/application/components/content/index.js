@@ -1,6 +1,6 @@
 import React, {PropTypes as t} from 'react';
 import {sortBy} from 'lodash';
-import CSSTransitionGroup from 'react-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import Markdown from '../common/markdown';
 import Message from '../common/message';

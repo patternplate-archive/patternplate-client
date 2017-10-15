@@ -1,7 +1,7 @@
 import {startsWith} from 'lodash';
 import React, {Component, PropTypes as types} from 'react';
 import pure from 'pure-render-decorator';
-import CSSTransitionGroup from 'react-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 
 import NavigationItem from './navigation-item';
 import getAugmentedChildren from '../../utils/augment-hierarchy';
