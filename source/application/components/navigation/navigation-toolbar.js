@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import {Link} from 'react-router';
+import {Link} from '@marionebl/react-router';
 
 import Icon from '../common/icon';
 import NavigationToggle from './navigation-toggle';

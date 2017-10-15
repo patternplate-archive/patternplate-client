@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import {Link, IndexLink} from 'react-router';
+import {Link, IndexLink} from '@marionebl/react-router';
 import {assign, camelCase, find, keys, startsWith} from 'lodash';
 import unified from 'unified';
 import parse from 'rehype-parse';

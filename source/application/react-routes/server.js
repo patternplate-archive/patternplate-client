@@ -1,6 +1,6 @@
 import React from 'react';
 import {renderToString} from 'react-dom/server';
-import {createMemoryHistory, match, RouterContext} from 'react-router';
+import {createMemoryHistory, match, RouterContext} from '@marionebl/react-router';
 import {Provider} from 'react-redux';
 import {syncHistoryWithStore} from 'react-router-redux';
 

@@ -1,5 +1,5 @@
 import React, {PropTypes as t} from 'react';
-import {Link} from 'react-router';
+import {Link} from '@marionebl/react-router';
 import join from 'classnames';
 import {noop} from 'lodash';
 

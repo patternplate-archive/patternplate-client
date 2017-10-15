@@ -1,5 +1,5 @@
 import React, {PropTypes as types} from 'react';
-import {Link} from 'react-router';
+import {Link} from '@marionebl/react-router';
 import autobind from 'autobind-decorator';
 import classnames from 'classnames';
 import {omit} from 'lodash';

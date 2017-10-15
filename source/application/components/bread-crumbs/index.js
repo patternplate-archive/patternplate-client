@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router';
+import {Link} from '@marionebl/react-router';
 import join from 'classnames';
 
 export default BreadCrumbs;

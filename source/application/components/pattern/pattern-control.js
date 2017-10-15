@@ -1,5 +1,5 @@
 import React, {PropTypes as t, Component} from 'react';
-import {Link} from 'react-router';
+import {Link} from '@marionebl/react-router';
 import classnames from 'classnames';
 import pure from 'pure-render-decorator';
 import autobind from 'autobind-decorator';
