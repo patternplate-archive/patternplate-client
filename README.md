@@ -1,2 +1,2 @@
-patternplate-client
--------------------
+> # ⚠️ Deprecated
+> Use instead: https://patternplate.github.io/ 
